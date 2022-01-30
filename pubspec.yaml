@@ -1,0 +1,125 @@
+name: girlzwhosell
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http:
+  webview_flutter:
+  shared_preferences:
+  multi_select_flutter:
+  pin_input_text_field: ^4.1.1
+  flutter_tindercard: ^0.2.0
+  favorite_button: ^0.0.4
+  path_provider: ^1.6.14
+  firebase_messaging:
+  firebase_core:
+  overlay_support:
+  cupertino_icons: ^0.1.3
+  font_awesome_flutter: ^8.5.0
+  gradient_widgets: ^0.5.0
+  dotted_border: ^1.0.4
+  rflutter_alert: ^1.0.3
+  url_launcher: ^5.4.1
+  flutter_screenutil: ^2.3.1
+  carousel_slider: ^2.2.1
+  flutter_svg: ^0.19.3
+  animations: ^1.0.0
+  dio: ^3.0.9
+  file_picker: ^1.9.0+1
+  image_picker:
+  email_validator: '^1.0.6'
+  fluttertoast: ^8.0.7
+  intl: ^0.16.1
+  flutter_secure_storage: ^3.3.5
+  animated_text_kit:
+  firebase_analytics: ^7.0.1
+  flutter_downloader: ^1.4.4
+  permission_handler: ^5.0.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/images/bottombackground1.png
+    - assets/images/appIcon.png
+    - assets/images/default.jpg
+    - assets/images/letters/
+    - assets/icons/airbnb_logo.svg
+    - assets/icons/apple_logo.svg
+    - assets/icons/chevron_left_icon.svg
+    - assets/icons/close_icon.svg
+    - assets/icons/google_logo.svg
+    - assets/icons/heart_icon.svg
+    - assets/icons/search.svg
+    - assets/icons/slider_icon.svg
+    - assets/audio/audio.mp3
+
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: SF Pro Rounded
+      fonts:
+        - asset: assets/fonts/SF-Pro-Rounded-Thin.otf
+          weight: 100
+        - asset: assets/fonts/SF-Pro-Rounded-Bold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Rounded-Heavy.otf
+          weight: 800
+    - family: SF Pro Text
+      fonts:
+        - asset: assets/fonts/SF-Pro-Text-Regular.otf
+        - asset: assets/fonts/SF-Pro-Text-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Text-Bold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Text-Semibold.otf
+          weight: 600
+
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Questrial-Regular.ttf
+
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages

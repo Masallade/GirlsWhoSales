@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "953531513117",
+    "firebase_url": "https://girzwhosell-default-rtdb.firebaseio.com",
+    "project_id": "girzwhosell",
+    "storage_bucket": "girzwhosell.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953531513117:android:bb70cab02505f2f84f49f4",
+        "android_client_info": {
+          "package_name": "com.girlzwhosell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953531513117-j80h5hgs92ettmthbof7guqe65d9un01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq5L74PGq6BHWyKQ0iGVU6b7VEBAiYUFg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953531513117-j80h5hgs92ettmthbof7guqe65d9un01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
