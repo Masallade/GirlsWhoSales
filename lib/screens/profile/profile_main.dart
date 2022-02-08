@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:girlzwhosell/User_profile/current_password.dart';
 import 'package:girlzwhosell/User_profile/user_personal_data.dart';
+import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/Notification_screen.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/profile/cv_update.dart';
-import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 
 
@@ -17,23 +17,25 @@ class ProfileMain extends StatefulWidget {
   final user_Id;
   final String firstName;
   final String title;
-
+  final profile;
   final List<SeekerDetails> userDetails;
 
-  const ProfileMain({Key key,this.uName,this.password, this.user_Id, this.userDetails ,this.firstName,this.title}) : super(key: key);
+  const ProfileMain({Key key,this.uName,this.password, this.user_Id, this.userDetails ,this.firstName,this.title ,this.profile}) : super(key: key);
 
   @override
-  _ProfileMainState createState() => _ProfileMainState(this.uName,this.password,this.user_Id, this.userDetails);
+  _ProfileMainState createState() => _ProfileMainState(this.uName,this.password,this.user_Id,this.firstName,this.title,this.profile, this.userDetails);
 }
 class _ProfileMainState extends State<ProfileMain> {
   final uName;
   final password;
   final user_Id;
-
+  final String firstName;
+  final String title;
+  final String profile;
 
   final List<SeekerDetails> userDetails;
 
-  _ProfileMainState(this.uName,this.password, this.user_Id, this.userDetails);
+  _ProfileMainState(this.uName,this.password, this.user_Id,this.firstName,this.title,this.profile, this.userDetails);
 
 
   Future<bool> _exitApp(BuildContext context) {
@@ -82,6 +84,9 @@ class _ProfileMainState extends State<ProfileMain> {
   }
   void initState(){
     super.initState();
+    print('${firstName}');
+    print('${profile}');
+    print('${title}');
     print('$user_Id');
     print('$uName');
     print('$password');
@@ -91,10 +96,24 @@ class _ProfileMainState extends State<ProfileMain> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                Requests.Login(context, uName, password, '', false);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              )),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 30,),
+              SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.only(left: 12.0),
                 child: Align(
@@ -128,33 +147,35 @@ class _ProfileMainState extends State<ProfileMain> {
               SizedBox(height: 20,),
               Container(
                 height: 80,
-              //   color: Colors.yellow,
-child: ListView.builder(
-      itemCount: userDetails == null ? 0 : userDetails.length,
-      itemBuilder: (context , index){
-        return ListTile(
+               //  color: Colors.yellow,
+// child: ListView.builder(
+//       itemCount: userDetails == null ? 0 : userDetails.length,
+//       itemBuilder: (context , index){
+        child: ListTile(
           leading: Container(
           //  color: Colors.yellow,
             width:80,
-            height: 80,
+            height: 90,
             child: ClipOval(
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: Image.network('${userDetails[index].profilePicture }' , fit: BoxFit.cover ,width: 80,height: 80,),
-              ),
+              child: Image.network(profile ?? null, fit: BoxFit.cover ,width: 80,height: 90,),
             ),
           ),
-          title: Text('${userDetails[index].firstname}' ,style: TextStyle(
-            fontFamily: 'Poppins',
-            // height: 36,
-            height: 1.5,
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w600,
-            color: Colors.blue[800],
-            fontSize: 24.0,
-            //fontWeight: FontWeight.w700,
-          ),),
-          subtitle: Text('${userDetails[index].jobTitle}' ,style: TextStyle(
+          title: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+    child: Text('${firstName ?? " "}' ,style: TextStyle(
+
+  //  child: Text('${userDetails[index].firstname ?? " "}' ,style: TextStyle(
+              fontFamily: 'Poppins',
+              // height: 36,
+              height: 1.5,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w600,
+              color: Colors.blue[800],
+              fontSize: 24.0,
+              //fontWeight: FontWeight.w700,
+            ),),
+          ),
+          subtitle: Text('${title ?? ""}' ,style: TextStyle(
             fontFamily: 'Poppins',
             // height: 36,
             height: 1.5,
@@ -164,15 +185,16 @@ child: ListView.builder(
             fontSize: 24.0,
             //fontWeight: FontWeight.w700,
           ), ),
-        );
-      }),
+  //      );
+      //}
+      ),
               ),
 
               SizedBox(height: 40,),
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage(uName: uName,password: password, user_Id: user_Id,userDetails: userDetails,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage(uName: uName,password: password, user_Id: user_Id,profile: profile, userDetails: userDetails)));
                 },
                 child: Container(
                     child: Padding(
@@ -197,7 +219,7 @@ child: ListView.builder(
               SizedBox(height: 20,),
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CVUpdate(userDetails: userDetails,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CVUpdate(user_id: user_Id,userDetails: userDetails,password: password,uName: uName)));
                 },
                 child: Container(
                     child: Padding(
@@ -284,7 +306,7 @@ child: ListView.builder(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                            'Logout',
+                            'Log Out',
                             style:  TextStyle(
                               fontFamily: 'Poppins',
                               fontStyle: FontStyle.normal,

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:girlzwhosell/model/Current_password_model.dart';
+import 'package:girlzwhosell/model/check_saved_job.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/edit_profile_model.dart';
 import 'package:girlzwhosell/model/forget_p_model.dart';
@@ -21,6 +22,7 @@ final kSpacingUnit = 10.00.w;
 const String base_url = "https://biitsolutions.co.uk/girlzwhosell/API/";
 
 JobAppliedDetailModel jobAppliedDetailModel =JobAppliedDetailModel();
+CheckSaved checkSaved = CheckSaved();
 ForgetPasswordModel forgetPasswordModel =ForgetPasswordModel();
 verifyOtp verifyotp =verifyOtp();
 ResetPasswordModel resetPasswordModel = ResetPasswordModel();

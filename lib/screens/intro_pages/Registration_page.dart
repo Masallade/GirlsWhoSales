@@ -126,7 +126,8 @@ print('experience $ExperiencenDetail');
         this.title,
         this.phone,
         this.location,this.selecjobsTypes,this.selectedJobTitles ,this.jobtype,this.Button});
-  bool _passwordVisible=false;
+
+         bool _passwordVisible=false;
 
 
 
@@ -169,7 +170,7 @@ print('experience $ExperiencenDetail');
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SingleChildScrollView(
@@ -486,8 +487,8 @@ print('experience $ExperiencenDetail');
                 cursorColor: Colors.pinkAccent[200],
                 controller: passwordcontroller,
                 obscureText: !_passwordVisible,
-                validator: (val) => val.length > 7
-                    ? "Password should be atleast 7 characters"
+                validator: (val) => val.length > 9
+                    ? "Password should be atleast 8 characters \n and 1 Special Character"
                     : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
@@ -735,45 +736,5 @@ print('experience $ExperiencenDetail');
       ),
     );
   }
-// Future Registration() async  {
-//
-//   var Apiurl="https://ecowhites.com/girlswhosell/API/signup.php";
-//
-//   Map mapdata = {
-//
-//
-//     "firstname": firstName,
-//     "email": email,
-//     "password": Password,
-//     "category": '',
-//     "job_title": title,
-//     "city": location,
-//     "experience": ExperiencenDetail,
-//     "expected_salary": "",
-//     "lastname": LastName,
-//     "phone": phoneno,
-//     // "cv": await MultipartFile.fromFile(selectedfile.path,
-//     //     filename: basename(selectedfile.path);
-//     //   //show only filename from path
-//     // ),
-//     // "resume": await MultipartFile.fromFile(selectedfile2.path,
-//     //     filename: basename(selectedfile2.path);
-//     //   //show only filename from path
-//     // ),
-//   };
-//   print("JSON DATA: $mapdata");
-//
-//   http.Response res = await http.post(Uri.parse(Apiurl),body: mapdata);
-//
-//   var data = jsonDecode(res.body);
-//   print(data);
-//   if (res.statusCode== 200){
-//
-//     Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomFilePicker()));
-//   }
-//   else{
-//     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration failed')));
-//   }
-//
-// }
+
 }

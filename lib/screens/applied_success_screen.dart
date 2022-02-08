@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:girlzwhosell/http/Requests.dart';
@@ -99,7 +97,7 @@ void initState(){
               height: 20,
             ),
             Text(
-              '''You have successfully applied to the job. . You can track your job records in the dashboard.''',
+              '''You have successfully applied for this job. \n You can track your job records in the dashboard.  ''',
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -128,7 +126,7 @@ void initState(){
               ),
                 child: GestureDetector(
                   onTap: () {
-                 //   Requests.Login(context, uName, password, false);
+                    Requests.Login(context, uName, password,'', false);
                   },
                   child: ListTile(
                     title: Center(
@@ -154,23 +152,6 @@ void initState(){
       ),
     );
   }
-  // Future<JobAppliedDetailModel> alreadyapplied() async {
-  //   final url = "https://ecowhites.com/girlswhosell/API/applied_job.php";
-  //   try {
-  //     final response = await http.post(Uri.parse(url) , body:{
-  //       "user_id": user_Id,
-  //       "job_id": jobDetails.id,
-  //     });
-  //     if (response.statusCode == 200) {
-  //       print("Response is: ${response.body}");
-  //       print("Status Code is: ${response.statusCode}");
-  //       jobAppliedDetailModel = JobAppliedDetailModel.fromJson(json.decode(response.body));
-  //       return jobAppliedDetailModel;
-  //     }
-  //   } catch (e) {
-  //     print("Error in exception::: ${e.toString()}");
-  //   }
-  // }
 }
 
 
@@ -267,8 +248,7 @@ class _SavedJobAppliedState extends State<SavedJobApplied> {
               height: 20,
             ),
             Text(
-              '''You have successfully applied to the job. Go
-to dashboard to track your record.''',
+              "You have successfully applied for this job. \n You can track your job records in the dashboard.",
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -297,7 +277,7 @@ to dashboard to track your record.''',
               ),
                 child: GestureDetector(
                   onTap: () {
-                  //  Requests.Login(context, uName, password, false);
+                   Requests.Login(context, uName, password,'', false);
                   },
                   child: ListTile(
                     title: Center(
@@ -323,23 +303,6 @@ to dashboard to track your record.''',
       ),
     );
   }
-// Future<JobAppliedDetailModel> alreadyapplied() async {
-//   final url = "https://ecowhites.com/girlswhosell/API/applied_job.php";
-//   try {
-//     final response = await http.post(Uri.parse(url) , body:{
-//       "user_id": user_Id,
-//       "job_id": jobDetails.id,
-//     });
-//     if (response.statusCode == 200) {
-//       print("Response is: ${response.body}");
-//       print("Status Code is: ${response.statusCode}");
-//       jobAppliedDetailModel = JobAppliedDetailModel.fromJson(json.decode(response.body));
-//       return jobAppliedDetailModel;
-//     }
-//   } catch (e) {
-//     print("Error in exception::: ${e.toString()}");
-//   }
-// }
 }
 
 
@@ -439,8 +402,7 @@ class _SavedJobApplied1State extends State<SavedJobApplied1> {
               height: 20,
             ),
             Text(
-              '''You have successfully applied to the job. Go
-to dashboard to track your record.''',
+             " You have successfully applied for this job. \n You can track your job records in the dashboard.",
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -469,7 +431,7 @@ to dashboard to track your record.''',
               ),
                 child: GestureDetector(
                   onTap: () {
-                    //Requests.Login(context, uName, password, false);
+                    Requests.Login(context, uName, password,'', false);
                   },
                   child: ListTile(
                     title: Center(
@@ -495,21 +457,4 @@ to dashboard to track your record.''',
       ),
     );
   }
-// Future<JobAppliedDetailModel> alreadyapplied() async {
-//   final url = "https://ecowhites.com/girlswhosell/API/applied_job.php";
-//   try {
-//     final response = await http.post(Uri.parse(url) , body:{
-//       "user_id": user_Id,
-//       "job_id": jobDetails.id,
-//     });
-//     if (response.statusCode == 200) {
-//       print("Response is: ${response.body}");
-//       print("Status Code is: ${response.statusCode}");
-//       jobAppliedDetailModel = JobAppliedDetailModel.fromJson(json.decode(response.body));
-//       return jobAppliedDetailModel;
-//     }
-//   } catch (e) {
-//     print("Error in exception::: ${e.toString()}");
-//   }
-// }
 }

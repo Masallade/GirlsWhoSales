@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -61,8 +62,8 @@ void initState(){
         openElevation: 0,
         openBuilder: (context, action) {
         //  return DetailsForFavJob(favoriteJobs: favoriteJobs, userId: user_Id);
-          return SavedScreenDetail(favoriteJobs: favoriteJobs, user_Id: user_Id,jobDetails: jobDetails,password:password,uName: uName,userDetails: userDetails,firstName:firstName, jobId: jobId,);
-
+          return SavedScreenDetail(favoriteJobs: favoriteJobs, user_Id: user_Id,jobDetails: jobDetails, password:password,
+              uName: uName,userDetails: userDetails,firstName:firstName, jobId: jobId);
         },
         closedColor: Colors.transparent,
         closedElevation: 0,
@@ -233,8 +234,7 @@ class _JobCard2State extends State<JobCard2> {
                     GestureDetector(
                       onTap: () {
                         if(isLiked == true){
-                          IsButton = true;
-                          savejob();
+                         // IsButton = true;//    savejob();
                         }else{
                           Unsavejob();
                         }
@@ -353,11 +353,19 @@ SizedBox(height: 16,),
       print("==================Response values==================");
       print(res.body);
 
-      Fluttertoast.showToast(
-        msg: 'Added To Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Added To Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromLeftFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.top,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
+
 
       setState(() {
         //  isapplied = true;
@@ -391,12 +399,19 @@ SizedBox(height: 16,),
       print(res.body);
 
 
-      Fluttertoast.showToast(
-        msg: 'Remove From Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Removed From Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromBottomFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.center,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
-          //.then((value) => Requests.Login(context, uName, password, false));
+      Requests.Login(context, uName, password,'',false);
 
       setState(() {
         //isapplied = false;

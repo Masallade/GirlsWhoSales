@@ -8,7 +8,7 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 
 class AllJobs extends StatefulWidget {
@@ -177,15 +177,20 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                       //  print(jobDetails.length);
                       } else if (orientation == CardSwipeOrientation.RIGHT) {
                         // print("Card is RIGHT swiping");
-                        Fluttertoast.showToast(
-                          backgroundColor: Colors.pinkAccent[200],
-                          textColor: Colors.white,
-                          fontSize: 20,
-                          msg: 'Next Job',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.TOP_RIGHT,
+                        showToast('Next Job',
+                          context: context,
+                          fullWidth: true,
+                          backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                          animation: StyledToastAnimation.slideFromLeft,
+                          reverseAnimation: StyledToastAnimation.fade,
+                          position: StyledToastPosition.center,
+                          animDuration: Duration(seconds: 2),
+                          duration: Duration(seconds: 4),
+                          curve: Curves.elasticOut,
+                          reverseCurve: Curves.linear,
                         );
-                      //  print(jobDetails.length);
+
+                        //  print(jobDetails.length);
                       }
                       else if (orientation == CardSwipeOrientation.LEFT){
                         // Fluttertoast.showToast(
@@ -265,29 +270,41 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', jobDetails[0].id);
-      prefs.setBool('stateOfButton', true);
-
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      //IsButton = prefs.getBool('stateOfButton');
-
-      print('userid is :$uid');
-      print('jobid is : $Jid');
-     // print('IsButton : $IsButton');
+     //  print("==================SharedPrefrence values==================");
+     //
+     //  final prefs = await SharedPreferences.getInstance();
+     //
+     //  prefs.setString('user_Id', user_Id);
+     //  prefs.setString('job_Id', jobDetails[0].id);
+     //  prefs.setBool('stateOfButton', true);
+     //
+     //  uid = await prefs.getString('user_Id');
+     //  Jid = await prefs.getString('job_Id');
+     //  //IsButton = prefs.getBool('stateOfButton');
+     //
+     //  print('userid is :$uid');
+     //  print('jobid is : $Jid');
+     // // print('IsButton : $IsButton');
 
       print("==================Response values==================");
       print(res.body);
 
-      Fluttertoast.showToast(
-        msg: 'Added To Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+//Set an animation
+      showToast('This is normal toast with animation',
+        context: context,
+        animation: StyledToastAnimation.scale,
+      );
+      showToast('Added To Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromLeftFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.top,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {
@@ -307,29 +324,40 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', jobDetails[0].id);
-      prefs.setBool('stateOfButton', true);
-
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      //IsButton = prefs.getBool('stateOfButton');
-
-      print('userid is :$uid');
-      print('jobid is : $Jid');
+      // print("==================SharedPrefrence values==================");
+      //
+      // final prefs = await SharedPreferences.getInstance();
+      //
+      // prefs.setString('user_Id', user_Id);
+      // prefs.setString('job_Id', jobDetails[0].id);
+      // prefs.setBool('stateOfButton', true);
+      //
+      // uid = await prefs.getString('user_Id');
+      // Jid = await prefs.getString('job_Id');
+      // //IsButton = prefs.getBool('stateOfButton');
+      // print('userid is :$uid');
+      // print('jobid is : $Jid');
       // print('IsButton : $IsButton');
 
       print("==================Response values==================");
       print(res.body);
 
-      Fluttertoast.showToast(
-        msg: 'Job Disliked',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+//Set an animation
+      showToast('This is normal toast with animation',
+        context: context,
+        animation: StyledToastAnimation.scale,
+      );
+      showToast('Job Deleted',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromLeft,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.center,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {

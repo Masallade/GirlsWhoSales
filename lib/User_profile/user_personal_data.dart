@@ -1,10 +1,10 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:girlzwhosell/http/Requests.dart';
-import 'package:girlzwhosell/model/edit_profile_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/utils.dart';
+import 'package:girlzwhosell/screens/profile/profile_main.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
@@ -14,26 +14,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:http/http.dart' as http;
 
 
 class EditProfilePage extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
+  final profile;
   final List<SeekerDetails> userDetails;
-  EditProfilePage({this.uName,this.password,this.user_Id, this.userDetails });
+  final String firstName;
+  EditProfilePage({this.uName,this.password,this.user_Id,this.profile, this.userDetails,this.firstName });
   @override
   _EditProfilePageState createState() =>
-      _EditProfilePageState(uName:uName,password: password, user_Id: user_Id, userDetails: userDetails);
+      _EditProfilePageState(uName:uName,password: password, user_Id: user_Id,profile: profile, userDetails: userDetails);
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final uName;
   final password;
   final user_Id;
+  final profile;
   final List<SeekerDetails> userDetails;
-  _EditProfilePageState({this.uName,this.password, this.user_Id, this.userDetails});
+  _EditProfilePageState({this.uName,this.password, this.user_Id,this.profile, this.userDetails});
 
 
 
@@ -49,6 +51,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState(){
     super.initState();
     print('$user_Id');
+    print('$profile');
     print('$uName');
     print('$password');
   }
@@ -97,19 +100,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
         actions: [
           GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage1(uName: uName,password: password, user_Id: user_Id,userDetails: userDetails,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage1(uName: uName,password: password, user_Id: user_Id,profile: profile, userDetails: userDetails,)));
               },
               child: Image.asset('assets/images/edit.png' , color: Colors.black,))],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             Container(
                 height: SizeConfig.screenHeight,
                // width:SizeConfig.screenWidth,
                 child: ListView.builder(
-                    itemCount: userDetails.length,
+                    itemCount: userDetails.length == null ? 0 : userDetails.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
@@ -277,20 +279,24 @@ class EditProfilePage1 extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
+  final profile;
   final List<SeekerDetails> userDetails;
-  EditProfilePage1({this.uName,this.password,this.user_Id, this.userDetails});
+  final String firstName;
+  EditProfilePage1({this.uName,this.password,this.user_Id,this.profile, this.userDetails ,this.firstName});
   @override
   _EditProfilePage1State createState() =>
-      _EditProfilePage1State(uName:uName,password: password, user_Id: user_Id, userDetails: userDetails);
+      _EditProfilePage1State(uName:uName,password: password, user_Id: user_Id,profile: profile, userDetails: userDetails, firstName: firstName);
 }
 
 class _EditProfilePage1State extends State<EditProfilePage1> {
   final uName;
   final password;
   final user_Id;
+  final String profile;
   final List<SeekerDetails> userDetails;
+  final String firstName;
   bool showPassword = false;
-  _EditProfilePage1State({this.uName,this.password, this.user_Id, this.userDetails,this.image});
+  _EditProfilePage1State({this.uName,this.password, this.user_Id,this.profile, this.userDetails,this.firstName ,this.image});
   TextEditingController controller = new TextEditingController();
 
 
@@ -413,23 +419,21 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     // if (image == null) return;
     // String base64Image = base64Encode(image.readAsBytesSync());
     // String fileName = image.path.split("/").last;
-
     FormData formdata = FormData.fromMap({
       "id": user_Id,
       "firstname": name,
-      "dob":_date,
+    //  "dob":_date,
       "email": email,
       "city": city,
       "mobile_no": Phone,
       "profile_picture": await MultipartFile.fromFile(
-          image.path,
-          filename: basename(image.path)
+          image.path == null ? null : image.path,
+          filename: basename(image.path  == null ? null : image.path)
         //show only filename from path
       ),
      // "name":fileName
 
     });
-
     response = await dio.post(uploadurl,
       data: formdata,
       onSendProgress: (int sent, int total) {
@@ -443,14 +447,21 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     );
 
     if (response.statusCode == 200) {
-     // print("response of $image");
       print('image  $image');
       print(response.data);
- //     Requests.Login(context, uName, password, false);
+      setState(() {
+        print('$uName');
+        print('$password');
+     // Requests.Login(context,uName, password,'',false).then((value)  => Navigator.push(context, MaterialPageRoute(builder: (context)=>
+     //     ProfileMain(uName: uName,password: password,user_Id: user_Id,profile:profile,userDetails: userDetails))));
+
+        Requests.ProfileLogin(context, uName, password, 'token', false);
+
+      });
     } else {
       utils().showDialogCustom(context, "Upload Failed !",
           response.statusCode == 100
-              ? " Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
+              ? "Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
               : response.statusCode, "OK");
     }
   }
@@ -515,7 +526,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                         padding: const EdgeInsets.only(left: 12.0 , right: 12.0),
                         child: Column(
                           children: [
-                            SizedBox(height: 50,),
+                            SizedBox(height: 70,),
                             Center(
                               child: Stack(
                                 children: [

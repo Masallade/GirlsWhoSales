@@ -278,65 +278,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         ),
                 ),
               ),
-              // Container(
-              //   decoration: new BoxDecoration(
-              //
-              //     border: new Border.all(
-              //         color: Colors.black, width: 1.0, style: BorderStyle.solid),
-              //   ),
-              //   child: TabBar(
-              //     controller: _tabController,
-              //     indicator: BoxDecoration(
-              //       border: new Border.all(
-              //           color: kAccentColor, width: 1.0, style: BorderStyle.solid),
-              //           color: kAccentColor,
-              //     ),
-              //     labelColor: Colors.white,
-              //     unselectedLabelColor: Colors.black,
-              //     isScrollable: true,
-              //     tabs: <Widget>[
-              //       Tab(
-              //         text: "This Month",
-              //       ),
-              //       Tab(
-              //         text: "All Time",
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SingleChildScrollView(
-              //   child: Container(
-              //     height: screenHeight * 0.60,
-              //     margin: EdgeInsets.only(left: 16.0, right: 16.0),
-              //     child: TabBarView(
-              //       controller: _tabController,
-              //       children: <Widget>[
-              //         tabOne(),
-              //         tabTwo(),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+
             ],
           ),
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        // floatingActionButton: Padding(
-        //   padding: const EdgeInsets.only(bottom:10.0),
-        //   child: FloatingActionButton(
-        //     backgroundColor: Colors.redAccent,
-        //     elevation: 10,
-        //     onPressed: ()=> onAlertWithCustomContentPressed(context),
-        //     child: Padding(
-        //       padding: const EdgeInsets.only(right:8.0),
-        //       child: Icon(
-        //         FontAwesomeIcons.cogs,
-        //         color: Colors.white,
-        //         size: 25.0,
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
+import 'package:girlzwhosell/screens/intro_pages/user_type_copy.dart';
+import 'package:girlzwhosell/utils/constants2.dart';
 const TWO_PI = 3.14 * 2;
 
 class utils {
@@ -210,8 +212,8 @@ class utils {
               borderRadius: BorderRadius.all(Radius.circular(20.0))
           ),
           backgroundColor: Colors.grey,
-          title: new Text(title),
-          content: new Text(body),
+          title: new Text(title , style: HeadingStyle,),
+          content: new Text(body , ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -231,11 +233,11 @@ class utils {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return SignInPage();
+                      return UserType();
                     },
                   ),
                 );
-                //Navigator.of(context).pop();
+             //   Navigator.of(context).pop();
               },
             ),
           ],

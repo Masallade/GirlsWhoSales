@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/main_menu/more/home_search_copy.dart';
 import 'package:girlzwhosell/screens/main_menu/profile.dart';
@@ -34,12 +35,13 @@ class HomePage extends StatefulWidget {
   final List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
   final String token1;
+  PushNotificationMessage notificationInfo;
 
 
-  const HomePage({Key key,this.uName,this.password, this.user_Id, this.cookiee, this.jobDetails,this.jobId, this.favoriteJobs, this.userDetails , this.firstName,this.title,this.profile,this.phoneno,this.email,this.location,this.resumee,this.cv,this.total_applied,this.total_saved ,this.token1}) : super(key: key);
+   HomePage({Key key,this.uName,this.password, this.user_Id, this.cookiee, this.jobDetails,this.jobId, this.favoriteJobs, this.userDetails , this.firstName,this.title,this.profile,this.phoneno,this.email,this.location,this.resumee,this.cv,this.total_applied,this.total_saved ,this.token1 ,this.notificationInfo}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState(uName:uName, password:password,user_Id: user_Id ,cookiee: cookiee ,jobDetails: jobDetails,favoriteJobs: favoriteJobs,userDetails: userDetails ,firstName: firstName,title: title,phoneno: phoneno, profile: profile,email: email,location: location,cv: cv,resumee: resumee,total_applied: total_applied,total_saved: total_saved ,token1: token1);
+  _HomePageState createState() => _HomePageState(uName:uName, password:password,user_Id: user_Id ,cookiee: cookiee ,jobDetails: jobDetails,favoriteJobs: favoriteJobs,userDetails: userDetails ,firstName: firstName,title: title,phoneno: phoneno, profile: profile,email: email,location: location,cv: cv,resumee: resumee,total_applied: total_applied,total_saved: total_saved ,token1: token1 , notificationInfo: notificationInfo);
 }
 
 class _HomePageState extends State<HomePage> {
@@ -63,7 +65,9 @@ class _HomePageState extends State<HomePage> {
   final List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
   String token1;
-  _HomePageState({this.uName,this.password,this.user_Id, this.cookiee, this.jobId,this.jobDetails, this.favoriteJobs, this.userDetails , this.firstName,this.title,this.phoneno,this.profile,this.email,this.location,this.cv,this.resumee,this.total_applied,this.total_saved ,this.token1});
+  PushNotificationMessage notificationInfo;
+
+  _HomePageState({this.uName,this.password,this.user_Id, this.cookiee, this.jobId,this.jobDetails, this.favoriteJobs, this.userDetails , this.firstName,this.title,this.phoneno,this.profile,this.email,this.location,this.cv,this.resumee,this.total_applied,this.total_saved ,this.token1 ,this.notificationInfo});
 
   PageController pageController;
   int pageIndex = 0;
@@ -153,9 +157,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     pageController = PageController();
     print('uName is $uName');
+    print('title $firstName');
     print('title $title');
     print('pass is $password');
     print('token is $token1');
+    print('ProfilePic is $profile');
   }
 
   @override
@@ -189,7 +195,50 @@ class _HomePageState extends State<HomePage> {
 //if nothing remains in the stack, it simply pops
     return Future<bool>.value(true);
   }
+Future<bool> _exitApp(BuildContext context) {
+    return showDialog(
+      builder: (context) => AlertDialog(
+        title: Text('Do you want to exit this application?'),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              print("you choose no");
+              Navigator.of(context).pop(false);
+            },
+            child: Text('No',style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              primary: Colors.blue[800],
 
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+            },
+            child: Text('Yes',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+              ),),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              primary: Colors.blue[800],
+            ),
+          )],
+      ), context: context,
+    ) ??
+        false;
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -200,7 +249,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             HomeSearch(uName:uName,password:password,user_Id: user_Id,firstName: firstName, jobDetails: jobDetails, favoriteJobs: favoriteJobs,userDetails: userDetails,jobId: jobId,),
             Profile( user_Id: user_Id,firstName: firstName ,total_applied:total_applied,total_saved:total_saved,favoriteJobs: favoriteJobs,uName:uName ,password:password),
-            ProfileMain(uName: uName,password:password, user_Id: user_Id, firstName: firstName,title:title, userDetails: userDetails),
+            ProfileMain(uName: uName,password:password, user_Id: user_Id, firstName: firstName,title:title,profile: profile, userDetails: userDetails),
             Shortlisted(),
             //HotJobs(),
            // MoreSettings(),

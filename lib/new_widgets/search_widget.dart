@@ -36,6 +36,7 @@ class _SearchWidgetState extends State<SearchWidget> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
           prefixIcon: Image.asset('assets/images/search.png' ,color: Colors.black,),
           suffixIcon: widget.text.isNotEmpty
               ? GestureDetector(
@@ -43,7 +44,6 @@ class _SearchWidgetState extends State<SearchWidget> {
             onTap: () {
               controller.clear();
               widget.onChanged('');
-           //   Navigator.push(context, MaterialPageRoute(builder: (context)=>JobSearchSecond()));
               FocusScope.of(context).requestFocus(FocusNode());
             },
           )
@@ -83,7 +83,7 @@ class _SearchWidgettwoState extends State<SearchWidgettwo> {
   Widget build(BuildContext context) {
     final styleActive = TextStyle(color: Colors.black , fontStyle: FontStyle.normal ,fontFamily: 'Questrial' , fontWeight: FontWeight.w400,fontSize: 16);
     final styleHint = TextStyle(color: Colors.black54);
-    final style = widget.text.isEmpty ? styleHint : styleActive;
+    final style = widget.text == null ? styleHint : styleActive;
 
     return Container(
       height: 52,
@@ -98,7 +98,7 @@ class _SearchWidgettwoState extends State<SearchWidgettwo> {
         controller: controller,
         decoration: InputDecoration(
           prefixIcon: Image.asset('assets/images/location.png' ,color: Colors.black,),
-          suffixIcon: widget.text.isNotEmpty
+          suffixIcon: widget.text !=null
               ? GestureDetector(
             child: Icon(Icons.close, color: style.color),
             onTap: () {
@@ -118,3 +118,4 @@ class _SearchWidgettwoState extends State<SearchWidgettwo> {
     );
   }
 }
+

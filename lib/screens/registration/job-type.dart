@@ -31,38 +31,6 @@ class _JobTypeState extends State<JobType> {
   List<superPowerModel> selecjobsTypes = [];
    List<jobCatagories> selectedJobTitles = [];
   _JobTypeState({this.jobtype, this.selectedJobtitle, this.Button,this.selecjobsTypes,this.selectedJobTitles});
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   print('jobtype : $jobtype');
-  //   // jobTitles();
-  //
-  // }
-
-//  final _multiSelectKey = GlobalKey<FormFieldState>();
-
- // List<String> listProvinces=[];
- // jobCatagories _selectedProvince;
-  // final _items = _data
-  //     .map((animal) => MultiSelectItem<jobCatagories>(animal, animal.title))
-  //     .toList();
-
-
-  // Future<List<jobCatagories>> getProvinceList() async {
-  //
-  //   final response = await http.get(Uri.parse("https://biitsolutions.co.uk/girlzwhosell/API/job_title.php"));
-  //
-  //   _data = parseProvinces(response.body);
-  //
-  //   return parseProvinces(response.body);
-  // }
-  //
-  // List<jobCatagories> parseProvinces(String responseBody) {
-  //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-  //
-  //   return parsed.map<jobCatagories>((json) => jobCatagories.fromJson(json)).toList();
-  // }
-
 
   @override
   void initState() {
@@ -99,7 +67,7 @@ Future<String> getData() async{
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon( Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SingleChildScrollView(

@@ -87,7 +87,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SingleChildScrollView(
@@ -167,101 +167,99 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
               //  scrollDirection: Axis.horizontal,
                 child: Column(
                   children: [
-                    Container(
-                      width: SizeConfig.screenWidth,
-                      height: 230.0,
+                    MultiSelectBottomSheetField<superPowerModel>(
+                     checkColor: Colors.pinkAccent,
+                      backgroundColor: Colors.white,
+                      cancelText:Text('Cancel' , style: TextStyle(
+                       fontFamily: 'Poppins',
+                       fontStyle: FontStyle.normal,
+                       fontWeight: FontWeight.w600,
+                       color: Colors.pinkAccent[200],
+                       fontSize: 24.0,
 
-                      decoration: BoxDecoration(
-//color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(5.0),
-                          border: Border.all(
-                              color:Colors.blueGrey[300].withOpacity(0.6))),
-          ///      ################################################################################################
-                     child:   MultiSelectBottomSheetField<superPowerModel>(
-                      checkColor: Colors.pinkAccent,
-                       backgroundColor: Colors.white,
-                       cancelText:Text('Cancel' , style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.pinkAccent[200],
-                        fontSize: 24.0,
-
-                      ),),
-                       confirmText: Text('ok' , style: TextStyle(
-                             fontFamily: 'Poppins',
-                             fontStyle: FontStyle.normal,
-                             fontWeight: FontWeight.w500,
-                           color: Colors.pinkAccent[200],
-                             fontSize: 24.0,
-                       ),),
-                       initialValue: selecjobsTypes,
-                        key: _multiSelectKey,
-                        initialChildSize: 0.7,
-                        maxChildSize: 0.95,
-                        title: Text("Job Categories" , style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          fontSize: 17.0,
-                          //fontWeight: FontWeight.w700,
-                        ),),
-                        buttonText: Text('Job Categories', style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          fontSize: 17.0,
-                          //fontWeight: FontWeight.w700,
-                        ),),
-
-                        items: _data.map((item) => MultiSelectItem<superPowerModel>(item, item.name)).toList(),
-                        searchable: true,
-
-                        validator: (values) {
-                          if (values == null || values.isEmpty) {
-                            return "Select Only Three";
-                          }
-                          // List<String> names = values.map((e) => e.name).toList();
-                          // if (names.contains("Accounting")) {
-                          //   return "Frogs are weird!";
-                          // }
-                          return null;
-                        },
-                        onConfirm: (values) {
-                          setState(() {
-                            selecjobsTypes = values;
-                          });
-                         print('selected : ${selecjobsTypes}');
-                          selecjobsTypes.forEach((item) {
-                            print("${item.id} ${item.name}");
-                            Button = "${Button ?? " "} ${item.name}";
-                          });
-                          _multiSelectKey.currentState.validate();
-                        },
-                        chipDisplay: MultiSelectChipDisplay(
-                          chipColor: Colors.pinkAccent[200],
-                          textStyle: TextStyle(
-                            fontFamily: 'Questrial',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                     ),),
+                      autovalidateMode: AutovalidateMode.always,
+                      confirmText: Text('ok' , style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontStyle: FontStyle.normal,
-                            color: Colors.white,
-                          ),
-                          scrollBar: HorizontalScrollBar(
-                            isAlwaysShown: true
-                          ),
-                          onTap: (item) {
-                            setState(() {
-                              selecjobsTypes.remove(item);
-                            });
-                             print('removed : ${selecjobsTypes}');
-                            _multiSelectKey.currentState.validate();
-                          },
-                        ),
-                      ),
-                      ),
+                            fontWeight: FontWeight.w500,
+                          color: Colors.pinkAccent[200],
+                            fontSize: 24.0,
+                      ),),
+                      initialValue: selecjobsTypes,
+                       key: _multiSelectKey,
+                       initialChildSize: 0.7,
+                       maxChildSize: 0.95,
+                       title: Text("Job Categories" , style: TextStyle(
+                         fontFamily: 'Poppins',
+                         fontStyle: FontStyle.normal,
+                         fontWeight: FontWeight.w500,
+                         color: Colors.black,
+                         fontSize: 17.0,
+                         //fontWeight: FontWeight.w700,
+                       ),),
+                       buttonText: Text('Job Categories', style: TextStyle(
+                         fontFamily: 'Poppins',
+                         fontStyle: FontStyle.normal,
+                         fontWeight: FontWeight.w500,
+                         color: Colors.black,
+                         fontSize: 17.0,
+                         //fontWeight: FontWeight.w700,
+                       ),),
+
+                       items: _data.map((item) => MultiSelectItem<superPowerModel>(item, item.name)).toList(),
+                       searchable: true,
+
+                      validator: (values) {
+                        if (values == null || values.isEmpty) {
+                          return "Select Only Three";
+                        }
+                        // List<String> names = values.map((e) => e.name).toList();
+                        // if (names.contains("Frog")) {
+                        //   return "Frogs are weird!";
+                        // }
+                        return null;
+                      },
+                       onConfirm: (values) {
+                         setState(() {
+                           selecjobsTypes = values;
+                         });
+                        print('selected : ${selecjobsTypes}');
+                         selecjobsTypes.forEach((item) {
+                           print("${item.id} ${item.name}");
+                           Button = "${Button ?? " "} ${item.name}";
+                         });
+                         _multiSelectKey.currentState.validate();
+                       },
+                       chipDisplay: MultiSelectChipDisplay(
+                         chipColor: Colors.pinkAccent[200],
+                         textStyle: TextStyle(
+                           fontFamily: 'Questrial',
+                           fontSize: 16,
+                           fontWeight: FontWeight.w400,
+                           fontStyle: FontStyle.normal,
+                           color: Colors.white,
+                         ),
+                         scrollBar: HorizontalScrollBar(
+                           isAlwaysShown: true
+                         ),
+                         onTap: (item) {
+                           setState(() {
+                             selecjobsTypes.remove(item);
+                           });
+                            print('removed : ${selecjobsTypes}');
+                           _multiSelectKey.currentState.validate();
+                         },
+                       ),
+                     ),
+                    // selecjobsTypes == null || selecjobsTypes.isEmpty
+                    //     ? Container(
+                    //     padding: EdgeInsets.all(10),
+                    //     alignment: Alignment.centerLeft,
+                    //     child: Text(
+                    //       "None selected",
+                    //       style: TextStyle(color: Colors.black54),
+                    //     )): Container(),
                   ],
                 ),
               ),

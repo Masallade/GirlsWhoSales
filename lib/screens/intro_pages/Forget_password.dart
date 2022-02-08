@@ -41,7 +41,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon( Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SingleChildScrollView(

@@ -36,7 +36,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
        b=Colors.blue[800];
      }
      }
-
+   bool changeColor = false;
 
   void initState(){
     super.initState();
@@ -53,8 +53,10 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+    final color = changeColor ? Colors.pinkAccent[200] : Colors.blue;
     return FutureBuilder(
         future: loadViewData(),
     builder: (context, AsyncSnapshot<String> snapshot) {
@@ -155,32 +157,15 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                       // ),
                                     ],
                                   ),
-                                  subtitle: Column(
-                                    children: [
-                                      SizedBox(height: 10),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          'Experince: ${appliedJobDetails[index].experience ?? ""}',
-                                          style: TextStyle(
-                                            fontFamily: 'Questrial',
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 14.0,
-                                            //fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-                                      Row(
-                                        mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '\$${appliedJobDetails[index]
-                                                .minSalary ?? " " + '-'}  ' +
-                                                '\$${appliedJobDetails[index]
-                                                    .maxSalary ?? " " }',
+                                  subtitle: Container(
+                                    width:60,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Experince: ${appliedJobDetails[index].experience ?? ""}',
                                             style: TextStyle(
                                               fontFamily: 'Questrial',
                                               fontStyle: FontStyle.normal,
@@ -190,27 +175,44 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                               //fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                          SizedBox(width: 22,),
-
-                                          Container(
-                                            height: 40,
-                                            width: 90,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromRGBO(52, 150, 224, 0.15),
-                                                borderRadius: BorderRadius
-                                                    .circular(12.0)),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 10.0),
-                                              child: Text(
-                                                 '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
-                                                  color: checkStatus("Hired") ), textAlign: TextAlign.center,
-                                              //   'Applied'
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Row(
+                                         // mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
+                                              style: TextStyle(
+                                                fontFamily: 'Questrial',
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                                fontSize: 14.0,
+                                                //fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            SizedBox(width: 22,),
+
+                                            Container(
+                                              height: 40,
+                                              width: 77,
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(52, 150, 224, 0.15),
+                                                  borderRadius: BorderRadius
+                                                      .circular(12.0)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 10.0),
+                                                child: Text(
+                                                   '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
+                                                    color:color), textAlign: TextAlign.center,
+                                                //   'Applied'
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

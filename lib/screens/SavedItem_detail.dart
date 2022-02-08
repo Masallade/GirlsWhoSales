@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/model/job_apply_detail_model.dart';
@@ -288,19 +289,32 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
           // margin: EdgeInsets.only(bottom: 25.0),
           color: Colors.white,
           child: GestureDetector(
-          onTap: (){
-            alreadyapplied().then((value) {
-              if(value.applied == 1){
-                final snackbar = SnackBar(content: Text('Already Applied'));
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          onTap: () async {
+            alreadyapplied().then((value) async{
+              if(value.status == 200) {
+
+                showToast('This is normal toast with animation',
+                  context: context,
+                  animation: StyledToastAnimation.scale,
+                );
+                showToast("You've Alreay Applied \n For this Job",
+                  context: context,
+                  fullWidth: true,
+                  backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                  animation: StyledToastAnimation.slideFromBottomFade,
+                  reverseAnimation: StyledToastAnimation.fade,
+                  position: StyledToastPosition.bottom,
+                  animDuration: Duration(seconds: 2),
+                  duration: Duration(seconds: 4),
+                  curve: Curves.elasticOut,
+                  reverseCurve: Curves.linear,
+                );
+
               }
-              if(value.applied == 0){
-                // final snackbar = SnackBar(content: Text('Not Applied'));
-                // ScaffoldMessenger.of(context).showSnackBar(snackbar);
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply(favoriteJobs:favoriteJobs,uName: uName,password: password,userDetails:userDetails,user_Id: user_Id,firstName: firstName,)));
+              if(value.status == 100){
+                await Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply(favoriteJobs:favoriteJobs,uName: uName,password: password,userDetails:userDetails,user_Id: user_Id,firstName: firstName,)));
               }
-            }
-            );
+            });
           },
             //  onTap: applynow,
             child: Container(
@@ -401,29 +415,36 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', favoriteJobs.jobId);
-      prefs.setBool('stateOfButton', true);
-
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      IsButton = prefs.getBool('stateOfButton');
-
-      print('userid is :$uid');
-      print('jobid is : $Jid');
-      print('IsButton : $IsButton');
+      // print("==================SharedPrefrence values==================");
+      //
+      // final prefs = await SharedPreferences.getInstance();
+      //
+      // prefs.setString('user_Id', user_Id);
+      // prefs.setString('job_Id', favoriteJobs.jobId);
+      // prefs.setBool('stateOfButton', true);
+      //
+      // uid = await prefs.getString('user_Id');
+      // Jid = await prefs.getString('job_Id');
+      // IsButton = prefs.getBool('stateOfButton');
+      //
+      // print('userid is :$uid');
+      // print('jobid is : $Jid');
+      // print('IsButton : $IsButton');
 
       print("==================Response values==================");
       print(res.body);
 
-      Fluttertoast.showToast(
-        msg: 'Added To Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Added To Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromLeftFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.top,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {
@@ -444,24 +465,31 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', favoriteJobs.jobId);
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      print('userid is :$uid');
-      print('jobid is : $Jid');
+      // print("==================SharedPrefrence values==================");
+      //
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString('user_Id', user_Id);
+      // prefs.setString('job_Id', favoriteJobs.jobId);
+      // uid = await prefs.getString('user_Id');
+      // Jid = await prefs.getString('job_Id');
+      // print('userid is :$uid');
+      // print('jobid is : $Jid');
 
       print("==================Response values==================");
       print(res.body);
 
 
-      Fluttertoast.showToast(
-        msg: 'Remove From Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Removed From Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromBottomFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.center,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {
@@ -683,7 +711,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                             ),
                             child:Padding(
                               padding: const EdgeInsets.only(top: 10,left: 10.0),
-                              child: Text(savedJobs.Type ?? " " ,style: TextStyle(
+                              child: Text(savedJobs.type ?? " " ,style: TextStyle(
                                 fontFamily: 'Questrial',
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w400,
@@ -762,22 +790,35 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
           // margin: EdgeInsets.only(bottom: 25.0),
           color: Colors.white,
           child: GestureDetector(
-            onTap: () {
-              alreadyapplied().then((value) {
-               // resp = value.applied;
-                if(value.message == "Already Applied"){
-                  final snackbar = SnackBar(content: Text('Already Applied'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            onTap: () async {
+              alreadyapplied().then((value) async{
+                if(value.status == 200) {
+
+                  showToast('This is normal toast with animation',
+                    context: context,
+                    animation: StyledToastAnimation.scale,
+                  );
+                  showToast("You've Alreay Applied \n For this Job",
+                    context: context,
+                    fullWidth: true,
+                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    animation: StyledToastAnimation.slideFromBottomFade,
+                    reverseAnimation: StyledToastAnimation.fade,
+                    position: StyledToastPosition.bottom,
+                    animDuration: Duration(seconds: 2),
+                    duration: Duration(seconds: 4),
+                    curve: Curves.elasticOut,
+                    reverseCurve: Curves.linear,
+                  );
+
                 }
-                else if(value.message == "Not Applied"){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply1(favoriteJobs: savedJobs,uName:uName,password: password, userDetails:userDetails,user_Id: user_Id,firstName: firstName,cv: cv,resumee: resumee,)));
+                if(value.status == 100){
+                  await Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply1(
+                    favoriteJobs: savedJobs,uName:uName,password: password,
+                    userDetails:userDetails,user_Id: user_Id,firstName: firstName,
+                    cv: cv,resumee: resumee,)));
                 }
-              }
-              );
-              // if(appliedStatus == 1){
-              //   final snackbar = SnackBar(content: Text('Already Applied'));
-              //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
-              // }
+              });
             },
             child: Container(
               height: kSpacingUnit * 6,
@@ -876,17 +917,17 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', jobDetails.id);
-      prefs.setBool('stateOfButton', true);
-
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      IsButton = prefs.getBool('stateOfButton');
+      // print("==================SharedPrefrence values==================");
+      //
+      // final prefs = await SharedPreferences.getInstance();
+      //
+      // prefs.setString('user_Id', user_Id);
+      // prefs.setString('job_Id', jobDetails.id);
+      // prefs.setBool('stateOfButton', true);
+      //
+      // uid = await prefs.getString('user_Id');
+      // Jid = await prefs.getString('job_Id');
+      // IsButton = prefs.getBool('stateOfButton');
 
       print('userid is :$uid');
       print('jobid is : $Jid');
@@ -895,10 +936,17 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
       print("==================Response values==================");
       print(res.body);
 
-      Fluttertoast.showToast(
-        msg: 'Added To Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Added To Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromLeftFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.top,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {
@@ -919,24 +967,31 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     });
     if(res.statusCode == 200 ) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("==================SharedPrefrence values==================");
-
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', jobDetails.id);
-      uid = await prefs.getString('user_Id');
-      Jid = await prefs.getString('job_Id');
-      print('userid is :$uid');
-      print('jobid is : $Jid');
+      // print("==================SharedPrefrence values==================");
+      //
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString('user_Id', user_Id);
+      // prefs.setString('job_Id', jobDetails.id);
+      // uid = await prefs.getString('user_Id');
+      // Jid = await prefs.getString('job_Id');
+      // print('userid is :$uid');
+      // print('jobid is : $Jid');
 
       print("==================Response values==================");
       print(res.body);
 
 
-      Fluttertoast.showToast(
-        msg: 'Remove From Favourite',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP_RIGHT,
+      showToast('Remove From Saved Jobs',
+        context: context,
+        fullWidth: true,
+        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        animation: StyledToastAnimation.slideFromBottomFade,
+        reverseAnimation: StyledToastAnimation.fade,
+        position: StyledToastPosition.center,
+        animDuration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.linear,
       );
 
       setState(() {

@@ -16,7 +16,6 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()),
-//    Timer(Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()),
     ));
   }
   @override
@@ -40,11 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         child: Stack(
+            clipBehavior: Clip.none,
             fit: StackFit.expand,
             alignment: Alignment.center,
-            overflow: Overflow.visible,
             children: [
-             Image.asset('assets/images/splashNewlogo.gif',scale: 2.5,),
+             Image.asset('assets/images/splashNewlogo.gif',scale: 2.5),
             ]),
       ),
     ),

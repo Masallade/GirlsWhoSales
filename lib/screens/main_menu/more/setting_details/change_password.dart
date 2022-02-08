@@ -15,7 +15,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
             ),
             onPressed: () {
               Navigator.pop(context);

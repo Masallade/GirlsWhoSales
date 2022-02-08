@@ -40,9 +40,11 @@ class SavedJobs {
   String minSalary;
   String maxSalary;
   String skills;
-  String city;
-  String employerid;
-  String Type;
+  String employerId;
+  String experience;
+  String type;
+  String url;
+
   SavedJobs(
       {this.jobId,
         this.id,
@@ -55,7 +57,11 @@ class SavedJobs {
         this.companyLogo,
         this.minSalary,
         this.maxSalary,
-        this.skills,this.city,this.employerid,this.Type});
+        this.skills,
+        this.employerId,
+        this.experience,
+        this.type,
+        this.url});
 
   SavedJobs.fromJson(Map<String, dynamic> json) {
     jobId = json['job_id'];
@@ -70,9 +76,10 @@ class SavedJobs {
     minSalary = json['min_salary'];
     maxSalary = json['max_salary'];
     skills = json['skills'];
-    city = json['name'];
-    employerid = json['employer_id'];
-    Type = json['type'];
+    employerId = json['employer_id'];
+    experience = json['experience'];
+    type = json['type'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,7 +96,10 @@ class SavedJobs {
     data['min_salary'] = this.minSalary;
     data['max_salary'] = this.maxSalary;
     data['skills'] = this.skills;
-    data['type'] = this.Type;
+    data['employer_id'] = this.employerId;
+    data['experience'] = this.experience;
+    data['type'] = this.type;
+    data['url'] = this.url;
     return data;
   }
 }

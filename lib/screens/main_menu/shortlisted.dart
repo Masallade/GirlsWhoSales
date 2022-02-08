@@ -17,12 +17,12 @@ class _ShortlistedState extends State<Shortlisted> {
        body:SingleChildScrollView(
          child: Column(
            children: [
-             SizedBox(height: 60,),
+             SizedBox(height: 30,),
              Padding(
                padding: const EdgeInsets.only(left: 20.0),
                child: Align(
                    alignment:Alignment.topLeft,
-                   child: Text('Something' , style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400, fontFamily: 'Poppins', color: Colors.blue[800]),)),
+                   child: Text('Something', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500, fontFamily: 'Poppins', color: Colors.blue[800]),)),
              ),
              Padding(
                padding: const EdgeInsets.only(left: 20.0),
@@ -46,14 +46,13 @@ class _ShortlistedState extends State<Shortlisted> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 5.0),
               child: Text('jessica K.' , style: TextStyle(fontFamily: 'Poppins',color: Colors.black,),),
             )  ,
-                  Icon(Icons.workspaces_outline),
             ],
             ),
+                   trailing:  Image.asset('assets/images/option.png' ,scale: 9.5,),
                    subtitle: Column(
                      children: [
                        Row(

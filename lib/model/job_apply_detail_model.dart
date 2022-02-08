@@ -13,7 +13,7 @@ class JobAppliedDetailModel {
     this.applied,
   });
 
-  String status;
+  int status;
   String message;
   int applied;
 

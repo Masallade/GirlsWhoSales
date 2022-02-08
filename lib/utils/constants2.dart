@@ -10,6 +10,16 @@ final kH4DPATextStyle = TextStyle(
   fontSize: 24.0,
   //fontWeight: FontWeight.w700,
 );
+final HeadingStyle2 = TextStyle(
+  fontFamily: 'Poppins',
+  // height: 36,
+  height: 1.5,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+  color: Colors.black,
+  fontSize: 24.0,
+  //fontWeight: FontWeight.w700,
+);
 final HeadingStyle = TextStyle(
   fontFamily: 'Poppins',
  // height: 36,

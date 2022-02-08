@@ -1,4 +1,3 @@
-
 class LoginModel {
   String message;
   String status;
@@ -7,6 +6,7 @@ class LoginModel {
   List<FavoriteJobs> favoriteJobs;
   String countOfJobsSaved;
   String countOfJobsApplied;
+  String welcomeMessage;
 
   LoginModel(
       {this.message,
@@ -15,7 +15,8 @@ class LoginModel {
         this.seekerDetails,
         this.favoriteJobs,
         this.countOfJobsSaved,
-        this.countOfJobsApplied});
+        this.countOfJobsApplied,
+        this.welcomeMessage});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
@@ -40,6 +41,7 @@ class LoginModel {
     }
     countOfJobsSaved = json['Count_of_Jobs_saved'];
     countOfJobsApplied = json['Count_of_Jobs_applied'];
+    welcomeMessage = json['welcome_message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,6 +60,7 @@ class LoginModel {
     }
     data['Count_of_Jobs_saved'] = this.countOfJobsSaved;
     data['Count_of_Jobs_applied'] = this.countOfJobsApplied;
+    data['welcome_message'] = this.welcomeMessage;
     return data;
   }
 }
@@ -78,6 +81,9 @@ class JobDetails {
   String companyName;
   String jobType;
   String type;
+  String expiryDate;
+  Null category;
+  String url;
 
   JobDetails(
       {this.id,
@@ -94,7 +100,10 @@ class JobDetails {
         this.companyLogo,
         this.companyName,
         this.jobType,
-        this.type});
+        this.type,
+        this.expiryDate,
+        this.category,
+        this.url});
 
   JobDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -112,6 +121,9 @@ class JobDetails {
     companyName = json['company_name'];
     jobType = json['job_type'];
     type = json['type'];
+    expiryDate = json['expiry_date'];
+    category = json['category'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +143,9 @@ class JobDetails {
     data['company_name'] = this.companyName;
     data['job_type'] = this.jobType;
     data['type'] = this.type;
+    data['expiry_date'] = this.expiryDate;
+    data['category'] = this.category;
+    data['url'] = this.url;
     return data;
   }
 }
@@ -266,6 +281,8 @@ class FavoriteJobs {
   String maxSalary;
   String skills;
   String employerId;
+  String experience;
+  String url;
 
   FavoriteJobs(
       {this.jobId,
@@ -279,7 +296,10 @@ class FavoriteJobs {
         this.companyLogo,
         this.minSalary,
         this.maxSalary,
-        this.skills,this.employerId});
+        this.skills,
+        this.employerId,
+        this.experience,
+        this.url});
 
   FavoriteJobs.fromJson(Map<String, dynamic> json) {
     jobId = json['job_id'];
@@ -295,6 +315,8 @@ class FavoriteJobs {
     maxSalary = json['max_salary'];
     skills = json['skills'];
     employerId = json['employer_id'];
+    experience = json['experience'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -312,6 +334,8 @@ class FavoriteJobs {
     data['max_salary'] = this.maxSalary;
     data['skills'] = this.skills;
     data['employer_id'] = this.employerId;
+    data['experience'] = this.experience;
+    data['url'] = this.url;
     return data;
   }
 }

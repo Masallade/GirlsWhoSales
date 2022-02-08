@@ -58,7 +58,7 @@ class _PhoneVerification extends State<PhoneVerification> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SafeArea(
@@ -117,7 +117,7 @@ class _PhoneVerification extends State<PhoneVerification> {
                     key: _formKey,
                     pinLength: 4,
                     decoration: new BoxLooseDecoration(
-                    bgColorBuilder: _solidColor,
+                  //  bgColorBuilder: _solidColor,
                       textStyle: TextStyle(
                         height: 1.5,
                         fontSize: 24.0,
@@ -128,9 +128,9 @@ class _PhoneVerification extends State<PhoneVerification> {
                         /* letterSpacing: 0.0, */
                       ),
 
-                      strokeColorBuilder: PinListenColorBuilder(
-                        Colors.black,
-                        Colors.black,),
+                      // strokeColorBuilder: PinListenColorBuilder(
+                      //   Colors.black,
+                      //   Colors.black,),
                       obscureStyle: ObscureStyle(
                         isTextObscure: false,
                         obscureText: '🤪',

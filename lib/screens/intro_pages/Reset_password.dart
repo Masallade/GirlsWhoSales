@@ -106,8 +106,8 @@ Set your new password.''',
                 child: TextFormField(
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
-                  validator: (val) => val.length < 7
-                      ? "Password should be atleast 7 characters"
+                  validator: (val) => val.length >= 7
+                      ? "Password should be atleast or greater than 7 characters"
                       : null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -314,7 +314,7 @@ Set your new password.''',
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "id": widget.user_Id,
-       "password": email2,
+         "password": email2,
       });
       if(response.statusCode == 200){
         print("Response is: ${response.body}");
