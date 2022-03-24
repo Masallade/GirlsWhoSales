@@ -23,7 +23,6 @@ class _introSuccessScreenState extends State<introSuccessScreen> {
   _introSuccessScreenState ({this.uName,this.password ,this.user_Id ,this.userDetails});
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
     backgroundColor: Colors.white,
       body:SingleChildScrollView(

@@ -60,6 +60,7 @@ class _TrainingListState extends State<TrainingList> {
                       child: Row(
                         children: <Widget>[
                           Expanded(
+                              // ignore: deprecated_member_use
                               child: RaisedButton(
                                 onPressed: (){},
                                 child: Text(
@@ -77,6 +78,7 @@ class _TrainingListState extends State<TrainingList> {
                               )
                           ),
                           Expanded(
+                            // ignore: deprecated_member_use
                             child: FlatButton(
                                 onPressed: (){},
                                 child: Text(

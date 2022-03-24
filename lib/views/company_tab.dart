@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/size_extension.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
+import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
@@ -13,15 +12,14 @@ class CompanyTab extends StatefulWidget {
   final Job data;
   final JobDetails jobDetails;
   final String userId;
-//  final Company company;
   CompanyTab({this.jobDetails,this.data,this.userId});
 
   @override
   State<CompanyTab> createState() => _CompanyTabState();
 }
 class _CompanyTabState extends State<CompanyTab> {
-  bool _hasCallSupport = false;
-  Future<void> _launched;
+  //bool _hasCallSupport = false;
+  Future<void> launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -36,14 +34,14 @@ class _CompanyTabState extends State<CompanyTab> {
   }
   @override
   Widget build(BuildContext context) {
-     String url = widget.jobDetails.url;
+    String url = widget.jobDetails.url;
     return  SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            _launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url);
           }),
           child: Container(
             decoration: BoxDecoration(
@@ -59,7 +57,7 @@ class _CompanyTabState extends State<CompanyTab> {
               Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.jobDetails.companyLogo == null ? null : widget.jobDetails.companyLogo }')
+                  child: Image.network('${widget.jobDetails.companyLogo == null ? Placeholder() : widget.jobDetails.companyLogo }')
               ),
               title: Text('${widget.jobDetails.title ?? " "}' ,style:  TextStyle(
                 fontFamily: 'Poppins',
@@ -116,7 +114,7 @@ class CompanyTabtwo extends StatefulWidget {
 
 class _CompanyTabtwoState extends State<CompanyTabtwo> {
 
-  Future<void> _launched;
+  Future<void> launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -137,7 +135,7 @@ class _CompanyTabtwoState extends State<CompanyTabtwo> {
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            _launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url);
           }),
           child: Container(
             decoration: BoxDecoration(
@@ -207,7 +205,7 @@ class CompanyTabthree extends StatefulWidget {
 }
 
 class _CompanyTabthreeState extends State<CompanyTabthree> {
-  Future<void> _launched;
+  Future<void> launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -228,7 +226,7 @@ class _CompanyTabthreeState extends State<CompanyTabthree> {
         padding: const EdgeInsets.only(top: 20.0),
         child: InkWell(
           onTap:() => setState(() {
-            _launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url);
           }),
           child: Container(
             decoration: BoxDecoration(
@@ -282,7 +280,7 @@ class CompanyTabFour extends StatefulWidget {
 }
 
 class _CompanyTabFourState extends State<CompanyTabFour> {
-  Future<void> _launched;
+  Future<void> launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -305,7 +303,7 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            _launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url);
           }),
           child: Container(
             decoration: BoxDecoration(
@@ -338,6 +336,100 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
                     Text('${widget.jobList.location ?? " "}', style: TextStyle(
+                      fontFamily: 'Questrial',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey[300],
+                      fontSize: 14.0,
+                      //fontWeight: FontWeight.w700,
+                    ),)
+                  ],
+
+                ),
+              ),
+              trailing: Column(
+                children: [
+                  Icon(Icons.star_border_purple500_sharp),
+                  SizedBox(height: 2,),
+                  Text('View Rating' , style: subtitleStyle,)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class CompanyTabFive extends StatefulWidget {
+  final AppliedJobDetails appliedJobDetails;
+  final String userId;
+//  final Company company;
+  CompanyTabFive({this.appliedJobDetails,this.userId});
+
+  @override
+  State<CompanyTabFive> createState() => _CompanyTabFiveState();
+}
+
+class _CompanyTabFiveState extends State<CompanyTabFive> {
+  Future<void> launched;
+
+
+  Future<void> _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String url = widget.appliedJobDetails.url;
+    return  SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child : Padding(
+        padding: const EdgeInsets.only(top: 30.0),
+        child: InkWell(
+          onTap:() => setState(() {
+            launched = _launchInBrowser(url);
+          }),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.blueGrey[300].withOpacity(0.6),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: ListTile(
+              leading:
+              Container(
+                  width: 50.0,
+                  height: 50.0,
+                  child: Image.network('${widget.appliedJobDetails.companyLogo == null ? null : widget.appliedJobDetails.companyLogo }')
+              ),
+              title: Text('${widget.appliedJobDetails.title ?? " "}' ,style:  TextStyle(
+                fontFamily: 'Poppins',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                fontSize: 16.0,
+                //fontWeight: FontWeight.w700,
+              ),),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 6.5),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/location.png'),
+                    SizedBox(width: 10,),
+                    Text('${widget.appliedJobDetails.location ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,

@@ -22,6 +22,7 @@ class Animal {
   });
 }
 
+// ignore: must_be_immutable
 class SuperPowerPage extends StatefulWidget {
   List<superPowerModel> selecjobsTypes = [];
  final String Button;
@@ -34,7 +35,7 @@ class SuperPowerPage extends StatefulWidget {
 class _SuperPowerPageState extends State<SuperPowerPage> {
 
   List<superPowerModel> selecjobsTypes = [];
-   String Button ='';
+  String Button ='';
   _SuperPowerPageState({this.selecjobsTypes,this.Button});
 
   static List<superPowerModel> _data = [];
@@ -48,27 +49,13 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
     print('category response${response.body}');
     return parseProvinces(response.body);
   }
-
   List<superPowerModel> parseProvinces(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<superPowerModel>((json) => superPowerModel.fromJson(json)).toList();
   }
 
-
-  // final url = "https://biitsolutions.co.uk/girlzwhosell/API/categories.php";
-  // List data = List(); //List of Responsebody
-  // Future<String> getData() async{
-  //   var res = await http.get(Uri.parse(url));
-  //   var resbody = json.decode(res.body);
-  //   setState(() {
-  //     data = resbody;
-  //   });
-  //   print('jobtypes $resbody');
-  // }
-
   @override
   void initState() {
-
     getProvinceList();
    // print('${_data.length}');
     super.initState();
@@ -164,7 +151,6 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
             Padding(
               padding: const EdgeInsets.only(left: 24.0 ,right: 24.0),
               child: SingleChildScrollView(
-              //  scrollDirection: Axis.horizontal,
                 child: Column(
                   children: [
                     MultiSelectBottomSheetField<superPowerModel>(
@@ -214,10 +200,6 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                         if (values == null || values.isEmpty) {
                           return "Select Only Three";
                         }
-                        // List<String> names = values.map((e) => e.name).toList();
-                        // if (names.contains("Frog")) {
-                        //   return "Frogs are weird!";
-                        // }
                         return null;
                       },
                        onConfirm: (values) {
@@ -292,7 +274,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                         MaterialPageRoute(
                             builder: (context) => JobType(selecjobsTypes: selecjobsTypes,Button:Button)));
                  }else{
-                    return SnackBar(content: Text('Please Select Any To Proceed next'));
+                    return SnackBar(content: Text('Please Select Categories To Proceed Next'));
                  }
                 },
               ),

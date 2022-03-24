@@ -32,26 +32,30 @@ class CompanyCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        //fontWeight: FontWeight.w700,
-                      ),),
+                      child: FittedBox(
+                        child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
+                          fontFamily: 'Questrial',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          //fontWeight: FontWeight.w700,
+                        ),),
+                      ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 5),
                     Align(
                         alignment: Alignment.topLeft,
-                        child: Text('${jobDetails.companyName ?? ""}'  ,
-                          style: TextStyle(
-                            fontFamily: 'Questrial',
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[400],
-                            fontSize: 14.0,
-                            //fontWeight: FontWeight.w700,
+                        child: FittedBox(
+                          child: Text('${jobDetails.companyName ?? ""}'  ,
+                            style: TextStyle(
+                              fontFamily: 'Questrial',
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey[400],
+                              fontSize: 14.0,
+                              //fontWeight: FontWeight.w700,
+                            ),
                           ),
                         )),
                     SizedBox(height: 18.5,),
@@ -59,7 +63,7 @@ class CompanyCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          height: 50,
+                          height: 40,
                           width: 80,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(154, 201, 254, 1),
@@ -67,15 +71,17 @@ class CompanyCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(5.0)),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
-                            child: Text(
-                              '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 12.0,
-                                //fontWeight: FontWeight.w700,
+                            child: FittedBox(
+                              child: Text(
+                                '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 12.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -84,53 +90,40 @@ class CompanyCard extends StatelessWidget {
                           width: 5,
                         ),
                         Container(
-                          height: 50,
-                          width: 85,
+                          height: 40,
+                          width: 80,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(154, 201, 254, 1),
                               //  color: Colors.blue[200],
                               borderRadius: BorderRadius.circular(5.0)),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
-                            child: Text(
-                              '${jobDetails.type ?? " "}',
-                              style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(1, 82, 174, 1),
-                              fontSize: 12.0,
-                            ),
-
-
+                            child: FittedBox(
+                              child: Text(
+                                '${jobDetails.type ?? " "}',
+                                style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(1, 82, 174, 1),
+                                fontSize: 12.0,
+                              ),
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ]),
+                  ]
+              ),
             ),
-            SizedBox(height: 18.5),
+            SizedBox(height: 33.5),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
-                     Text(
-                       '${jobDetails.location ?? " "}',
-                       style: TextStyle(
-                         fontFamily: 'Questrial',
-                         fontStyle: FontStyle.normal,
-                         fontWeight: FontWeight.w400,
-                         color: Colors.white,
-                         fontSize: 14.0,
-                         //fontWeight: FontWeight.w700,
-                       ),
-                       //   style: kTitleStyle.copyWith(color: Colors.white),
-                     ),
-                     Align(
-                       alignment: Alignment.topLeft,
+                     FittedBox(
                        child: Text(
-                         '\$${jobDetails.minSalary ?? " "} ' +
-                             '- \$${jobDetails.maxSalary ?? " "}',
+                         '${jobDetails.location ?? " "}',
                          style: TextStyle(
                            fontFamily: 'Questrial',
                            fontStyle: FontStyle.normal,
@@ -138,6 +131,24 @@ class CompanyCard extends StatelessWidget {
                            color: Colors.white,
                            fontSize: 14.0,
                            //fontWeight: FontWeight.w700,
+                         ),
+                         //   style: kTitleStyle.copyWith(color: Colors.white),
+                       ),
+                     ),
+                     Align(
+                       alignment: Alignment.topLeft,
+                       child: FittedBox(
+                         child: Text(
+                           '\$${jobDetails.minSalary ?? " "} ' +
+                               '- \$${jobDetails.maxSalary ?? " "}',
+                           style: TextStyle(
+                             fontFamily: 'Questrial',
+                             fontStyle: FontStyle.normal,
+                             fontWeight: FontWeight.w400,
+                             color: Colors.white,
+                             fontSize: 14.0,
+                             //fontWeight: FontWeight.w700,
+                           ),
                          ),
                        ),
                      ),
@@ -149,20 +160,15 @@ class CompanyCard extends StatelessWidget {
   }
 }
 
-class AllJobCard extends StatefulWidget {
+
+
+class AllJobCard extends StatelessWidget {
   final JobDetails jobDetails;
   final String userId;
   AllJobCard({this.userId, this.jobDetails});
 
   @override
-  State<AllJobCard> createState() => _AllJobCardState();
-}
-
-class _AllJobCardState extends State<AllJobCard> {
-
-
-  @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Container(
@@ -181,45 +187,51 @@ class _AllJobCardState extends State<AllJobCard> {
                 leading: Container(
                     width: 60,
                     height: 60,
-                    child: Image.network(widget.jobDetails.companyLogo ?? Image.asset('assets/images/splashlogo.png'))),
+                    child: Image.network(jobDetails.companyLogo ?? Image.asset('assets/images/splashlogo.png'))),
                 title: Column(
                     children: [
                       SizedBox(height: 10,),
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('${widget.jobDetails.title ?? ""}' , style: TextStyle(
-                          fontFamily: 'Questrial',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          //fontWeight: FontWeight.w700,
-                        ),),
+                        child: FittedBox(
+                          child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
+                            fontFamily: 'Questrial',
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            //fontWeight: FontWeight.w700,
+                          ),),
+                        ),
                       ),
                       SizedBox(height: 5,),
                       Align(
                           alignment: Alignment.topLeft,
-                          child: Text('${widget.jobDetails.companyName ?? ""}'  ,
-                            style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[400],
-                              fontSize: 14.0,
-                              //fontWeight: FontWeight.w700,
+                          child: FittedBox(
+                            child: Text('${jobDetails.companyName ?? ""}'  ,
+                              style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[400],
+                                fontSize: 14.0,
+                                //fontWeight: FontWeight.w700,
+                              ),
                             ),
                           )),
                       SizedBox(height: 5,),
                       Align(
                           alignment: Alignment.topLeft,
-                          child: Text('Experience ${widget.jobDetails.experience ?? "" }' + ' Years',
-                            style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[400],
-                              fontSize: 14.0,
-                              //fontWeight: FontWeight.w700,
+                          child: FittedBox(
+                            child: Text('Experience ${jobDetails.experience ?? "" }' + ' Years',
+                              style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[400],
+                                fontSize: 14.0,
+                                //fontWeight: FontWeight.w700,
+                              ),
                             ),
                           )),
                       SizedBox(height: 50.5,),
@@ -235,15 +247,17 @@ class _AllJobCardState extends State<AllJobCard> {
                                 borderRadius: BorderRadius.circular(5.0)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
-                              child: Text(
-                                '${widget.jobDetails.jobType == null ? '' : widget.jobDetails.jobType}' ,
-                                style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(1, 82, 174, 1),
-                                  fontSize: 12.0,
-                                  //fontWeight: FontWeight.w700,
+                              child: FittedBox(
+                                child: Text(
+                                  '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
+                                  style: TextStyle(
+                                    fontFamily: 'Questrial',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(1, 82, 174, 1),
+                                    fontSize: 12.0,
+                                    //fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
@@ -260,18 +274,20 @@ class _AllJobCardState extends State<AllJobCard> {
                                 borderRadius: BorderRadius.circular(5.0)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
-                              child: Text(
-                                '${widget.jobDetails.type == null ? '' : widget.jobDetails.type}'
-                                ,                           style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 12.0,
-                                //fontWeight: FontWeight.w700,
-                              ),
+                              child: FittedBox(
+                                child: Text(
+                                  '${jobDetails.type == null ? '' : jobDetails.type}'
+                                  ,                           style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 12.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
 
 
+                                ),
                               ),
                             ),
                           ),
@@ -283,43 +299,46 @@ class _AllJobCardState extends State<AllJobCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${widget.jobDetails.location == null ? '' : widget.jobDetails.location}',
-                    style: TextStyle(
-                      fontFamily: 'Questrial',
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      //fontWeight: FontWeight.w700,
-                    ),
-                    //   style: kTitleStyle.copyWith(color: Colors.white),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '\$${widget.jobDetails.minSalary == null ? '' : widget.jobDetails.minSalary} ' +
-                          '- \$${widget.jobDetails.maxSalary == null ? '' : widget.jobDetails.maxSalary}',
+                  FittedBox(
+                    child : Text(
+                      '${jobDetails.location == null ? '' : jobDetails.location}',
                       style: TextStyle(
                         fontFamily: 'Questrial',
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
                         fontSize: 14.0,
-                        //fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      child: Text(
+                        '\$${jobDetails.minSalary == null ? '' : jobDetails.minSalary} ' +
+                            '- \$${jobDetails.maxSalary == null ? '' : jobDetails.maxSalary}',
+                        style: TextStyle(
+                          fontFamily: 'Questrial',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: 35,),
-              Text('Skills: ${widget.jobDetails.skills}' , style: TextStyle(
-                  fontFamily: 'Questrial',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                  fontSize: 14.0
-              ),)
+              FittedBox(
+                child: Text('Skills: ${jobDetails.skills}' , style: TextStyle(
+                    fontFamily: 'Questrial',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontSize: 50.0
+                ),),
+              )
             ]),
       ),
     );

@@ -9,6 +9,7 @@ class JobSearchModel {
     status = json['status'];
     message = json['message'];
     if (json['Jobs List'] != null) {
+      // ignore: deprecated_member_use
       jobsList = new List<JobsList>();
       json['Jobs List'].forEach((v) {
         jobsList.add(new JobsList.fromJson(v));

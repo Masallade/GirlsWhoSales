@@ -22,18 +22,21 @@ class LoginModel {
     message = json['message'];
     status = json['status'];
     if (json['Job_details'] != null) {
+      // ignore: deprecated_member_use
       jobDetails = new List<JobDetails>();
       json['Job_details'].forEach((v) {
         jobDetails.add(new JobDetails.fromJson(v));
       });
     }
     if (json['Seeker_details'] != null) {
+      // ignore: deprecated_member_use
       seekerDetails = new List<SeekerDetails>();
       json['Seeker_details'].forEach((v) {
         seekerDetails.add(new SeekerDetails.fromJson(v));
       });
     }
     if (json['Favorite_Jobs'] != null) {
+      // ignore: deprecated_member_use
       favoriteJobs = new List<FavoriteJobs>();
       json['Favorite_Jobs'].forEach((v) {
         favoriteJobs.add(new FavoriteJobs.fromJson(v));
@@ -82,7 +85,7 @@ class JobDetails {
   String jobType;
   String type;
   String expiryDate;
-  Null category;
+  String category;
   String url;
 
   JobDetails(

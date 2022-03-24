@@ -27,14 +27,13 @@ class _ResetSuccessfullScreen extends State<ResetSuccessfullScreen> {
     super.initState();
   }
   String password;
-  final _key = GlobalKey<FormFieldState>();
   final key = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
         child: Scaffold(
-          //  backgroundColor: mainBgColor
+            backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -44,7 +43,7 @@ class _ResetSuccessfullScreen extends State<ResetSuccessfullScreen> {
                 ),
 
                 Image.asset(
-                  'assets/images/successImage.png',scale:1.0,
+                  'assets/images/check.gif',scale:0.8,
                 ),
                 SizedBox(
                   height: 40,

@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 
 class TopAnime extends StatelessWidget {
-  Widget? child;
-  Curve? curve;
+  Widget child;
+  Curve curve;
   int seconds;
   int padding;
 
-  TopAnime(this.seconds, this.padding, {required this.child, this.curve});
+  TopAnime(this.seconds, this.padding, { this.child, this.curve});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,12 @@ class TopAnime extends StatelessWidget {
 }
 
 class BottomAnime extends StatelessWidget {
-  Widget? child;
-  Curve? curve;
+  Widget child;
+  Curve curve;
   int seconds;
   int padding;
 
-  BottomAnime(this.seconds, this.padding, {required this.child, this.curve});
+  BottomAnime(this.seconds, this.padding, { this.child, this.curve});
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +56,12 @@ class BottomAnime extends StatelessWidget {
 }
 
 class LeftAnime extends StatelessWidget {
-  Widget? child;
-  Curve? curve;
+  Widget child;
+  Curve curve;
   int seconds;
   int padding;
 
-  LeftAnime(this.seconds, this.padding, {required this.child, this.curve});
+  LeftAnime(this.seconds, this.padding, { this.child, this.curve});
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +83,12 @@ class LeftAnime extends StatelessWidget {
 }
 
 class RightAnime extends StatelessWidget {
-  Widget? child;
-  Curve? curve;
+  Widget child;
+  Curve curve;
   int seconds;
   int padding;
 
-  RightAnime(this.seconds, this.padding, {required this.child, this.curve});
+  RightAnime(this.seconds, this.padding, { this.child, this.curve});
 
   @override
   Widget build(BuildContext context) {

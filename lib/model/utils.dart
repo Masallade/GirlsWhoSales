@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/intro_pages/user_type_copy.dart';
@@ -26,6 +24,7 @@ class utils {
         ),
         backgroundColor: Colors.grey,
         actions: <Widget>[
+          // ignore: deprecated_member_use
           new FlatButton(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5),
@@ -43,6 +42,7 @@ class utils {
               }
           ),
           //SizedBox(height: 10),
+          // ignore: deprecated_member_use
           new FlatButton(
             child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -151,13 +151,13 @@ class utils {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))
                   ),
-                  backgroundColor: Colors.grey,
+                  backgroundColor:  Colors.blueGrey[300],
                   children: <Widget>[
                     Center(
                       child: Column(children: [
-                        CircularProgressIndicator(),
+                        CircularProgressIndicator(color: Colors.pinkAccent[200],),
                         SizedBox(height: 10,),
-                        Text("Please Wait....",style: TextStyle(color: Colors.blueAccent),)
+                        Text("Please Wait ...",style: TextStyle(color: Colors.pinkAccent[200]),)
                       ]),
                     )
                   ]));
@@ -179,6 +179,7 @@ class utils {
           content: new Text(body),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // ignore: deprecated_member_use
             new FlatButton(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
@@ -200,7 +201,6 @@ class utils {
       },
     );
   }
-
   void showDialogCustomForLogin(BuildContext context, String title, String body, String button) {
     // flutter defined function
     showDialog(
@@ -216,6 +216,53 @@ class utils {
           content: new Text(body , ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // ignore: deprecated_member_use
+            new FlatButton(
+              child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: new Text(
+                    button, style: TextStyle(color: Colors.black),)
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignInPage();
+                    },
+                  ),
+                );
+                //   Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showDialogCustomForuserType(BuildContext context, String title, String body, String button) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
+          backgroundColor: Colors.grey,
+          title: new Text(title , style: HeadingStyle,),
+          content: new Text(body , ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            // ignore: deprecated_member_use
             new FlatButton(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
@@ -257,6 +304,7 @@ class utils {
           content: new Text(body),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // ignore: deprecated_member_use
             new FlatButton(
               child: new Text(button),
               onPressed: () {
@@ -268,17 +316,4 @@ class utils {
       },
     );
   }
-
-
-  // static showToast(String message) {
-  //   Fluttertoast.showToast(
-  //       msg: message,
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.CENTER,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: Colors.black12,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0
-  //   );
-  // }
 }

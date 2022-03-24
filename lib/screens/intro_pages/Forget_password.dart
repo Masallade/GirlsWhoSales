@@ -11,7 +11,8 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
+
 class ForgetPassword extends StatefulWidget {
 
   @override
@@ -179,7 +180,9 @@ SizedBox(height: 28,),
                     if(key.currentState.validate()){
                       forgotPassword().then((value) async{
                         if(value.message == null) {
-                          final snackBar = SnackBar(content: Text('Cannot Send email!!!!'));
+                          final snackBar = SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              content: Text('Cannot Send email!!!!'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         if(value.message == "Please check your email for OTP code and enter here to reset password."){
@@ -248,6 +251,7 @@ SizedBox(height: 28,),
     );
   }
 
+// ignore: missing_return
 Future<ForgetPasswordModel> forgotPassword() async{
     final url = "https://biitsolutions.co.uk/girlzwhosell/API//otp.php";
     try{

@@ -51,8 +51,8 @@ class _EditPersonalDetailsState extends State<EditPersonalDetails> {
    String nationality = "";
    String nid = "";
 
-  List<String> _selectGender = ['♂ Male', '♀ Female', ' ⚧  Other'];
-  int _defaultGenderChoiceIndex;
+ // List<String> _selectGender = ['♂ Male', '♀ Female', ' ⚧  Other'];
+  //int _defaultGenderChoiceIndex;
 
   List<String> _selectMaritalStatus = ['Single', 'Married', 'Unmarried'];
   int _defaultMaritalStatusIndex;
@@ -64,7 +64,7 @@ class _EditPersonalDetailsState extends State<EditPersonalDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _defaultGenderChoiceIndex = 0;
+    //_defaultGenderChoiceIndex = 0;
     _defaultMaritalStatusIndex = 0;
   }
   setStatus(String message) {

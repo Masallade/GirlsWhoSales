@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
+import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
@@ -109,6 +110,33 @@ class DescriptionTabFour extends StatelessWidget {
         SizedBox(height: 30.0),
         Text(
           '${jobList.description ?? " "}',
+          style: TextStyle(
+            fontFamily: 'Questrial',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[600],
+            fontSize: 16.0,
+            //fontWeight: FontWeight.w700,
+          ),
+        ),
+        // SizedBox(height: 15.0),
+
+      ],
+    );
+  }
+}
+class DescriptionTabFive extends StatelessWidget {
+
+  final AppliedJobDetails appliedJobDetails;
+  final String userId;
+  DescriptionTabFive({this.appliedJobDetails ,this.userId});
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        SizedBox(height: 30.0),
+        Text(
+          '${appliedJobDetails.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,

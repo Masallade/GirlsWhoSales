@@ -14,7 +14,7 @@ class MoreInfo extends StatefulWidget {
 class _MoreInfoState extends State<MoreInfo> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    //Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
+import 'package:girlzwhosell/screens/track_application_screen.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class DashbordAppliedJobs extends StatefulWidget {
   final user_Id;
    fetchAppliedJobsModel fetchJobs;
@@ -26,16 +25,6 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
     fetchAppliedJobsModel fetchJobs;
     List<AppliedJobDetails> appliedJobDetails;
 
-    String st;
-   Color checkStatus(String st) {
-     Color a;
-     Color b;
-     if (st == "Hired")
-       a = Colors.pinkAccent[200];
-     else if(st == "Applied"){
-       b=Colors.blue[800];
-     }
-     }
    bool changeColor = false;
 
   void initState(){
@@ -92,38 +81,42 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
               scrollDirection: Axis.vertical,
               child: Container(
                 height: SizeConfig.screenHeight,
-                child:appliedJobDetails ==null ? Container(child: Center(child: Text('No Applied Jobs' ,style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),),),) : ListView.builder(
+                child:appliedJobDetails ==null ? Container(
+                  child: Center(
+                    child: Text('No Applied Jobs' ,
+                      style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),
+                    )))
+                    : ListView.builder(
                     itemCount: appliedJobDetails.length == null ? 0 : appliedJobDetails.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 20 , left: 12 ,right: 10),
-                            child: Container(
-                           //   padding: EdgeInsets.only(top: 20),
-                              height: 200,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:  Border.all(
-                                  // left: BorderSide(
-                                  //     color: Colors.pinkAccent[200],
-                                  //     width: 5)
-                                    color: Color.fromRGBO(238, 242, 248, 1)
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: ListTile(
-                                  leading: Container(
-                                    height: 50,
-                                    width: 50,
-                                    child: appliedJobDetails == null ? null : Image.network(
-                                        '${appliedJobDetails[index].companyLogo}'),
+                            child: InkWell(
+                              onTap:(){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackApplication(
+                                    appliedJobDetails:appliedJobDetails[index])));
+                              },
+                              child: Container(
+                                height: 200,
+                                width: 350,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:  Border.all(
+                                      color: Color.fromRGBO(238, 242, 248, 1)
                                   ),
-                                  title: Row(
-                                    children: [
-                                      Text(
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: ListTile(
+                                    leading: Container(
+                                      height: 50,
+                                      width: 50,
+                                      child:Image.network('${appliedJobDetails[index].companyLogo ?? Placeholder()}'),
+                                    ),
+                                    title: FittedBox(
+                                      child: Text(
                                         '${appliedJobDetails[index].title ?? " "}',
                                          style: TextStyle(
                                           fontFamily: 'Poppins',
@@ -134,54 +127,16 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                           //fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     if (isLiked == true) {
-                                      //       IsButton = true;
-                                      //       savejob();
-                                      //     } else {
-                                      //       Unsavejob();
-                                      //     }
-                                      //   },
-                                      //   child: FavoriteButton(
-                                      //     isFavorite: false,
-                                      //     valueChanged: (isLiked) {
-                                      //       print('Is Favorite : $isLiked');
-                                      //       if (isLiked) {
-                                      //         savejob();
-                                      //       } else {
-                                      //         Unsavejob();
-                                      //       }
-                                      //     },
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                  subtitle: Container(
-                                    width:60,
-                                    child: Column(
-                                      children: [
-                                        SizedBox(height: 10),
-                                        Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Experince: ${appliedJobDetails[index].experience ?? ""}',
-                                            style: TextStyle(
-                                              fontFamily: 'Questrial',
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                              fontSize: 14.0,
-                                              //fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 20,),
-                                        Row(
-                                         // mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
+                                    ),
+                                    subtitle: Container(
+                                      width:60,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 10),
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              'Experince: ${appliedJobDetails[index].experience ?? ""}',
                                               style: TextStyle(
                                                 fontFamily: 'Questrial',
                                                 fontStyle: FontStyle.normal,
@@ -191,27 +146,44 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                                 //fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            SizedBox(width: 22,),
-
-                                            Container(
-                                              height: 40,
-                                              width: 77,
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(52, 150, 224, 0.15),
-                                                  borderRadius: BorderRadius
-                                                      .circular(12.0)),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(top: 10.0),
-                                                child: Text(
-                                                   '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
-                                                    color:color), textAlign: TextAlign.center,
-                                                //   'Applied'
+                                          ),
+                                          SizedBox(height: 20,),
+                                          Row(
+                                           // mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
+                                                style: TextStyle(
+                                                  fontFamily: 'Questrial',
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                  fontSize: 14.0,
+                                                  //fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                              SizedBox(width: 10,),
+
+                                              Container(
+                                                height: 40,
+                                                width: 77,
+                                                decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(52, 150, 224, 0.15),
+                                                    borderRadius: BorderRadius
+                                                        .circular(12.0)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 10.0),
+                                                  child: Text(
+                                                     '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
+                                                      color:color), textAlign: TextAlign.center,
+                                                  //   'Applied'
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -251,6 +223,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
     }
         });
   }
+   // ignore: missing_return
    Future<List<AppliedJobDetails>> request(BuildContext context, bool showLoading) async {
     String get_key_url =  "https://biitsolutions.co.uk/girlzwhosell/API/fetch_applied_jobs.php?user_id=${user_Id}";
 
@@ -289,159 +262,5 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
     }
   }
 
-  // Future savejob() async {
-  //   // http.post(Uri.parse(JobDetail.uploadsavejob), body: {
-  //   //   "user_id": uid,
-  //   //   "job_id": jobid,
-  //   // }).then((result) async {
-  //   //   setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //   //   Result = result.statusCode;
-  //   //   print('SaveResultbody $Result');
-  //   //   if (result.statusCode == 200) {
-  //   //     // print("==================SharedPrefrence values==================");
-  //   //     //
-  //   //     // final prefs = await SharedPreferences.getInstance();
-  //   //     //
-  //   //     // prefs.setString("user_id", user_Id);
-  //   //     // prefs.setString("job_id", jobDetails.id);
-  //   //     //
-  //   //     //
-  //   //     // final UID = await prefs.getString("user_id");
-  //   //     // final JobId = await prefs.getString("job_id");
-  //   //     //
-  //   //     // print('StorgeUid $UID');
-  //   //     // print('pass $JobId');
-  //   //     print('Value From SharedPrefrnece To Maintain the state Of Favourtie Button');
-  //   //
-  //   //     print('uid:$uid');
-  //   //     print('uid:$jobid');
-  //   //     Fluttertoast.showToast(
-  //   //         msg: "Added To favourite",
-  //   //         toastLength: Toast.LENGTH_LONG,
-  //   //         gravity: ToastGravity.TOP_RIGHT,
-  //   //         timeInSecForIosWeb: 1);
-  //   //     setState(() {
-  //   //       isapplied = true;
-  //   //     });
-  //   //   }
-  //   // }).catchError((error) {
-  //   //   setStatus(error);
-  //   // });
-  //   String uid;
-  //   String Jid;
-  //   var res = await http.post(
-  //       uploadsavejob , body: {
-  //     "user_id": user_Id,
-  //     "job_id": fetchJobs.appliedJobDetails[0].jobId,
-  //   });
-  //   if(res.statusCode == 200 ) {
-  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     print("==================SharedPrefrence values==================");
-  //
-  //     final prefs = await SharedPreferences.getInstance();
-  //
-  //     prefs.setString('user_Id', user_Id);
-  //     prefs.setString('job_Id', fetchJobs.appliedJobDetails[0].jobId);
-  //     prefs.setBool('stateOfButton', true);
-  //
-  //     uid = await prefs.getString('user_Id');
-  //     Jid = await prefs.getString('job_Id');
-  //     IsButton = prefs.getBool('stateOfButton');
-  //
-  //     print('userid is :$uid');
-  //     print('jobid is : $Jid');
-  //     print('IsButton : $IsButton');
-  //
-  //     print("==================Response values==================");
-  //     print(res.body);
-  //
-  //     Fluttertoast.showToast(
-  //       msg: 'Added To Favourite',
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.TOP_RIGHT,
-  //     );
-  //
-  //     setState(() {
-  //       //  isapplied = true;
-  //       isLiked = true;
-  //     });
-  //   }
-  //
-  // }
-  //
-  // Future Unsavejob() async {
-  //   // http.post(Uri.parse(JobDetail.uploadsavejob), body: {
-  //   //   "user_id": uid,
-  //   //   "job_id": jobid,
-  //   // }).then((result) async {
-  //   //   setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //   //   Result = result.statusCode;
-  //   //   print('SaveResultbody $Result');
-  //   //   if (result.statusCode == 200) {
-  //   //     // print("==================SharedPrefrence values==================");
-  //   //     //
-  //   //     // final prefs = await SharedPreferences.getInstance();
-  //   //     //
-  //   //     // prefs.setString("user_id", user_Id);
-  //   //     // prefs.setString("job_id", jobDetails.id);
-  //   //     //
-  //   //     //
-  //   //     // final UID = await prefs.getString("user_id");
-  //   //     // final JobId = await prefs.getString("job_id");
-  //   //     //
-  //   //     // print('StorgeUid $UID');
-  //   //     // print('pass $JobId');
-  //   //     print('Value From SharedPrefrnece To Maintain the state Of Favourtie Button');
-  //   //
-  //   //     print('uid:$uid');
-  //   //     print('uid:$jobid');
-  //   //     Fluttertoast.showToast(
-  //   //         msg: "Added To favourite",
-  //   //         toastLength: Toast.LENGTH_LONG,
-  //   //         gravity: ToastGravity.TOP_RIGHT,
-  //   //         timeInSecForIosWeb: 1);
-  //   //     setState(() {
-  //   //       isapplied = true;
-  //   //     });
-  //   //   }
-  //   // }).catchError((error) {
-  //   //   setStatus(error);
-  //   // });
-  //   String uid;
-  //   String Jid;
-  //   var res = await http.post(
-  //       removefavjob, body: {
-  //     "seeker_id": user_Id,
-  //     "job_id": fetchJobs.appliedJobDetails[0].jobId,
-  //   });
-  //   if(res.statusCode == 200 ) {
-  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     print("==================SharedPrefrence values==================");
-  //
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setString('user_Id', user_Id);
-  //     prefs.setString('job_Id', fetchJobs.appliedJobDetails[0].jobId);
-  //     uid = await prefs.getString('user_Id');
-  //     Jid = await prefs.getString('job_Id');
-  //     print('userid is :$uid');
-  //     print('jobid is : $Jid');
-  //
-  //     print("==================Response values==================");
-  //     print(res.body);
-  //
-  //
-  //     Fluttertoast.showToast(
-  //       msg: 'Remove From Favourite',
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.TOP_RIGHT,
-  //     );
-  //
-  //     setState(() {
-  //       //isapplied = false;
-  //       isLiked = false;
-  //     });
-  //   }
-  //
-  // }
 
 }

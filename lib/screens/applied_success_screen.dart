@@ -48,7 +48,6 @@ void initState(){
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body:SingleChildScrollView(
@@ -61,7 +60,7 @@ void initState(){
             ),
             // Image.network('https://www.animatedimages.org/data/media/1574/animated-success-image-0004.gif',scale: 1.0,),
             Image.asset(
-              'assets/images/check-circle.gif',scale:0.8,
+              'assets/images/check.gif',scale:0.8,
             ),
             SizedBox(
               height: 37,
@@ -79,7 +78,7 @@ void initState(){
                   /* letterSpacing: 0.0, */
                 ),
                 child: AnimatedTextKit(
-                  repeatForever: true,
+                  repeatForever: false,
                   animatedTexts: [
                     RotateAnimatedText('Successful' ,
                     duration: Duration(seconds: 5) ,
@@ -199,7 +198,6 @@ class _SavedJobAppliedState extends State<SavedJobApplied> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body:SingleChildScrollView(
@@ -212,7 +210,7 @@ class _SavedJobAppliedState extends State<SavedJobApplied> {
             ),
             // Image.network('https://www.animatedimages.org/data/media/1574/animated-success-image-0004.gif',scale: 1.0,),
             Image.asset(
-              'assets/images/check-circle.gif',scale:0.8,
+              'assets/images/check.gif',scale:0.8,
             ),
             SizedBox(
               height: 40,
@@ -353,7 +351,6 @@ class _SavedJobApplied1State extends State<SavedJobApplied1> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body:SingleChildScrollView(
@@ -366,7 +363,7 @@ class _SavedJobApplied1State extends State<SavedJobApplied1> {
             ),
             // Image.network('https://www.animatedimages.org/data/media/1574/animated-success-image-0004.gif',scale: 1.0,),
             Image.asset(
-              'assets/images/check-circle.gif',scale:0.8,
+              'assets/images/check.gif',scale:0.8,
             ),
             SizedBox(
               height: 40,

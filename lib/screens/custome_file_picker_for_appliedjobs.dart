@@ -16,6 +16,7 @@ import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
 
 
+// ignore: must_be_immutable
 class SelectCV extends StatefulWidget {
   final user_Id;
   String firstName;
@@ -51,17 +52,14 @@ class _SelectCV extends State<SelectCV> {
   String uploadurl = base_url + "apply_job.php";
 
   _imgFromCamera() async {
+    // ignore: deprecated_member_use
     selectedfile2 = await ImagePicker.pickVideo(
         source: ImageSource.camera, maxDuration: const Duration(seconds: 60));
     setState(() {});
-
-//return selectedfile;
-    // setState(() async{
-    //   selectedfile = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 50);
-    // });
   }
 
   _imgFromGallery() async {
+    // ignore: deprecated_member_use
     selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.gallery);
 
     setState(() {});
@@ -184,11 +182,11 @@ class _SelectCV extends State<SelectCV> {
 
     FormData formdata = FormData.fromMap({
 
-      "cv": await MultipartFile.fromFile(selectedfile.path,
+      "pdf_cv": await MultipartFile.fromFile(selectedfile.path,
           filename: basename(selectedfile.path)
         //show only filename from path
       ),
-      "resume": await MultipartFile.fromFile(selectedfile2.path,
+      "video_cv": await MultipartFile.fromFile(selectedfile2.path,
           filename: basename(selectedfile2.path)
         //show only filename from path
       ),
@@ -210,7 +208,7 @@ class _SelectCV extends State<SelectCV> {
     if (response.statusCode == 200) {
       print("response of Registration");
       print(response.toString());
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>JobApply(user_Id: user_Id,)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>JobApply(user_Id: user_Id,jobDetails: jobDetails,)));
       // uploadurl();
       //print response from server
     } else {
@@ -223,7 +221,7 @@ class _SelectCV extends State<SelectCV> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -244,30 +242,6 @@ class _SelectCV extends State<SelectCV> {
             scale: 2.7,
           ),
           //SizedBox(height: 70.0,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
-            child: Column(
-              children: [
-                LinearProgressIndicator(
-                  minHeight: 10.0,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                  value: 1.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 280.0),
-                  child: Text(
-                    '100%',
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        color: Colors.blueGrey[300],
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Text("Let's crush this!",
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
@@ -435,6 +409,7 @@ class _SelectCV extends State<SelectCV> {
             child: Container(
                 child: Column(
                   children: [
+                    // ignore: deprecated_member_use
                     RaisedButton.icon(
                       onPressed: () {
                         uploadResume(context);

@@ -5,20 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
+import 'package:girlzwhosell/model/notification_model.dart';
 import 'package:girlzwhosell/notification_badge/badge_for%20notification.dart';
 import 'package:girlzwhosell/screens/intro_pages/splash_screen.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
+import 'helpers/scroll_behaviour.dart';
 
-  @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-}
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // This is the last thing you need to add.
@@ -41,14 +39,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
+
   FirebaseMessaging messaging;
   PushNotificationMessage _notificationInfo;
   int totalNotifications = 0;
   StreamSubscription onMsgSubcription;
   StreamSubscription notificationSubcription;
+  List<NotificationsDetails> notificationsDetails;
+
   void registerNotification() async {
-//    await Firebase.initializeApp();
-    //instance for firebase messaging
     messaging = FirebaseMessaging.instance;
 
 //three types of state in notification
@@ -65,13 +66,13 @@ class _MyAppState extends State<MyApp> {
       //main msg
      notificationSubcription= FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         PushNotificationMessage notification = PushNotificationMessage(
-          image: message.notification.bodyLocKey,
+        //  image: message.notification.bodyLocKey,
           title: message.notification.title ?? "",
           body: message.notification.body ?? "",
           Datatitle: message.data['title'],
           Databody: message.data['body'],
         );
-
+    //   notificationsDetails = NotificationModel() as List<NotificationsDetails>;
         setState(() {
           totalNotifications ++;
           _notificationInfo = notification;
@@ -101,85 +102,74 @@ class _MyAppState extends State<MyApp> {
 
   }
 
-  StreamSubscription subscription;
-  StreamSubscription internetSubscription;
-  bool hasInternet = false;
-  ConnectivityResult result = ConnectivityResult.none;
 
+  String email;
+
+  String password;
+
+  bool isLoggedIn = false;
 
   @override
   void initState(){
     super.initState();
-     subscription = Connectivity().onConnectivityChanged.listen((result) {
-      setState(() => this.result = result);
-    });
-    internetSubscription = InternetConnectionChecker().onStatusChange.listen((status) {
-     var hasInternet = status = InternetConnectionStatus.connected;
-      setState(() => hasInternet = hasInternet);
-    });
-
-    Connection ();
     registerNotification();
-  }
-  void Connection ()  async{
-    hasInternet = await InternetConnectionChecker().hasConnection;
-    result = await Connectivity().checkConnectivity();
-
-    final color = hasInternet ? Colors.pinkAccent[200] : Colors.blue[800];
-    final txt = hasInternet ? 'Internet' :'No Internet Connection';
-
-    if(result == ConnectivityResult.mobile){
-      showSimpleNotification(
-        Text('$txt : Mobile Network Connected' , style: TextStyle(
-            color: Colors.white ,fontSize: 20
-        ),),
-        background: color,
-      );
-    }
-    else if (result == ConnectivityResult.wifi){
-      showSimpleNotification(
-        Text('$txt : Wifi Connected' , style: TextStyle(
-            color: Colors.white ,fontSize: 20
-        ),),
-        background: Colors.red,
-      );
-    }
-    else {
-      showSimpleNotification(
-        Text('$txt : No Network Connection' , style: TextStyle(
-            color: Colors.white ,fontSize: 20
-        ),),
-        background: Colors.red,
-      );
-    }
+   // autoLogIn();
   }
 
+
+@override
   void dispose (){
-    subscription.cancel();
-    internetSubscription.cancel();
     onMsgSubcription.cancel();
     notificationSubcription.cancel();
     super.dispose();
   }
-
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-
-      systemNavigationBarColor: Colors.red[50],
+      systemNavigationBarColor: Colors.white,
       // navigation bar color
       statusBarColor: Colors.transparent, // status bar color
     ));
     return OverlaySupport.global(
       child: MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
-        title: 'GirlzWhoSell',
+        title: 'GirlzWhoSell Career Connexions',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF122F51),
-          accentColor: Color(0xFF122F51), fontFamily: 'Poppins' ,
+          fontFamily: 'Poppins',
+          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(0xFF122F51)) ,
         ),
-        home: SplashScreen(),
+         home: SplashScreen(),
       ),
     );
+  }
+  autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userName = prefs.getString('username');
+    final String userPass = prefs.getString('userpass');
+
+    if (userName != null || userPass != null) {
+      setState(() {
+        isLoggedIn = true;
+        email = userName;
+        password = userPass;
+        Requests.Login(context, email, password,'',false);
+      });
+      return;
+    }
+    // else{
+    //   var duration = const Duration(seconds: 0 );
+    //   return Timer(duration, () {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) {
+    //           return SignInPage();
+    //         },
+    //       ),
+    //     );
+    //   });
+    // }
   }
 }

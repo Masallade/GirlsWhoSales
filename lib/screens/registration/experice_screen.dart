@@ -8,6 +8,7 @@ import 'package:girlzwhosell/utils/size_config.dart';
 
 import 'package:http/http.dart'as http;
 
+// ignore: must_be_immutable
 class ExperienceScreen extends StatefulWidget {
   String jobtype;
   String Button;
@@ -38,7 +39,21 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   _ExperienceScreenState({this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,});
 
   bool isValue = false;
+  String _dropdownError;
 
+  _validateForm() {
+    bool _isValid = _formKey.currentState.validate();
+
+    if (ExperiencenDetail == null) {
+      setState(() => _dropdownError = "Please select an option!");
+      _isValid = false;
+    }
+
+    if (_isValid) {
+      //form is valid
+    }
+  }
+@override
   void initState(){
     super.initState();
 
@@ -51,7 +66,9 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
 
 
   final url = "https://biitsolutions.co.uk/girlzwhosell/API/experience.php";
+  // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
+  // ignore: missing_return
   Future<String> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
@@ -79,94 +96,94 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
           ),
         ) ,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              //BackButtonPop(),
-              Image.asset(
-                'assets/images/logo.png',
-                scale: 2.7,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0,right: 12.0,top: 45.0),
-                child: Column(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                //BackButtonPop(),
+                Image.asset(
+                  'assets/images/logo.png',
+                  scale: 2.7,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0,right: 12.0,top: 45.0),
+                  child: Column(
+                    children: [
+                      LinearProgressIndicator(
+                        minHeight: 10.0,
+                        backgroundColor: Colors.grey[300],
+                        valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                        value: 0.6,
+                      ),
+                      SizedBox(height: 5,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 295.0 ,right: 12.0),
+                        child: Text(
+                          '45%',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              color: Colors.blueGrey[300],
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 37,
+                ),
+                Text("Almost there!",
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    style: HeadingStyle),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('How experienced are you?',
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    style: subtitleStyle),
+                SizedBox(
+                  height: 50,
+                ),
+                Row(
                   children: [
-                    LinearProgressIndicator(
-                      minHeight: 10.0,
-                      backgroundColor: Colors.grey[300],
-                      valueColor:
-                      AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                      value: 0.6,
-                    ),
-                    SizedBox(height: 5,),
                     Padding(
-                      padding: const EdgeInsets.only(left: 295.0 ,right: 12.0),
+                      padding: const EdgeInsets.only(left: 12.0 ,right: 12.0),
                       child: Text(
-                        '45%',
-                        textAlign: TextAlign.end,
+                        "Your years of experience?",
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.start,
                         style: TextStyle(
-                            color: Colors.blueGrey[300],
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600),
+                            height: 1.5,
+                            fontSize: 17.0,
+                            fontStyle: FontStyle.normal,
+                            fontFamily: 'Questrial',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black
+                          /* letterSpacing: 0.0, */
+                        ),
                       ),
                     ),
+                    SizedBox(width: 10,),
+                    Image.asset('assets/images/heart.png'),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 37,
-              ),
-              Text("Almost there!",
-                  overflow: TextOverflow.visible,
-                  textAlign: TextAlign.center,
-                  style: HeadingStyle),
-              SizedBox(
-                height: 20,
-              ),
-              Text('How experienced are you?',
-                  overflow: TextOverflow.visible,
-                  textAlign: TextAlign.center,
-                  style: subtitleStyle),
-              SizedBox(
-                height: 50,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0 ,right: 12.0),
-                    child: Text(
-                      "Your years of experience?",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          height: 1.5,
-                          fontSize: 17.0,
-                          fontStyle: FontStyle.normal,
-                          fontFamily: 'Questrial',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black
-                        /* letterSpacing: 0.0, */
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0, right: 12.0,top: 16),
+                  child: Container(
+                  //  height: 150,
+                    width: SizeConfig.screenWidth,
+                    height: 70.0,
+                    decoration: BoxDecoration(
+                    //  color: Colors.yellow,
+                   //   border: Border.all(width: 1.0, color: Colors.grey[300]),
                     ),
-                  ),
-                  SizedBox(width: 10,),
-                  Image.asset('assets/images/heart.png'),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0,top: 16),
-                child: Container(
-                //  height: 150,
-                  width: SizeConfig.screenWidth,
-                  height: 70.0,
-                  decoration: BoxDecoration(
-                  //  color: Colors.yellow,
-                 //   border: Border.all(width: 1.0, color: Colors.grey[300]),
-                  ),
-                  child: GestureDetector(
-                    onTapDown: (_) =>
-                        FocusManager.instance.primaryFocus?.unfocus(),
-                    child: Form(
-                      key: _formKey,
+                    child: GestureDetector(
+                      onTapDown: (_) =>
+                          FocusManager.instance.primaryFocus?.unfocus(),
                       child: Column(
                         children: [
                           Container(
@@ -196,11 +213,13 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                     onChanged: (String newvalue) {
                                       setState(() {
                                         ExperiencenDetail = newvalue;
+                                        _dropdownError = null;
                                       });
                                       print('newvalue ${ExperiencenDetail}');
                                     },
                                       items: data.map((item) {
-                                        return DropdownMenuItem(child: Row(
+                                        return DropdownMenuItem(
+                                          child: Row(
                                           children: [
                                             Text('${item["experience"]}',style: TextStyle(
                                                 height: 1.5,
@@ -223,49 +242,54 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 120,
-              ),
-              Padding(
-                padding: const EdgeInsets.only( left: 12, right: 12),
-                child: Container(
-                  // width:SizeConfig.screenWidth,
-                  width: SizeConfig.screenWidth,
-                  height: 70.0,
-                  decoration: BoxDecoration(
-                    // color:  Colors.red[100],
-                    color: Color.fromARGB(255, 255, 65, 129),
-                    borderRadius: BorderRadius.circular(5.0),
-                    // border: Border.all(color: Theme.of(context).accentColor)),
-                  ),
-                  child: GestureDetector(
-                    // only enable the button if the text is not empty
-                    onTap: ()async {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        print('ExperiencenDetail Succeffull $ExperiencenDetail');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,)));
-                        print('Successful');
+                _dropdownError == null
+                    ? SizedBox.shrink()
+                    : Text(
+                  _dropdownError ?? "",
+                  style: TextStyle(color: Colors.red),
+                ),
+                SizedBox(
+                  height: 120,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only( left: 12, right: 12),
+                  child: Container(
+                    // width:SizeConfig.screenWidth,
+                    width: SizeConfig.screenWidth,
+                    height: 70.0,
+                    decoration: BoxDecoration(
+                      // color:  Colors.red[100],
+                      color: Color.fromARGB(255, 255, 65, 129),
+                      borderRadius: BorderRadius.circular(5.0),
+                      // border: Border.all(color: Theme.of(context).accentColor)),
+                    ),
+                    child: GestureDetector(
+                      // only enable the button if the text is not empty
+                      onTap: () async {
+                        if (ExperiencenDetail == null ) {
+                          _validateForm();
+                          print('ExperiencenDetail Succeffull $ExperiencenDetail');
+                          print('fail');
 
-                      } else {
-                        print('ExperiencenDetail fail: $ExperiencenDetail');
-                        print('Try Again');
-                      }
-                    },
-                    child: ListTile(
-                      title: Center(
-                        child: GestureDetector(
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,)));
+                          print('Successful');
+                        }
+                      },
+                      child: ListTile(
+                        title: Center(
+                          child: GestureDetector(
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
@@ -273,8 +297,8 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

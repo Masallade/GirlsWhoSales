@@ -1,8 +1,10 @@
+// ignore_for_file: missing_return
+
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/check_saved_job.dart';
 import 'package:girlzwhosell/model/job.dart';
 import 'package:girlzwhosell/model/job_apply_detail_model.dart';
@@ -15,7 +17,6 @@ import 'package:girlzwhosell/views/company_tab.dart';
 import 'package:girlzwhosell/views/description_tab.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:favorite_button/favorite_button.dart';
 
 
@@ -113,7 +114,106 @@ class _JobDetailState extends State<JobDetail> {
       this.userDetails, this.user_Id, this.firstName,
       this.total_applied, this.total_saved, this.jobid, this.favoriteJobs,
       this.appliedStatus, this.cv, this.resumee);
-
+  Future<bool> ShowsavedJobs(BuildContext context) {
+    return showDialog(
+      builder: (context) => SimpleDialog(
+        elevation: 2.0,
+        //   backgroundColor: Colors.pinkAccent.withOpacity(0.9),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text('Do you want to' ,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                color: Colors.blue[800],
+                height: 1.5,
+                fontSize: 18.0,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+              ),),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text('Track Your Saved Job' ,
+                  style: TextStyle(
+                    color: Colors.pinkAccent[200],
+                    height: 1.5,
+                    fontSize: 18.0,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                  ),),
+              ),
+             // SizedBox(height: 10,),
+              Image.asset('assets/images/check.gif' ,scale: 1.0,),
+              InkWell(
+                onTap: (){
+                  Requests.Login(context, uName, password, 'token1', false);
+                },
+                child: Container(
+                  height: 52,
+                  width: 120,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color:  Colors.pinkAccent[200],
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Text('Track' ,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17,
+                        color:Colors.white
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // actions: <Widget>[
+        //   ElevatedButton(
+        //     onPressed: () {
+        //       print("you choose no");
+        //       Navigator.of(context).pop(false);
+        //     },
+        //     child: Text(
+        //       'No',
+        //       style: TextStyle(
+        //           color: Colors.white,
+        //           fontSize: 20,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //     style: ElevatedButton.styleFrom(
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(10),
+        //       ),
+        //       primary: Colors.blue[800],
+        //     ),
+        //   ),
+        //   ElevatedButton(
+        //     onPressed: () {
+        //      Requests.Login(context, uName, password, 'token1', false);
+        //     },
+        //     child: Text(
+        //       'Yes',
+        //       style: TextStyle(
+        //           color: Colors.white,
+        //           fontSize: 20,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //     style: ElevatedButton.styleFrom(
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(10),
+        //       ),
+        //       primary: Colors.blue[800],
+        //     ),
+        //   )
+        // ],
+      ),
+      context: context,
+    ) ??
+        false;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,14 +223,14 @@ class _JobDetailState extends State<JobDetail> {
         elevation: 0,
         actions: [
           GestureDetector(
-            onTap: () {
-              if(isLiked == true){
-                IsButton = true;
-                savejob();
-              }else{
-                Unsavejob();
-              }
-            },
+            // onTap: () {
+            //   if(isLiked == true){
+            //     IsButton = true;
+            //     savejob();
+            //   }else{
+            //     Unsavejob();
+            //   }
+            // },
            child: Padding(
              padding: const EdgeInsets.only(right: 20.0),
              child: FavoriteButton(
@@ -138,7 +238,8 @@ class _JobDetailState extends State<JobDetail> {
                valueChanged: (isLiked) {
                 print('Is Favorite : $isLiked');
                  if(isLiked) {
-                   savejob();
+                   savejob().whenComplete(() => ShowsavedJobs(context));
+                       //.whenComplete(() => Requests.Login(context, uName, password, 'token', false));
                  }else{
                    Unsavejob();
                  }
@@ -446,8 +547,6 @@ class _JobDetailState extends State<JobDetail> {
 
   /////////
   Future savejob() async {
-    String uid;
-    String Jid;
     var res = await http.post(
         uploadsavejob , body: {
       "user_id": user_Id,
@@ -496,8 +595,6 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   Future Unsavejob() async {
-    String uid;
-    String Jid;
     var res = await http.post(
         removefavjob, body: {
       "seeker_id": user_Id,
@@ -658,22 +755,24 @@ class _JobDetailOneState extends State<JobDetailOne> {
         elevation: 0,
         actions: [
           GestureDetector(
-            onTap: () {
-              if(isLiked == true){
-                IsButton = true;
-                savejob();
-              }else{
-                Unsavejob();
-              }
-            },
+            // onTap: () {
+            //   if(isLiked == true){
+            //     IsButton = true;
+            //     savejob();
+            //   }else{
+            //     Unsavejob();
+            //   }
+            // },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: FavoriteButton(
                 isFavorite: false,
                 valueChanged: (isLiked) {
                   print('Is Favorite : $isLiked');
-                  if(isLiked) {
+                  if(isLiked == true) {
+                    IsButton == true;
                     savejob();
+
                   }else{
                     Unsavejob();
                   }
@@ -690,14 +789,16 @@ class _JobDetailOneState extends State<JobDetailOne> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          '${joblist.companyName ?? " "}',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            fontSize: 20.0,
+        title: FittedBox(
+          child: Text(
+            '${joblist.companyName ?? " "}',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontSize: 20.0,
+            ),
           ),
         ),
         centerTitle: true,
@@ -725,35 +826,39 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${joblist.companyLogo == null ? '' : joblist
+                            '${joblist.companyLogo == null ? Placeholder() : joblist
                                 .companyLogo }')),
                     SizedBox(height: 8.0),
-                    Text(
-                      '${joblist.title ?? " "}',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 24.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '${joblist.title ?? " "}',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontSize: 24.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      '${joblist.companyName ?? " "} ' +
-                          '\- ${joblist.location ?? " "}',
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey[300],
-                        fontSize: 16.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '${joblist.companyName ?? " "} ' +
+                            '\- ${joblist.location ?? " "}',
+                        style: TextStyle(
+                          fontFamily: 'Questrial',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blueGrey[300],
+                          fontSize: 16.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
+                        // style: kTitleStyle,
                       ),
-                      // style: kTitleStyle,
                     ),
                     SizedBox(height: 20.0),
                     Row(
@@ -768,15 +873,17 @@ class _JobDetailOneState extends State<JobDetailOne> {
                           child: Padding(
                             padding:
                             const EdgeInsets.only(top: 15, left: 10.0),
-                            child: Text(
-                              '${joblist.jobType ?? " "}',style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(1, 82, 174, 1),
-                              fontSize: 16.0,
-                              //fontWeight: FontWeight.w700,
-                            ),
+                            child: FittedBox(
+                              child: Text(
+                                '${joblist.jobType ?? " "}',style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(1, 82, 174, 1),
+                                fontSize: 16.0,
+                                //fontWeight: FontWeight.w700,
+                              ),
+                              ),
                             ),
                           ),
                         ),
@@ -792,15 +899,17 @@ class _JobDetailOneState extends State<JobDetailOne> {
                           child: Padding(
                             padding:
                             const EdgeInsets.only(top: 15, left: 10.0),
-                            child: Text(
-                              '${joblist.type ?? " "}',
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.blue[800],
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
+                            child: FittedBox(
+                              child: Text(
+                                '${joblist.type ?? " "}',
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.blue[800],
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -810,16 +919,20 @@ class _JobDetailOneState extends State<JobDetailOne> {
                     SizedBox(
                       height: 8,
                     ),
-                    Text(
-                      '\$ ${joblist.minSalary ?? " "} ' +
-                          '\- ${joblist.maxSalary ?? " "}',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 24.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: FittedBox(
+                        child: Text(
+                          '\$ ${joblist.minSalary ?? " "} ' +
+                              '\- ${joblist.maxSalary ?? " "}',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 24.0,
+                            //fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ),
                     // SizedBox(height: 20,),
@@ -828,11 +941,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          // side: BorderSide(
-                          //   color: Colors.black.withOpacity(.2),
-                          // ),
                         ),
-                        // borderRadius: BorderRadius.circular(12.0),
                         child: TabBar(
                           isScrollable: true,
                           unselectedLabelColor: Colors.blueGrey,
@@ -900,8 +1009,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
 
                 }
                 if(value.status == 100){
-                  // final snackBar = SnackBar(content: Text('Email Sent!!!!'));
-                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   await  Navigator.push(
                       context, MaterialPageRoute(builder: (context) =>
                       SearchApply(uName: uName,
@@ -962,8 +1069,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
 
   /////////
   Future savejob() async {
-    String uid;
-    String Jid;
     var res = await http.post(
         uploadsavejob , body: {
       "user_id": user_Id,
@@ -995,8 +1100,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
   }
 
   Future Unsavejob() async {
-    String uid;
-    String Jid;
     var res = await http.post(
         removefavjob, body: {
       "seeker_id": user_Id,

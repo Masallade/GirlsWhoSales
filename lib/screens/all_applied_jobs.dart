@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
-
-import 'package:http/http.dart' as http;
 
 class AllAppliedJobs extends StatefulWidget {
   final user_id;

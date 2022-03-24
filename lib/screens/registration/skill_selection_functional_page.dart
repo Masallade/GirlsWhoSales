@@ -57,6 +57,7 @@ class _SkillPageState extends State<SkillPage> {
                                   width: 300.0,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
+                                      // ignore: deprecated_member_use
                                       border: Border.all(color: Theme.of(context).accentColor)),
                                   child: Padding(
                                     padding: const EdgeInsets.only(left:5.0),

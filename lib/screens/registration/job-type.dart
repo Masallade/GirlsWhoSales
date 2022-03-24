@@ -9,6 +9,7 @@ import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 
+// ignore: must_be_immutable
 class JobType extends StatefulWidget {
 
   String jobtype;
@@ -45,9 +46,11 @@ class _JobTypeState extends State<JobType> {
     super.initState();
   }
 
-  static List<jobCatagories> _data = [];
+ // static List<jobCatagories> _data = [];
   final url = "https://biitsolutions.co.uk/girlzwhosell/API/job_title.php";
+  // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
+// ignore: missing_return
 Future<String> getData() async{
   var res = await http.get(Uri.parse(url));
   var resbody = json.decode(res.body);
@@ -56,7 +59,20 @@ Future<String> getData() async{
   });
   print('jobtitle $resbody');
 }
+  String _dropdownError;
 
+  _validateForm() {
+    bool _isValid = _formKey.currentState.validate();
+
+    if (jobtype == null) {
+      setState(() => _dropdownError = "Please select an option!");
+      _isValid = false;
+    }
+
+    if (_isValid) {
+      //form is valid
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,27 +99,30 @@ Future<String> getData() async{
             Padding(
               padding:
               const EdgeInsets.only(left: 12.0, right: 12.0,top: 45.0),
-              child: Column(
-                children: [
-                  LinearProgressIndicator(
-                    minHeight: 10.0,
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                    value: 0.4,
-                  ),
-                  SizedBox(height: 5,),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 280.0),
-                    child: Text(
-                      '30%',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: Colors.blueGrey[300],
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    LinearProgressIndicator(
+                      minHeight: 10.0,
+                      backgroundColor: Colors.grey[300],
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                      value: 0.4,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 5,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 280.0),
+                      child: Text(
+                        '30%',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            color: Colors.blueGrey[300],
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -155,52 +174,56 @@ Future<String> getData() async{
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6))),
-                child: Form(
-                  key: _formKey,
-                  child: DropdownButtonHideUnderline(
-                    child:  ButtonTheme(
-                        alignedDropdown: true,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: DropdownButton<String>(
-                              hint: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text('Select Job Title' ,style: TextStyle(
-                                    height: 1.5,
-                                    fontSize: 16.0,
-                                    fontFamily: 'Questrial',
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black
-                                ),),
+                child: DropdownButtonHideUnderline(
+                  child:  ButtonTheme(
+                      alignedDropdown: true,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: DropdownButton<String>(
+                            hint: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: new Text('Select Job Title' ,style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontFamily: 'Questrial',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black
+                              ),),
+                            ),
+                            // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
+                            value: jobtype,
+                            onChanged: (String newvalue) {
+                              setState(() {
+                                jobtype = newvalue;
+                                _dropdownError = null;
+                              });
+                              print('newvalue ${jobtype}');
+                            },
+                            items: data.map((item) {
+                              return DropdownMenuItem(child: Row(
+                                children: [
+                                  Text('${item["title"]}' , style: TextStyle(
+                                      height: 1.5,
+                                      fontSize: 16.0,
+                                      fontFamily: 'Questrial',
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black
+                                  ),),
+                                ],
                               ),
-                              // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
-                              value: jobtype,
-                              onChanged: (String newvalue) {
-                                setState(() {
-                                  jobtype = newvalue;
-                                });
-                                print('newvalue ${jobtype}');
-                              },
-                              items: data.map((item) {
-                                return DropdownMenuItem(child: Row(
-                                  children: [
-                                    Text('${item["title"]}' , style: TextStyle(
-                                        height: 1.5,
-                                        fontSize: 16.0,
-                                        fontFamily: 'Questrial',
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black
-                                    ),),
-                                  ],
-                                ),
-                                  value: item["title"].toString(),
-                                );
-                              }).toList()),
-                        )
-                    ),
+                                value: item["title"].toString(),
+                              );
+                            }).toList()),
+                      )
                   ),
                 ),
               ),
+            ),
+            _dropdownError == null
+                ? SizedBox.shrink()
+                : Text(
+              _dropdownError ?? "",
+              style: TextStyle(color: Colors.red),
             ),
             SizedBox(
               height: 120,
@@ -224,12 +247,23 @@ Future<String> getData() async{
                   ),
                 ),
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceScreen(jobtype: jobtype,selecjobsTypes:selecjobsTypes ,selectedJobTitles: selectedJobTitles,Button: Button,)));
-                    print('Successful');
+                  if (jobtype == null) {
+                  //  _formKey.currentState.save();
+                  _validateForm();
+                    print('fail');
 
-                  } else {
-                    print('Try Again');
+                } else {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceScreen(jobtype: jobtype,selecjobsTypes:selecjobsTypes ,selectedJobTitles: selectedJobTitles,Button: Button,)));
+                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //     behavior: SnackBarBehavior.floating,
+                    //     content: Text(
+                    //       'Please select the jobType',
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 15,
+                    //           fontFamily: 'Poppins'),
+                    //     )));
+                    print('Success');
                   }
 
 

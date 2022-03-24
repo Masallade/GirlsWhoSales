@@ -9,6 +9,7 @@ class fetchAppliedJobsModel {
     message = json['message'];
     status = json['status'];
     if (json['Applied_Job_Details'] != null) {
+      // ignore: deprecated_member_use
       appliedJobDetails = new List<AppliedJobDetails>();
       json['Applied_Job_Details'].forEach((v) {
         appliedJobDetails.add(new AppliedJobDetails.fromJson(v));
@@ -42,7 +43,9 @@ class AppliedJobDetails {
   String companyLogo;
   String jobId;
   String url;
-
+  String location;
+  String companyName;
+  String jobtype;
   AppliedJobDetails(
       {this.seekerId,
         this.msg,
@@ -56,7 +59,8 @@ class AppliedJobDetails {
         this.experience,
         this.companyLogo,
         this.jobId,
-        this.url});
+        this.url ,this.location ,
+      this.companyName ,this.jobtype});
 
   AppliedJobDetails.fromJson(Map<String, dynamic> json) {
     seekerId = json['seeker_id'];
@@ -72,6 +76,9 @@ class AppliedJobDetails {
     companyLogo = json['Company_Logo'];
     jobId = json['Job_Id'];
     url = json['url'];
+    location = json['city'];
+    companyName= json['company_name'];
+    jobtype =json['job_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +96,10 @@ class AppliedJobDetails {
     data['Company_Logo'] = this.companyLogo;
     data['Job_Id'] = this.jobId;
     data['url'] = this.url;
+    data['city'] = this.location;
+    data['company_name'] = this.companyName;
+    data['job_type'] = this.jobtype;
+
     return data;
   }
 }

@@ -1,59 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
-import 'package:girlzwhosell/model/job.dart';
+import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 
 
 class RequirementsTab extends StatelessWidget {
-  final Job data;
   final JobDetails jobDetails;
   final String userId;
-  final FavoriteJobs favoriteJobs;
-//  final Company company;
-  RequirementsTab({this.jobDetails,this.data,this.userId,this.favoriteJobs});
+  RequirementsTab({this.jobDetails,this.userId});
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-            '1. ${jobDetails.skills ?? " "}',
+            '${jobDetails.skills ?? " "}',
             style: TextStyle(
               fontFamily: 'Questrial',
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w400,
               color: Colors.blueGrey[600],
               fontSize: 16.0,
-              //fontWeight: FontWeight.w700,
             ),
 
         ),
-      //  SizedBox(height: 5,),
-        // Text(
-        //   '2. ${jobDetails.skills ?? " "}',
-        //   style: TextStyle(
-        //     fontFamily: 'Questrial',
-        //     fontStyle: FontStyle.normal,
-        //     fontWeight: FontWeight.w400,
-        //     color: Colors.blueGrey[600],
-        //     fontSize: 16.0,
-        //     //fontWeight: FontWeight.w700,
-        //   ),
-        //
-        // ),
       ],
     );
   }
 }
-
 class RequirementsTabtwo extends StatelessWidget {
   final FavoriteJobs favoriteJobs;
-  final Job data;
-  final JobDetails jobDetails;
   final  user_Id;
-//  final Company company;
-  RequirementsTabtwo({this.favoriteJobs, this.data,this.jobDetails,this.user_Id});
+  RequirementsTabtwo({this.favoriteJobs,this.user_Id});
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -70,30 +49,13 @@ class RequirementsTabtwo extends StatelessWidget {
             //fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(height: 5,),
-        // Text(
-        //   '2. ${favoriteJobs.skills ?? " "}',
-        //   style: TextStyle(
-        //     fontFamily: 'Questrial',
-        //     fontStyle: FontStyle.normal,
-        //     fontWeight: FontWeight.w400,
-        //     color: Colors.blueGrey[600],
-        //     fontSize: 16.0,
-        //     //fontWeight: FontWeight.w700,
-        //   ),
-        //
-        // ),
       ],
     );
   }
 }
-
-
-
 class RequirementsTabthree extends StatelessWidget {
   final SavedJobs savedJobs;
   final  user_Id;
-//  final Company company;
   RequirementsTabthree({this.savedJobs,this.user_Id});
   @override
   Widget build(BuildContext context) {
@@ -116,20 +78,16 @@ class RequirementsTabthree extends StatelessWidget {
   }
 }
 class RequirementsTabFour extends StatelessWidget {
-  final Job data;
- final SearchModel jobList;
-  // final JobDetails jobDetails;
+  final SearchModel jobList;
   final String userId;
-  final FavoriteJobs favoriteJobs;
-//  final Company company;
-  RequirementsTabFour({this.jobList,this.data,this.userId,this.favoriteJobs});
+  RequirementsTabFour({this.jobList,this.userId});
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '1. ${jobList.skills ?? " "}',
+          '${jobList.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -138,21 +96,32 @@ class RequirementsTabFour extends StatelessWidget {
             fontSize: 16.0,
             //fontWeight: FontWeight.w700,
           ),
-
         ),
-        //  SizedBox(height: 5,),
-        // Text(
-        //   '2. ${jobDetails.skills ?? " "}',
-        //   style: TextStyle(
-        //     fontFamily: 'Questrial',
-        //     fontStyle: FontStyle.normal,
-        //     fontWeight: FontWeight.w400,
-        //     color: Colors.blueGrey[600],
-        //     fontSize: 16.0,
-        //     //fontWeight: FontWeight.w700,
-        //   ),
-        //
-        // ),
+      ],
+    );
+  }
+}
+class RequirementsTabFive extends StatelessWidget {
+  final String userId;
+  final AppliedJobDetails appliedJobDetails;
+
+  RequirementsTabFive({this.userId,this.appliedJobDetails});
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        SizedBox(height: 25.0),
+        Text(
+          '${appliedJobDetails.skills ?? " "}',
+          style: TextStyle(
+            fontFamily: 'Questrial',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[600],
+            fontSize: 16.0,
+            //fontWeight: FontWeight.w700,
+          ),
+        ),
       ],
     );
   }

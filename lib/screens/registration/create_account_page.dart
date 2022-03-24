@@ -62,6 +62,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               height: 50.0,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
+                                  // ignore: deprecated_member_use
                                   border: Border.all(color: Theme.of(context).accentColor)),
                               child: Container(
                                 child: GestureDetector(
@@ -97,6 +98,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               height: 50.0,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
+                                  // ignore: deprecated_member_use
                                   border: Border.all(color: Theme.of(context).accentColor)),
                               child: Container(
                                 child: GestureDetector(

@@ -28,6 +28,7 @@ var alertStyle = AlertStyle(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               height: 50,
+              // ignore: deprecated_member_use
               child: FlatButton(
                 child: Row(
                   children: [
@@ -63,6 +64,7 @@ var alertStyle = AlertStyle(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               height: 50,
+              // ignore: deprecated_member_use
               child: FlatButton(
                 child: Row(
                   children: [
@@ -98,6 +100,7 @@ var alertStyle = AlertStyle(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               height: 50,
+              // ignore: deprecated_member_use
               child: FlatButton(
                 child: Row(
                   children: [

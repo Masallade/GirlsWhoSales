@@ -48,6 +48,7 @@ class _AcademicQualificationNullState extends State<AcademicQualificationNull> {
                                 'Add Academic Qualificaton',
                                 style: TextStyle(fontSize: 25),
                               ),
+                              // ignore: deprecated_member_use
                               FlatButton(
                                 onPressed: () {
                                   Navigator.push(

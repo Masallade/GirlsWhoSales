@@ -9,6 +9,7 @@ class AllSavedJobss {
     message = json['message'];
     status = json['status'];
     if (json['Saved_Jobs'] != null) {
+      // ignore: deprecated_member_use
       savedJobs = new List<SavedJobs>();
       json['Saved_Jobs'].forEach((v) {
         savedJobs.add(new SavedJobs.fromJson(v));

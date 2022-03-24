@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:girlzwhosell/extension_for_login.dart';
 import 'package:girlzwhosell/helpers/svg/svg.dart';
 import 'package:girlzwhosell/model/Current_password_model.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
@@ -26,6 +28,8 @@ class _CurrentPasswordState extends State<CurrentPassword> {
    TextEditingController ConfirmPass= TextEditingController();
   GlobalKey <FormState> formKey = GlobalKey();
   bool _passwordVisible = false;
+  bool _passwordVisible2 = false;
+  bool _passwordVisible3 = false;
   _CurrentPasswordState(this.user_id);
 
   void initState(){
@@ -61,16 +65,33 @@ class _CurrentPasswordState extends State<CurrentPassword> {
           key: formKey,
           child: Column(
             children: [
-              SizedBox(height: 50,),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  scale: 3.0,
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0 , right: 20, top: 20),
                 child: TextFormField(
                   cursorColor: Colors.pinkAccent[200],
                   controller: Currentpassword,
                   obscureText: !_passwordVisible,
-                  validator: (val) => val.length < 7
-                      ? "Password should be more than 7 characters"
-                      : null,
+                  validator: (v) {
+                    if (v.isValidPassword) {
+                      return null;
+                    } else {
+                      return 'Password must contain an uppercase,\n lowercase, numeric digit and special character';
+                    }
+                  },
+                  // validator: (val) => val.length < 7
+                  //     ? "Password should be more than 7 characters"
+                  //     : null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -134,10 +155,14 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                 child: TextFormField(
                   cursorColor: Colors.pinkAccent[200],
                   controller: NewPass,
-                  obscureText: true,
-                  validator: (val) => val.length < 7
-                      ? "Your New Password should be more than 7 characters"
-                      : null,
+                  obscureText: !_passwordVisible2,
+                  validator: (v) {
+                    if (v.isValidPassword) {
+                      return null;
+                    } else {
+                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character';
+                    }
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -159,7 +184,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     suffixIcon: IconButton(
                       icon: Icon(
                         // Based on passwordVisible state choose the icon
-                        _passwordVisible
+                        _passwordVisible2
                             ? Icons.visibility
                             : Icons.visibility_off,
                         color: Colors.pinkAccent[200],
@@ -167,7 +192,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                       onPressed: () {
                         // Update the state i.e. toogle the state of passwordVisible variable
                         setState(() {
-                          _passwordVisible = !_passwordVisible;
+                          _passwordVisible2 = !_passwordVisible2;
                         });
                       },
                     ),
@@ -199,14 +224,15 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                 child: TextFormField(
                   cursorColor: Colors.pinkAccent[200],
                   controller:ConfirmPass,
-                  obscureText: !_passwordVisible,
+                  obscureText: !_passwordVisible3,
                   validator: (String value) {
-                    confirmPassword = value;
-                    print('new password is: $confirmPassword');
-                    if (confirmPassword ==null) {
-                      return "Please Re-Enter to confirm New Password";
-                    } else if (value.length < 7) {
-                      return "Password must be atleast 7 characters long";
+                    //   confirmPassword = value;
+                    value = value;
+                    print('confirm password is: $value');
+                    if (value.isValidPassword == null) {
+                      return "Please Re-Enter New Password";
+                    } else if (value.isValidPassword == NewPass.text) {
+                      return "Password Matched";
                     } else if (value != NewPass.text) {
                       return "Password must be same as above";
                     } else {
@@ -234,7 +260,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     suffixIcon: IconButton(
                       icon: Icon(
                         // Based on passwordVisible state choose the icon
-                        _passwordVisible
+                        _passwordVisible3
                             ? Icons.visibility
                             : Icons.visibility_off,
                         color: Colors.pinkAccent[200],
@@ -242,7 +268,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                       onPressed: () {
                         // Update the state i.e. toogle the state of passwordVisible variable
                         setState(() {
-                          _passwordVisible = !_passwordVisible;
+                          _passwordVisible3 = !_passwordVisible3;
                         });
                       },
                     ),
@@ -288,23 +314,16 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                         currentPassword().then((value) {
                           if (value.status == "100") {
                             final Snackbar = SnackBar(
+                              behavior: SnackBarBehavior.floating,
                                 content: Text("Fail to change Password"));
                             ScaffoldMessenger.of(context).showSnackBar(Snackbar);
                           }
                           else if(value.status == "200") {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) => PasswordSuccess()));
-                            print('Successful');
                           }
                         });
                       }
-                      // } else {
-                      //   print('Try Again');
-                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please Enter Your Data Before Proceeding Further!' , style: TextStyle(color: Colors.white,
-                      //       fontSize: 15,
-                      //       fontFamily: 'Poppins'
-                      //   ),)));
-                      // }
                     },
                     child: ListTile(
                       title: Center(
@@ -332,6 +351,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
       ),
     );
   }
+  // ignore: missing_return
   Future<CurrentPasswordModel> currentPassword() async{
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/change_password.php";
     try{
@@ -372,23 +392,36 @@ class PasswordSuccess extends StatelessWidget {
             ),
 
             Image.asset(
-              'assets/images/check-circle.gif',scale:1.0,
+              'assets/images/check.gif',scale:1.0,
             ),
             SizedBox(
               height: 40,
             ),
-            Text(
-              '''Successful!''',
-              overflow: TextOverflow.visible,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                height: 1.171875,
-                fontSize: 24.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 34, 34, 34),
+            SizedBox(
+              width: 200,
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  height: 1.171875,
+                  fontSize: 24.0,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  color: Color.fromARGB(255, 34, 34, 34),
 
-                /* letterSpacing: 0.0, */
+                  /* letterSpacing: 0.0, */
+                ),
+                child: AnimatedTextKit(
+                  repeatForever: false,
+                  animatedTexts: [
+                    RotateAnimatedText('Successful' ,
+                      duration: Duration(seconds: 5) ,
+                      textStyle: TextStyle(
+                        height: 1.171875,
+                        fontSize: 24.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromARGB(255, 34, 34, 34),),
+                    )],
+                ),
               ),
             ),
             SizedBox(
@@ -396,7 +429,7 @@ class PasswordSuccess extends StatelessWidget {
             ),
 
             Text(
-              '''You have successfully register yourself.''',
+              '''You have successfully Updated Your Password.''',
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
               style: TextStyle(

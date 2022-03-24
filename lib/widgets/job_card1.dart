@@ -1,9 +1,7 @@
 import 'package:animations/animations.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/SavedItem_detail.dart';
@@ -46,11 +44,12 @@ class _JobCard1State extends State<JobCard1> {
   final List<SeekerDetails> userDetails;
 
   final jobId;
-void initState(){
-  print('jobCardEMail :$uName ');
-  print('jobCardpass : $password');
-}
   _JobCard1State({ this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId});
+
+//   void initState(){
+//   print('jobCardEMail :$uName ');
+//   print('jobCardpass : $password');
+// }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,7 +60,6 @@ void initState(){
 
         openElevation: 0,
         openBuilder: (context, action) {
-        //  return DetailsForFavJob(favoriteJobs: favoriteJobs, userId: user_Id);
           return SavedScreenDetail(favoriteJobs: favoriteJobs, user_Id: user_Id,jobDetails: jobDetails, password:password,
               uName: uName,userDetails: userDetails,firstName:firstName, jobId: jobId);
         },
@@ -69,7 +67,7 @@ void initState(){
         closedElevation: 0,
         closedBuilder: (context, action) {
           return Container(
-              height: 150.w,
+              height: 160.w,
               width: 250.w,
             //  padding: EdgeInsets.all(kSpacingUnit * 2),
               decoration: BoxDecoration(
@@ -179,10 +177,10 @@ class _JobCard2State extends State<JobCard2> {
   static final String removefavjob = base_url + 'unsave_job.php';
 
 
-  void initState(){
-    print('jobCard2EMail :$uName ');
-    print('jobCard2pass : $password');
-  }
+  // void initState(){
+  //   print('jobCard2EMail :$uName ');
+  //   print('jobCard2pass : $password');
+  // }
   _JobCard2State({ this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId});
   @override
   Widget build(BuildContext context) {
@@ -232,13 +230,7 @@ class _JobCard2State extends State<JobCard2> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        if(isLiked == true){
-                         // IsButton = true;//    savejob();
-                        }else{
-                          Unsavejob();
-                        }
-                      },
+                      onTap: ()=>Unsavejob(),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0 ,top:16.0,right:18.5),
                         // child: FavoriteButton(

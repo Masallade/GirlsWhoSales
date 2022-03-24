@@ -10,10 +10,9 @@ import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:http/http.dart'as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
+
 class PhoneVerification extends StatefulWidget {
-  // final bool isSignUp;
-  // PhoneVerification(this.isSignUp);
   final String user_Id;
   final String Msg;
 PhoneVerification({this.user_Id, this.Msg});
@@ -33,10 +32,6 @@ class _PhoneVerification extends State<PhoneVerification> {
   TextEditingController textEmailController = new TextEditingController();
   TextEditingController textPasswordController = new TextEditingController();
 
-  Future<bool> _requestPop() {
-    Navigator.of(context).pop();
-    return new Future.value(true);
-  }
 
   final GlobalKey<FormFieldState<String>> _formKey =
   GlobalKey<FormFieldState<String>>(debugLabel: '_formkey');
@@ -49,7 +44,6 @@ class _PhoneVerification extends State<PhoneVerification> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    ColorBuilder _solidColor = PinListenColorBuilder(Colors.white, Colors.white);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -128,9 +122,9 @@ class _PhoneVerification extends State<PhoneVerification> {
                         /* letterSpacing: 0.0, */
                       ),
 
-                      // strokeColorBuilder: PinListenColorBuilder(
-                      //   Colors.black,
-                      //   Colors.black,),
+                      strokeColorBuilder: PinListenColorBuilder(
+                        Colors.black,
+                        Colors.black,),
                       obscureStyle: ObscureStyle(
                         isTextObscure: false,
                         obscureText: '🤪',
@@ -160,20 +154,20 @@ class _PhoneVerification extends State<PhoneVerification> {
                       debugPrint('onSaved pin:$pin');
                       pin =Pin;
                     },
-                    // validator: (pin) {
-                    //   if (pin.isEmpty) {
-                    //     setState(() {
-                    //       // _hasError = true;
-                    //     });
-                    //   }
-                    //   setState(() {
-                    //     // _hasError = false;
-                    //   });
-                    //   return null;
-                    // },
+                    validator: (pin) {
+                      if (pin.isEmpty) {
+                        setState(() {
+                          // _hasError = true;
+                        });
+                      }
+                      setState(() {
+                        // _hasError = false;
+                      });
+                      return null;
+                    },
                     cursor: Cursor(
                       width: 2,
-                     // color: primaryColor,
+                      color: Colors.black,
                       radius: Radius.circular(1),
                       enabled: true,
                     ),
@@ -197,7 +191,9 @@ class _PhoneVerification extends State<PhoneVerification> {
                       if(_formKey.currentState.validate()){
                         verifyOTP().then((value) async{
                           if(value.status == "100") {
-                            final snackBar = SnackBar(content: Text('Invalid OTP!'));
+                            final snackBar = SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                content: Text('Invalid OTP!'));
                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
                           if(value.status == "200"){
@@ -234,6 +230,7 @@ class _PhoneVerification extends State<PhoneVerification> {
     );
   }
 
+  // ignore: missing_return
   Future<verifyOtp> verifyOTP() async{
     final url = "https://biitsolutions.co.uk/girlzwhosell/API//verify_otp.php";
     try{

@@ -8,7 +8,6 @@ import 'package:girlzwhosell/screens/intro_pages/register_success_screen.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
@@ -21,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 
 
 
+// ignore: must_be_immutable
 class CustomFilePicker extends StatefulWidget{
 
   String firstName;
@@ -94,12 +94,14 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
 
   _imgFromCamera()async {
-    selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.camera, maxDuration: const Duration(seconds: 60));
+    // ignore: deprecated_member_use
+    selectedfile = await ImagePicker.pickVideo(source: ImageSource.camera, maxDuration: const Duration(seconds: 60));
     setState((){});
   }
 
   _imgFromGallery() async{
-    selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    // ignore: deprecated_member_use
+    selectedfile = await ImagePicker.pickVideo(source: ImageSource.gallery);
 
 
     setState((){});
@@ -170,15 +172,15 @@ class _CustomFilePicker extends State<CustomFilePicker>{
     );
   }
   selectFile() async {
-    selectedfile = await FilePicker.getFile(
+    selectedfile2 = await FilePicker.getFile(
       type: FileType.custom,
-      allowedExtensions: ['pdf','mp4','doc','docx'],
+      allowedExtensions: ['pdf','doc','docx'],
       //allowed extension to choose
     );
     setState((){}); //update the UI so that file name is shown
   }
   selectFile1() async {
-    selectedfile2 = await FilePicker.getFile(
+    selectedfile = await FilePicker.getFile(
       type: FileType.custom,
       allowedExtensions: ['mp4'],
       //allowed extension to choose
@@ -186,45 +188,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
     setState((){}); //update the UI so that file name is shown
   }
 
-  Future<RegistrationModel> UploadUser() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API//signup.php";
-    try{
-      final response = await http.post(Uri.parse(url) , body: {
-        "firstname": firstName,
-        "email": email,
-        "password": email2,
-        "category": Button,
-        "job_title": jobtype,
-        "city": "",
-        "experience": ExperiencenDetail,
-        "expected_salary": "",
-        "lastname": firstName2,
-        "phone": phonenno,
-      "cv": await MultipartFile.fromFile(
-      selectedfile2.path,
-      filename: basename(selectedfile2.path)
-      //show only filename from path
-      ),
-      "resume": await MultipartFile.fromFile(
-      selectedfile.path,
-      filename: basename(selectedfile.path)
-      //show only filename from path
-      ),
-      });
-      if(response.statusCode == 200){
-        print("Response is: ${response.body}");
-        print("Status Code is: ${response.statusCode}");
-        registrationModel = RegistrationModel.fromJson(json.decode(response.body));
-        return registrationModel;
-      }
-    }
-    catch(e){
-      print("Error in exception::: ${e.toString()}");
-    }
-  }
-
-
-  uploadResume(context) async {
+  // ignore: missing_return
+  Future  <RegistrationModel> uploadResume() async {
     FormData formdata = FormData.fromMap({
       "firstname": firstName,
       "email": email,
@@ -241,12 +206,11 @@ class _CustomFilePicker extends State<CustomFilePicker>{
           filename: basename(selectedfile2.path)
         //show only filename from path
       ),
-      "resume": await MultipartFile.fromFile(
+       "resume": await MultipartFile.fromFile(
           selectedfile.path,
           filename: basename(selectedfile.path)
         //show only filename from path
       ),
-
     });
 
     response = await dio.post(uploadurl,
@@ -261,7 +225,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
 
     if(response.statusCode == 200){
-      print(response.toString());
+   //   print(response.toString());
       print(response.data);
       print("name : $firstName");
       print("lastname : $firstName2");
@@ -271,8 +235,9 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       print("Categoreis : $Button");
       print("JobTitle : $jobtype");
       print("experience : $ExperiencenDetail");
-
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSuccessScreen()));
+      registrationModel = RegistrationModel.fromJson(json.decode(response.data));
+      return registrationModel;
+    //  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSuccessScreen()));
 
       //print response from server
     }else{
@@ -282,7 +247,6 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -384,7 +348,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
-                            child: selectedfile == null ? DottedBorder(
+                            child: selectedfile2 == null ? DottedBorder(
                               strokeWidth: 1.0,
                               color: Colors.blueGrey[300].withOpacity(0.6),
                               // padding: EdgeInsets.all(4),
@@ -402,8 +366,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                     _doSomething();
                                   },
                                   child: ListTile(
-                                    leading:selectedfile == null ?  Image.asset('assets/images/cvIcon.png') : Image.asset('assets/images/pdfbg.png' ,width: 40,height: 40,),
-                                    title:selectedfile == null ? Text(
+                                    leading:selectedfile2 == null ?  Image.asset('assets/images/cvIcon.png') : Image.asset('assets/images/pdfbg.png' ,width: 40,height: 40,),
+                                    title:selectedfile2 == null ? Text(
                                       'Upload Cv/Resume',
                                       style: TextStyle(
                                           height: 1.5,
@@ -413,8 +377,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                           color: Colors.blueGrey[400]
                                         /* letterSpacing: 0.0, */
                                       ),
-                                    ):Text(basename(selectedfile.path) ),
-                                    trailing: selectedfile != null ? Icon(
+                                    ):Text(basename(selectedfile2.path) ),
+                                    trailing: selectedfile2 != null ? Icon(
                                       Icons.check,
                                       color: Colors.green,
                                     ): null,
@@ -428,7 +392,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                               color:Color.fromRGBO(238, 242, 248, 1),
                               child:ListTile(
                                   leading: Image.asset('assets/images/pdfbg.png' ,width: 40,height: 40,),
-                                  title: Text(basename(selectedfile.path) ),
+                                  title: Text(basename(selectedfile2.path) ),
                                 trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                               ),
                             ),
@@ -438,7 +402,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
-                            child:selectedfile2 == null ? DottedBorder(
+                            child:selectedfile == null ? DottedBorder(
                               strokeWidth: 1.0,
                               color: Colors.blueGrey[300].withOpacity(0.6),
                               // padding: EdgeInsets.all(4),
@@ -451,12 +415,12 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    selectFile1();
+                                     selectFile1();
                                     _showPicker(context);
                                   },
                                   child: ListTile(
-                                      leading:selectedfile2 == null?  Image.asset('assets/images/cvIcon.png'):Image.asset('assets/images/camera.png' ,width: 40,height: 40,),
-                                      title: selectedfile2 == null ? Text(
+                                      leading:selectedfile == null?  Image.asset('assets/images/cvIcon.png'):Image.asset('assets/images/camera.png' ,width: 40,height: 40,),
+                                      title: selectedfile == null ? Text(
                                         'Upload Visume!',
                                         style: TextStyle(
                                             height: 1.5,
@@ -466,8 +430,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                             color: Colors.blueGrey[300]
                                           /* letterSpacing: 0.0, */
                                         ),
-                                      ):Text(basename(selectedfile2.path) ),
-                                      trailing:selectedfile2 != null ? Icon(
+                                      ):Text(basename(selectedfile.path) ),
+                                      trailing:selectedfile != null ? Icon(
                                         Icons.check,
                                         color: Colors.green,
                                       ):null
@@ -481,7 +445,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                               color:Color.fromRGBO(238, 242, 248, 1),
                               child:ListTile(
                                 leading: Image.asset('assets/images/camera.png' ,width: 40,height: 40,),
-                                title: Text(basename(selectedfile2.path) ),
+                                title: Text(basename(selectedfile.path) ),
                                 trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                               ),
                             ),
@@ -509,8 +473,18 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,),
                         ),
-                        onPressed:() {
-                          uploadResume(context);
+                        onPressed:() async{
+                          uploadResume().then((value) {
+                            if(value.status == 100){
+                              final snackBar = SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  content: Text('Email Already Exist'));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                            if(value.status == 200){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSuccessScreen()));
+                            }
+                          });
                           },
                       ),
                     ),
@@ -603,12 +577,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
-      // "cv": await MultipartFile.fromFile(
-      //     selectedfile2 == null ? null : selectedfile2.path,
-      //     filename: basename(selectedfile2.path)
-      //   //show only filename from path
-      // ),
-      "resume": await MultipartFile.fromFile(
+      "cv": await MultipartFile.fromFile(
           selectedfile == null ? null : selectedfile.path,
           filename: basename(selectedfile.path)
         //show only filename from path
@@ -653,7 +622,6 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
   }
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -880,11 +848,15 @@ class _uploadVideoCv extends State<uploadVideoCv>{
   String uploadurl = base_url + "user_update.php";
 
   _imgFromCamera()async {
+    // ignore: deprecated_member_use
     selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.camera, maxDuration: const Duration(seconds: 60));
+    selectFile();
     setState((){});
   }
   _imgFromGallery() async{
+    // ignore: deprecated_member_use
     selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    selectFile();
     setState((){});
   }
   void  _showPicker(context) {
@@ -948,21 +920,26 @@ class _uploadVideoCv extends State<uploadVideoCv>{
     );
   }
 
+
+  selectFile() async {
+    selectedfile2 = await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: ['mp4'],
+      //allowed extension to choose
+    );
+
+    setState((){}); //update the UI so that file name is shown
+  }
+
   uploadResume(context) async {
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
-      "cv": await MultipartFile.fromFile(
+      "resume": await MultipartFile.fromFile(
           selectedfile2 == null ? null : selectedfile2.path,
           filename: basename(selectedfile2.path)
         //show only filename from path
       ),
-      // "resume":
-      // await MultipartFile.fromFile(
-      //     selectedfile == null ? null : selectedfile.path,
-      //     filename: basename(selectedfile.path)
-      //   //show only filename from path
-      // ),
     });
 
     response = await dio.post(uploadurl,
@@ -1006,7 +983,6 @@ class _uploadVideoCv extends State<uploadVideoCv>{
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -1080,7 +1056,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                //selectFile();
+                             //   selectFile();
                                 _showPicker(context);
                               },
                               child: ListTile(

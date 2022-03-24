@@ -52,7 +52,7 @@ class _ShortlistedState extends State<Shortlisted> {
             )  ,
             ],
             ),
-                   trailing:  Image.asset('assets/images/option.png' ,scale: 9.5,),
+                   trailing:  Icon(Icons.more_vert),
                    subtitle: Column(
                      children: [
                        Row(
@@ -90,7 +90,6 @@ class _ShortlistedState extends State<Shortlisted> {
                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Text('jessica K.' , style: TextStyle(fontFamily: 'Poppins',color: Colors.black,),)  ,
-                       Icon(Icons.workspaces_outline),
                      ],
                    ),
                    subtitle: Column(
@@ -112,6 +111,7 @@ class _ShortlistedState extends State<Shortlisted> {
 
                      ],
                    ),
+                     trailing:  Icon(Icons.more_vert),
 
 
                  ),

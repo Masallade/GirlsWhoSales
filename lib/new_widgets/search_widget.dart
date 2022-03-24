@@ -83,7 +83,7 @@ class _SearchWidgettwoState extends State<SearchWidgettwo> {
   Widget build(BuildContext context) {
     final styleActive = TextStyle(color: Colors.black , fontStyle: FontStyle.normal ,fontFamily: 'Questrial' , fontWeight: FontWeight.w400,fontSize: 16);
     final styleHint = TextStyle(color: Colors.black54);
-    final style = widget.text == null ? styleHint : styleActive;
+    final style = widget.text.isEmpty ? styleHint : styleActive;
 
     return Container(
       height: 52,
@@ -97,8 +97,9 @@ class _SearchWidgettwoState extends State<SearchWidgettwo> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
           prefixIcon: Image.asset('assets/images/location.png' ,color: Colors.black,),
-          suffixIcon: widget.text !=null
+          suffixIcon: widget.text.isNotEmpty
               ? GestureDetector(
             child: Icon(Icons.close, color: style.color),
             onTap: () {

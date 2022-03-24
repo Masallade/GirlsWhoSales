@@ -1,9 +1,10 @@
+// ignore_for_file: missing_return
+
 import 'dart:convert';
 
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/model/job_apply_detail_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -15,7 +16,6 @@ import 'package:girlzwhosell/views/company_tab.dart';
 import 'package:girlzwhosell/views/description_tab.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart'as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SavedScreenDetail extends StatefulWidget {
@@ -117,17 +117,19 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          '${widget.favoriteJobs.companyName ?? " "}',
-          style:TextStyle(
-            fontFamily: 'Poppins',
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: 17.0,
-            //fontWeight: FontWeight.w700,
+        title: FittedBox(
+          child: Text(
+            '${widget.favoriteJobs.companyName ?? " "}',
+            style:TextStyle(
+              fontFamily: 'Poppins',
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+              fontSize: 17.0,
+              //fontWeight: FontWeight.w700,
+            ),
+            // style: kTitleStyle,
           ),
-          // style: kTitleStyle,
         ),
         centerTitle: true,
       ),
@@ -154,33 +156,37 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                       child: Container(
                         width: 70.0,
                         height: 70.0,
-                       child:  Image.network(favoriteJobs.companyLogo ?? " "),
+                       child:  Image.network(favoriteJobs.companyLogo ?? Placeholder()),
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    Text(
-                      favoriteJobs.title,
-                      style:TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 18.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        favoriteJobs.title,
+                        style:TextStyle(
+                          fontFamily: 'Poppins',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     SizedBox(height: 5,),
-                    Text(
-                      '${favoriteJobs.companyName ?? " "} '+'\- ${favoriteJobs.name ?? " "}',
-                      style:TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey[300],
-                        fontSize: 15.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '${favoriteJobs.companyName ?? " "} '+'\- ${favoriteJobs.name ?? " "}',
+                        style:TextStyle(
+                          fontFamily: 'Questrial',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blueGrey[300],
+                          fontSize: 15.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
+                        // style: kTitleStyle,
                       ),
-                      // style: kTitleStyle,
                     ),
                     SizedBox(height: 15.0),
                     Row(
@@ -195,14 +201,16 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                           ),
                           child:Padding(
                             padding: const EdgeInsets.only(top: 15,left: 10.0),
-                            child: Text(favoriteJobs.jobType ?? " " , style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(1, 82, 174, 1),
-                              fontSize: 16.0,
-                              //fontWeight: FontWeight.w700,
-                            ),),
+                            child: FittedBox(
+                              child: Text(favoriteJobs.jobType ?? " " , style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(1, 82, 174, 1),
+                                fontSize: 16.0,
+                                //fontWeight: FontWeight.w700,
+                              ),),
+                            ),
                           ),
                         ),
                         SizedBox(width: 10,),
@@ -215,28 +223,32 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                           ),
                           child:Padding(
                             padding: const EdgeInsets.only(top: 15,left: 10.0),
-                            child: Text(favoriteJobs.jobType ?? " " ,  style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(1, 82, 174, 1),
-                              fontSize: 16.0,
-                              //fontWeight: FontWeight.w700,
-                            ),),
+                            child: FittedBox(
+                              child: Text(favoriteJobs.jobType ?? " " ,  style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(1, 82, 174, 1),
+                                fontSize: 16.0,
+                                //fontWeight: FontWeight.w700,
+                              ),),
+                            ),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(height: 20,),
-                    Text(
-                      '\$${favoriteJobs.minSalary ?? " "} '+'\-${favoriteJobs.maxSalary ?? " "+ '/month'}',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 24.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '\$${favoriteJobs.minSalary ?? " "} '+'\-${favoriteJobs.maxSalary ?? " "+ '/month'}',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 24.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
 
@@ -359,77 +371,15 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     }
   }
 
-  // applynow() {
-  //
-  //   http.post(Uri.parse(SavedScreenDetail.uploadEndPoint), body: {
-  //     "user_id": user_Id,
-  //     "job_id": favoriteJobs.jobId,
-  //     "emp_id": favoriteJobs.id,
-  //     "cover_letter": "123456",
-  //     "applied_date": getCurrentDate(),
-  //
-  //   }).then((result) {
-  //     Result=result.statusCode;
-  //     print('Appliedresult$Result');
-  //     setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //     if (result.statusCode == 200) {
-  //       Fluttertoast.showToast(
-  //           msg: "${status}",
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.SNACKBAR,
-  //           timeInSecForIosWeb: 1).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>JobApply(jobDetails:jobDetails,user_Id:user_Id ))));
-  //     }
-  //   }).catchError((error) {
-  //     setStatus(error);
-  //   });
-  // }
-  // savejob() {
-  //
-  //   http.post(Uri.parse(SavedScreenDetail.uploadsavejob), body: {
-  //     "user_id": user_Id,
-  //     "job_id": favoriteJobs.jobId,
-  //
-  //   }).then((result) {
-  //     setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //     SaveResponse= result.statusCode;
-  //     print('SaveResponseinSaveitem_detail $SaveResponse');
-  //     if (result.statusCode == 200) {
-  //       Fluttertoast.showToast(
-  //           msg: "${status}",
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.SNACKBAR,
-  //           timeInSecForIosWeb: 1);
-  //     }
-  //   }).catchError((error) {
-  //     setStatus(error);
-  //   });
-  // }
 
   Future savejob() async {
-    String uid;
-    String Jid;
+
     var res = await http.post(
         uploadsavejob , body: {
       "user_id": user_Id,
       "job_id": favoriteJobs.jobId,
     });
     if(res.statusCode == 200 ) {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // print("==================SharedPrefrence values==================");
-      //
-      // final prefs = await SharedPreferences.getInstance();
-      //
-      // prefs.setString('user_Id', user_Id);
-      // prefs.setString('job_Id', favoriteJobs.jobId);
-      // prefs.setBool('stateOfButton', true);
-      //
-      // uid = await prefs.getString('user_Id');
-      // Jid = await prefs.getString('job_Id');
-      // IsButton = prefs.getBool('stateOfButton');
-      //
-      // print('userid is :$uid');
-      // print('jobid is : $Jid');
-      // print('IsButton : $IsButton');
 
       print("==================Response values==================");
       print(res.body);
@@ -456,8 +406,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
   }
 
   Future Unsavejob() async {
-    String uid;
-    String Jid;
+
     var res = await http.post(
         removefavjob, body: {
       "user_id": user_Id,
@@ -508,8 +457,6 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
 }
-
-
 
 class SavedScreenDetailTwo extends StatefulWidget {
 
@@ -652,30 +599,34 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                       ),
                     ),
                     SizedBox(height: 8.0),
-                    Text('${savedJobs.title}',
-                      style:TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 24.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text('${savedJobs.title}',
+                        style:TextStyle(
+                          fontFamily: 'Poppins',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontSize: 24.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      '${savedJobs.companyName} '+'\-${savedJobs.name}',
-                      style:TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey[300],
-                        fontSize: 16.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '${savedJobs.companyName} '+'\-${savedJobs.name}',
+                        style:TextStyle(
+                          fontFamily: 'Questrial',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blueGrey[300],
+                          fontSize: 16.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
+                        // style: kTitleStyle,
                       ),
-                      // style: kTitleStyle,
                     ),
                     SizedBox(height: 20.0),
                     Padding(
@@ -691,14 +642,16 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                             ),
                             child:Padding(
                               padding: const EdgeInsets.only(top: 10,left: 10.0),
-                              child: Text('${savedJobs.jobType ?? " "}' ,style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.blue[800],
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
-                              ),),
+                              child: FittedBox(
+                                child: Text('${savedJobs.jobType ?? " "}' ,style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.blue[800],
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),),
+                              ),
                             ),
                           ),
                           SizedBox(width: 10,),
@@ -711,14 +664,16 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                             ),
                             child:Padding(
                               padding: const EdgeInsets.only(top: 10,left: 10.0),
-                              child: Text(savedJobs.type ?? " " ,style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.blue[800],
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
-                              ),),
+                              child: FittedBox(
+                                child: Text(savedJobs.type ?? " " ,style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.blue[800],
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),),
+                              ),
                             ),
                           ),
                         ],
@@ -727,15 +682,17 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     SizedBox(
                       height: 8,
                     ),
-                    Text(
-                      '\$${savedJobs.minSalary} '+'\-${savedJobs.maxSalary}',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 24.0,
-                        //fontWeight: FontWeight.w700,
+                    FittedBox(
+                      child: Text(
+                        '\$${savedJobs.minSalary} '+'\-${savedJobs.maxSalary}',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 24.0,
+                          //fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
 
@@ -844,30 +801,6 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     );
   }
 
-  // applynow() {
-  //
-  //   http.post(Uri.parse(SavedScreenDetailTwo.uploadEndPoint), body: {
-  //     "user_id": user_Id,
-  //     "job_id": savedJobs.jobId,
-  //     "emp_id": savedJobs.id,
-  //     "cover_letter": "123456",
-  //     "applied_date": getCurrentDate(),
-  //
-  //   }).then((result) {
-  //     Result=result.statusCode;
-  //     print('Appliedresult$Result');
-  //     setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //     if (result.statusCode == 200) {
-  //       Fluttertoast.showToast(
-  //           msg: "${status}",
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.SNACKBAR,
-  //           timeInSecForIosWeb: 1).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>JobApply(jobDetails:jobDetails,user_Id:user_Id ))));
-  //     }
-  //   }).catchError((error) {
-  //     setStatus(error);
-  //   });
-  // }
   Future<JobAppliedDetailModel> alreadyapplied() async {
 
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
@@ -886,27 +819,6 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
       print("Error in exception::: ${e.toString()}");
     }
   }
-  // savejob() {
-  //
-  //   http.post(Uri.parse(SavedScreenDetailTwo.uploadsavejob), body: {
-  //     "user_id": user_Id,
-  //     "job_id": savedJobs.jobId,
-  //
-  //   }).then((result) {
-  //     setStatus(result.statusCode == 200 ? result.body : errMessage);
-  //     SaveResponse= result.statusCode;
-  //     print('SaveResponseinSaveitem_detail $SaveResponse');
-  //     if (result.statusCode == 200) {
-  //       Fluttertoast.showToast(
-  //           msg: "${status}",
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.SNACKBAR,
-  //           timeInSecForIosWeb: 1);
-  //     }
-  //   }).catchError((error) {
-  //     setStatus(error);
-  //   });
-  // }
   Future savejob() async {
     String uid;
     String Jid;
@@ -958,8 +870,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   }
 
   Future Unsave() async {
-    String uid;
-    String Jid;
+
     var res = await http.post(
         removefavjob, body: {
       "user_id": user_Id,

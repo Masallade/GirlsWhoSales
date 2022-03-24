@@ -9,12 +9,10 @@ class RegisterSuccessScreen extends StatefulWidget {
 }
 
 class _RegisterSuccessScreenState extends State<RegisterSuccessScreen> {
-  //LoginModel loginModel;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
       body:SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +23,7 @@ backgroundColor: Colors.white,
             ),
                   // Image.network('https://www.animatedimages.org/data/media/1574/animated-success-image-0004.gif',scale: 1.0,),
             Image.asset(
-              'assets/images/check-circle.gif',scale:0.8,
+              'assets/images/check.gif',scale:0.8,
             ),
             SizedBox(
               height: 37,
@@ -39,11 +37,9 @@ backgroundColor: Colors.white,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 34, 34, 34),
-
-                  /* letterSpacing: 0.0, */
                 ),
                 child: AnimatedTextKit(
-                  repeatForever: true,
+                  repeatForever: false,
                   animatedTexts: [
                     RotateAnimatedText('Successful' ,
                       duration: Duration(seconds: 5) ,
@@ -93,20 +89,6 @@ backgroundColor: Colors.white,
                 child: GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
-                    // if (key.currentState.validate() && _key.currentState.validate() ) {
-                    //   Requests.Login(context, userName, password, false);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return HomePage(
-                    //           user_Id: loginModel.seekerDetails[0].id, cookiee: loginModel.message,
-                    //           jobDetails: loginModel.jobDetails, favoriteJobs: loginModel.favoriteJobs, userDetails: loginModel.seekerDetails);
-                    //     },
-                    //   ),
-                    // );
-                    // Navigate to next page
-                    // }
                   },
                   child: ListTile(
                     title: Center(

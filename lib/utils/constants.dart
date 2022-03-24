@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:girlzwhosell/model/Current_password_model.dart';
 import 'package:girlzwhosell/model/check_saved_job.dart';
@@ -10,6 +8,7 @@ import 'package:girlzwhosell/model/edit_profile_model.dart';
 import 'package:girlzwhosell/model/forget_p_model.dart';
 import 'package:girlzwhosell/model/job_apply_detail_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
+import 'package:girlzwhosell/model/mentor_model.dart';
 import 'package:girlzwhosell/model/reset_model.dart';
 import 'package:girlzwhosell/model/sign_up_user_model.dart';
 import 'package:girlzwhosell/model/verified_otp_model.dart';
@@ -31,6 +30,10 @@ EditProfileModel editProfileModel = EditProfileModel();
 SeekerDetails seekerDetails = SeekerDetails();
 SharedPreferences prefs;
 
+
+
+
+mentorModel mentormodel = mentorModel();
 RegistrationModel registrationModel = RegistrationModel();
 AppliedJobDetails appliedJobDetail = AppliedJobDetails();
 fetchAppliedJobsModel fetchAppliedJobs = fetchAppliedJobsModel();
@@ -51,6 +54,7 @@ title: new Text(title),
 content: new Text(body),
 actions: <Widget>[
 // usually buttons at the bottom of the dialog
+// ignore: deprecated_member_use
 new FlatButton(
 child: Container(
 margin: EdgeInsets.symmetric(vertical: 10),
@@ -83,6 +87,7 @@ title: new Text(title),
 content: new Text(body),
 actions: <Widget>[
 // usually buttons at the bottom of the dialog
+// ignore: deprecated_member_use
 new FlatButton(
 child: new Text(button),
 onPressed: () {
@@ -469,6 +474,7 @@ class ButtonPaddingPreferredAreas extends StatelessWidget {
         padding: EdgeInsets.only(left:45.0, top: 10.0),
         child: Container(
           alignment: Alignment.centerLeft,
+          // ignore: deprecated_member_use
           child: RaisedButton(
             onPressed: onPressed,
             child: Text(
@@ -494,6 +500,7 @@ class RowAreas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
+        // ignore: deprecated_member_use
         RaisedButton(
           child: Row(
             children: [
@@ -651,6 +658,7 @@ class ReuseExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        // ignore: deprecated_member_use
         child: RaisedButton(
             onPressed: onPressed,
             child: Text(
@@ -702,6 +710,7 @@ class ContainerEdit extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Padding(
         padding: EdgeInsets.only(left:8.0),
+        // ignore: deprecated_member_use
         child: FlatButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -740,6 +749,7 @@ class ExpandedPersonal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        // ignore: deprecated_member_use
         child: RaisedButton(
           onPressed: (){},
           child: Text(

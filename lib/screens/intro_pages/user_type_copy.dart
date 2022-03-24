@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:girlzwhosell/screens/intro_pages/mentor_signUp_page.dart';
+import 'package:girlzwhosell/mentor_mentee/SignupForm/Mentorform.dart';
 import 'package:girlzwhosell/screens/intro_pages/webview_for_employer_login.dart';
 import 'package:girlzwhosell/screens/registration/superPowerPage.dart';
 import 'package:girlzwhosell/utils/constants.dart';
@@ -65,14 +65,14 @@ class _UserTypeState extends State<UserType> {
                   selected = i;
                   print(i);
                 });
-                _doSomething();
+               _doSomething();
                 if(selected == 1){
                   _doSomething();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorSignUp()));
+                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorSignUp()));
                 }
                 if(selected == 2){
                   _doSomething();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
+                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
                 }
               },
               child: Container(
@@ -185,10 +185,28 @@ class _UserTypeState extends State<UserType> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-                          Navigator.push(
+                          // setState(() {
+                          //   selected = i;
+                          //   print(i);
+                          // });
+                          print(selected);
+                         if(selected == 0){
+                          // _doSomething();
+                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SuperPowerPage()));
+                         }
+                          if(selected == 1){
+                            //_doSomething();
+                          //  Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorSignUp()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorForm()));
+
+                          }
+                          if(selected == 2){
+                          //  _doSomething();
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Please Select any type')));

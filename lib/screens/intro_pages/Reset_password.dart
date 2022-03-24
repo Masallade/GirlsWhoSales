@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/extension_for_login.dart';
 import 'package:girlzwhosell/helpers/svg/svg.dart';
 import 'package:girlzwhosell/model/reset_model.dart';
 import 'package:girlzwhosell/screens/intro_pages/Successfull_screen.dart';
@@ -29,13 +30,7 @@ class _ResetPasswordPage extends State<ResetPasswordPage> {
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController _confirmPass = TextEditingController();
   String email2;
-bool _passwordVisible = false;
- //_ResetPasswordPage({});
-  Future<bool> _requestPop() {
-    Navigator.of(context).pop();
-
-    return new Future.value(false);
-  }
+  bool _passwordVisible = false;
   var confirmPass ='';
 
 
@@ -106,9 +101,16 @@ Set your new password.''',
                 child: TextFormField(
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
-                  validator: (val) => val.length >= 7
-                      ? "Password should be atleast or greater than 7 characters"
-                      : null,
+                  // validator: (val) => val.length >= 10
+                  //     ? "Password should be 8 characters & 1 Special Character"
+                  //     : null,
+                  validator: (v) {
+                    if (v.isValidPassword) {
+                      return null;
+                    } else {
+                      return 'Password must contain an uppercase, lowercase, numeric digit and special character';
+                    }
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -270,7 +272,9 @@ Set your new password.''',
                       if(_form.currentState.validate()){
                         resetPassword().then((value) async{
                           if(value.status == "100") {
-                            final snackBar = SnackBar(content: Text('Failed to Update!'));
+                            final snackBar = SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                content: Text('Failed to Update!'));
                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
                           if(value.status == "200"){
@@ -309,14 +313,16 @@ Set your new password.''',
     );
   }
 
+  // ignore: missing_return
   Future<ResetPasswordModel> resetPassword() async{
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/reset_password.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "id": widget.user_Id,
-         "password": email2,
+         "password": passwordcontroller.text,
       });
       if(response.statusCode == 200){
+        print("user_Id: ${widget.user_Id}");
         print("Response is: ${response.body}");
         print("Status Code is: ${response.statusCode}");
         resetPasswordModel = ResetPasswordModel.fromJson(json.decode(response.body));

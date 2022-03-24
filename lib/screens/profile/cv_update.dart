@@ -194,10 +194,11 @@ class _CVUpdateState extends State<CVUpdate> {
                                               final externalDir =
                                                   await getExternalStorageDirectory();
 
-                                              final id = await FlutterDownloader
+                                              //final id =
+                                              await FlutterDownloader
                                                   .enqueue(
                                                 url:
-                                                "${userDetails[index].resume}",
+                                                "${userDetails[index].cV}",
                                                 savedDir: externalDir?.path,
                                                 fileName: '${userDetails[index].firstname}.pdf',
                                                 showNotification: true,
@@ -277,10 +278,11 @@ class _CVUpdateState extends State<CVUpdate> {
                                               final externalDir =
                                                   await getExternalStorageDirectory();
 
-                                              final id = await FlutterDownloader
+                                              //final id =
+                                              await FlutterDownloader
                                                   .enqueue(
                                                 url:
-                                                "${userDetails[index].cV}",
+                                                "${userDetails[index].resume}",
                                                 savedDir: externalDir?.path,
                                                 fileName: "${userDetails[index].firstname}.mp4",
                                                 showNotification: true,

@@ -220,6 +220,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
         );
   }
 
+  // ignore: missing_return
   Future<List<SavedJobs>> request(BuildContext context, bool showLoading) async {
     String get_key_url =
         "https://biitsolutions.co.uk/girlzwhosell/API/fetch_saved_jobs.php?user_id=${user_Id}";

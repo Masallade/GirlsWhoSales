@@ -39,6 +39,7 @@ class _SpecializationState extends State<Specialization> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(
+                        // ignore: deprecated_member_use
                         child: FlatButton(
                           child: Text('Cancel',style: TextStyle(color: Colors.indigo)),
                           onPressed: () {
@@ -47,6 +48,7 @@ class _SpecializationState extends State<Specialization> {
                         ),
                       ),
                       SizedBox(
+                        // ignore: deprecated_member_use
                         child: FlatButton(
                           child: Text('Save',style: TextStyle(color: Colors.indigo)),
                           onPressed: ()=> Navigator.pop(context)
@@ -76,6 +78,7 @@ class _SpecializationState extends State<Specialization> {
             child: Container(
               height: 50,
               width: 300,
+              // ignore: deprecated_member_use
               child: FlatButton(
                 onPressed: _onExitTap,
                 child: Row(
