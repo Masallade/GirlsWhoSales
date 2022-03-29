@@ -19,7 +19,6 @@ import 'helpers/scroll_behaviour.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // This is the last thing you need to add.
   await Firebase.initializeApp();
   await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
@@ -112,7 +111,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState(){
     super.initState();
-    registerNotification();
+ //   registerNotification();
    // autoLogIn();
   }
 

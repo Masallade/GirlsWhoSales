@@ -6,6 +6,7 @@ import 'package:girlzwhosell/screens/registration/superPowerPage.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserType extends StatefulWidget {
 
@@ -41,7 +42,19 @@ class _UserTypeState extends State<UserType> {
   int selected = -1;
 
   GlobalKey<FormState> _formKey = GlobalKey();
+  String url ='https://biitsolutions.co.uk/girlzwhosell/uploads/terms_conditions/GWS_Terms_and_Conditions.docx';
 
+  Future<void> launched;
+  Future<void> _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +229,11 @@ class _UserTypeState extends State<UserType> {
                 SizedBox(
                   height: 26,
                 ),
-                Text("Terms & Conditions", style: TermsCondition),
+                InkWell(
+                    onTap:() => setState(() {
+                      launched = _launchInBrowser(url);
+                    }),
+                    child: Text("Terms & Conditions", style: TermsCondition)),
               ],
             ),
           ),
