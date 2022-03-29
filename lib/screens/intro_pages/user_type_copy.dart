@@ -211,18 +211,15 @@ class _UserTypeState extends State<UserType> {
                                   builder: (context) => SuperPowerPage()));
                          }
                           if(selected == 1){
-                            //_doSomething();
-                          //  Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorSignUp()));
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorForm()));
 
                           }
                           if(selected == 2){
-                          //  _doSomething();
                            Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Please Select any type')));
+                              SnackBar(content: Text('Please Select Something')));
                         }
                       }),
                 ),

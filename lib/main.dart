@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> {
     return OverlaySupport.global(
       child: MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
-        title: 'GirlzWhoSell Career Connexions',
+        title: 'girlzwhosell',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF122F51),
@@ -143,32 +143,32 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-  autoLogIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userName = prefs.getString('username');
-    final String userPass = prefs.getString('userpass');
-
-    if (userName != null || userPass != null) {
-      setState(() {
-        isLoggedIn = true;
-        email = userName;
-        password = userPass;
-        Requests.Login(context, email, password,'',false);
-      });
-      return;
-    }
-    // else{
-    //   var duration = const Duration(seconds: 0 );
-    //   return Timer(duration, () {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) {
-    //           return SignInPage();
-    //         },
-    //       ),
-    //     );
-    //   });
-    // }
-  }
+  // autoLogIn() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String userName = prefs.getString('username');
+  //   final String userPass = prefs.getString('userpass');
+  //
+  //   if (userName != null || userPass != null) {
+  //     setState(() {
+  //       isLoggedIn = true;
+  //       email = userName;
+  //       password = userPass;
+  //       Requests.Login(context, email, password,'',false);
+  //     });
+  //     return;
+  //   }
+  //   // else{
+  //   //   var duration = const Duration(seconds: 0 );
+  //   //   return Timer(duration, () {
+  //   //     Navigator.push(
+  //   //       context,
+  //   //       MaterialPageRoute(
+  //   //         builder: (context) {
+  //   //           return SignInPage();
+  //   //         },
+  //   //       ),
+  //   //     );
+  //   //   });
+  //   // }
+  // }
 }
