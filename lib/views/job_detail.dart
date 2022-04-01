@@ -19,33 +19,37 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:favorite_button/favorite_button.dart';
 
-
 class JobDetail extends StatefulWidget {
-
-final uName;
-final password;
+  final uName;
+  final password;
   final Job data;
-  final  JobDetails jobDetails;
+  final JobDetails jobDetails;
   final List<SeekerDetails> userDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final int  appliedStatus;
+  final int appliedStatus;
   final List<FavoriteJobs> favoriteJobs;
   final String jobid;
- final cv;
+  final cv;
   final resumee;
   const JobDetail(
       {Key key,
-     this.uName,this.password, this.data,
+      this.uName,
+      this.password,
+      this.data,
       this.jobDetails,
-        this.userDetails,
+      this.userDetails,
       this.user_Id,
       this.firstName,
       this.total_applied,
       this.total_saved,
-      this.favoriteJobs , this.appliedStatus , this.jobid ,this.cv,this.resumee})
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.jobid,
+      this.cv,
+      this.resumee})
       : super(key: key);
 
   static final String uploadEndPoint = base_url + 'apply_job.php';
@@ -54,7 +58,9 @@ final password;
 
   @override
   State<JobDetail> createState() => _JobDetailState(
-     this.uName,this.password, this.data,
+      this.uName,
+      this.password,
+      this.data,
       this.jobDetails,
       this.userDetails,
       this.user_Id,
@@ -62,11 +68,13 @@ final password;
       this.total_applied,
       this.total_saved,
       this.jobid,
-      this.favoriteJobs, this.appliedStatus ,this.cv,this.resumee);
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.cv,
+      this.resumee);
 }
 
 class _JobDetailState extends State<JobDetail> {
-
   final uName;
   final password;
   final user_Id;
@@ -94,7 +102,6 @@ class _JobDetailState extends State<JobDetail> {
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
-
   String cv;
   String resumee;
 
@@ -102,7 +109,7 @@ class _JobDetailState extends State<JobDetail> {
   void initState() {
     super.initState();
     print("userid: $user_Id");
-  // print("jobid: $jobid");
+    // print("jobid: $jobid");
     print('firstName : $firstName');
 
     setState(() {
@@ -110,110 +117,95 @@ class _JobDetailState extends State<JobDetail> {
     });
   }
 
-  _JobDetailState(this.uName, this.password, this.data, this.jobDetails,
-      this.userDetails, this.user_Id, this.firstName,
-      this.total_applied, this.total_saved, this.jobid, this.favoriteJobs,
-      this.appliedStatus, this.cv, this.resumee);
+  _JobDetailState(
+      this.uName,
+      this.password,
+      this.data,
+      this.jobDetails,
+      this.userDetails,
+      this.user_Id,
+      this.firstName,
+      this.total_applied,
+      this.total_saved,
+      this.jobid,
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.cv,
+      this.resumee);
   Future<bool> ShowsavedJobs(BuildContext context) {
     return showDialog(
-      builder: (context) => SimpleDialog(
-        elevation: 2.0,
-        //   backgroundColor: Colors.pinkAccent.withOpacity(0.9),
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text('Do you want to' ,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                color: Colors.blue[800],
-                height: 1.5,
-                fontSize: 18.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-              ),),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Text('Track Your Saved Job' ,
-                  style: TextStyle(
-                    color: Colors.pinkAccent[200],
-                    height: 1.5,
-                    fontSize: 18.0,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),),
-              ),
-             // SizedBox(height: 10,),
-              Image.asset('assets/images/check.gif' ,scale: 1.0,),
-              InkWell(
-                onTap: (){
-                  Requests.Login(context, uName, password, 'token1', false);
-                },
-                child: Container(
-                  height: 52,
-                  width: 120,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color:  Colors.pinkAccent[200],
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: Text('Track' ,
-                    textAlign: TextAlign.center,
+          builder: (context) => SimpleDialog(
+            elevation: 2.0,
+            //   backgroundColor: Colors.pinkAccent.withOpacity(0.9),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Do you want to',
+                    textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                        color:Colors.white
+                      color: Colors.blue[800],
+                      height: 1.5,
+                      fontSize: 18.0,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      'Track Your Saved Job',
+                      style: TextStyle(
+                        color: Colors.pinkAccent[200],
+                        height: 1.5,
+                        fontSize: 18.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  // SizedBox(height: 10,),
+                  Image.asset(
+                    'assets/images/check.gif',
+                    scale: 1.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Requests.Login(
+                          context,
+                          uName,
+                          password,
+                          //'token1',
+                          false);
+                    },
+                    child: Container(
+                      height: 52,
+                      width: 120,
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent[200],
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Text(
+                        'Saved Job',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        // actions: <Widget>[
-        //   ElevatedButton(
-        //     onPressed: () {
-        //       print("you choose no");
-        //       Navigator.of(context).pop(false);
-        //     },
-        //     child: Text(
-        //       'No',
-        //       style: TextStyle(
-        //           color: Colors.white,
-        //           fontSize: 20,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //     style: ElevatedButton.styleFrom(
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(10),
-        //       ),
-        //       primary: Colors.blue[800],
-        //     ),
-        //   ),
-        //   ElevatedButton(
-        //     onPressed: () {
-        //      Requests.Login(context, uName, password, 'token1', false);
-        //     },
-        //     child: Text(
-        //       'Yes',
-        //       style: TextStyle(
-        //           color: Colors.white,
-        //           fontSize: 20,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //     style: ElevatedButton.styleFrom(
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(10),
-        //       ),
-        //       primary: Colors.blue[800],
-        //     ),
-        //   )
-        // ],
-      ),
-      context: context,
-    ) ??
+          context: context,
+        ) ??
         false;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -223,29 +215,21 @@ class _JobDetailState extends State<JobDetail> {
         elevation: 0,
         actions: [
           GestureDetector(
-            // onTap: () {
-            //   if(isLiked == true){
-            //     IsButton = true;
-            //     savejob();
-            //   }else{
-            //     Unsavejob();
-            //   }
-            // },
-           child: Padding(
-             padding: const EdgeInsets.only(right: 20.0),
-             child: FavoriteButton(
-               isFavorite: false,
-               valueChanged: (isLiked) {
-                print('Is Favorite : $isLiked');
-                 if(isLiked) {
-                   savejob().whenComplete(() => ShowsavedJobs(context));
-                       //.whenComplete(() => Requests.Login(context, uName, password, 'token', false));
-                 }else{
-                   Unsavejob();
-                 }
-               },
-             ),
-           ),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: FavoriteButton(
+                isFavorite: false,
+                valueChanged: (isLiked) {
+                  print('Is Favorite : $isLiked');
+                  if (isLiked) {
+                    savejob().whenComplete(() => ShowsavedJobs(context));
+                    //.whenComplete(() => Requests.Login(context, uName, password, 'token', false));
+                  } else {
+                    Unsavejob();
+                  }
+                },
+              ),
+            ),
           )
         ],
         leading: IconButton(
@@ -291,8 +275,7 @@ class _JobDetailState extends State<JobDetail> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${jobDetails.companyLogo == null ? '' : jobDetails
-                                .companyLogo }')),
+                            '${jobDetails.companyLogo == null ? '' : jobDetails.companyLogo}')),
                     SizedBox(height: 8.0),
                     Text(
                       '${jobDetails.title ?? " "}',
@@ -332,17 +315,17 @@ class _JobDetailState extends State<JobDetail> {
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.only(top: 15, left: 10.0),
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: Text(
-                              '${jobDetails.jobType ?? " "}',style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(1, 82, 174, 1),
-                              fontSize: 16.0,
-                              //fontWeight: FontWeight.w700,
-                            ),
+                              '${jobDetails.jobType ?? " "}',
+                              style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(1, 82, 174, 1),
+                                fontSize: 16.0,
+                                //fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
@@ -356,8 +339,7 @@ class _JobDetailState extends State<JobDetail> {
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.only(top: 15, left: 10.0),
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: Text(
                               '${jobDetails.type ?? " "}',
                               style: TextStyle(
@@ -418,7 +400,6 @@ class _JobDetailState extends State<JobDetail> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -443,54 +424,56 @@ class _JobDetailState extends State<JobDetail> {
           // margin: EdgeInsets.only(bottom: 25.0),
           color: Colors.white,
           child: GestureDetector(
-            onTap: () async{
-                alreadyapplied().then((value) async{
-                  if(value.status == 200) {
-
-                    showToast('This is normal toast with animation',
-                      context: context,
-                      animation: StyledToastAnimation.scale,
-                    );
-                    showToast("You've Alreay Applied \n For this Job",
-                      context: context,
-                      fullWidth: true,
-                      backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-                      animation: StyledToastAnimation.slideFromBottomFade,
-                      reverseAnimation: StyledToastAnimation.fade,
-                      position: StyledToastPosition.bottom,
-                      animDuration: Duration(seconds: 2),
-                      duration: Duration(seconds: 4),
-                      curve: Curves.elasticOut,
-                      reverseCurve: Curves.linear,
-                    );
-
-                  }
-                  if(value.status == 100){
-                    // final snackBar = SnackBar(content: Text('Email Sent!!!!'));
-                    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    await  Navigator.push(
-                                context, MaterialPageRoute(builder: (context) =>
-                                JobApply(uName: uName,
-                                  password: password,
-                                  jobDetails: jobDetails,
-                                  userDetails: userDetails,
-                                  user_Id: user_Id,
-                                  firstName: firstName,
-                                  cv: cv,
-                                  resumee: resumee)));
-                  }
-                });
+            onTap: () async {
+              alreadyapplied().then((value) async {
+                if (value.status == 200) {
+                  showToast(
+                    'This is normal toast with animation',
+                    context: context,
+                    animation: StyledToastAnimation.scale,
+                  );
+                  showToast(
+                    "You've Alreay Applied \n For this Job",
+                    context: context,
+                    fullWidth: true,
+                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    animation: StyledToastAnimation.slideFromBottomFade,
+                    reverseAnimation: StyledToastAnimation.fade,
+                    position: StyledToastPosition.bottom,
+                    animDuration: Duration(seconds: 2),
+                    duration: Duration(seconds: 4),
+                    curve: Curves.elasticOut,
+                    reverseCurve: Curves.linear,
+                  );
+                }
+                if (value.status == 100) {
+                  // final snackBar = SnackBar(content: Text('Email Sent!!!!'));
+                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => JobApply(
+                              uName: uName,
+                              password: password,
+                              jobDetails: jobDetails,
+                              userDetails: userDetails,
+                              user_Id: user_Id,
+                              firstName: firstName,
+                              cv: cv,
+                              resumee: resumee)));
+                }
+              });
             },
             child: Container(
-              height: kSpacingUnit * 6,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.pinkAccent[200],
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
                 child: Text(
-             //     ignore: unrelated_type_equality_checks
-                 appliedStatus == 1 ? "Already Applied" :"Apply",
+                  //     ignore: unrelated_type_equality_checks
+                  appliedStatus == 1 ? "Already Applied" : "Apply",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17.0,
@@ -505,6 +488,7 @@ class _JobDetailState extends State<JobDetail> {
       ),
     );
   }
+
   Future<JobAppliedDetailModel> alreadyapplied() async {
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
     try {
@@ -524,8 +508,10 @@ class _JobDetailState extends State<JobDetail> {
       print("Error in exception::: ${e.toString()}");
     }
   }
+
   Future<CheckSaved> alreadySavedJob() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/check_saved_job.php";
+    final url =
+        "https://biitsolutions.co.uk/girlzwhosell/API/check_saved_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
@@ -535,8 +521,7 @@ class _JobDetailState extends State<JobDetail> {
         print("Response is: ${response.body}");
         print('${jobDetails.id}');
         print("Status Code is: ${response.statusCode}");
-        checkSaved =
-            CheckSaved.fromJson(json.decode(response.body));
+        checkSaved = CheckSaved.fromJson(json.decode(response.body));
         return checkSaved;
       }
     } catch (e) {
@@ -544,36 +529,35 @@ class _JobDetailState extends State<JobDetail> {
     }
   }
 
-
   /////////
   Future savejob() async {
-    var res = await http.post(
-        uploadsavejob , body: {
+    var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
       "job_id": jobDetails.id,
     });
-    if(res.statusCode == 200 ) {
-     // SharedPreferences prefs = await SharedPreferences.getInstance();
-     //  print("==================SharedPrefrence values==================");
-     //
-     //  final prefs = await SharedPreferences.getInstance();
-     //
-     //  prefs.setString('user_Id', user_Id);
-     //  prefs.setString('job_Id', jobDetails.id);
-     //  prefs.setBool('stateOfButton', true);
-     //
-     //   uid = await prefs.getString('user_Id');
-     //   Jid = await prefs.getString('job_Id');
-     //  IsButton = prefs.getBool('stateOfButton');
-     //
-     //  print('userid is :$uid');
-     //  print('jobid is : $Jid');
-     //  print('IsButton : $IsButton');
+    if (res.statusCode == 200) {
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      //  print("==================SharedPrefrence values==================");
+      //
+      //  final prefs = await SharedPreferences.getInstance();
+      //
+      //  prefs.setString('user_Id', user_Id);
+      //  prefs.setString('job_Id', jobDetails.id);
+      //  prefs.setBool('stateOfButton', true);
+      //
+      //   uid = await prefs.getString('user_Id');
+      //   Jid = await prefs.getString('job_Id');
+      //  IsButton = prefs.getBool('stateOfButton');
+      //
+      //  print('userid is :$uid');
+      //  print('jobid is : $Jid');
+      //  print('IsButton : $IsButton');
 
       print("==================Response values==================");
       print(res.body);
 
-      showToast('Added To Saved Jobs',
+      showToast(
+        'Added To Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -587,20 +571,18 @@ class _JobDetailState extends State<JobDetail> {
       );
 
       setState(() {
-            //  isapplied = true;
-              isLiked = true;
-             });
+        //  isapplied = true;
+        isLiked = true;
+      });
     }
-
   }
 
   Future Unsavejob() async {
-    var res = await http.post(
-        removefavjob, body: {
+    var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
       "job_id": jobDetails.id,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       // print("==================SharedPrefrence values==================");
       //
@@ -615,8 +597,8 @@ class _JobDetailState extends State<JobDetail> {
       print("==================Response values==================");
       print(res.body);
 
-
-      showToast('Removed From Saved Jobs',
+      showToast(
+        'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -634,7 +616,6 @@ class _JobDetailState extends State<JobDetail> {
         isLiked = false;
       });
     }
-
   }
 
   setStatus(String message) {
@@ -642,40 +623,44 @@ class _JobDetailState extends State<JobDetail> {
       status = message;
     });
   }
+
   getCurrentDate() {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
 }
 
-
-
 class JobDetailOne extends StatefulWidget {
-
   final uName;
   final password;
   final Job data;
   final SearchModel joblist;
- // final  JobDetails jobDetails;
+  // final  JobDetails jobDetails;
   final List<SeekerDetails> userDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final int  appliedStatus;
+  final int appliedStatus;
   final List<FavoriteJobs> favoriteJobs;
   final String jobid;
   final cv;
   final resumee;
   const JobDetailOne(
       {Key key,
-        this.uName,this.password, this.data,
-        this.joblist,
-        this.userDetails,
-        this.user_Id,
-        this.firstName,
-        this.total_applied,
-        this.total_saved,
-        this.favoriteJobs , this.appliedStatus , this.jobid ,this.cv,this.resumee})
+      this.uName,
+      this.password,
+      this.data,
+      this.joblist,
+      this.userDetails,
+      this.user_Id,
+      this.firstName,
+      this.total_applied,
+      this.total_saved,
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.jobid,
+      this.cv,
+      this.resumee})
       : super(key: key);
 
   static final String uploadEndPoint = base_url + 'apply_job.php';
@@ -684,7 +669,9 @@ class JobDetailOne extends StatefulWidget {
 
   @override
   State<JobDetailOne> createState() => _JobDetailOneState(
-      this.uName,this.password, this.data,
+      this.uName,
+      this.password,
+      this.data,
       this.joblist,
       this.userDetails,
       this.user_Id,
@@ -692,11 +679,13 @@ class JobDetailOne extends StatefulWidget {
       this.total_applied,
       this.total_saved,
       this.jobid,
-      this.favoriteJobs, this.appliedStatus ,this.cv,this.resumee);
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.cv,
+      this.resumee);
 }
 
 class _JobDetailOneState extends State<JobDetailOne> {
-
   final uName;
   final password;
   final user_Id;
@@ -725,7 +714,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
-
   String cv;
   String resumee;
 
@@ -741,10 +729,21 @@ class _JobDetailOneState extends State<JobDetailOne> {
     });
   }
 
-  _JobDetailOneState(this.uName, this.password, this.data, this.joblist,
-      this.userDetails, this.user_Id, this.firstName,
-      this.total_applied, this.total_saved, this.jobid, this.favoriteJobs,
-      this.appliedStatus, this.cv, this.resumee);
+  _JobDetailOneState(
+      this.uName,
+      this.password,
+      this.data,
+      this.joblist,
+      this.userDetails,
+      this.user_Id,
+      this.firstName,
+      this.total_applied,
+      this.total_saved,
+      this.jobid,
+      this.favoriteJobs,
+      this.appliedStatus,
+      this.cv,
+      this.resumee);
 
   @override
   Widget build(BuildContext context) {
@@ -769,11 +768,10 @@ class _JobDetailOneState extends State<JobDetailOne> {
                 isFavorite: false,
                 valueChanged: (isLiked) {
                   print('Is Favorite : $isLiked');
-                  if(isLiked == true) {
+                  if (isLiked == true) {
                     IsButton == true;
                     savejob();
-
-                  }else{
+                  } else {
                     Unsavejob();
                   }
                 },
@@ -826,8 +824,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${joblist.companyLogo == null ? Placeholder() : joblist
-                                .companyLogo }')),
+                            '${joblist.companyLogo == null ? Placeholder() : joblist.companyLogo}')),
                     SizedBox(height: 8.0),
                     FittedBox(
                       child: Text(
@@ -871,18 +868,18 @@ class _JobDetailOneState extends State<JobDetailOne> {
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.only(top: 15, left: 10.0),
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
-                                '${joblist.jobType ?? " "}',style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
-                              ),
+                                '${joblist.jobType ?? " "}',
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -897,8 +894,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.only(top: 15, left: 10.0),
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
                                 '${joblist.type ?? " "}',
@@ -961,7 +957,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -986,15 +981,16 @@ class _JobDetailOneState extends State<JobDetailOne> {
           // margin: EdgeInsets.only(bottom: 25.0),
           color: Colors.white,
           child: GestureDetector(
-            onTap: () async{
-              alreadyapplied().then((value) async{
-                if(value.status == 200) {
-
-                  showToast('This is normal toast with animation',
+            onTap: () async {
+              alreadyapplied().then((value) async {
+                if (value.status == 200) {
+                  showToast(
+                    'This is normal toast with animation',
                     context: context,
                     animation: StyledToastAnimation.scale,
                   );
-                  showToast("You've Alreay Applied \n For this Job",
+                  showToast(
+                    "You've Alreay Applied \n For this Job",
                     context: context,
                     fullWidth: true,
                     backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -1006,24 +1002,25 @@ class _JobDetailOneState extends State<JobDetailOne> {
                     curve: Curves.elasticOut,
                     reverseCurve: Curves.linear,
                   );
-
                 }
-                if(value.status == 100){
-                  await  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) =>
-                      SearchApply(uName: uName,
-                          password: password,
-                          joblist: joblist,
-                          userDetails: userDetails,
-                          user_Id: user_Id,
-                          firstName: firstName,
-                          cv: cv,
-                          resumee: resumee)));
+                if (value.status == 100) {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchApply(
+                              uName: uName,
+                              password: password,
+                              joblist: joblist,
+                              userDetails: userDetails,
+                              user_Id: user_Id,
+                              firstName: firstName,
+                              cv: cv,
+                              resumee: resumee)));
                 }
               });
             },
             child: Container(
-              height: kSpacingUnit * 6,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.pinkAccent[200],
                 borderRadius: BorderRadius.circular(5),
@@ -1031,7 +1028,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
               child: Center(
                 child: Text(
                   //     ignore: unrelated_type_equality_checks
-                 // appliedStatus == 1 ? "Already Applied" :"Apply",
+                  // appliedStatus == 1 ? "Already Applied" :"Apply",
                   "Apply",
                   style: TextStyle(
                     color: Colors.white,
@@ -1047,6 +1044,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
       ),
     );
   }
+
   Future<JobAppliedDetailModel> alreadyapplied() async {
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
     try {
@@ -1069,16 +1067,16 @@ class _JobDetailOneState extends State<JobDetailOne> {
 
   /////////
   Future savejob() async {
-    var res = await http.post(
-        uploadsavejob , body: {
+    var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
       "job_id": joblist.id,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       print("==================Response values==================");
       print(res.body);
 
-      showToast('Added To Saved Jobs',
+      showToast(
+        'Added To Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -1096,19 +1094,18 @@ class _JobDetailOneState extends State<JobDetailOne> {
         isLiked = true;
       });
     }
-
   }
 
   Future Unsavejob() async {
-    var res = await http.post(
-        removefavjob, body: {
+    var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
       "job_id": joblist.id,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       print("==================Response values==================");
       print(res.body);
-      showToast('Removed From Saved Jobs',
+      showToast(
+        'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -1126,7 +1123,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
         isLiked = false;
       });
     }
-
   }
 
   setStatus(String message) {
@@ -1134,8 +1130,8 @@ class _JobDetailOneState extends State<JobDetailOne> {
       status = message;
     });
   }
+
   getCurrentDate() {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
 }
-

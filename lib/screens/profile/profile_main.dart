@@ -140,7 +140,9 @@ class _ProfileMainState extends State<ProfileMain> {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Requests.Login(context, uName, password, '', false);
+                Requests.Login(context, uName, password,
+                    //'',
+                    false);
               },
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -191,7 +193,7 @@ class _ProfileMainState extends State<ProfileMain> {
               ListTile(
                 leading: ClipOval(
                   child: FadeInImage.assetNetwork(
-                      width: 80,
+                      width: 100,
                       height: 100,
                       placeholder: 'assets/images/loading.gif',
                       placeholderScale: 2.0,

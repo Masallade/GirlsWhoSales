@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -10,55 +9,53 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 SharedPreferences logindata;
-class Requests {
 
+class Requests {
   // ignore: missing_return
-  static Future <List<SearchModel>> getSearch(String query) async {
+  static Future<List<SearchModel>> getSearch(String query) async {
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/jobs_list.php";
-    try{
+    try {
       final response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print("Status Code is: ${response.statusCode}");
         final List data = json.decode(response.body);
         print("Response is: ${response.body}");
         return data.map((json) => SearchModel.fromJson(json)).where((element) {
-          final titleLower= element.title.toLowerCase();
-          final locationlower= element.location.toLowerCase();
+          final titleLower = element.title.toLowerCase();
+          final locationlower = element.location.toLowerCase();
           final searchLower = query.toLowerCase();
 
-          return titleLower.contains(searchLower)  || locationlower.contains(searchLower);
+          return titleLower.contains(searchLower) ||
+              locationlower.contains(searchLower);
         }).toList();
       }
-    }
-    catch(e){
+    } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
   }
 
-
-
-  static Future<dynamic> Login(BuildContext context, String userName, String password, String token1 ,bool resync) async {
-
-    try
-    {
+  static Future<dynamic> Login(
+      BuildContext context,
+      String userName,
+      String password,
+      //String token1 ,
+      bool resync) async {
+    try {
       final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
-
-     utils.showLoadingDialog(context, _keyLoader);
+      utils.showLoadingDialog(context, _keyLoader);
 
       final response = await http.post(
-        Uri.parse(base_url+"login.php"),
+        Uri.parse(base_url + "login.php"),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         encoding: Encoding.getByName('utf-8'),
         body: {
           "email": userName,
-          "password":password,
-          "token": token1
-
+          "password": password,
+          //"token": token1
         },
       );
 
@@ -66,24 +63,22 @@ class Requests {
         LoginModel loginModel = LoginModel.fromJson(json.decode(response.body));
         print("==================SharedPrefrence values==================");
 
-        final prefs= await SharedPreferences.getInstance();
+        final prefs = await SharedPreferences.getInstance();
 
-         prefs.setString("uName",userName);
-         prefs.setString("pass",password);
+        prefs.setString("uName", userName);
+        prefs.setString("pass", password);
 
-           //  logindata.getString('username');
-      final uName= await  prefs.getString("uName");
-       final pass= await   prefs.getString("pass");
+        //  logindata.getString('username');
+        final uName = await prefs.getString("uName");
+        final pass = await prefs.getString("pass");
 
-       print('Uname $uName');
-       print('pass $pass');
+        print('Uname $uName');
+        print('pass $pass');
 
         print("==================RESPONSE CODE==================");
         print(response.body);
         print(response.statusCode);
         print('statusCode');
-
-
 
         if (loginModel.status == "200") {
           print(loginModel.status);
@@ -94,73 +89,75 @@ class Requests {
             MaterialPageRoute(
               builder: (context) {
                 return HomePage(
-                    uName: uName,
-                    password: pass,
-                    user_Id: loginModel.seekerDetails[0].id, cookiee: loginModel.message,
-                    jobDetails: loginModel.jobDetails, favoriteJobs: loginModel.favoriteJobs,
-                  userDetails: loginModel.seekerDetails , firstName: loginModel.seekerDetails[0].firstname,
-                  title:loginModel.seekerDetails[0].jobTitle, profile: loginModel.seekerDetails[0].profilePicture,
+                  uName: uName,
+                  password: pass,
+                  user_Id: loginModel.seekerDetails[0].id,
+                  cookiee: loginModel.message,
+                  jobDetails: loginModel.jobDetails,
+                  favoriteJobs: loginModel.favoriteJobs,
+                  userDetails: loginModel.seekerDetails,
+                  firstName: loginModel.seekerDetails[0].firstname,
+                  title: loginModel.seekerDetails[0].jobTitle,
+                  profile: loginModel.seekerDetails[0].profilePicture,
+                  cv: loginModel.seekerDetails[0].cV,
+                  resumee: loginModel.seekerDetails[0].resume,
                   total_applied: loginModel.countOfJobsApplied,
-                  total_saved: loginModel.countOfJobsSaved,token1: token1,
+                  total_saved: loginModel.countOfJobsSaved,
+                  //token1: token1,
                 );
               },
             ),
           );
           print('===========Calling From Login=========');
         } else {
-          utils().showDialogCustomForLogin(context, "Error",
+          utils().showDialogCustomForLogin(
+              context,
+              "Error",
               loginModel.message == null
                   ? "Server returned failure. Please try to restart the application."
-                  : loginModel.message, "OK");
+                  : loginModel.message,
+              "OK");
         }
       }
-    }
-    catch(error)
-    {
+    } catch (error) {
       print(error.toString());
-      utils().showDialogCustomForLogin(context, "Failed", "No Internet Connection. Or Some Internal Issues", "OK");
+      utils().showDialogCustomForLogin(context, "Failed",
+          "No Internet Connection. Or Some Internal Issues", "OK");
     }
   }
-  static Future<dynamic> ProfileLogin(BuildContext context, String userName, String password, String token1 ,bool resync) async {
 
-    try
-    {
+  static Future<dynamic> ProfileLogin(BuildContext context, String userName,
+      String password, String token1, bool resync) async {
+    try {
       final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-
 
       utils.showLoadingDialog(context, _keyLoader);
 
       final response = await http.post(
-        Uri.parse(base_url+"login.php"),
+        Uri.parse(base_url + "login.php"),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         encoding: Encoding.getByName('utf-8'),
-        body: {
-          "email": userName,
-          "password":password,
-          "token": token1
-
-        },
+        body: {"email": userName, "password": password, "token": token1},
       );
 
       if (response.statusCode == 200) {
         LoginModel loginModel = LoginModel.fromJson(json.decode(response.body));
         //  TokenModel tokenModel = TokenModel.fromJson(json.decode(response.body));
-       // StorageBase storage = Storage();
+        // StorageBase storage = Storage();
         // await storage.updatetokenInfo(loginModel);
         //await storage.updatetoken(tokenModel);
 
         print("==================SharedPrefrence values==================");
 
-        final prefs= await SharedPreferences.getInstance();
+        final prefs = await SharedPreferences.getInstance();
 
-        prefs.setString("uName",userName);
-        prefs.setString("pass",password);
+        prefs.setString("uName", userName);
+        prefs.setString("pass", password);
 
-
-        final uName= await  prefs.getString("uName");
-        final pass= await   prefs.getString("pass");
+        final uName = await prefs.getString("uName");
+        final pass = await prefs.getString("pass");
 
         print('Uname $uName');
         print('pass $pass');
@@ -169,8 +166,6 @@ class Requests {
         print(response.body);
         print(response.statusCode);
         print('statusCode');
-
-
 
         if (loginModel.status == "200") {
           print(loginModel.status);
@@ -185,9 +180,11 @@ class Requests {
                   password: pass,
                   user_Id: loginModel.seekerDetails[0].id,
                   //cookiee: loginModel.message,
-            //      jobDetails: loginModel.jobDetails, favoriteJobs: loginModel.favoriteJobs,
-                  userDetails: loginModel.seekerDetails , firstName: loginModel.seekerDetails[0].firstname,
-                  title:loginModel.seekerDetails[0].jobTitle, profile: loginModel.seekerDetails[0].profilePicture,
+                  //      jobDetails: loginModel.jobDetails, favoriteJobs: loginModel.favoriteJobs,
+                  userDetails: loginModel.seekerDetails,
+                  firstName: loginModel.seekerDetails[0].firstname,
+                  title: loginModel.seekerDetails[0].jobTitle,
+                  profile: loginModel.seekerDetails[0].profilePicture,
                   // total_applied: loginModel.countOfJobsApplied,
                   // total_saved: loginModel.countOfJobsSaved,token1: token1,
                 );
@@ -198,17 +195,19 @@ class Requests {
           // Requests.getInvoiceData(context, loginModel.jwt);
           print('===========Calling From Login=========');
         } else {
-          utils().showDialogCustomForLogin(context, "Error",
+          utils().showDialogCustomForLogin(
+              context,
+              "Error",
               loginModel.message == null
                   ? "Server returned failure. Please try to restart the application."
-                  : loginModel.message, "OK");
+                  : loginModel.message,
+              "OK");
         }
       }
-    }
-    catch(error)
-    {
+    } catch (error) {
       print(error.toString());
-      utils().showDialogCustomForLogin(context, "Failed", "No Internet Connection.", "OK");
+      utils().showDialogCustomForLogin(
+          context, "Failed", "No Internet Connection.", "OK");
     }
   }
 }

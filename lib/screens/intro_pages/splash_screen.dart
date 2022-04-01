@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:animated_splash/animated_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-AudioPlayer player = AudioPlayer();
 
 
 class SplashScreen extends StatefulWidget {
@@ -32,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: ClipRRect(
         borderRadius: BorderRadius.zero,
         child: Container(
-          width: 375.0,
+          width: MediaQuery.of(context).size.width,
           height: 812.0,
           decoration: BoxDecoration(
             gradient: LinearGradient(

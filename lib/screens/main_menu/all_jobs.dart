@@ -84,15 +84,27 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                 scale: 2.5,
               ),
             ),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 27.5 ,top: 15),
+                  child: Text('Tips',style: TextStyle(fontWeight: FontWeight.bold ,color: Colors.blueGrey),),
+                )),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 27.5),
+                  child: Text('*Swipe Right for Next Job \n *Swipe Left to dislike the job \n *Swipe Up to Save Job',style: TextStyle(fontWeight: FontWeight.w400 ,color: Colors.blueGrey),),
+
+                )),
+
             Container(
-             // color: Colors.yellow,
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.57,
               child: new TinderSwapCard(
                 swipeUp: true,
                 swipeDown: false,
                 orientation: AmassOrientation.BOTTOM,
                  totalNum: jobDetails.length,
-                // totalNum: welcomeImages.length,
                 stackNum: 3,
                 swipeEdge: 3.0,
                 maxWidth: MediaQuery.of(context).size.width * 0.94,
@@ -119,34 +131,6 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                     },
                     child : AllJobCard2(jobDetails: jobDetails[index], userId:user_Id)),
                 cardController: controller,
-                //= CardController(),
-                // swipeUpdateCallback:
-                //     (DragUpdateDetails details, Alignment align) {
-                //   /// Get swiping card's alignment
-                //   if (align.x < 0) {
-                //     // Fluttertoast.showToast(
-                //     //   msg: 'LEFT swiping',
-                //     //   toastLength: Toast.LENGTH_SHORT,
-                //     //   gravity: ToastGravity.TOP_RIGHT,
-                //     // );
-                //   //  Card is LEFT swiping
-                //   } else if (align.x > 0) {
-                //     //Card is RIGHT swiping
-                //     // Fluttertoast.showToast(
-                //     //   msg: 'Right swiping',
-                //     //   toastLength: Toast.LENGTH_SHORT,
-                //     //   gravity: ToastGravity.TOP_RIGHT,
-                //     // );
-                //  //   savejob();
-                //   }
-                //   // else if (align.y <= ){
-                //   //   Fluttertoast.showToast(
-                //   //     msg: 'Up swiping',
-                //   //     toastLength: Toast.LENGTH_SHORT,
-                //   //     gravity: ToastGravity.TOP_RIGHT,
-                //   //   );
-                //   // }
-                // },
                 swipeCompleteCallback:
                     (CardSwipeOrientation orientation, int index) {
                 //// Get orientation & index of swiped card!
@@ -157,18 +141,18 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                       //  print(jobDetails.length);
                       } else if (orientation == CardSwipeOrientation.RIGHT) {
                          print("Card is RIGHT swiping");
-                        // showToast('Next Job',
-                        //   context: context,
-                        //   fullWidth: true,
-                        //   backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-                        //   animation: StyledToastAnimation.slideFromLeft,
-                        //   reverseAnimation: StyledToastAnimation.fade,
-                        //   position: StyledToastPosition.center,
-                        //   animDuration: Duration(seconds: 2),
-                        //   duration: Duration(seconds: 4),
-                        //   curve: Curves.elasticOut,
-                        //   reverseCurve: Curves.linear,
-                        // );
+                        showToast('Next Job',
+                          context: context,
+                          fullWidth: true,
+                          backgroundColor: Colors.blue[800].withOpacity(0.6),
+                          animation: StyledToastAnimation.slideFromLeft,
+                          reverseAnimation: StyledToastAnimation.fade,
+                          position: StyledToastPosition.center,
+                          animDuration: Duration(seconds: 2),
+                          duration: Duration(seconds: 4),
+                          curve: Curves.elasticOut,
+                          reverseCurve: Curves.linear,
+                        );
 
                         //  print(jobDetails.length);
                       }
@@ -227,7 +211,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
   Future savejob() async {
 
     var res = await http.post(
-        uploadsavejob , body: {
+       Uri.parse(uploadsavejob)  , body: {
       "user_id": user_Id,
       "job_id": jobDetails[0].id,
     });
@@ -243,7 +227,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
       showToast('Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.blue[800].withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -262,27 +246,11 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
   }
   Future Dislikejob() async {
     var res = await http.post(
-        dislikeJob , body: {
+       Uri.parse(dislikeJob)  , body: {
       "seeker_id": user_Id,
       "job_id": jobDetails[0].id,
     });
     if(res.statusCode == 200 ) {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // print("==================SharedPrefrence values==================");
-      //
-      // final prefs = await SharedPreferences.getInstance();
-      //
-      // prefs.setString('user_Id', user_Id);
-      // prefs.setString('job_Id', jobDetails[0].id);
-      // prefs.setBool('stateOfButton', true);
-      //
-      // uid = await prefs.getString('user_Id');
-      // Jid = await prefs.getString('job_Id');
-      // //IsButton = prefs.getBool('stateOfButton');
-      // print('userid is :$uid');
-      // print('jobid is : $Jid');
-      // print('IsButton : $IsButton');
-
       print("==================Response values==================");
       print(res.body);
 
@@ -291,10 +259,10 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
         context: context,
         animation: StyledToastAnimation.scale,
       );
-      showToast('Job Deleted',
+      showToast('Job Disliked',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.blue[800].withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeft,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,

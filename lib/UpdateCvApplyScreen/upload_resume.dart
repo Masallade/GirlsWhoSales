@@ -41,7 +41,7 @@ class _UploadResume extends State<UploadResume>{
   _UploadResume({this.uName,this.password ,this.user_id,this.joblist, this.firstName});
 
 
-  File selectedfile;
+  FilePickerResult selectedfile;
   Response response;
   String progress;
   Dio dio = new Dio();
@@ -79,10 +79,9 @@ class _UploadResume extends State<UploadResume>{
     );
   }
   selectFile() async {
-    selectedfile = await FilePicker.getFile(
+    selectedfile =  await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf','doc','docx'],
-      //allowed extension to choose
+      allowedExtensions: ['pdf', 'doc' ,'docx'],
     );
 
     setState((){}); //update the UI so that file name is shown
@@ -93,8 +92,8 @@ class _UploadResume extends State<UploadResume>{
     FormData formdata = FormData.fromMap({
       "user_id": user_id,
       "pdf_cv": await MultipartFile.fromFile(
-          selectedfile == null ? null : selectedfile.path,
-          filename: basename(selectedfile.path)
+          selectedfile == null ? null : selectedfile.files.single.path,
+          filename: basename(selectedfile.files.single.path)
         //show only filename from path
       ),
 
@@ -232,7 +231,7 @@ class _UploadResume extends State<UploadResume>{
                                       color: Colors.blueGrey[400]
                                     /* letterSpacing: 0.0, */
                                   ),
-                                ) : Text(basename(selectedfile.path) ),
+                                ) : Text(basename(selectedfile.files.single.path) ),
                                 trailing: selectedfile != null
                                     ? Icon(
                                   Icons.check,

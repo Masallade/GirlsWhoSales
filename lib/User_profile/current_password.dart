@@ -83,15 +83,12 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                   controller: Currentpassword,
                   obscureText: !_passwordVisible,
                   validator: (v) {
-                    if (v.isValidPassword) {
+                    if (v == null || v.isEmpty) {
                       return null;
                     } else {
-                      return 'Password must contain an uppercase,\n lowercase, numeric digit and special character';
+                      return 'Please enter your current password';
                     }
                   },
-                  // validator: (val) => val.length < 7
-                  //     ? "Password should be more than 7 characters"
-                  //     : null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -160,7 +157,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     if (v.isValidPassword) {
                       return null;
                     } else {
-                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character';
+                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character ,\n must be 8 character';
                     }
                   },
                   decoration: InputDecoration(

@@ -75,21 +75,6 @@ class _CVUpdateState extends State<CVUpdate> {
               Icons.arrow_back_ios,
               color: Colors.black,
             )),
-        // actions: [
-        //   GestureDetector(
-        //       onTap: () {
-        //         Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //                 builder: (context) =>
-        //                     CustomFilePicker2(uName: uName,password: password,user_id: user_id, userDetails:userDetails)));
-        //       },
-        //       child: Padding(
-        //         padding: const EdgeInsets.only(right: 12.0),
-        //         child: Image.asset(
-        //             'assets/images/edit.png'),
-        //       )),
-        // ],
         title: Text(
           'My CV',
           style: TextStyle(
@@ -182,19 +167,14 @@ class _CVUpdateState extends State<CVUpdate> {
                                           )),
                                       title: Text(
                                           '${userDetails[index].firstname}.pdf',
-                                      //  maxLines: isExpanded ? null : 2,
                                         softWrap: true,
                                         overflow: TextOverflow.fade,),
-                                      //    subtitle: Text('1 day ago', style: subtitleStyle),
                                       trailing: InkWell(
                                           onTap: () async {
                                             final status = await Permission.storage.request();
-
                                             if (status.isGranted) {
                                               final externalDir =
                                                   await getExternalStorageDirectory();
-
-                                              //final id =
                                               await FlutterDownloader
                                                   .enqueue(
                                                 url:

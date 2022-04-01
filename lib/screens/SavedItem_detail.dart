@@ -15,11 +15,9 @@ import 'package:girlzwhosell/views/RequirementTab.dart';
 import 'package:girlzwhosell/views/company_tab.dart';
 import 'package:girlzwhosell/views/description_tab.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart'as http;
-
+import 'package:http/http.dart' as http;
 
 class SavedScreenDetail extends StatefulWidget {
-
   final FavoriteJobs favoriteJobs;
   final uName;
   final password;
@@ -28,13 +26,36 @@ class SavedScreenDetail extends StatefulWidget {
   final List<JobDetails> jobDetails;
   final List<SeekerDetails> userDetails;
   final jobId;
-  const SavedScreenDetail({Key key, this.favoriteJobs, this.user_Id,this.jobDetails,this.password,this.uName,this.userDetails,this.firstName,this.jobId}) : super(key: key);
-  static final String uploadEndPoint = base_url+'apply_job.php';
+  final cv;
+  final resume;
+  const SavedScreenDetail(
+      {Key key,
+      this.favoriteJobs,
+      this.user_Id,
+      this.jobDetails,
+      this.password,
+      this.uName,
+      this.userDetails,
+      this.firstName,
+      this.jobId,
+      this.cv,
+      this.resume})
+      : super(key: key);
+  static final String uploadEndPoint = base_url + 'apply_job.php';
 
-  static final String uploadsavejob = base_url+'saved_jobs.php';
+  static final String uploadsavejob = base_url + 'saved_jobs.php';
 
   @override
-  State<SavedScreenDetail> createState() => _SavedScreenDetailState(favoriteJobs:favoriteJobs,user_Id:user_Id,jobId: jobId,firstName: firstName,userDetails: userDetails, uName: uName ,password: password);
+  State<SavedScreenDetail> createState() => _SavedScreenDetailState(
+      favoriteJobs: favoriteJobs,
+      user_Id: user_Id,
+      jobId: jobId,
+      firstName: firstName,
+      userDetails: userDetails,
+      uName: uName,
+      password: password,
+      cv: cv,
+      resume: resume);
 }
 
 class _SavedScreenDetailState extends State<SavedScreenDetail> {
@@ -45,12 +66,24 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
   final List<JobDetails> jobDetails;
   final List<SeekerDetails> userDetails;
   final jobId;
+  final cv;
+  final resume;
   final user_Id;
-  bool isLiked=false;
+  bool isLiked = false;
   String errMessage = 'Error Uploading Slip';
   String status = '';
   final FavoriteJobs favoriteJobs;
-  _SavedScreenDetailState({this.favoriteJobs, this.user_Id ,this.jobId,this.firstName,this.userDetails,this.uName,this.password,this.jobDetails});
+  _SavedScreenDetailState(
+      {this.favoriteJobs,
+      this.user_Id,
+      this.jobId,
+      this.firstName,
+      this.userDetails,
+      this.uName,
+      this.password,
+      this.jobDetails,
+      this.cv,
+      this.resume});
 
   var SaveResponse;
   var Result;
@@ -65,8 +98,6 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     print("sahredpass: $password");
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,13 +106,12 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-
           GestureDetector(
-            onTap: (){
-              if(isLiked == true){
+            onTap: () {
+              if (isLiked == true) {
                 IsButton = true;
                 savejob();
-              }else{
+              } else {
                 Unsavejob();
               }
             },
@@ -91,9 +121,9 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                 isFavorite: false,
                 valueChanged: (isLiked) {
                   print('Is Favorite : $isLiked');
-                  if(isLiked) {
+                  if (isLiked) {
                     savejob();
-                  }else{
+                  } else {
                     Unsavejob();
                   }
                 },
@@ -107,7 +137,6 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
           //     child:Result==200 ?Image.asset('assets/images/heart2.png',):Image.asset('assets/images/Liked.png.png', color: Colors.black),
           //   ),
           // )
-
         ],
         leading: IconButton(
           icon: Icon(
@@ -120,7 +149,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         title: FittedBox(
           child: Text(
             '${widget.favoriteJobs.companyName ?? " "}',
-            style:TextStyle(
+            style: TextStyle(
               fontFamily: 'Poppins',
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
@@ -156,14 +185,15 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                       child: Container(
                         width: 70.0,
                         height: 70.0,
-                       child:  Image.network(favoriteJobs.companyLogo ?? Placeholder()),
+                        child: Image.network(
+                            favoriteJobs.companyLogo ?? Placeholder()),
                       ),
                     ),
                     SizedBox(height: 20.0),
                     FittedBox(
                       child: Text(
                         favoriteJobs.title,
-                        style:TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
@@ -173,11 +203,14 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     FittedBox(
                       child: Text(
-                        '${favoriteJobs.companyName ?? " "} '+'\- ${favoriteJobs.name ?? " "}',
-                        style:TextStyle(
+                        '${favoriteJobs.companyName ?? " "} ' +
+                            '\- ${favoriteJobs.name ?? " "}',
+                        style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w400,
@@ -197,50 +230,59 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                           width: 100,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
-                              borderRadius: BorderRadius.circular(12.0)
-                          ),
-                          child:Padding(
-                            padding: const EdgeInsets.only(top: 15,left: 10.0),
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
-                              child: Text(favoriteJobs.jobType ?? " " , style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
-                              ),),
+                              child: Text(
+                                favoriteJobs.jobType ?? " ",
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           height: 50,
                           width: 100,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
-                              borderRadius: BorderRadius.circular(12.0)
-                          ),
-                          child:Padding(
-                            padding: const EdgeInsets.only(top: 15,left: 10.0),
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
-                              child: Text(favoriteJobs.jobType ?? " " ,  style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
-                              ),),
+                              child: Text(
+                                favoriteJobs.jobType ?? " ",
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     FittedBox(
                       child: Text(
-                        '\$${favoriteJobs.minSalary ?? " "} '+'\-${favoriteJobs.maxSalary ?? " "+ '/month'}',
+                        '\$${favoriteJobs.minSalary ?? " "} ' +
+                            '\-${favoriteJobs.maxSalary ?? " " + '/month'}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -251,7 +293,6 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                         ),
                       ),
                     ),
-
                     Expanded(
                       child: Material(
                         color: Colors.white,
@@ -280,11 +321,13 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                   ],
                 ),
               ),
-            //  SizedBox(height: 10.0),
+              //  SizedBox(height: 10.0),
               Expanded(
                 child: TabBarView(
                   children: [
-                    DescriptionTabtwo(favoriteJobs: widget.favoriteJobs,),
+                    DescriptionTabtwo(
+                      favoriteJobs: widget.favoriteJobs,
+                    ),
                     RequirementsTabtwo(favoriteJobs: widget.favoriteJobs),
                     CompanyTabtwo(favoriteJobs: widget.favoriteJobs),
                   ],
@@ -301,36 +344,48 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
           // margin: EdgeInsets.only(bottom: 25.0),
           color: Colors.white,
           child: GestureDetector(
-          onTap: () async {
-            alreadyapplied().then((value) async{
-              if(value.status == 200) {
-
-                showToast('This is normal toast with animation',
-                  context: context,
-                  animation: StyledToastAnimation.scale,
-                );
-                showToast("You've Alreay Applied \n For this Job",
-                  context: context,
-                  fullWidth: true,
-                  backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-                  animation: StyledToastAnimation.slideFromBottomFade,
-                  reverseAnimation: StyledToastAnimation.fade,
-                  position: StyledToastPosition.bottom,
-                  animDuration: Duration(seconds: 2),
-                  duration: Duration(seconds: 4),
-                  curve: Curves.elasticOut,
-                  reverseCurve: Curves.linear,
-                );
-
-              }
-              if(value.status == 100){
-                await Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply(favoriteJobs:favoriteJobs,uName: uName,password: password,userDetails:userDetails,user_Id: user_Id,firstName: firstName,)));
-              }
-            });
-          },
+            onTap: () async {
+              alreadyapplied().then((value) async {
+                if (value.status == 200) {
+                  showToast(
+                    'This is normal toast with animation',
+                    context: context,
+                    animation: StyledToastAnimation.scale,
+                  );
+                  showToast(
+                    "You've Alreay Applied \n For this Job",
+                    context: context,
+                    fullWidth: true,
+                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    animation: StyledToastAnimation.slideFromBottomFade,
+                    reverseAnimation: StyledToastAnimation.fade,
+                    position: StyledToastPosition.bottom,
+                    animDuration: Duration(seconds: 2),
+                    duration: Duration(seconds: 4),
+                    curve: Curves.elasticOut,
+                    reverseCurve: Curves.linear,
+                  );
+                }
+                if (value.status == 100) {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SavedJobApply(
+                                favoriteJobs: favoriteJobs,
+                                uName: uName,
+                                password: password,
+                                userDetails: userDetails,
+                                user_Id: user_Id,
+                                firstName: firstName,
+                                cv: cv,
+                                resumee: resume,
+                              )));
+                }
+              });
+            },
             //  onTap: applynow,
             child: Container(
-              height: kSpacingUnit * 6,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.pinkAccent[200],
                 borderRadius: BorderRadius.circular(5),
@@ -352,18 +407,19 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
       ),
     );
   }
-  Future<JobAppliedDetailModel> alreadyapplied() async {
 
+  Future<JobAppliedDetailModel> alreadyapplied() async {
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
     try {
-      final response = await http.post(Uri.parse(url) , body:{
+      final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
         "job_id": favoriteJobs.jobId,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
         print("Status Code is: ${response.statusCode}");
-        jobAppliedDetailModel = JobAppliedDetailModel.fromJson(json.decode(response.body));
+        jobAppliedDetailModel =
+            JobAppliedDetailModel.fromJson(json.decode(response.body));
         return jobAppliedDetailModel;
       }
     } catch (e) {
@@ -371,20 +427,17 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     }
   }
 
-
   Future savejob() async {
-
-    var res = await http.post(
-        uploadsavejob , body: {
+    var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
       "job_id": favoriteJobs.jobId,
     });
-    if(res.statusCode == 200 ) {
-
+    if (res.statusCode == 200) {
       print("==================Response values==================");
       print(res.body);
 
-      showToast('Added To Saved Jobs',
+      showToast(
+        'Added To Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -402,17 +455,14 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         isLiked = true;
       });
     }
-
   }
 
   Future Unsavejob() async {
-
-    var res = await http.post(
-        removefavjob, body: {
+    var res = await http.post(Uri.parse(removefavjob), body: {
       "user_id": user_Id,
       "job_id": favoriteJobs.jobId,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       // print("==================SharedPrefrence values==================");
       //
@@ -427,8 +477,8 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
       print("==================Response values==================");
       print(res.body);
 
-
-      showToast('Removed From Saved Jobs',
+      showToast(
+        'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -446,40 +496,55 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         isLiked = false;
       });
     }
-
   }
+
   setStatus(String message) {
     setState(() {
       status = message;
     });
   }
+
   getCurrentDate() {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
 }
 
 class SavedScreenDetailTwo extends StatefulWidget {
-
-  final  user_Id;
-  final  SavedJobs savedJobs;
+  final user_Id;
+  final SavedJobs savedJobs;
   final JobDetails jobDetails;
-  final cv;
-  final resumee;
   final uName;
   final password;
   final String firstName;
+  final resume;
+  final cv;
+  const SavedScreenDetailTwo(
+      {Key key,
+      this.user_Id,
+      this.savedJobs,
+      this.jobDetails,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.cv,
+      this.resume})
+      : super(key: key);
+  static final String uploadEndPoint = base_url + 'apply_job.php';
 
-  const SavedScreenDetailTwo({Key key,this.user_Id,this.savedJobs, this.jobDetails,this.cv,this.resumee ,this.uName,this.password ,this.firstName}) : super(key: key);
-  static final String uploadEndPoint = base_url+'apply_job.php';
-
-  static final String uploadsavejob = base_url+'saved_jobs.php';
+  static final String uploadsavejob = base_url + 'saved_jobs.php';
 
   @override
-  State<SavedScreenDetailTwo> createState() => _SavedScreenDetailTwoState(user_Id:user_Id,savedJobs: savedJobs ,cv: cv,resumee: resumee ,uName: uName,password: password,firstName: firstName);
+  State<SavedScreenDetailTwo> createState() => _SavedScreenDetailTwoState(
+      user_Id: user_Id,
+      savedJobs: savedJobs,
+      uName: uName,
+      password: password,
+      firstName: firstName,
+      cv: cv,
+      resume: resume);
 }
 
 class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
-
   final user_Id;
   bool IsButton;
   bool isLiked;
@@ -491,16 +556,25 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   final uName;
   final password;
   final String firstName;
+  final cv;
+  final resume;
 
-  _SavedScreenDetailTwoState( {this.user_Id ,this.savedJobs, this.jobDetails ,this.userDetails,this.cv,this.resumee ,this.uName,this.password ,this.firstName});
+  _SavedScreenDetailTwoState(
+      {this.user_Id,
+      this.savedJobs,
+      this.jobDetails,
+      this.userDetails,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.cv,
+      this.resume});
 
   var SaveResponse;
   var Result;
-  String cv;
-  String resumee;
   Storage storage = new Storage();
-   final String uploadsavejob = base_url + 'saved_jobs.php';
-   final String removefavjob = base_url + 'unsave_job.php';
+  final String uploadsavejob = base_url + 'saved_jobs.php';
+  final String removefavjob = base_url + 'unsave_job.php';
   @override
   void initState() {
     super.initState();
@@ -510,7 +584,6 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     print("userid: $firstName");
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -519,19 +592,12 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // Padding(
-          //   padding: const EdgeInsets.all(20.0),
-          //   child: GestureDetector(
-          //     onTap: savejob,
-          //     child:Result==200 ?Image.asset('assets/images/heart2.png',):Image.asset('assets/images/Liked.png.png', color: Colors.black),
-          //   ),
-          // )
           GestureDetector(
             onTap: () {
-              if(isLiked == true){
+              if (isLiked == true) {
                 IsButton = true;
                 savejob();
-              }else{
+              } else {
                 Unsave();
               }
             },
@@ -541,9 +607,9 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                 isFavorite: false,
                 valueChanged: (isLiked) {
                   print('Is Favorite : $isLiked');
-                  if(isLiked) {
+                  if (isLiked) {
                     savejob();
-                  }else{
+                  } else {
                     Unsave();
                   }
                 },
@@ -560,8 +626,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-         '${savedJobs.companyName}',
-          style:TextStyle(
+          '${savedJobs.companyName}',
+          style: TextStyle(
             fontFamily: 'Poppins',
             fontStyle: FontStyle.normal,
             fontWeight: FontWeight.w500,
@@ -595,13 +661,14 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                       child: Container(
                         width: 70.0,
                         height: 70.0,
-                        child:  Image.network(savedJobs.companyLogo ?? " "),
+                        child: Image.network(savedJobs.companyLogo ?? " "),
                       ),
                     ),
                     SizedBox(height: 8.0),
                     FittedBox(
-                      child: Text('${savedJobs.title}',
-                        style:TextStyle(
+                      child: Text(
+                        '${savedJobs.title}',
+                        style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
@@ -616,8 +683,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     ),
                     FittedBox(
                       child: Text(
-                        '${savedJobs.companyName} '+'\-${savedJobs.name}',
-                        style:TextStyle(
+                        '${savedJobs.companyName} ' + '\-${savedJobs.name}',
+                        style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w400,
@@ -638,41 +705,49 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                             width: 100,
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(238, 242, 248, 1.0),
-                                borderRadius: BorderRadius.circular(12.0)
-                            ),
-                            child:Padding(
-                              padding: const EdgeInsets.only(top: 10,left: 10.0),
+                                borderRadius: BorderRadius.circular(12.0)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 10, left: 10.0),
                               child: FittedBox(
-                                child: Text('${savedJobs.jobType ?? " "}' ,style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.blue[800],
-                                  fontSize: 16.0,
-                                  //fontWeight: FontWeight.w700,
-                                ),),
+                                child: Text(
+                                  '${savedJobs.jobType ?? " "}',
+                                  style: TextStyle(
+                                    fontFamily: 'Questrial',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.blue[800],
+                                    fontSize: 16.0,
+                                    //fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Container(
                             height: 50,
                             width: 100,
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(238, 242, 248, 1.0),
-                                borderRadius: BorderRadius.circular(12.0)
-                            ),
-                            child:Padding(
-                              padding: const EdgeInsets.only(top: 10,left: 10.0),
+                                borderRadius: BorderRadius.circular(12.0)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 10, left: 10.0),
                               child: FittedBox(
-                                child: Text(savedJobs.type ?? " " ,style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.blue[800],
-                                  fontSize: 16.0,
-                                  //fontWeight: FontWeight.w700,
-                                ),),
+                                child: Text(
+                                  savedJobs.type ?? " ",
+                                  style: TextStyle(
+                                    fontFamily: 'Questrial',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.blue[800],
+                                    fontSize: 16.0,
+                                    //fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -684,7 +759,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     ),
                     FittedBox(
                       child: Text(
-                        '\$${savedJobs.minSalary} '+'\-${savedJobs.maxSalary}',
+                        '\$${savedJobs.minSalary} ' +
+                            '\-${savedJobs.maxSalary}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -695,7 +771,6 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                         ),
                       ),
                     ),
-
                     Material(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -730,7 +805,9 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    DescriptionTabthree(savedJobs: savedJobs,),
+                    DescriptionTabthree(
+                      savedJobs: savedJobs,
+                    ),
                     RequirementsTabthree(savedJobs: savedJobs),
                     CompanyTabthree(savedJobs: savedJobs),
                   ],
@@ -748,14 +825,15 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
           color: Colors.white,
           child: GestureDetector(
             onTap: () async {
-              alreadyapplied().then((value) async{
-                if(value.status == 200) {
-
-                  showToast('This is normal toast with animation',
+              alreadyapplied().then((value) async {
+                if (value.status == 200) {
+                  showToast(
+                    'This is normal toast with animation',
                     context: context,
                     animation: StyledToastAnimation.scale,
                   );
-                  showToast("You've Alreay Applied \n For this Job",
+                  showToast(
+                    "You've Alreay Applied \n For this Job",
                     context: context,
                     fullWidth: true,
                     backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -767,18 +845,26 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     curve: Curves.elasticOut,
                     reverseCurve: Curves.linear,
                   );
-
                 }
-                if(value.status == 100){
-                  await Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobApply1(
-                    favoriteJobs: savedJobs,uName:uName,password: password,
-                    userDetails:userDetails,user_Id: user_Id,firstName: firstName,
-                    cv: cv,resumee: resumee,)));
+                if (value.status == 100) {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SavedJobApply1(
+                                favoriteJobs: savedJobs,
+                                uName: uName,
+                                password: password,
+                                userDetails: userDetails,
+                                user_Id: user_Id,
+                                firstName: firstName,
+                                cv: cv,
+                                resumee: resume,
+                              )));
                 }
               });
             },
             child: Container(
-              height: kSpacingUnit * 6,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.pinkAccent[200],
                 borderRadius: BorderRadius.circular(5),
@@ -802,32 +888,32 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   }
 
   Future<JobAppliedDetailModel> alreadyapplied() async {
-
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
     try {
-      final response = await http.post(Uri.parse(url) , body:{
+      final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
         "job_id": savedJobs.jobId,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
         print("Status Code is: ${response.statusCode}");
-        jobAppliedDetailModel = JobAppliedDetailModel.fromJson(json.decode(response.body));
+        jobAppliedDetailModel =
+            JobAppliedDetailModel.fromJson(json.decode(response.body));
         return jobAppliedDetailModel;
       }
     } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
   }
+
   Future savejob() async {
     String uid;
     String Jid;
-    var res = await http.post(
-        uploadsavejob , body: {
+    var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
       "job_id": jobDetails.id,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       // print("==================SharedPrefrence values==================");
       //
@@ -848,7 +934,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
       print("==================Response values==================");
       print(res.body);
 
-      showToast('Added To Saved Jobs',
+      showToast(
+        'Added To Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -866,17 +953,14 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         isLiked = true;
       });
     }
-
   }
 
   Future Unsave() async {
-
-    var res = await http.post(
-        removefavjob, body: {
+    var res = await http.post(Uri.parse(removefavjob), body: {
       "user_id": user_Id,
       "job_id": jobDetails.id,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       // print("==================SharedPrefrence values==================");
       //
@@ -891,8 +975,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
       print("==================Response values==================");
       print(res.body);
 
-
-      showToast('Remove From Saved Jobs',
+      showToast(
+        'Remove From Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -910,15 +994,15 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         isLiked = false;
       });
     }
-
   }
+
   setStatus(String message) {
     setState(() {
       status = message;
     });
   }
+
   getCurrentDate() {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
-
 }

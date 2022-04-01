@@ -45,7 +45,7 @@ class _ResetPasswordPage extends State<ResetPasswordPage> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back,color: Colors.black,size: 30.0,),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,size: 30.0,),
         ),
       ) ,
       body: SingleChildScrollView(
@@ -101,14 +101,11 @@ Set your new password.''',
                 child: TextFormField(
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
-                  // validator: (val) => val.length >= 10
-                  //     ? "Password should be 8 characters & 1 Special Character"
-                  //     : null,
                   validator: (v) {
                     if (v.isValidPassword) {
                       return null;
                     } else {
-                      return 'Password must contain an uppercase, lowercase, numeric digit and special character';
+                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character ,\n must be 8 character';
                     }
                   },
                   decoration: InputDecoration(
@@ -128,7 +125,7 @@ Set your new password.''',
                         color: Colors.grey[300],
                       ),
                     ),
-                    hintText: 'Password',
+                    hintText: 'New Password',
                     hintStyle: TextStyle(
                       height: 1.5,
                       fontSize: 16.0,
@@ -165,13 +162,6 @@ Set your new password.''',
                   ),
                   // validate after each user interaction
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  // use the validator to return an error string (or null) based on the input text
-
-                  // onSaved: (value) => setState(() {
-                  //   print('SavedPassword: $Password');
-                  //   return Password = value;
-                  // }
-                  // ),
                   // update the state variable when the text changes
                   onChanged: (String changedValue) {
                     email2 = changedValue;

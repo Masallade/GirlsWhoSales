@@ -280,11 +280,12 @@ class _MentorFormState extends State<MentorForm> {
                                   child: Container(
                                     width: 60,
                                     height: 60,
-                                    color: Colors.blue[800],
+                                    color: Colors.pinkAccent[200],
                                     child: i == 0
-                                        ? Image(
-                                      image: NetworkImage(
-                                          "https://i.pinimg.com/564x/5d/a3/d2/5da3d22d08e353184ca357db7800e9f5.jpg"),
+                                        ? Icon(
+                                      Icons.account_circle_outlined,
+                                      color: Colors.white,
+                                      size: 40,
                                     )
                                         : Icon(
                                       Icons.account_circle_outlined,

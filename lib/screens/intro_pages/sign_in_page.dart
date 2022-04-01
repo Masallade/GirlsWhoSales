@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/extension_for_login.dart';
 import 'package:girlzwhosell/helpers/svg/svg.dart';
@@ -37,17 +36,81 @@ class _SignInPageState extends State<SignInPage> {
           .hasMatch(input);
 
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  String token1;
-
-  Future getToken() async {
-    await _firebaseMessaging.getToken().then((token) {
-      print(" Token is :$token");
-      setState(() {
-        token1 = token;
-      });
-    });
-  }
+//   FirebaseMessaging messaging;
+//   PushNotificationMessage _notificationInfo;
+//   int totalNotifications = 0;
+//   StreamSubscription onMsgSubcription;
+//   StreamSubscription notificationSubcription;
+//
+//   void registerNotification() async {
+//
+//     messaging = FirebaseMessaging.instance;
+// //three types of state in notification
+//
+//     NotificationSettings settings = await messaging.requestPermission(
+//       alert: true,
+//       badge: true,
+//       provisional: false,
+//       sound: true,
+//     );
+//     if(settings.authorizationStatus == AuthorizationStatus.authorized){
+//       print('user granted permission');
+//
+//       //main msg
+//       notificationSubcription= FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//         PushNotificationMessage notification = PushNotificationMessage(
+//           //  image: message.notification.bodyLocKey,
+//           title: message.notification.title ?? "",
+//           body: message.notification.body ?? "",
+//           Datatitle: message.data['title'],
+//           Databody: message.data['body'],
+//         );
+//         //   notificationsDetails = NotificationModel() as List<NotificationsDetails>;
+//         setState(() {
+//           totalNotifications ++;
+//           _notificationInfo = notification;
+//         });
+//         if(notification !=null){
+//           showSimpleNotification(
+//               Text('${_notificationInfo.title ?? ""}'),
+//               // leading: Image.network(_notificationInfo.image),
+//               trailing: NotificationBadge(
+//                 totalNotifications: totalNotifications,
+//               ),
+//               subtitle: Text('${_notificationInfo.body ?? " "}'),
+//               background: Colors.cyan.shade700,
+//               duration: Duration(seconds: 3)
+//           );
+//         }
+//       });
+//       ///app is iin bG but opened & user taps on notification
+//       onMsgSubcription= FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//         final routeFromMsg = message.data['route'];
+//         print('routeFromMsg : $routeFromMsg');
+//       });
+//     }
+//     else{
+//       print('permission denied by User');
+//     }
+//
+//   }
+//
+//
+//
+//
+//
+//
+//   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+//   String token1;
+//
+//   Future getToken() async {
+//     await _firebaseMessaging.getToken().then((token) {
+//       print(" Token is :$token");
+//       setState(() {
+//         token1 = token;
+//       });
+//     });
+//   }
 
   String txt = 'Hi there! Welcome';
   String txt2 = "we're so happy to see you!";
@@ -69,17 +132,19 @@ class _SignInPageState extends State<SignInPage> {
 
 
 
-  @override
-  void initState() {
-    super.initState();
-    getToken();
-  }
+ //  @override
+ //  void initState() {
+ //    super.initState();
+ // //   getToken();
+ //  }
 
   @override
   void dispose() {
 //cleaning the controllers when widget is dsiposed
     userNameController.dispose();
     passwordController.dispose();
+  //  onMsgSubcription.cancel();
+    //notificationSubcription.cancel();
     super.dispose();
   }
 
@@ -104,7 +169,8 @@ class _SignInPageState extends State<SignInPage> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: new Stack(children: [
+      body: Stack(
+          children: [
         Column(
           children: [
             SizedBox(
@@ -212,13 +278,13 @@ class _SignInPageState extends State<SignInPage> {
                         controller: passwordController,
                         cursorColor: Colors.pinkAccent[200],
                         obscureText: !_passwordVisible,
-                        validator: (v) {
-                          if (v.isValidPassword) {
-                            return null;
-                          } else {
-                            return 'Password must contain an uppercase,\n lowercase, numeric digit and special character';
-                          }
-                        },
+                        // validator: (v) {
+                        //   if (v == null || v.isEmpty) {
+                        //     return null;
+                        //   } else {
+                        //     return 'Password is required';
+                        //   }
+                        // },
                         onChanged: (value) {
                           password = value;
                         },
@@ -314,7 +380,10 @@ class _SignInPageState extends State<SignInPage> {
                             if (key.currentState.validate() &&
                                 _key.currentState.validate()) {
                                loginUser();
-                               Requests.Login(context, userName, password, token1, false);
+                               Requests.Login(context, userName, password,
+                                   //token1,
+                                   false);
+                                   //.whenComplete(() => registerNotification());
                             }
                           },
                           child: ListTile(

@@ -236,10 +236,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     if (value == null || value.trim().isEmpty) {
                       return 'This field is required';
                     }
-                    // if (value.trim().length < 4) {
-                    //   return 'Username must be at least 4 characters in length';
-                    // }
-                    // Return null if the entered username is valid
                     return null;
                   },
                   // validate after each user interaction
@@ -492,7 +488,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     if (v.isValidPassword) {
                       return null;
                     } else {
-                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character';
+                      return 'Password must contain an uppercase, \n lowercase, numeric digit and special character, \n must be 8 character';
                     }
                   },
                   decoration: InputDecoration(
@@ -645,14 +641,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, left: 12, right: 12),
                 child: Container(
-                  // width:SizeConfig.screenWidth,
                   width: SizeConfig.screenWidth,
                   height: 60.0,
                   decoration: BoxDecoration(
                     // color:  Colors.red[100],
                     color: Colors.blue[800],
                     borderRadius: BorderRadius.circular(5.0),
-                    // border: Border.all(color: Theme.of(context).accentColor)),
                   ),
                   child: GestureDetector(
                     onTap: () {

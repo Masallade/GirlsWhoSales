@@ -48,7 +48,9 @@ class _VideoCv extends State<VideoCv>{
   _VideoCv({this.uName,this.password ,this.user_id,this.joblist, this.firstName});
 
 
-  File selectedfile2;
+
+  File _image;
+  final picker = ImagePicker();
   Response response;
   String progress;
   Dio dio = new Dio();
@@ -58,17 +60,34 @@ class _VideoCv extends State<VideoCv>{
 
   String uploadurl = base_url + "apply_job.php";
 
-  _imgFromCamera()async {
-    // ignore: deprecated_member_use
-    selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.camera, maxDuration: const Duration(seconds: 60));
-    selectFile();
-    setState((){});
+  Future _imgFromCamera() async {
+    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
+    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected');
+      }
+    });
   }
-  _imgFromGallery() async{
-    // ignore: deprecated_member_use
-    selectedfile2 = await ImagePicker.pickVideo(source: ImageSource.gallery);
-    selectFile();
-    setState((){});
+  // _imgFromGallery() async{
+  //   // ignore: deprecated_member_use
+  //   selectedfile2 = (await FileType.video) as FilePickerResult;
+  //   selectFile();
+  //   setState((){});
+  // }
+
+  Future _imgFromGallery() async {
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected');
+      }
+    });
   }
   void  _showPicker(context) {
     showModalBottomSheet(
@@ -132,23 +151,15 @@ class _VideoCv extends State<VideoCv>{
   }
 
 
-  selectFile() async {
-    selectedfile2 = await FilePicker.getFile(
-      type: FileType.custom,
-      allowedExtensions: ['mp4'],
-      //allowed extension to choose
-    );
 
-    setState((){}); //update the UI so that file name is shown
-  }
 
   uploadResume(context) async {
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
       "video_cv": await MultipartFile.fromFile(
-          selectedfile2 == null ? null : selectedfile2.path,
-          filename: basename(selectedfile2.path)
+          _image == null ? null : _image.path,
+          filename: basename(_image.path)
         //show only filename from path
       ),
     });
@@ -167,18 +178,11 @@ class _VideoCv extends State<VideoCv>{
     if(response.statusCode == 200){
       print(formdata);
       print(response.toString());
-      print(selectedfile2);
+      print(_image);
       print(user_id);
     }else{
       print("Error during connection to server.");
     }
-  }
-
-@override
-void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('video Path is :$selectedfile2');
   }
 
 
@@ -262,7 +266,7 @@ void initState() {
                               },
                               child: ListTile(
                                   leading: Image.asset('assets/images/cvIcon.png'),
-                                  title: selectedfile2 == null
+                                  title: _image == null
                                       ? Text(
                                     'Upload Visume!',
                                     style: TextStyle(
@@ -274,9 +278,9 @@ void initState() {
                                       /* letterSpacing: 0.0, */
                                     ),
                                   )
-                                      : Text(basename(selectedfile2.path),
+                                      : Text(basename(_image.path),
                                   ),
-                                  trailing: selectedfile2 != null
+                                  trailing: _image != null
                                       ? Icon(
                                     Icons.check,
                                     color: Colors.green,

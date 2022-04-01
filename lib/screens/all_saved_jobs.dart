@@ -11,16 +11,30 @@ class AllSavedJobs extends StatefulWidget {
   final String firstName;
   final uName;
   final password;
- final List<SavedJobs> savedJobs;
+  final List<SavedJobs> savedJobs;
+  final cv;
+  final resume;
 
-  const AllSavedJobs({
-    Key key,
-    this.user_Id,
-    this.firstName,this.uName,this.password,this.savedJobs
-  }) : super(key: key);
+  const AllSavedJobs(
+      {Key key,
+      this.user_Id,
+      this.firstName,
+      this.uName,
+      this.password,
+      this.savedJobs,
+      this.cv,
+      this.resume})
+      : super(key: key);
 
   @override
-  _AllSavedJobsState createState() => _AllSavedJobsState(user_Id: user_Id ,uName: uName,password: password,firstName: firstName,savedJobs: savedJobs);
+  _AllSavedJobsState createState() => _AllSavedJobsState(
+      user_Id: user_Id,
+      uName: uName,
+      password: password,
+      firstName: firstName,
+      savedJobs: savedJobs,
+      cv: cv,
+      resume: resume);
 }
 
 class _AllSavedJobsState extends State<AllSavedJobs> {
@@ -29,15 +43,24 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
   final password;
   final String firstName;
   List<SavedJobs> savedJobs;
+  final cv;
+  final resume;
   bool isloading = false;
-  _AllSavedJobsState({this.user_Id,this.uName,this.password,this.firstName, this.savedJobs});
+  _AllSavedJobsState(
+      {this.user_Id,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.savedJobs,
+      this.cv,
+      this.resume});
 
   Future<String> loadViewData() async {
-    savedJobs =
-    await request(context, false);
+    savedJobs = await request(context, false);
     return "OK";
   }
-  void initState(){
+
+  void initState() {
     super.initState();
     print('$user_Id');
     print('uname: $uName');
@@ -45,6 +68,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
     print('name $firstName');
     //  appiedDashboadJobs();
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
@@ -82,7 +106,18 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                     scrollDirection: Axis.vertical,
                     child: Container(
                       height: SizeConfig.screenHeight,
-                      child: savedJobs ==null ? Container(child: Center(child: Text('No Saved Jobs' ,style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),),),) :ListView.builder(
+                      child: savedJobs == null
+                          ? Container(
+                              child: Center(
+                                child: Text(
+                                  'No Saved Jobs',
+                                  style: TextStyle(
+                                      fontFamily: 'Questrial',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
                               itemCount: savedJobs.length,
                               itemBuilder: (context, index) {
                                 return Padding(
@@ -101,8 +136,14 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 SavedScreenDetailTwo(
-                                                    savedJobs: savedJobs[index],
-                                                    user_Id: user_Id , uName: uName,password: password,firstName: firstName,),
+                                              savedJobs: savedJobs[index],
+                                              user_Id: user_Id,
+                                              uName: uName,
+                                              password: password,
+                                              firstName: firstName,
+                                              cv: cv,
+                                              resume: resume,
+                                            ),
                                           ),
                                         );
                                       },
@@ -111,8 +152,8 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                             // left: BorderSide(
                                             //     color: Colors.pinkAccent[200],
                                             //     width: 5)
-                                          color: Color.fromRGBO(238, 242, 248, 1)
-                                        ),
+                                            color: Color.fromRGBO(
+                                                238, 242, 248, 1)),
                                         elevation: 1.0,
                                         child: Padding(
                                           padding: const EdgeInsets.all(20.0),
@@ -129,9 +170,10 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                               child: Text(
                                                 '${savedJobs[index].title}',
                                                 style: TextStyle(
-                                                    fontFamily: 'Poppins' ,
-                                                    fontSize: 20 ,
-                                                    fontWeight: FontWeight.w500),
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                             ),
                                             subtitle: Column(
@@ -142,37 +184,44 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                                 Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(left: 30.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 30.0),
                                                     child: Text(
                                                       '${savedJobs[index].companyName}',
                                                       style: TextStyle(
                                                         fontFamily: 'Questrial',
-                                                        fontStyle: FontStyle.normal,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.blueGrey[300],
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors
+                                                            .blueGrey[300],
                                                         fontSize: 16.0,
                                                         //fontWeight: FontWeight.w700,
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              SizedBox(
-                                                  height: 16
-                                              ),
+                                                SizedBox(height: 16),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 30.0),
                                                   child: Align(
-                                                    alignment: Alignment.topLeft,
+                                                    alignment:
+                                                        Alignment.topLeft,
                                                     child: Text(
                                                       ' \$ ${savedJobs[index].minSalary + '-'}' +
                                                           '\$${savedJobs[index].maxSalary + '/month'}',
                                                       style: TextStyle(
                                                         fontFamily: 'Questrial',
-                                                        fontStyle: FontStyle.normal,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.blueGrey[300],
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors
+                                                            .blueGrey[300],
                                                         fontSize: 14.0,
                                                         //fontWeight: FontWeight.w700,
                                                       ),
@@ -193,35 +242,35 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                 ],
               ),
             );
-          }else {
+          } else {
             return Scaffold(
               body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:38),
+                padding: const EdgeInsets.symmetric(horizontal: 38),
                 child: Center(
-                  child: isloading?CircularProgressIndicator(
-                    backgroundColor: Colors.red,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-
-                  ):Text(
-                    "Searching...",
-                    style: TextStyle(
-                      fontFamily: 'Questrial',
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pinkAccent
-
-                    ),
-                  ),
+                  child: isloading
+                      ? CircularProgressIndicator(
+                          backgroundColor: Colors.red,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.green),
+                        )
+                      : Text(
+                          "Searching...",
+                          style: TextStyle(
+                              fontFamily: 'Questrial',
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.pinkAccent),
+                        ),
                 ),
               ),
             );
           }
-        }
-        );
+        });
   }
 
   // ignore: missing_return
-  Future<List<SavedJobs>> request(BuildContext context, bool showLoading) async {
+  Future<List<SavedJobs>> request(
+      BuildContext context, bool showLoading) async {
     String get_key_url =
         "https://biitsolutions.co.uk/girlzwhosell/API/fetch_saved_jobs.php?user_id=${user_Id}";
 
@@ -231,7 +280,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
 
       if (showLoading) showLoadingDialog(context, _keyLoader);
 
-      final http.Response response = await http.get(get_key_url);
+      final http.Response response = await http.get(Uri.parse(get_key_url));
       print("email,${get_key_url}");
       if (showLoading)
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

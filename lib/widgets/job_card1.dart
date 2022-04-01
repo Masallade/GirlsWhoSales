@@ -9,13 +9,7 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
-
-
 class JobCard1 extends StatefulWidget {
-
   final FavoriteJobs favoriteJobs;
   final user_Id;
   final uName;
@@ -25,15 +19,37 @@ class JobCard1 extends StatefulWidget {
   final List<JobDetails> jobDetails;
   final List<SeekerDetails> userDetails;
   final jobId;
-
-  const JobCard1({Key key, this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId}) : super(key: key);
+  final cv;
+  final resume;
+  const JobCard1(
+      {Key key,
+      this.favoriteJobs,
+      this.user_Id,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.jobDetails,
+      this.userDetails,
+      this.jobId,
+      this.cv,
+      this.resume})
+      : super(key: key);
 
   @override
-  State<JobCard1> createState() => _JobCard1State(favoriteJobs: favoriteJobs,user_Id: user_Id,uName: uName, password: password,firstName: firstName,jobDetails: jobDetails,userDetails: userDetails,jobId: jobId);
+  State<JobCard1> createState() => _JobCard1State(
+      favoriteJobs: favoriteJobs,
+      user_Id: user_Id,
+      uName: uName,
+      password: password,
+      firstName: firstName,
+      jobDetails: jobDetails,
+      userDetails: userDetails,
+      jobId: jobId,
+      cv: cv,
+      resume: resume);
 }
 
 class _JobCard1State extends State<JobCard1> {
-
   final FavoriteJobs favoriteJobs;
   final user_Id;
   final uName;
@@ -44,12 +60,25 @@ class _JobCard1State extends State<JobCard1> {
   final List<SeekerDetails> userDetails;
 
   final jobId;
-  _JobCard1State({ this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId});
+  final cv;
+  final resume;
+  _JobCard1State(
+      {this.favoriteJobs,
+      this.user_Id,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.jobDetails,
+      this.userDetails,
+      this.jobId,
+      this.cv,
+      this.resume});
 
-//   void initState(){
-//   print('jobCardEMail :$uName ');
-//   print('jobCardpass : $password');
-// }
+  void initState() {
+    print('jobCardEMail :$cv ');
+    print('jobCardpass : $resume');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,74 +86,94 @@ class _JobCard1State extends State<JobCard1> {
         transitionType: ContainerTransitionType.fade,
         transitionDuration: const Duration(milliseconds: 500),
         openColor: kSilverColor,
-
         openElevation: 0,
         openBuilder: (context, action) {
-          return SavedScreenDetail(favoriteJobs: favoriteJobs, user_Id: user_Id,jobDetails: jobDetails, password:password,
-              uName: uName,userDetails: userDetails,firstName:firstName, jobId: jobId);
+          return SavedScreenDetail(
+            favoriteJobs: favoriteJobs,
+            user_Id: user_Id,
+            jobDetails: jobDetails,
+            password: password,
+            uName: uName,
+            userDetails: userDetails,
+            firstName: firstName,
+            jobId: jobId,
+            cv: cv,
+            resume: resume,
+          );
         },
         closedColor: Colors.transparent,
         closedElevation: 0,
         closedBuilder: (context, action) {
           return Container(
-              height: 160.w,
-              width: 250.w,
+            height: 140,
+            width: 250,
             //  padding: EdgeInsets.all(kSpacingUnit * 2),
-              decoration: BoxDecoration(
-              color: Color.fromRGBO(233, 246, 255,1.0),
-                //color: Colors.blue[50],
-                borderRadius: BorderRadiusDirectional.circular(15),
-              ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(233, 246, 255, 1.0),
+              //color: Colors.blue[50],
+              borderRadius: BorderRadiusDirectional.circular(15),
+            ),
             child: ListTile(
-                leading:   Padding(
-                  padding: const EdgeInsets.only(left: 8.0 , top: 7),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                //    color: Colors.yellow,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Image.network(favoriteJobs.companyLogo ?? Image.asset('assets/images/splashlogo.png'),
-                         height: 40,
-                         width: 40,),
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 7),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  //    color: Colors.yellow,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.network(
+                      favoriteJobs.companyLogo ??
+                          Image.asset('assets/images/splashlogo.png'),
+                      height: 40,
+                      width: 40,
                     ),
                   ),
                 ),
-           title: Padding(
-             padding: const EdgeInsets.only(top: 16.0),
-             child: Text('${favoriteJobs.companyName ?? ""}' ,  style: TextStyle(
-                             color: Color.fromRGBO(113, 126, 149, 1),
-                             fontStyle: FontStyle.normal,
-                             fontFamily: "Questrial",
-                             fontSize: 14,
-                             fontWeight: FontWeight.w400,
-                           ),),
-           ),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  '${favoriteJobs.companyName ?? ""}',
+                  style: TextStyle(
+                    color: Color.fromRGBO(113, 126, 149, 1),
+                    fontStyle: FontStyle.normal,
+                    fontFamily: "Questrial",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
               subtitle: Column(
                 children: [
-                  SizedBox(height:5),
+                  SizedBox(height: 5),
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text('${favoriteJobs.title}' ,  style: TextStyle(
-                      color: Color.fromRGBO(34, 34, 34, 1),
-                      fontStyle: FontStyle.normal,
-                      fontFamily: "Poppins",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),),
+                    child: Text(
+                      '${favoriteJobs.title}',
+                      style: TextStyle(
+                        color: Color.fromRGBO(34, 34, 34, 1),
+                        fontStyle: FontStyle.normal,
+                        fontFamily: "Poppins",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text('${favoriteJobs.jobType}' ,  style: TextStyle(
-                      color: Color.fromRGBO(1, 82, 174, 1),
-                      fontStyle: FontStyle.normal,
-                      fontFamily: "Questrial",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),),
+                    child: Text(
+                      '${favoriteJobs.jobType}',
+                      style: TextStyle(
+                        color: Color.fromRGBO(1, 82, 174, 1),
+                        fontStyle: FontStyle.normal,
+                        fontFamily: "Questrial",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
-
                 ],
               ),
             ),
@@ -135,12 +184,7 @@ class _JobCard1State extends State<JobCard1> {
   }
 }
 
-
-
-
-
 class JobCard2 extends StatefulWidget {
-
   final FavoriteJobs favoriteJobs;
   final user_Id;
   final uName;
@@ -150,15 +194,37 @@ class JobCard2 extends StatefulWidget {
   final List<JobDetails> jobDetails;
   final List<SeekerDetails> userDetails;
   final jobId;
-
-  const JobCard2({Key key, this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId}) : super(key: key);
+  final cv;
+  final resume;
+  const JobCard2(
+      {Key key,
+      this.favoriteJobs,
+      this.user_Id,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.jobDetails,
+      this.userDetails,
+      this.jobId,
+      this.cv,
+      this.resume})
+      : super(key: key);
 
   @override
-  State<JobCard2> createState() => _JobCard2State(favoriteJobs: favoriteJobs,user_Id: user_Id,uName: uName, password: password,firstName: firstName,jobDetails: jobDetails,userDetails: userDetails,jobId: jobId);
+  State<JobCard2> createState() => _JobCard2State(
+      favoriteJobs: favoriteJobs,
+      user_Id: user_Id,
+      uName: uName,
+      password: password,
+      firstName: firstName,
+      jobDetails: jobDetails,
+      userDetails: userDetails,
+      jobId: jobId,
+      cv: cv,
+      resume: resume);
 }
 
 class _JobCard2State extends State<JobCard2> {
-
   final FavoriteJobs favoriteJobs;
   final user_Id;
   final uName;
@@ -169,19 +235,32 @@ class _JobCard2State extends State<JobCard2> {
   final List<SeekerDetails> userDetails;
 
   final jobId;
-
+  final cv;
+  final resume;
   bool isLiked;
   bool IsButton;
 
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
+  void initState() {
+    print('jobCard2EMail :$uName ');
+    print('jobCard2pass : $password');
+    print('jobCard2pass : $cv');
+    print('jobCard2pass : $resume');
+  }
 
-  // void initState(){
-  //   print('jobCard2EMail :$uName ');
-  //   print('jobCard2pass : $password');
-  // }
-  _JobCard2State({ this.favoriteJobs, this.user_Id,this.uName,this.password,this.firstName,this.jobDetails, this.userDetails,this.jobId});
+  _JobCard2State(
+      {this.favoriteJobs,
+      this.user_Id,
+      this.uName,
+      this.password,
+      this.firstName,
+      this.jobDetails,
+      this.userDetails,
+      this.jobId,
+      this.cv,
+      this.resume});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,12 +268,20 @@ class _JobCard2State extends State<JobCard2> {
         transitionType: ContainerTransitionType.fade,
         transitionDuration: const Duration(milliseconds: 500),
         openColor: kSilverColor,
-
         openElevation: 0,
         openBuilder: (context, action) {
-          //  return DetailsForFavJob(favoriteJobs: favoriteJobs, userId: user_Id);
-          return SavedScreenDetail(favoriteJobs: favoriteJobs, user_Id: user_Id,jobDetails: jobDetails,uName: uName,password:password,userDetails: userDetails,firstName:firstName, jobId: jobId,);
-
+          return SavedScreenDetail(
+            favoriteJobs: favoriteJobs,
+            user_Id: user_Id,
+            jobDetails: jobDetails,
+            uName: uName,
+            password: password,
+            userDetails: userDetails,
+            firstName: firstName,
+            jobId: jobId,
+            cv: cv,
+            resume: resume,
+          );
         },
         closedColor: Colors.transparent,
         closedElevation: 0,
@@ -202,54 +289,49 @@ class _JobCard2State extends State<JobCard2> {
           return Card(
             shape: Border.all(color: Color.fromRGBO(238, 242, 248, 1)),
             child: Container(
-              height: 190.w,
-              width:327.w,
+              height: 190,
+              width: 327,
               decoration: BoxDecoration(
-             //   color: Color.fromRGBO(233, 246, 255,1.0),
-                //color: Colors.blue[50],
                 borderRadius: BorderRadiusDirectional.circular(15),
               ),
               child: Column(
                 children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0 ,top:16.0 ),
-                      child: Container(
-
-                        width: 40,
-                        height: 40,
-                        //  color: Colors.yellow,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Image.network(favoriteJobs.companyLogo ?? Image.asset('assets/images/splashlogo.png'),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                          child: Container(
+                            width: 40,
                             height: 40,
-                            width: 40,),
+                            //  color: Colors.yellow,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Image.network(
+                                favoriteJobs.companyLogo ??
+                                    Image.asset('assets/images/splashlogo.png'),
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: ()=>Unsavejob(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0 ,top:16.0,right:18.5),
-                        // child: FavoriteButton(
-                        //   isFavorite: false,
-                        //   valueChanged: (isLiked) {
-                        //     print('Is Favorite : $isLiked');
-                        //     if(isLiked) {
-                        //       savejob();
-                        //     }else{
-                        //       Unsavejob();
-                        //     }
-                        //   },
-                        // ),
-                        child: Icon(Icons.favorite , color: Colors.red, size: 40,),
-                      ),
-                    )
-              ]
-                ),
-SizedBox(height: 16,),
+                        GestureDetector(
+                          onTap: () => Unsavejob(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16.0, top: 16.0, right: 18.5),
+                            child: Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                          ),
+                        )
+                      ]),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Align(
@@ -262,50 +344,51 @@ SizedBox(height: 16,),
                           fontStyle: FontStyle.normal,
                           fontFamily: "Poppins",
                           fontSize: 16,
-                          fontWeight:
-                          FontWeight.w500,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 5,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(favoriteJobs.companyName ?? " ",
-                                   //data.companyName,
-                                   style: TextStyle(
-                                     color: Color.fromRGBO(113, 126, 149, 1),
-                                     fontStyle: FontStyle.normal,
-                                     fontFamily: "Questrial",
-                                     fontSize: 14,
-                                     fontWeight:
-                                     FontWeight.w400,
-                                   ),
-                                   //   style: kCardTitleTextStyle,
-                                 ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        favoriteJobs.companyName ?? " ",
+                        //data.companyName,
+                        style: TextStyle(
+                          color: Color.fromRGBO(113, 126, 149, 1),
+                          fontStyle: FontStyle.normal,
+                          fontFamily: "Questrial",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
-              ),
-
-                      SizedBox(height: 16,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                             "Salary \$ ${favoriteJobs.minSalary ?? " " + favoriteJobs.maxSalary ?? "" }",
-                             style: TextStyle(
-                               color: Color.fromRGBO(113, 126, 149, 1),
-                               fontStyle: FontStyle.normal,
-                               fontFamily: "Questrial",
-                               fontSize: 14,
-                               fontWeight:
-                               FontWeight.w400,
-                             ),
-                           ),
+                        //   style: kCardTitleTextStyle,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Salary \$ ${favoriteJobs.minSalary ?? " " + favoriteJobs.maxSalary ?? ""}",
+                        style: TextStyle(
+                          color: Color.fromRGBO(113, 126, 149, 1),
+                          fontStyle: FontStyle.normal,
+                          fontFamily: "Questrial",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -315,16 +398,14 @@ SizedBox(height: 16,),
     );
   }
 
-
   Future savejob() async {
     String uid;
     String Jid;
-    var res = await http.post(
-        uploadsavejob , body: {
+    var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
       "job_id": favoriteJobs.jobId,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       print("==================SharedPrefrence values==================");
 
@@ -345,7 +426,8 @@ SizedBox(height: 16,),
       print("==================Response values==================");
       print(res.body);
 
-      showToast('Added To Saved Jobs',
+      showToast(
+        'Added To Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -358,24 +440,21 @@ SizedBox(height: 16,),
         reverseCurve: Curves.linear,
       );
 
-
       setState(() {
         //  isapplied = true;
         isLiked = true;
       });
     }
-
   }
 
   Future Unsavejob() async {
     String uid;
     String Jid;
-    var res = await http.post(
-        removefavjob, body: {
+    var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
       "job_id": favoriteJobs.jobId,
     });
-    if(res.statusCode == 200 ) {
+    if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       print("==================SharedPrefrence values==================");
 
@@ -390,8 +469,8 @@ SizedBox(height: 16,),
       print("==================Response values==================");
       print(res.body);
 
-
-      showToast('Removed From Saved Jobs',
+      showToast(
+        'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
         backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
@@ -403,13 +482,17 @@ SizedBox(height: 16,),
         curve: Curves.elasticOut,
         reverseCurve: Curves.linear,
       );
-      Requests.Login(context, uName, password,'',false);
+      Requests.Login(
+          context,
+          uName,
+          password,
+          //'',
+          false);
 
       setState(() {
         //isapplied = false;
         isLiked = false;
       });
     }
-
   }
 }

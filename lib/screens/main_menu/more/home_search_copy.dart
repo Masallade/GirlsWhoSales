@@ -1,14 +1,10 @@
-import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/new_widgets/company_card.dart';
 import 'package:girlzwhosell/new_widgets/company_card2.dart';
-import 'package:girlzwhosell/notification_badge/badge_for%20notification.dart';
 import 'package:girlzwhosell/screens/Notification_screen.dart';
 import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/main_menu/all_jobs.dart';
@@ -16,7 +12,6 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'general_search.dart';
 
 class HomeSearch extends StatefulWidget {
@@ -30,6 +25,8 @@ class HomeSearch extends StatefulWidget {
   final List<SeekerDetails> userDetails;
 
   final jobId;
+  final cv;
+  final resume;
   final String location;
   final String Location;
 // PushNotificationMessage notificationInfo;
@@ -44,6 +41,8 @@ class HomeSearch extends StatefulWidget {
       this.favoriteJobs,
       this.userDetails,
       this.jobId,
+      this.cv,
+      this.resume,
       this.location,
       this.Location
       //,this.notificationInfo
@@ -57,7 +56,10 @@ class HomeSearch extends StatefulWidget {
         firstName: firstName,
         jobDetails: jobDetails,
         favoriteJobs: favoriteJobs,
-        jobId: jobId, location: location, Location: Location,
+        jobId: jobId,
+        cv: cv,
+        resume: resume,
+        location: location, Location: Location,
         //    notificationInfo: notificationInfo
       );
 }
@@ -67,11 +69,12 @@ class _HomeSearchState extends State<HomeSearch> {
   final password;
   final user_Id;
   final String firstName;
-//  final cookiee;
   final List<JobDetails> jobDetails;
   final List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
   final jobId;
+  final cv;
+  final resume;
   PushNotificationMessage notificationInfo;
 
   _HomeSearchState({
@@ -83,6 +86,8 @@ class _HomeSearchState extends State<HomeSearch> {
     this.favoriteJobs,
     this.userDetails,
     this.jobId,
+    this.cv,
+    this.resume,
     this.location,
     this.Location,
     //  this.notificationInfo
@@ -91,70 +96,68 @@ class _HomeSearchState extends State<HomeSearch> {
   String location = '';
   List<SearchModel> joblist = [];
 
-//notifications Part
-  StreamSubscription onMsgSubcription;
-  StreamSubscription notificationSubcription;
-//  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  FirebaseMessaging messaging;
-  int totalNotifications = 0;
-  //model
-  PushNotificationMessage _notificationInfo;
+// //notifications Part
+//   StreamSubscription onMsgSubcription;
+//   StreamSubscription notificationSubcription;
+// //  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+//   FirebaseMessaging messaging;
+//   int totalNotifications = 0;
+//   //model
+//   PushNotificationMessage _notificationInfo;
 
-
-
-
-  void registerNotification() async {
-
-    messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      badge: true,
-      provisional: false,
-      sound: true,
-    );
-
-    if ( settings.authorizationStatus == AuthorizationStatus.authorized ) {
-      print('user granted permission');
-
-      //main msg
-      notificationSubcription =
-          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        PushNotificationMessage notification = PushNotificationMessage(
-          //  image: message.notification.bodyLocKey,
-          title: message.notification.title ?? "",
-          body: message.notification.body ?? "",
-          Datatitle: message.data['title'],
-          Databody: message.data['body'],
-        );
-
-        setState(() {
-          totalNotifications++;
-          _notificationInfo = notification;
-        });
-        if (notification != null) {
-          showSimpleNotification(Text('${_notificationInfo.title ?? ""}'),
-              // leading: Image.network(_notificationInfo.image),
-              trailing: NotificationBadge(
-                totalNotifications: totalNotifications,
-              ),
-              subtitle: Text('${_notificationInfo.body ?? " "}'),
-              background: Colors.cyan.shade700,
-              duration: Duration(seconds: 3)
-          );
-        }
-      });
-
-      ///app is iin bG but opened & user taps on notification
-      onMsgSubcription = onMsgSubcription =
-          FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        final routeFromMsg = message.data['route'];
-        print('routeFromMsg : $routeFromMsg');
-      });
-    } else {
-      print('permission denied by User');
-    }
-  }
+  //
+  // void registerNotification() async {
+  //
+  //   messaging = FirebaseMessaging.instance;
+  //
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     badge: true,
+  //     provisional: false,
+  //     sound: true,
+  //   );
+  //
+  //   if ( settings.authorizationStatus == AuthorizationStatus.authorized ) {
+  //     print('user granted permission');
+  //
+  //     //main msg
+  //     notificationSubcription =
+  //         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //       PushNotificationMessage notification = PushNotificationMessage(
+  //         //  image: message.notification.bodyLocKey,
+  //         title: message.notification.title ?? "",
+  //         body: message.notification.body ?? "",
+  //         Datatitle: message.data['title'],
+  //         Databody: message.data['body'],
+  //       );
+  //
+  //       setState(() {
+  //         totalNotifications++;
+  //         _notificationInfo = notification;
+  //       });
+  //       if (notification != null) {
+  //         showSimpleNotification(Text('${_notificationInfo.title ?? ""}'),
+  //             // leading: Image.network(_notificationInfo.image),
+  //             trailing: NotificationBadge(
+  //               totalNotifications: totalNotifications,
+  //             ),
+  //             subtitle: Text('${_notificationInfo.body ?? " "}'),
+  //             background: Colors.cyan.shade700,
+  //             duration: Duration(seconds: 3)
+  //         );
+  //       }
+  //     });
+  //
+  //     ///app is iin bG but opened & user taps on notification
+  //     onMsgSubcription = onMsgSubcription =
+  //         FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  //       final routeFromMsg = message.data['route'];
+  //       print('routeFromMsg : $routeFromMsg');
+  //     });
+  //   } else {
+  //     print('permission denied by User');
+  //   }
+  // }
 
   @override
   void initState() {
@@ -163,20 +166,20 @@ class _HomeSearchState extends State<HomeSearch> {
     print('firstname is: $firstName');
     print('uName on homesearch : $uName');
     print('pass on homesearch : $password');
-    registerNotification();
+    // registerNotification();
     super.initState();
   }
-
-  @override
-  void dispose() {
-    onMsgSubcription.cancel();
-    notificationSubcription.cancel();
-    super.dispose();
-  }
+  //
+  // @override
+  // void dispose() {
+  //   onMsgSubcription.cancel();
+  //   notificationSubcription.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, height: 890, width: 414, allowFontScaling: true);
+    //  ScreenUtil.init(height: 890, width: 414, allowFontScaling: true);
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
@@ -254,6 +257,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                 favoriteJobs: favoriteJobs,
                                 userDetails: userDetails,
                                 jobId: jobId,
+                                cv: cv,
+                                resume: resume,
                               )));
                 },
                 child: Container(
@@ -426,6 +431,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                           appliedStatus:
                                               jobAppliedDetailModel.applied,
                                           jobid: jobId,
+                                          cv: cv,
+                                          resumee: resume,
                                         ),
                                       ),
                                     );
@@ -449,6 +456,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                           appliedStatus:
                                               jobAppliedDetailModel.applied,
                                           jobid: jobId,
+                                          cv: cv,
+                                          resumee: resume,
                                         ),
                                       ),
                                     );
@@ -485,6 +494,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                     firstName: firstName,
                                     uName: uName,
                                     password: password,
+                                    cv: cv,
+                                    resume: resume,
                                   )));
                     },
                     child: Text(
@@ -536,6 +547,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                     jobDetails: jobDetails,
                                     userDetails: userDetails,
                                     jobId: jobId,
+                                    cv: cv,
+                                    resume: resume,
                                   ),
                                 ),
                               )
@@ -550,4 +563,3 @@ class _HomeSearchState extends State<HomeSearch> {
     );
   }
 }
-

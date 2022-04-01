@@ -7,8 +7,6 @@ import 'package:girlzwhosell/screens/dashboasd%20applied%20Screen.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
 
-
-
 class Profile extends StatefulWidget {
   final user_Id;
   final firstName;
@@ -21,6 +19,8 @@ class Profile extends StatefulWidget {
   final List<JobDetails> jobDetails;
   final uName;
   final password;
+  final cv;
+  final resume;
   const Profile(
       {Key key,
       this.user_Id,
@@ -30,7 +30,12 @@ class Profile extends StatefulWidget {
       this.total_saved,
       this.total_applied,
       this.favoriteJobs,
-      this.appliedJobDetails ,this.jobDetails,this.uName,this.password })
+      this.appliedJobDetails,
+      this.jobDetails,
+      this.uName,
+      this.password,
+      this.cv,
+      this.resume})
       : super(key: key);
 
   @override
@@ -41,7 +46,12 @@ class Profile extends StatefulWidget {
       total_saved: total_saved,
       favoriteJobs: favoriteJobs,
       userDetails: userDetails,
-      appliedJobDetails: appliedJobDetails,jobDetails: jobDetails ,uName: uName,password: password);
+      appliedJobDetails: appliedJobDetails,
+      jobDetails: jobDetails,
+      uName: uName,
+      password: password,
+      cv: cv,
+      resume: resume);
 }
 
 class _ProfileState extends State<Profile> with TickerProviderStateMixin {
@@ -57,6 +67,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   final List<JobDetails> jobDetails;
   final uName;
   final password;
+  final cv;
+  final resume;
   _ProfileState(
       {this.user_Id,
       this.firstName,
@@ -65,18 +77,25 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       this.total_saved,
       this.favoriteJobs,
       this.userDetails,
-      this.appliedJobDetails ,this.jobDetails,this.uName,this.password,});
+      this.appliedJobDetails,
+      this.jobDetails,
+      this.uName,
+      this.password,
+      this.cv,
+      this.resume});
 
   void initState() {
     super.initState();
     print('$user_Id');
     print('$firstName');
+    print('$cv');
+    print('$resume');
     //appiedDashboadJobs();
   }
 
   @override
   Widget build(BuildContext context) {
-  //  double screenHeight = MediaQuery.of(context).size.height;
+    //  double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -84,50 +103,67 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
             //  mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
-                child:Stack(
+                child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 12.0 ,top: 32),
-                      child: Text("Welcome," , style: TextStyle(
-                        color: Colors.black,
-                        height: 1.5,
-                        fontSize: 20.0,
-                        fontFamily: 'Questrial',
-                        fontWeight: FontWeight.w400,
-                      ),
+                      padding: const EdgeInsets.only(left: 12.0, top: 32),
+                      child: Text(
+                        "Welcome,",
+                        style: TextStyle(
+                          color: Colors.black,
+                          height: 1.5,
+                          fontSize: 20.0,
+                          fontFamily: 'Questrial',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 28.0,top: 45),
+                      padding: const EdgeInsets.only(right: 28.0, top: 45),
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: ((context)=>NotificationScreen(user_Id: user_Id,))));
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            NotificationScreen(
+                                              user_Id: user_Id,
+                                            ))));
                               },
-                              child: Image.asset('assets/images/notification.png',scale: 1.0,color: Colors.black,))),
+                              child: Image.asset(
+                                'assets/images/notification.png',
+                                scale: 1.0,
+                                color: Colors.black,
+                              ))),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 12.0 ,top: 60),
-                      child:  Text(
-                                '$firstName',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 24),
-                              )),
+                        padding: const EdgeInsets.only(left: 12.0, top: 60),
+                        child: Text(
+                          '$firstName',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Poppins',
+                              fontSize: 24),
+                        )),
                   ],
-                ) ,
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 12.0 , right: 12.0 ,top: 20),
+                padding:
+                    const EdgeInsets.only(left: 12.0, right: 12.0, top: 20),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                AllSavedJobs(user_Id: user_Id , uName: uName,password: password,firstName: firstName,)));
+                            builder: (context) => AllSavedJobs(
+                                  user_Id: user_Id,
+                                  uName: uName,
+                                  password: password,
+                                  firstName: firstName,
+                                )));
                   },
                   child: Container(
                     height: 150,
@@ -160,9 +196,9 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
               Padding(
-                padding: const EdgeInsets.only(left: 12.0 , right: 12.0 ,top: 20),
+                padding:
+                    const EdgeInsets.only(left: 12.0, right: 12.0, top: 20),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -202,10 +238,14 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              SizedBox(height: 17,),
+              SizedBox(
+                height: 17,
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0 ,),
+                  padding: const EdgeInsets.only(
+                    left: 12.0,
+                  ),
                   child: Text(
                     "Saved Jobs",
                     style: TextStyle(
@@ -242,9 +282,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   ),
                 ),
               ]),
-              SizedBox(height:12.5,),
+              SizedBox(
+                height: 12.5,
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 12.0 , right: 12.0),
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: favoriteJobs == null
@@ -271,14 +313,22 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 (item) => Container(
                                   padding: EdgeInsets.only(right: 12),
                                   child: JobCard2(
-                                    favoriteJobs: item.value, user_Id: user_Id,uName: uName,password: password,firstName: firstName,jobDetails: jobDetails,userDetails: userDetails),
+                                    favoriteJobs: item.value,
+                                    user_Id: user_Id,
+                                    uName: uName,
+                                    password: password,
+                                    firstName: firstName,
+                                    jobDetails: jobDetails,
+                                    userDetails: userDetails,
+                                    cv: cv,
+                                    resume: resume,
+                                  ),
                                 ),
                               )
                               .toList(),
                         ),
                 ),
               ),
-
             ],
           ),
         ),

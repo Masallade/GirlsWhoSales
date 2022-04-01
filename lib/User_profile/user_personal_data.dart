@@ -282,10 +282,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   String email;
   String city;
 
-  File selectedfile;
-  File selectedfile2;
-
-  Future<File> file;
 
   String status = '';
 
@@ -310,10 +306,11 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   }
 
   File image;
+
   Future pickImage(ImageSource source ) async {
 
     try{
-      final image = await ImagePicker.pickImage(source: source);
+      final image = await ImagePicker.platform.pickImage(source: source);
       if(image == null )return;
 
       //final imageTemporary = File(image.path);
@@ -323,8 +320,34 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     } catch (e){
       print('Failed To pickImage : ${e.toString()}');
     }
-
   }
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future _imgFromCamera() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected');
+      }
+    });
+  }
+  Future _imgFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected');
+      }
+    });
+  }
+
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -342,10 +365,10 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               fontSize: 17.0,
                               fontFamily: 'Questrial',
                               fontWeight: FontWeight.w400,
-                            /* letterSpacing: 0.0, */
                           )),
                       onTap: () {
-                        pickImage(ImageSource.gallery);
+                      //  pickImage(ImageSource.gallery);
+                        _imgFromGallery();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -362,9 +385,8 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                           /* letterSpacing: 0.0, */
                         )),
                     onTap: () {
-                      //selectFile();
-                      pickImage(ImageSource.camera);
-                      // _imgFromCamera();
+                      _imgFromCamera();
+                      // pickImage(ImageSource.camera);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -400,10 +422,9 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
           "city": city,
           "mobile_no": Phone,
           "profile_picture":
-          //image.path,
-          await  MultipartFile.fromFile(
-              image.path,
-           filename: basename(image.path)
+          await MultipartFile.fromFile(
+              _image.path ,
+           filename: basename(_image.path)
           //  show only filename from path
           ),
         });
@@ -483,8 +504,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        // actions: [
-        //   Image.asset('assets/images/edit.png')],
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -504,9 +523,9 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               Center(
                                 child: Stack(
                                   children: [
-                                    image != null ? ClipOval(
+                                    _image != null ? ClipOval(
                                       child: Image.file(
-                                        image,
+                                        _image,
                                         width: 160,
                                         height: 160,
                                         fit: BoxFit.cover,

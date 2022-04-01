@@ -15,6 +15,43 @@
       },
       "oauth_client": [
         {
+          "client_id": "953531513117-7trrtke92nbmne6l1k6u2ng15a1smvru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.girlzwhosell",
+            "certificate_hash": "527c857d893a480804548168080dba3fcf3102d7"
+          }
+        },
+        {
+          "client_id": "953531513117-j80h5hgs92ettmthbof7guqe65d9un01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq5L74PGq6BHWyKQ0iGVU6b7VEBAiYUFg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953531513117-j80h5hgs92ettmthbof7guqe65d9un01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953531513117:android:3aa67cfb495071d94f49f4",
+        "android_client_info": {
+          "package_name": "com.girlzwhosellcareerconnections"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "953531513117-j80h5hgs92ettmthbof7guqe65d9un01.apps.googleusercontent.com",
           "client_type": 3
         }

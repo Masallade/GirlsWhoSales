@@ -125,7 +125,9 @@ void initState(){
               ),
                 child: GestureDetector(
                   onTap: () {
-                    Requests.Login(context, uName, password,'', false);
+                    Requests.Login(context, uName, password,
+                        //'',
+                        false);
                   },
                   child: ListTile(
                     title: Center(
@@ -275,7 +277,9 @@ class _SavedJobAppliedState extends State<SavedJobApplied> {
               ),
                 child: GestureDetector(
                   onTap: () {
-                   Requests.Login(context, uName, password,'', false);
+                   Requests.Login(context, uName, password,
+                       //'',
+                       false);
                   },
                   child: ListTile(
                     title: Center(
@@ -428,7 +432,9 @@ class _SavedJobApplied1State extends State<SavedJobApplied1> {
               ),
                 child: GestureDetector(
                   onTap: () {
-                    Requests.Login(context, uName, password,'', false);
+                    Requests.Login(context, uName, password,
+                        //'',
+                        false);
                   },
                   child: ListTile(
                     title: Center(

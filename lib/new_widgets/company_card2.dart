@@ -171,7 +171,24 @@ class AllJobCard2 extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6)),
             borderRadius: BorderRadius.circular(10.0),
-            color: Color.fromRGBO(189, 51, 98, 1)
+            color: Color.fromRGBO(189, 51, 98, 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.7),
+              offset: const Offset(
+                5.0,
+                5.0,
+              ),
+              blurRadius: 10.0,
+              spreadRadius: 2.0,
+            ), //BoxShadow
+            BoxShadow(
+              color: Colors.black,
+              offset: const Offset(0.0, 0.0),
+              blurRadius: 0.0,
+              spreadRadius: 0.0,
+            ), //BoxShadow
+          ],
         ),
         child: Column(
             children: [
@@ -325,16 +342,14 @@ class AllJobCard2 extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 35,),
-              FittedBox(
-                child: Text('Skills: ${jobDetails.skills}' , style: TextStyle(
-                    fontFamily: 'Questrial',
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                    fontSize: 50.0
-                ),),
-              )
+              SizedBox(height: 55,),
+              Text('Available Positions: ${jobDetails.totalPositions}' , style: TextStyle(
+                  fontFamily: 'Questrial',
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                  fontSize: 24.0
+              ),)
             ]),
       ),
     );

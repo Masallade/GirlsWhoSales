@@ -172,7 +172,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                           color: Colors.pinkAccent[200],
                             fontSize: 24.0,
                       ),),
-                      initialValue: selecjobsTypes,
+                       initialValue: selecjobsTypes,
                        key: _multiSelectKey,
                        initialChildSize: 0.7,
                        maxChildSize: 0.95,
@@ -234,14 +234,6 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                          },
                        ),
                      ),
-                    // selecjobsTypes == null || selecjobsTypes.isEmpty
-                    //     ? Container(
-                    //     padding: EdgeInsets.all(10),
-                    //     alignment: Alignment.centerLeft,
-                    //     child: Text(
-                    //       "None selected",
-                    //       style: TextStyle(color: Colors.black54),
-                    //     )): Container(),
                   ],
                 ),
               ),
