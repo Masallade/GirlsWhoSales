@@ -11,6 +11,7 @@ import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/mentor_model.dart';
 import 'package:girlzwhosell/model/reset_model.dart';
 import 'package:girlzwhosell/model/sign_up_user_model.dart';
+import 'package:girlzwhosell/model/user_update_profile.dart';
 import 'package:girlzwhosell/model/verified_otp_model.dart';
 import 'package:girlzwhosell/utils/demo_localization.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
@@ -37,7 +38,7 @@ mentorModel mentormodel = mentorModel();
 RegistrationModel registrationModel = RegistrationModel();
 AppliedJobDetails appliedJobDetail = AppliedJobDetails();
 fetchAppliedJobsModel fetchAppliedJobs = fetchAppliedJobsModel();
-
+UserProfile userprofile  = UserProfile();
 
   dataSuccessfullyLoaded(BuildContext context, String title, String body, String button) {
 // flutter defined function

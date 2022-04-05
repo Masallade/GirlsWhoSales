@@ -80,7 +80,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                height: SizeConfig.screenHeight,
+                height: SizeConfig.screenHeight *0.9,
                 child:appliedJobDetails ==null ? Container(
                   child: Center(
                     child: Text('No Applied Jobs' ,

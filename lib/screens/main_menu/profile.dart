@@ -163,6 +163,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   uName: uName,
                                   password: password,
                                   firstName: firstName,
+                              cv: cv,
+                              resume: resume,
                                 )));
                   },
                   child: Container(

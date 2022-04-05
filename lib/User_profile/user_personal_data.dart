@@ -327,8 +327,10 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
 
   Future _imgFromCamera() async {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      if(pickedFile == null){
+        return 'image.jpg';
+      }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
@@ -338,8 +340,10 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   }
   Future _imgFromGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      if(pickedFile == null){
+        return 'image.jpg';
+      }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
@@ -407,8 +411,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
 
   }
 
-
-
   uploadResume(context) async {
 
     try {
@@ -421,11 +423,8 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
           "email": email,
           "city": city,
           "mobile_no": Phone,
-          "profile_picture":
-          await MultipartFile.fromFile(
-              _image.path ,
-           filename: basename(_image.path)
-          //  show only filename from path
+          "profile_picture": await MultipartFile.fromFile(_image.path,
+           filename: basename( _image.path),
           ),
         });
         response = await dio.post(uploadurl,
@@ -440,7 +439,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
           },
         );
         if (response.statusCode == 200) {
-          print('image  $image');
+          print('image  $_image');
           print(response.data);
             Requests.ProfileLogin(context, uName, password, 'token', false).whenComplete(() =>
                 showToast('Profile has been Updated Successfully',

@@ -483,7 +483,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   cursorColor: Colors.pinkAccent[200],
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
-
                   validator: (v) {
                     if (v.isValidPassword) {
                       return null;

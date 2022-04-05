@@ -744,6 +744,8 @@ class _SearchApplyState extends State<SearchApply> {
     print("APPlyScreenpass: $password");
     print("APPlyScreenuserid: $user_Id");
     print('APPlyScreenfirstName : $firstName');
+    print('cv : $cv');
+    print('resume : $resumee');
   }
 
   Future _imgFromCamera() async {
@@ -1135,7 +1137,7 @@ class _SearchApplyState extends State<SearchApply> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee}'),
+                                title: Text('${widget.cv}'),
                                 // subtitle: Text('1 day ago', style: subtitleStyle),
                               )),
 
@@ -1254,7 +1256,7 @@ class _SearchApplyState extends State<SearchApply> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.cv}'),
+                                Text('${widget.resumee}'),
                                 // Text('1 day ago', style: subtitleStyle),
                               ],
                             ),
@@ -2480,7 +2482,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee ?? ''}'),
+                                title: Text('${widget.cv ?? ''}'),
                               )
                           ),
 
@@ -2511,7 +2513,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.cv ?? ''}'),
+                                Text('${widget.resumee ?? ''}'),
                               ],
                             ),
                           )

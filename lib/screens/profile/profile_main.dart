@@ -59,7 +59,7 @@ class _ProfileMainState extends State<ProfileMain> {
           builder: (context) => AlertDialog(
             elevation: 2.0,
          //   backgroundColor: Colors.pinkAccent.withOpacity(0.9),
-            title: Text('Do you want to exit this application?'),
+            title: Text('Do you want to Log Out this application?'),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -193,7 +193,7 @@ class _ProfileMainState extends State<ProfileMain> {
               ListTile(
                 leading: ClipOval(
                   child: FadeInImage.assetNetwork(
-                      width: 100,
+                      width: 80,
                       height: 100,
                       placeholder: 'assets/images/loading.gif',
                       placeholderScale: 2.0,

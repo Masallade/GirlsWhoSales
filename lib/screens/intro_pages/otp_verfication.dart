@@ -111,17 +111,13 @@ class _PhoneVerification extends State<PhoneVerification> {
                     key: _formKey,
                     pinLength: 4,
                     decoration: new BoxLooseDecoration(
-                  //  bgColorBuilder: _solidColor,
                       textStyle: TextStyle(
                         height: 1.5,
                         fontSize: 24.0,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
-
-                        /* letterSpacing: 0.0, */
                       ),
-
                       strokeColorBuilder: PinListenColorBuilder(
                         Colors.black,
                         Colors.black,),
@@ -135,7 +131,7 @@ class _PhoneVerification extends State<PhoneVerification> {
                     textInputAction: TextInputAction.go,
                     enabled: _enable,
 
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     textCapitalization: TextCapitalization.characters,
                     onSubmit: (pin) {
                       print("gtepin===$pin");
@@ -231,7 +227,7 @@ class _PhoneVerification extends State<PhoneVerification> {
   }
 
   // ignore: missing_return
-  Future<verifyOtp> verifyOTP() async{
+  Future <verifyOtp> verifyOTP() async{
     final url = "https://biitsolutions.co.uk/girlzwhosell/API//verify_otp.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {

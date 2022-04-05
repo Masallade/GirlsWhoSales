@@ -73,6 +73,9 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
   void initState() {
     super.initState();
     init();
+    print('searchdetailscreenCV : $cv');
+    print('searchdetailscreenresume : $resume');
+
   }
 
   Future init() async {

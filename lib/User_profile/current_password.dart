@@ -84,9 +84,9 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                   obscureText: !_passwordVisible,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
-                      return null;
-                    } else {
                       return 'Please enter your current password';
+                    } else {
+                    return null;
                     }
                   },
                   decoration: InputDecoration(

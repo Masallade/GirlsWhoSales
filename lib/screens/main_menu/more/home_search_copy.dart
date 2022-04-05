@@ -307,6 +307,8 @@ class _HomeSearchState extends State<HomeSearch> {
                                 favoriteJobs: favoriteJobs,
                                 userDetails: userDetails,
                                 jobId: jobId,
+                            cv: cv,
+                            resume: resume,
                               )));
                 },
                 child: Container(

@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 child: Column(
                   children: [
                     Container(
-                      height: SizeConfig.screenHeight,
+                      height: SizeConfig.screenHeight  *0.9,
                       child:notificationsDetails ==null ? Container(
                           child: Center(
                               child: Text('No Notification' ,

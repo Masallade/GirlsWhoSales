@@ -148,6 +148,8 @@ class _HomePageState extends State<HomePage> {
     print('pass is $password');
     print('token is $token1');
     print('ProfilePic is $profile');
+    print('cv is $cv');
+    print('resume is $resumee');
   }
 
   @override

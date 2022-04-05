@@ -105,7 +105,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                   SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      height: SizeConfig.screenHeight,
+                      height: SizeConfig.screenHeight *0.9,
                       child: savedJobs == null
                           ? Container(
                               child: Center(

@@ -107,7 +107,6 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   }
   Future _imgFromGallery() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -120,9 +119,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   selectFile() async {
     selectedfile =  await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc' ,'docx'],
+      allowedExtensions: ['pdf','doc' ,'docx'],
     );
-
     setState((){}); //update the UI so that file name is shown
   }
 
@@ -147,7 +145,6 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                     leading: new Icon(Icons.photo_camera ,color: Colors.pinkAccent),
                     title: new Text('Camera' ,style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),),
                     onTap: () {
-                      //selectFile();
                       _imgFromCamera();
                       Navigator.of(context).pop();
                     },
@@ -231,7 +228,6 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
 
     if(response.statusCode == 200){
-   //   print(response.toString());
       print(response.data);
       print("name : $firstName");
       print("lastname : $firstName2");
@@ -354,7 +350,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
-                            child: selectedfile2 == null ? DottedBorder(
+                            child: selectedfile == null ? DottedBorder(
                               strokeWidth: 1.0,
                               color: Colors.blueGrey[300].withOpacity(0.6),
                               // padding: EdgeInsets.all(4),
@@ -594,7 +590,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
-      "cv": await MultipartFile.fromFile(
+      "resume": await MultipartFile.fromFile(
           selectedfile.files.single.path,
           filename: basename(selectedfile.files.single.path)
         //show only filename from path
@@ -908,7 +904,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
-      "resume": await MultipartFile.fromFile(
+      "cv": await MultipartFile.fromFile(
           _image.path,
           filename: basename(_image.path)
         //show only filename from path
