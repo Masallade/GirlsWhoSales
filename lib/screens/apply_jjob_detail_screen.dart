@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -10,9 +9,7 @@ import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/model/utils.dart';
 import 'package:girlzwhosell/screens/applied_success_screen.dart';
 import 'package:girlzwhosell/utils/constants.dart';
-import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -98,7 +95,7 @@ class _JobApplyState extends State<JobApply> {
   File tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
-  File _image;
+ // File _image;
   final picker = ImagePicker();
 
   @override
@@ -111,79 +108,79 @@ class _JobApplyState extends State<JobApply> {
     print('video Link : $cv');
   }
 
-  Future _imgFromCamera() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
-
-  Future _imgFromGallery() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
-
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library,
-                          color: Colors.pinkAccent[200]),
-                      title: new Text('Gallery',
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 17.0,
-                              fontFamily: 'Questrial',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey[300]
-                              /* letterSpacing: 0.0, */
-                              )),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(
-                      Icons.photo_camera,
-                      color: Colors.pinkAccent[200],
-                    ),
-                    title: new Text('Camera',
-                        style: TextStyle(
-                            height: 1.5,
-                            fontSize: 17.0,
-                            fontFamily: 'Questrial',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueGrey[300]
-                            /* letterSpacing: 0.0, */
-                            )),
-                    onTap: () {
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // Future _imgFromCamera() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.camera);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
+  //
+  // Future _imgFromGallery() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
+  //
+  // void _showPicker(context) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext bc) {
+  //         return SafeArea(
+  //           child: Container(
+  //             child: new Wrap(
+  //               children: <Widget>[
+  //                 new ListTile(
+  //                     leading: new Icon(Icons.photo_library,
+  //                         color: Colors.pinkAccent[200]),
+  //                     title: new Text('Gallery',
+  //                         style: TextStyle(
+  //                             height: 1.5,
+  //                             fontSize: 17.0,
+  //                             fontFamily: 'Questrial',
+  //                             fontWeight: FontWeight.w400,
+  //                             color: Colors.blueGrey[300]
+  //                             /* letterSpacing: 0.0, */
+  //                             )),
+  //                     onTap: () {
+  //                       _imgFromGallery();
+  //                       Navigator.of(context).pop();
+  //                     }),
+  //                 new ListTile(
+  //                   leading: new Icon(
+  //                     Icons.photo_camera,
+  //                     color: Colors.pinkAccent[200],
+  //                   ),
+  //                   title: new Text('Camera',
+  //                       style: TextStyle(
+  //                           height: 1.5,
+  //                           fontSize: 17.0,
+  //                           fontFamily: 'Questrial',
+  //                           fontWeight: FontWeight.w400,
+  //                           color: Colors.blueGrey[300]
+  //                           /* letterSpacing: 0.0, */
+  //                           )),
+  //                   onTap: () {
+  //                     _imgFromCamera();
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
 //////////////////
 
@@ -734,7 +731,7 @@ class _SearchApplyState extends State<SearchApply> {
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
 
-  File _image;
+ // File _image;
   final picker = ImagePicker();
 
   @override
@@ -748,80 +745,30 @@ class _SearchApplyState extends State<SearchApply> {
     print('resume : $resumee');
   }
 
-  Future _imgFromCamera() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
+  // Future _imgFromCamera() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.camera);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
+  //
+  // Future _imgFromGallery() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
 
-  Future _imgFromGallery() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
-
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library,
-                          color: Colors.pinkAccent[200]),
-                      title: new Text('Gallery',
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 17.0,
-                              fontFamily: 'Questrial',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey[300]
-                              /* letterSpacing: 0.0, */
-                              )),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(
-                      Icons.photo_camera,
-                      color: Colors.pinkAccent[200],
-                    ),
-                    title: new Text('Camera',
-                        style: TextStyle(
-                            height: 1.5,
-                            fontSize: 17.0,
-                            fontFamily: 'Questrial',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueGrey[300]
-                            /* letterSpacing: 0.0, */
-                            )),
-                    onTap: () {
-                      //selectFile();
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
 //////////////////
 
@@ -1137,7 +1084,7 @@ class _SearchApplyState extends State<SearchApply> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.cv}'),
+                                title: Text('${widget.resumee}'),
                                 // subtitle: Text('1 day ago', style: subtitleStyle),
                               )),
 
@@ -1256,7 +1203,7 @@ class _SearchApplyState extends State<SearchApply> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.resumee}'),
+                                Text('${widget.cv}'),
                                 // Text('1 day ago', style: subtitleStyle),
                               ],
                             ),
@@ -1531,7 +1478,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
       this.cv,
       this.resumee});
 
-  File _image;
+  //File _image;
   final picker = ImagePicker();
   FilePickerResult selectedfile;
   Response response;
@@ -1557,81 +1504,31 @@ class _SavedJobApplyState extends State<SavedJobApply> {
     print('firstName : $firstName');
   }
 
-  Future _imgFromCamera() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
+  // Future _imgFromCamera() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.camera);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
+  //
+  //
+  // Future _imgFromGallery() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
 
-
-  Future _imgFromGallery() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
-
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library,
-                          color: Colors.pinkAccent[200]),
-                      title: new Text('Gallery',
-                          style: TextStyle(
-                            height: 1.5,
-                            fontSize: 17.0,
-                            fontFamily: 'Questrial',
-                            fontWeight: FontWeight.w400,
-                            // color: Colors.blueGrey[300]
-                            /* letterSpacing: 0.0, */
-                          )),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(
-                      Icons.photo_camera,
-                      color: Colors.pinkAccent[200],
-                    ),
-                    title: new Text('Camera',
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 17.0,
-                          fontFamily: 'Questrial',
-                          fontWeight: FontWeight.w400,
-                          //  color: Colors.blueGrey[300]
-                          /* letterSpacing: 0.0, */
-                        )),
-                    onTap: () {
-                      //selectFile();
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
 //////////////////
 
@@ -2146,7 +2043,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
       this.cv,
       this.resumee});
 
-  File _image;
+ // File _image;
   final picker = ImagePicker();
   FilePickerResult selectedfile;
   File selectedfile2;
@@ -2159,6 +2056,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
   File tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
+
   @override
   void initState() {
     super.initState();
@@ -2173,81 +2071,31 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
     print('firstName : $firstName');
   }
 
-  Future _imgFromCamera() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
+  // Future _imgFromCamera() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.camera);
+  //   //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
+  //
+  // Future _imgFromGallery() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
 
-  Future _imgFromGallery() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
 
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library,
-                          color: Colors.pinkAccent[200]),
-                      title: new Text('Gallery',
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 17.0,
-                              fontFamily: 'Questrial',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey[300]
-                              /* letterSpacing: 0.0, */
-                              )),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(
-                      Icons.photo_camera,
-                      color: Colors.pinkAccent[200],
-                    ),
-                    title: new Text('Camera',
-                        style: TextStyle(
-                            height: 1.5,
-                            fontSize: 17.0,
-                            fontFamily: 'Questrial',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueGrey[300]
-                            /* letterSpacing: 0.0, */
-                            )),
-                    onTap: () {
-                      //selectFile();
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
-//////////////////
 
   Widget showImage() {
     return FutureBuilder<File>(

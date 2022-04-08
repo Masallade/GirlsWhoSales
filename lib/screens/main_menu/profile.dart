@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -6,6 +7,8 @@ import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/dashboasd%20applied%20Screen.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
+
+import '../../utils/constants.dart';
 
 class Profile extends StatefulWidget {
   final user_Id;
@@ -98,6 +101,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     //  double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             //  mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,11 +136,23 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                               user_Id: user_Id,
                                             ))));
                               },
-                              child: Image.asset(
+                              child:
+                              totalNotification.totalCountNotf == "0" ? Image.asset(
                                 'assets/images/notification.png',
                                 scale: 1.0,
                                 color: Colors.black,
-                              ))),
+                              ) :
+                              Badge(
+                                position: BadgePosition.topEnd(top: -20 ,end: 10),
+                                badgeColor: Colors.red,
+                               badgeContent: Text('${totalNotification.totalCountNotf == "0" ? '' : totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
+                                child: Image.asset(
+                                  'assets/images/notification.png',
+                                  scale: 1.0,
+                                  color: Colors.black,
+                                ),
+                              )
+                          )),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 12.0, top: 60),

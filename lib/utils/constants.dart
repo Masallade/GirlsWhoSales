@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:girlzwhosell/model/Current_password_model.dart';
 import 'package:girlzwhosell/model/check_saved_job.dart';
@@ -11,6 +10,7 @@ import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/mentor_model.dart';
 import 'package:girlzwhosell/model/reset_model.dart';
 import 'package:girlzwhosell/model/sign_up_user_model.dart';
+import 'package:girlzwhosell/model/total_notification.dart';
 import 'package:girlzwhosell/model/user_update_profile.dart';
 import 'package:girlzwhosell/model/verified_otp_model.dart';
 import 'package:girlzwhosell/utils/demo_localization.dart';
@@ -32,6 +32,9 @@ SeekerDetails seekerDetails = SeekerDetails();
 SharedPreferences prefs;
 
 
+
+
+TotalNotification totalNotification = TotalNotification();
 
 
 mentorModel mentormodel = mentorModel();

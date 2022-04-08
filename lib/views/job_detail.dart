@@ -1,7 +1,6 @@
 // ignore_for_file: missing_return
 
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:girlzwhosell/http/Requests.dart';
@@ -175,8 +174,7 @@ class _JobDetailState extends State<JobDetail> {
                       Requests.Login(
                           context,
                           uName,
-                          password,
-                          //'token1',
+                          password, 'token1',
                           false);
                     },
                     child: Container(

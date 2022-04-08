@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:girlzwhosell/screens/trackfor_notification.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import 'package:girlzwhosell/utils/constants.dart';
 class NotificationScreen extends StatefulWidget {
 
   final user_Id;
-//  final token1;
+  //  final token1;
   // PushNotificationMessage notificationInfo;
   NotificationScreen({this.user_Id,
     //this.token1 ,
@@ -56,6 +57,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 centerTitle: true,
                 leading: IconButton(
                     onPressed: () {
+                      UpdateNotifiction();
                       Navigator.of(context).pop();
                     },
                     icon: Icon(
@@ -91,45 +93,51 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 children: [
-                                  Container(
-                                    height: 160,
-                                    width: 375,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border:  Border.all(
-                                          color: Color.fromRGBO(238, 242, 248, 1)
+                                  InkWell(
+                                    onTap:(){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackDetail(
+                                          notificationsDetail:notificationsDetails[index])));
+                                    },
+                                    child: Container(
+                                      height: 160,
+                                      width: 375,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border:  Border.all(
+                                            color: Color.fromRGBO(238, 242, 248, 1)
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: ListTile(
-                                        leading: Container(
-                                          height: 50,
-                                          width: 50,
-                                          child: Image.network('${notificationsDetails[index].logo ?? Placeholder()}'),
-                                        ),
-                                        title: Text(
-                                          '${notificationsDetails[index].notifyTitle ?? " "}',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            fontSize: 16.0,
-                                            //fontWeight: FontWeight.w700,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: ListTile(
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            child: Image.network('${notificationsDetails[index].companyLogo ?? Placeholder()}'),
                                           ),
-                                        ),
-                                     subtitle: Text('${notificationsDetails[index].notifyText ?? " "}',
-                                       textAlign: TextAlign.center,
-                                       style: TextStyle(
-                                         fontFamily: 'Poppins',
-                                         fontStyle: FontStyle.normal,
-                                         fontWeight: FontWeight.w400,
-                                         color: Color.fromRGBO(113, 126, 149, 1),
-                                         fontSize: 14.0,
-                                         //fontWeight: FontWeight.w700,
+                                          title: Text(
+                                            '${notificationsDetails[index].notifyTitle ?? " "}',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                              fontSize: 16.0,
+                                              //fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                       subtitle: Text('${notificationsDetails[index].notifyText ?? " "}',
+                                         textAlign: TextAlign.left,
+                                         style: TextStyle(
+                                           fontFamily: 'Poppins',
+                                           fontStyle: FontStyle.normal,
+                                           fontWeight: FontWeight.w400,
+                                           color: Color.fromRGBO(113, 126, 149, 1),
+                                           fontSize: 14.0,
+                                           //fontWeight: FontWeight.w700,
+                                         ),
                                        ),
-                                     ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -148,7 +156,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
             );
-          }else {
+          } else {
             return Scaffold(
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal:38),
@@ -190,8 +198,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       if (showLoading)
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       if (response.statusCode == 200) {
-        NotificationModel resp =
-        NotificationModel.fromJson(json.decode(response.body));
+        NotificationModel resp = NotificationModel.fromJson(json.decode(response.body));
         print(response.statusCode);
         print(response.body);
 
@@ -211,5 +218,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
       return [];
     }
   }
+  Future  UpdateNotifiction() async {
+    final url = "https://biitsolutions.co.uk/girlzwhosell/API/update_total_notifications.php?seeker_id=$user_Id";
+    try{
+      final http.Response response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200 ){
+        print('response is : ${response.body}');
+        // totalNotification = TotalNotification.fromJson(json.decode(response.body));
+        // return totalNotification;
 
+      }
+    } catch (e){
+      print(e.toString());
+    }
+  }
 }

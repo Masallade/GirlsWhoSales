@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:animated_splash/animated_splash.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class SplashScreen extends StatefulWidget {

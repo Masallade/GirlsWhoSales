@@ -5,6 +5,8 @@ import 'package:girlzwhosell/model/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 
+import '../model/notification_model.dart';
+
 
 
 class DescriptionTab extends StatelessWidget {
@@ -125,6 +127,7 @@ class DescriptionTabFour extends StatelessWidget {
     );
   }
 }
+
 class DescriptionTabFive extends StatelessWidget {
 
   final AppliedJobDetails appliedJobDetails;
@@ -137,6 +140,34 @@ class DescriptionTabFive extends StatelessWidget {
         SizedBox(height: 30.0),
         Text(
           '${appliedJobDetails.description ?? " "}',
+          style: TextStyle(
+            fontFamily: 'Questrial',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[600],
+            fontSize: 16.0,
+            //fontWeight: FontWeight.w700,
+          ),
+        ),
+        // SizedBox(height: 15.0),
+
+      ],
+    );
+  }
+}
+
+class NotificationDesc extends StatelessWidget {
+
+  final NotificationsDetails notificationsDetail;
+  final String userId;
+  NotificationDesc({this.notificationsDetail ,this.userId});
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        SizedBox(height: 30.0),
+        Text(
+          '${notificationsDetail.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,

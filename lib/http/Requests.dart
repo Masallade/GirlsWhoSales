@@ -39,7 +39,7 @@ class Requests {
       BuildContext context,
       String userName,
       String password,
-      //String token1 ,
+      String token1 ,
       bool resync) async {
     try {
       final GlobalKey<State> _keyLoader = new GlobalKey<State>();
@@ -55,7 +55,7 @@ class Requests {
         body: {
           "email": userName,
           "password": password,
-          //"token": token1
+          "token": token1
         },
       );
 
@@ -103,7 +103,7 @@ class Requests {
                   resumee: loginModel.seekerDetails[0].resume,
                   total_applied: loginModel.countOfJobsApplied,
                   total_saved: loginModel.countOfJobsSaved,
-                  //token1: token1,
+                  token1: token1,
                 );
               },
             ),

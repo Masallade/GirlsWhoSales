@@ -8,6 +8,7 @@ import 'package:girlzwhosell/utils/constants2.dart';
 
 
 AppBar header(context, {String titleText}) {
+  // ignore: deprecated_member_use
   Icon customIcon = Icon(FontAwesomeIcons.search , color: kAccentColor);
   Widget customSearchBar = Text(
     titleText,

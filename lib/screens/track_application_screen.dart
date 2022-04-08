@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/views/RequirementTab.dart';
@@ -7,7 +6,7 @@ import 'package:girlzwhosell/views/description_tab.dart';
 
 class TrackApplication extends StatefulWidget {
   final AppliedJobDetails appliedJobDetails;
-   TrackApplication ({Key key , this.appliedJobDetails}) : super(key: key);
+   TrackApplication ({Key key , this.appliedJobDetails, }) : super(key: key);
 
   @override
   _TrackApplicationState createState() => _TrackApplicationState(appliedJobDetails: appliedJobDetails);

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/screens/profile/training_summary/add_training_summary.dart';
 import 'package:girlzwhosell/screens/profile/training_summary/training_summary_null.dart';

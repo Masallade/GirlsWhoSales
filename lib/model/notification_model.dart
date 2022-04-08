@@ -34,10 +34,41 @@ class NotificationsDetails {
   String jobId;
   String notifyTitle;
   String notifyText;
-  String logo;
+  String companyLogo;
+  String msg;
+  int staus;
+  String appliedDate;
+  String description;
+  String title;
+  String maxSalary;
+  String minSalary;
+  String skills;
+  String experience;
+  String url;
+  String companyName;
+  String city;
+  String jobType;
 
   NotificationsDetails(
-      {this.id, this.seekerId, this.jobId, this.notifyTitle, this.notifyText ,this.logo});
+      {this.id,
+        this.seekerId,
+        this.jobId,
+        this.notifyTitle,
+        this.notifyText,
+        this.companyLogo,
+        this.msg,
+        this.staus,
+        this.appliedDate,
+        this.description,
+        this.title,
+        this.maxSalary,
+        this.minSalary,
+        this.skills,
+        this.experience,
+        this.url,
+        this.companyName,
+        this.city,
+        this.jobType});
 
   NotificationsDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,7 +76,21 @@ class NotificationsDetails {
     jobId = json['job_id'];
     notifyTitle = json['notify_title'];
     notifyText = json['notify_text'];
-    logo = json ['company_logo'];
+    companyLogo = json['company_logo'];
+    msg = json['msg'];
+    staus = json['staus'];
+    appliedDate = json['applied_date'];
+    description = json['description'];
+    title = json['title'];
+    maxSalary = json['max_salary'];
+    minSalary = json['min_salary'];
+    skills = json['skills'];
+    experience = json['Experience'];
+    jobId = json['Job_Id'];
+    url = json['url'];
+    companyName = json['company_name'];
+    city = json['city'];
+    jobType = json['job_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,7 +100,21 @@ class NotificationsDetails {
     data['job_id'] = this.jobId;
     data['notify_title'] = this.notifyTitle;
     data['notify_text'] = this.notifyText;
-    data['company_logo'] = this.logo;
+    data['company_logo'] = this.companyLogo;
+    data['msg'] = this.msg;
+    data['staus'] = this.staus;
+    data['applied_date'] = this.appliedDate;
+    data['description'] = this.description;
+    data['title'] = this.title;
+    data['max_salary'] = this.maxSalary;
+    data['min_salary'] = this.minSalary;
+    data['skills'] = this.skills;
+    data['Experience'] = this.experience;
+    data['Job_Id'] = this.jobId;
+    data['url'] = this.url;
+    data['company_name'] = this.companyName;
+    data['city'] = this.city;
+    data['job_type'] = this.jobType;
     return data;
   }
 }

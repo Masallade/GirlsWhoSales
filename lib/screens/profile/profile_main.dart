@@ -1,5 +1,5 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:girlzwhosell/User_profile/current_password.dart';
 import 'package:girlzwhosell/User_profile/user_personal_data.dart';
 import 'package:girlzwhosell/http/Requests.dart';
@@ -9,6 +9,8 @@ import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/profile/cv_update.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/constants.dart';
 
 class ProfileMain extends StatefulWidget {
   final uName;
@@ -140,9 +142,7 @@ class _ProfileMainState extends State<ProfileMain> {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Requests.Login(context, uName, password,
-                    //'',
-                    false);
+                Requests.Login(context, uName, password, '', false);
               },
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -190,40 +190,42 @@ class _ProfileMainState extends State<ProfileMain> {
               SizedBox(
                 height: 20,
               ),
-              ListTile(
-                leading: ClipOval(
-                  child: FadeInImage.assetNetwork(
-                      width: 80,
-                      height: 100,
-                      placeholder: 'assets/images/loading.gif',
-                      placeholderScale: 2.0,
-                      fadeOutDuration: Duration(seconds: 2),
-                      image: profile ?? Placeholder(),
-                      fit: BoxFit.cover),
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    '${firstName ?? " "}',
+              SizedBox(
+                child: ListTile(
+                  leading: ClipOval(
+                    child: FadeInImage.assetNetwork(
+                        width: 80,
+                        height: 100,
+                        placeholder: 'assets/images/loading.gif',
+                        placeholderScale: 2.0,
+                        fadeOutDuration: Duration(seconds: 2),
+                        image: profile ?? Placeholder(),
+                        fit: BoxFit.cover),
+                  ),
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      '${firstName ?? " "}',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        height: 1.5,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue[800],
+                        fontSize: 24.0,
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    '${title ?? ""}',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       height: 1.5,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      color: Colors.blue[800],
+                      color: Colors.pinkAccent[200],
                       fontSize: 24.0,
                     ),
-                  ),
-                ),
-                subtitle: Text(
-                  '${title ?? ""}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    height: 1.5,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.pinkAccent[200],
-                    fontSize: 24.0,
                   ),
                 ),
               ),
@@ -354,7 +356,7 @@ class _ProfileMainState extends State<ProfileMain> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NotificationScreen(user_Id: user_Id ,)));
+                          builder: (context) => NotificationScreen(user_Id: user_Id)));
                 },
                 child: Container(
                     child: Padding(
@@ -370,7 +372,12 @@ class _ProfileMainState extends State<ProfileMain> {
                             color: Colors.black,
                             fontWeight: FontWeight.w400),
                       ),
-                      Icon(Icons.arrow_forward_ios),
+                      totalNotification.totalCountNotf == "0" ?
+                      Icon(Icons.arrow_forward_ios) :    Badge(
+                          position: BadgePosition.topEnd(top: -20 ,end: 10),
+                          badgeColor: Colors.red,
+                          badgeContent: Text('${totalNotification.totalCountNotf == '0' ? '' :totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
+                          child: Icon(Icons.arrow_forward_ios)),
                     ],
                   ),
                 )),

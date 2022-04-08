@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/screens/profile/professional_certification/professional_certification_null.dart';
 import 'package:girlzwhosell/utils/constants.dart';

@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/screens/profile/academic_qualification/add_academic_qualification.dart';
 import 'package:girlzwhosell/utils/strings.dart';

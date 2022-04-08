@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -74,10 +73,7 @@ class _JobCard1State extends State<JobCard1> {
       this.cv,
       this.resume});
 
-  void initState() {
-    print('jobCardEMail :$cv ');
-    print('jobCardpass : $resume');
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -243,13 +239,6 @@ class _JobCard2State extends State<JobCard2> {
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
-  void initState() {
-    print('jobCard2EMail :$uName ');
-    print('jobCard2pass : $password');
-    print('jobCard2pass : $cv');
-    print('jobCard2pass : $resume');
-  }
-
   _JobCard2State(
       {this.favoriteJobs,
       this.user_Id,
@@ -261,7 +250,20 @@ class _JobCard2State extends State<JobCard2> {
       this.jobId,
       this.cv,
       this.resume});
+
+
+
+  // @override
+  // void initState() {
+  //   print('jobCard2EMail :$uName ');
+  //   print('jobCard2pass : $password');
+  //   print('jobCard2pass : $cv');
+  //   print('jobCard2pass : $resume');
+  // }
+
+
   @override
+
   Widget build(BuildContext context) {
     return Container(
       child: OpenContainer(
@@ -486,7 +488,7 @@ class _JobCard2State extends State<JobCard2> {
           context,
           uName,
           password,
-          //'',
+          '',
           false);
 
       setState(() {

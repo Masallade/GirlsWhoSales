@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,14 +21,14 @@ class _ShortlistedState extends State<Shortlisted> {
                padding: const EdgeInsets.only(left: 20.0),
                child: Align(
                    alignment:Alignment.topLeft,
-                   child: Text('Something', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500, fontFamily: 'Poppins', color: Colors.blue[800]),)),
+                   child: Text('Something', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500, fontFamily: 'Poppins', color: Colors.black),)),
              ),
              Padding(
                padding: const EdgeInsets.only(left: 20.0),
                child: Align(
                    alignment:Alignment.topLeft,
                    child: Text('About Us', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Poppins',
-                       fontSize: 24 ,color: Colors.pinkAccent[200]),)),
+                       fontSize: 24 ,color: Colors.black),)),
              ),
              SizedBox(height: 40,),
              Padding(

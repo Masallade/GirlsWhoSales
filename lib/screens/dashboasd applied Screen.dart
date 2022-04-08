@@ -234,7 +234,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
       if (showLoading) showLoadingDialog(context, _keyLoader);
 
       final http.Response response = await http.get(Uri.parse(get_key_url));
-      print("email,${get_key_url}");
+      print("Url,${get_key_url}");
       if (showLoading)
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 

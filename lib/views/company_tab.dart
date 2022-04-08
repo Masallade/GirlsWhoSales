@@ -3,6 +3,7 @@ import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
+import 'package:girlzwhosell/model/notification_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -430,6 +431,101 @@ class _CompanyTabFiveState extends State<CompanyTabFive> {
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
                     Text('${widget.appliedJobDetails.location ?? " "}', style: TextStyle(
+                      fontFamily: 'Questrial',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey[300],
+                      fontSize: 14.0,
+                      //fontWeight: FontWeight.w700,
+                    ),)
+                  ],
+
+                ),
+              ),
+              trailing: Column(
+                children: [
+                  Icon(Icons.star_border_purple500_sharp),
+                  SizedBox(height: 2,),
+                  Text('View Rating' , style: subtitleStyle,)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class NotificationUrl extends StatefulWidget {
+  final NotificationsDetails notificationsDetail;
+  final String userId;
+//  final Company company;
+  NotificationUrl({this.notificationsDetail,this.userId});
+
+  @override
+  State<NotificationUrl> createState() => _NotificationUrlState();
+}
+
+class _NotificationUrlState extends State<NotificationUrl> {
+  Future<void> launched;
+
+
+  Future<void> _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String url = widget.notificationsDetail.url;
+    return  SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child : Padding(
+        padding: const EdgeInsets.only(top: 30.0),
+        child: InkWell(
+          onTap:() => setState(() {
+            launched = _launchInBrowser(url);
+          }),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.blueGrey[300].withOpacity(0.6),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: ListTile(
+              leading:
+              Container(
+                  width: 50.0,
+                  height: 50.0,
+                  child: Image.network('${widget.notificationsDetail.companyLogo ?? Placeholder() }')
+              ),
+              title: Text('${widget.notificationsDetail.title ?? " "}' ,style:  TextStyle(
+                fontFamily: 'Poppins',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                fontSize: 16.0,
+                //fontWeight: FontWeight.w700,
+              ),),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 6.5),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/location.png'),
+                    SizedBox(width: 10,),
+                    Text('${widget.notificationsDetail.city ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,

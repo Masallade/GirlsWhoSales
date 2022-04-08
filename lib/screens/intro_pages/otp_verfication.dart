@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:girlzwhosell/model/verified_otp_model.dart';
 import 'package:girlzwhosell/screens/intro_pages/Reset_password.dart';
 import 'package:girlzwhosell/utils/constants.dart';

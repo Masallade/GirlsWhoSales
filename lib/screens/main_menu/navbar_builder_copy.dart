@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -9,6 +8,9 @@ import 'package:girlzwhosell/screens/main_menu/profile.dart';
 import 'package:girlzwhosell/screens/main_menu/shortlisted.dart';
 import 'package:girlzwhosell/screens/profile/profile_main.dart';
 import 'package:http/http.dart' as http;
+
+import '../../model/total_notification.dart';
+import '../../utils/constants.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -150,6 +152,9 @@ class _HomePageState extends State<HomePage> {
     print('ProfilePic is $profile');
     print('cv is $cv');
     print('resume is $resumee');
+    setState(() {
+      TotalNotifiction();
+    });
   }
 
   @override
@@ -229,6 +234,7 @@ class _HomePageState extends State<HomePage> {
               jobId: jobId,
               cv: cv,
               resume: resumee,
+              totalNotification: totalNotification.totalCountNotf,
             ),
             Profile(
                 user_Id: user_Id,
@@ -301,17 +307,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future getQue() async {
-    if (token1 != null) {
-      var response = await http.post(
-          Uri.parse(
-              'https://biitsolutions.co.uk/girlzwhosell/API/fcm_register.php'),
-          body: {"token": token1, "user_id": user_Id});
-      print(token1);
-      print(user_Id);
-      return json.decode(response.body);
-    } else {
-      print("Token is Null");
+
+  Future <TotalNotification> TotalNotifiction() async {
+    final url = "https://biitsolutions.co.uk/girlzwhosell/API/total_notifications.php?seeker_id=$user_Id";
+    try{
+      final http.Response response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200 ){
+        print('response is : ${response.body}');
+
+        totalNotification = TotalNotification.fromJson(json.decode(response.body));
+        return totalNotification;
+
+      }
+    } catch (e){
+      print(e.toString());
     }
   }
 }

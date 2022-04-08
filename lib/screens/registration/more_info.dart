@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/screens/registration/password_page.dart';
 import 'package:girlzwhosell/utils/constants.dart';

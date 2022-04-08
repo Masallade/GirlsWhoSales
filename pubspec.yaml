@@ -46,6 +46,7 @@ dependencies:
   flutter_styled_toast: ^2.0.0
   animated_splash: ^1.0.0
   lottie:
+  badges: ^2.0.2
 
 dev_dependencies:
   flutter_test:

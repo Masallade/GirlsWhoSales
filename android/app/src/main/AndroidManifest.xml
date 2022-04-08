@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:label="GirlzWhoSell Career Connexions"
+        android:label="GirlzWhoSell Career Conextions"
         android:icon="@mipmap/ic_launcher">
 
         <provider
