@@ -85,8 +85,9 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
 
   final controller = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContextcontext) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0.0,

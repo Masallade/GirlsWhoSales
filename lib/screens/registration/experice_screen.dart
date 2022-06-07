@@ -10,6 +10,9 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class ExperienceScreen extends StatefulWidget {
+  String industry;
+  String jobtypes;
+  String joblevel;
   String jobtype;
   String Button;
   String selectedJobtitle;
@@ -17,11 +20,12 @@ class ExperienceScreen extends StatefulWidget {
   final ValueChanged<dynamic> onSubmit;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
-  ExperienceScreen({this.jobtype,this.Button,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles});
+  String Month;
+  ExperienceScreen({this.industry, this.jobtypes, this.joblevel, this.jobtype,this.Button,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles ,this.Month});
 
   @override
   _ExperienceScreenState createState() => _ExperienceScreenState(
-    Button: Button,  jobtype: jobtype,selectedJobtitle: selectedJobtitle, ExperiencenDetail: ExperiencenDetail, onSubmit: onSubmit , selecjobsTypes: selecjobsTypes,selectedJobTitles: selectedJobTitles);
+   industry: industry, jobtypes: jobtypes,joblevel: joblevel, Button: Button,  jobtype: jobtype,selectedJobtitle: selectedJobtitle, ExperiencenDetail: ExperiencenDetail, onSubmit: onSubmit , selecjobsTypes: selecjobsTypes,selectedJobTitles: selectedJobTitles ,Month: Month);
 }
 
 class _ExperienceScreenState extends State<ExperienceScreen> {
@@ -29,6 +33,9 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   // declare a variable to keep track of the input text
   // create a TextEditingController
   TextEditingController fieldControllor= TextEditingController();
+  String industry;
+  String jobtypes;
+  String joblevel;
   String Button;
   String jobtype;
   String selectedJobtitle;
@@ -36,7 +43,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   final ValueChanged<String> onSubmit;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
-  _ExperienceScreenState({this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,});
+  _ExperienceScreenState({this.industry, this.jobtypes, this.joblevel, this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,this.Month});
 
   bool isValue = false;
   String _dropdownError;
@@ -45,7 +52,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     bool _isValid = _formKey.currentState.validate();
 
     if (ExperiencenDetail == null) {
-      setState(() => _dropdownError = "Please select an option!");
+      setState(() => _dropdownError = "Please select an experience!");
       _isValid = false;
     }
 
@@ -58,8 +65,13 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     super.initState();
 
    setState(() {
-     print('jobtitle : $jobtype');
+     print('============= Experience Screen ===========');
+     print('type of work : $jobtypes');
+     print('joblevel : $joblevel');
      print('listofjobtype : $Button');
+     print('industry : $industry');
+     print('jobtitle : $jobtype');
+
    });
     getData();
   }
@@ -78,7 +90,8 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     print('jobtitle $resbody');
   }
 
-
+  List Monthdata = ["1 month", "2 months" ,"3 months" ,"4 months" ,"5 months" ,"6 months" ,"7 months", "8 months", "9 months" , "10 months", "11 months"];
+  String Month;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -114,13 +127,13 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                         backgroundColor: Colors.grey[300],
                         valueColor:
                         AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                        value: 0.6,
+                        value: 0.7,
                       ),
                       SizedBox(height: 5,),
                       Padding(
                         padding: const EdgeInsets.only(left: 295.0 ,right: 12.0),
                         child: Text(
-                          '45%',
+                          '75%',
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               color: Colors.blueGrey[300],
@@ -176,9 +189,9 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                   child: Container(
                   //  height: 150,
                     width: SizeConfig.screenWidth,
-                    height: 70.0,
+                    height: 200.0,
                     decoration: BoxDecoration(
-                    //  color: Colors.yellow,
+                 //    color: Colors.yellow,
                    //   border: Border.all(width: 1.0, color: Colors.grey[300]),
                     ),
                     child: GestureDetector(
@@ -186,6 +199,58 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                           FocusManager.instance.primaryFocus?.unfocus(),
                       child: Column(
                         children: [
+                          Container(
+                            width: SizeConfig.screenWidth,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(color: Colors.grey[300])),
+                            child: DropdownButtonHideUnderline(
+                              child:  ButtonTheme(
+                                  alignedDropdown: true,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: DropdownButton<String>(
+                                        hint: Padding(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: new Text('Select Month' ,style: TextStyle(
+                                              height: 1.5,
+                                              fontSize: 16.0,
+                                              fontFamily: 'Questrial',
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black
+                                          )),
+                                        ),
+                                        // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
+                                        value: Month,
+                                        onChanged: (String newvalue) {
+                                          setState(() {
+                                            Month = newvalue;
+                                            _dropdownError = null;
+                                          });
+                                          print('newvalue ${Month}');
+                                        },
+                                        items: Monthdata.map((item) {
+                                          return DropdownMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Text('${item}',style: TextStyle(
+                                                    height: 1.5,
+                                                    fontSize: 16.0,
+                                                    fontFamily: 'Questrial',
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black
+                                                )),
+                                              ],
+                                            ),
+                                            value: item.toString(),
+                                          );
+                                        }).toList()),
+                                  )
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10,),
                           Container(
                             width: SizeConfig.screenWidth,
                             height: 70,
@@ -237,6 +302,8 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                 ),
                               ),
                             ),
+
+
                         ],
                       ),
                     ),
@@ -247,9 +314,6 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                     : Text(
                   _dropdownError ?? "",
                   style: TextStyle(color: Colors.red),
-                ),
-                SizedBox(
-                  height: 120,
                 ),
                 Padding(
                   padding: const EdgeInsets.only( left: 12, right: 12),
@@ -275,7 +339,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,)));
+                                  builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,jobtypes: jobtypes, joblevel: joblevel,industry: industry,Month:Month)));
                           print('Successful');
                         }
                       },

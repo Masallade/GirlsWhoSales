@@ -182,12 +182,10 @@ SizedBox(height: 28,),
                         if(value.message == null) {
                           final snackBar = SnackBar(
                               behavior: SnackBarBehavior.floating,
-                              content: Text('Cannot Send email!!!!'));
+                              content: Text('Cannot Send email!'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         if(value.message == "Please check your email for OTP code and enter here to reset password."){
-                          // final snackBar = SnackBar(content: Text('Email Sent!!!!'));
-                          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           await  Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneVerification( user_Id: verifyotp.userId,Msg: forgetPasswordModel.message,)));
                         }
                       });

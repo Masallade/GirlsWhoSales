@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/views/description_tab.dart';
 
 import '../model/notification_model.dart';
 import '../views/RequirementTab.dart';
 import '../views/company_tab.dart';
-
+import 'package:http/http.dart' as http;
 class TrackDetail extends StatefulWidget {
   final NotificationsDetails notificationsDetail;
   TrackDetail ({Key key , this.notificationsDetail}) : super(key: key);
@@ -25,6 +26,7 @@ class _TrackDetailState extends State<TrackDetail> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
+              UpdateNotifictionColor();
               Navigator.of(context).pop();
             },
             icon: Icon(
@@ -32,7 +34,7 @@ class _TrackDetailState extends State<TrackDetail> {
               color: Colors.black,
             )),
         title: Text(
-          'Job Detail',
+          'Notifications Detail',
           style: TextStyle(
             color: Colors.black,
             height: 1.5,
@@ -216,5 +218,17 @@ class _TrackDetailState extends State<TrackDetail> {
         ),
       ),
     );
+  }
+  Future  UpdateNotifictionColor() async {
+    final url = "https://biitsolutions.co.uk/girlzwhosell/API/update_notification.php?id=${notificationsDetail.id}";
+    try{
+      final http.Response response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200 ){
+        print('Color response is : ${response.body}');
+        print('Color response is : ${notificationsDetail.id}');
+      }
+    } catch (e){
+      print(e.toString());
+    }
   }
 }

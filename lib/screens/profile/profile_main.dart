@@ -193,14 +193,29 @@ class _ProfileMainState extends State<ProfileMain> {
               SizedBox(
                 child: ListTile(
                   leading: ClipOval(
-                    child: FadeInImage.assetNetwork(
-                        width: 80,
-                        height: 100,
-                        placeholder: 'assets/images/loading.gif',
-                        placeholderScale: 2.0,
-                        fadeOutDuration: Duration(seconds: 2),
-                        image: profile ?? Placeholder(),
-                        fit: BoxFit.cover),
+                    child: InkWell(
+                     onTap: (){
+                       Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                               builder: (context) => EditProfilePage(
+                                   uName: uName,
+                                   password: password,
+                                   user_Id: user_Id,
+                                   profile: profile,
+                                   userDetails: userDetails)
+                           ));
+                     },
+                      child: FadeInImage.assetNetwork(
+                        fadeInCurve: Curves.easeInBack,
+                          width: 80,
+                          height: 120,
+                          placeholder: 'assets/images/loading.gif',
+                          placeholderScale: 2.0,
+                          fadeOutDuration: Duration(seconds: 2),
+                          image: profile ?? Placeholder(),
+                          fit: BoxFit.cover),
+                    ),
                   ),
                   title: Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -242,7 +257,8 @@ class _ProfileMainState extends State<ProfileMain> {
                               password: password,
                               user_Id: user_Id,
                               profile: profile,
-                              userDetails: userDetails)));
+                              userDetails: userDetails)
+                      ));
                 },
                 child: Container(
                     child: Padding(

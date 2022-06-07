@@ -28,6 +28,10 @@ class RegistrationPage extends StatefulWidget {
   String location;
   String jobtype;
   String Button;
+  String industry;
+  String jobtypes;
+  String joblevel;
+  String Month;
   RegistrationPage(
       {this.firstName,
       this.firstName2,
@@ -40,7 +44,7 @@ class RegistrationPage extends StatefulWidget {
       this.resume,
       this.title,
       this.phone,
-      this.location, this.jobtype ,this.Button});
+      this.location, this.jobtype ,this.Button ,this.jobtypes,this.joblevel,this.industry ,this.Month});
 
   @override
   _RegistrationPageState createState() => _RegistrationPageState(
@@ -56,7 +60,7 @@ class RegistrationPage extends StatefulWidget {
       title: title,
       phone: phone,
       location: location,
-  jobtype: jobtype,Button: Button);
+  jobtype: jobtype,Button: Button ,jobtypes: jobtypes ,joblevel: joblevel , industry: industry ,Month:Month);
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
@@ -76,7 +80,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String location;
   String jobtype;
   String Button;
-
+  String industry;
+  String jobtypes;
+  String joblevel;
+  String Month;
 
 
   final url = "https://biitsolutions.co.uk/girlzwhosell/API/job_title.php";
@@ -97,9 +104,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void initState(){
  super.initState();
-  print('jobtitle $jobtype');
+  print('===========RegistrationPage=============');
+  print('joblevel $joblevel');
+  print('jobtypes $jobtypes');
   print('jobcategories $Button');
-  print('experience $ExperiencenDetail');
+  print('Types of job $jobtype');
+  print('Pickedindustry $industry');
+  print('Selected experience ${ Month+ExperiencenDetail }');
   }
 
   GlobalKey<FormState> formKey = GlobalKey();
@@ -128,7 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         this.resume,
         this.title,
         this.phone,
-        this.location,this.selecjobsTypes,this.selectedJobTitles ,this.jobtype,this.Button});
+        this.location,this.selecjobsTypes,this.selectedJobTitles ,this.jobtype,this.Button ,this.jobtypes,this.joblevel , this.industry,this.Month});
 
          bool _passwordVisible=false;
          bool _passwordVisible1 = false;
@@ -197,13 +208,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   minHeight: 10.0,
                   backgroundColor: Colors.grey[300],
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                  value: 0.7,
+                  value: 0.8,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 295.0 ,right: 12.0),
                 child: Text(
-                  '60%',
+                  '85%',
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       color: Colors.blueGrey[300],
@@ -662,6 +673,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       email2: email2,
                                       phonenno: phonenno,
                                       Button: Button,
+                                  jobtypes: jobtypes,
+                                  joblevel: joblevel,
+                                  industry: industry,
+                                  Month: Month,
                                     )));
                       } else {
                         print('Try Again');

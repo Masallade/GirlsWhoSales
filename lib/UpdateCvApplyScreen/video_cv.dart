@@ -60,7 +60,6 @@ class _VideoCv extends State<VideoCv>{
 
   Future _imgFromCamera() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -69,16 +68,9 @@ class _VideoCv extends State<VideoCv>{
       }
     });
   }
-  // _imgFromGallery() async{
-  //   // ignore: deprecated_member_use
-  //   selectedfile2 = (await FileType.video) as FilePickerResult;
-  //   selectFile();
-  //   setState((){});
-  // }
 
   Future _imgFromGallery() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);

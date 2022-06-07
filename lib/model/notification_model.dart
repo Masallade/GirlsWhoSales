@@ -48,7 +48,7 @@ class NotificationsDetails {
   String companyName;
   String city;
   String jobType;
-
+  String color;
   NotificationsDetails(
       {this.id,
         this.seekerId,
@@ -68,7 +68,7 @@ class NotificationsDetails {
         this.url,
         this.companyName,
         this.city,
-        this.jobType});
+        this.jobType , this.color});
 
   NotificationsDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -91,6 +91,7 @@ class NotificationsDetails {
     companyName = json['company_name'];
     city = json['city'];
     jobType = json['job_type'];
+    color = json['color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -115,6 +116,7 @@ class NotificationsDetails {
     data['company_name'] = this.companyName;
     data['city'] = this.city;
     data['job_type'] = this.jobType;
+    data['color'] = this.color;
     return data;
   }
 }

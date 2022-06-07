@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/jobtitle_model.dart';
+import 'package:girlzwhosell/screens/intro_pages/industrialTypes.dart';
 import 'package:girlzwhosell/screens/registration/job-type.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
@@ -8,53 +9,49 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:http/http.dart'as http;
 
 
-
-class Animal {
-  final int id;
-  final String name;
-
-  Animal({
-    this.id,
-    this.name,
-  });
-}
-
 // ignore: must_be_immutable
 class SuperPowerPage extends StatefulWidget {
-  List<superPowerModel> selecjobsTypes = [];
+  String jobtypes;
+  String joblevel;
  final String Button;
-  SuperPowerPage({Key key ,this.selecjobsTypes,this.Button}) : super(key: key);
+  SuperPowerPage({Key key ,this.jobtypes ,this.joblevel, this.Button}) : super(key: key);
 
   @override
-  _SuperPowerPageState createState() => _SuperPowerPageState(selecjobsTypes: selecjobsTypes, Button: Button);
+  _SuperPowerPageState createState() => _SuperPowerPageState( jobtypes: jobtypes,joblevel: joblevel, Button: Button);
 }
 
 class _SuperPowerPageState extends State<SuperPowerPage> {
 
   List<superPowerModel> selecjobsTypes = [];
+  String jobtypes;
+  String joblevel;
   String Button ='';
-  _SuperPowerPageState({this.selecjobsTypes,this.Button});
+  _SuperPowerPageState({this.jobtypes, this.joblevel, this.Button});
 
   static List<superPowerModel> _data = [];
-  Future<List<superPowerModel>> getProvinceList() async {
+
+
+  Future<List<superPowerModel>> getSalesList() async {
 
     final response = await http.get(Uri.parse("https://biitsolutions.co.uk/girlzwhosell/API/categories.php"));
 
    setState(() {
-     _data = parseProvinces(response.body);
+     _data = parseSales(response.body);
    });
     print('category response${response.body}');
-    return parseProvinces(response.body);
+    return parseSales(response.body);
   }
-  List<superPowerModel> parseProvinces(String responseBody) {
+  List<superPowerModel> parseSales(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<superPowerModel>((json) => superPowerModel.fromJson(json)).toList();
   }
 
   @override
   void initState() {
-    getProvinceList();
-   // print('${_data.length}');
+    getSalesList();
+   print('========Categories Page ============');
+   print('${'jobtype $jobtypes'}');
+    print('${'joblevel $joblevel'}');
     super.initState();
   }
 
@@ -94,13 +91,13 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                     backgroundColor: Colors.grey[300],
                     valueColor:
                     AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                    value: 0.2,
+                    value: 0.4,
                   ),
                 ),
                 SizedBox(height: 5,),
                 Padding(
                   padding: const EdgeInsets.only(left: 280.0),
-                  child: Text('15%' , textAlign: TextAlign.end, style: TextStyle(color: Colors.blueGrey[300] , fontFamily: 'Poppins' , fontWeight: FontWeight.w600),   ),
+                  child: Text('35%' , textAlign: TextAlign.end, style: TextStyle(color: Colors.blueGrey[300] , fontFamily: 'Poppins' , fontWeight: FontWeight.w600),   ),
                 ),
               ],
             ),
@@ -108,43 +105,21 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
               height: 37,
             ),
             Text(
-                'Great! Just a few \n more steps to go!',
+                'Great! Just a few \n more steps left!',
                 overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
               height: 20,
             ),
-            Text('Please answer the following questions to\n proceed to registration.',
+            Text('Which of these Job Categories pique\n your curiosity? ',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
             SizedBox(
               height: 50,
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 24.0),
-                  child: Text(
-                      "What's your superpower?",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.start,
-                    style: TextStyle(
-                      height: 1.5,
-                      fontSize: 16.0,
-                      fontFamily: 'Questrial',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black
-                    ),),
-
-                ),
-                SizedBox(width: 14,),
-                Image.asset('assets/images/heart.png'),
-              ],
-            ),
         SizedBox(height: 16,),
-          //  buildFilterChips(),
             Padding(
               padding: const EdgeInsets.only(left: 24.0 ,right: 24.0),
               child: SingleChildScrollView(
@@ -161,7 +136,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                        fontSize: 24.0,
 
                      ),),
-                      autovalidateMode: AutovalidateMode.always,
+                     // autovalidateMode: AutovalidateMode.always,
                       confirmText: Text('ok' , style: TextStyle(
                             fontFamily: 'Poppins',
                             fontStyle: FontStyle.normal,
@@ -194,7 +169,8 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                        searchable: true,
 
                       validator: (values) {
-                        if (values == null || values.isEmpty) {
+                       print('values.length ${values.length}');
+                        if (values.length >=4) {
                           return "Select Only Three";
                         }
                         return null;
@@ -258,11 +234,13 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                 onPressed:() {
                   if( _multiSelectKey.currentState.validate()){
                     _multiSelectKey.currentState.save();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => JobType(selecjobsTypes: selecjobsTypes,Button:Button)));
-                 }else{
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => JobType(selecjobsTypes: selecjobsTypes,Button:Button)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => industryLevel(jobtypes:jobtypes,joblevel: joblevel, Button: Button,)));
+
+                  }else{
                     return SnackBar(content: Text('Please Select Categories To Proceed Next'));
                  }
                 },

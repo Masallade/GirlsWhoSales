@@ -1,3 +1,5 @@
+// ignore_for_file: missing_return
+
 import 'dart:convert';
 
 import 'package:badges/badges.dart';
@@ -122,7 +124,6 @@ class _HomeSearchState extends State<HomeSearch> {
 
         totalNotification = TotalNotification.fromJson(json.decode(response.body));
         return totalNotification;
-
       }
     } catch (e){
       print(e.toString());
@@ -384,7 +385,7 @@ class _HomeSearchState extends State<HomeSearch> {
                           scrollDirection: Axis.horizontal,
                           physics:
                           const PageScrollPhysics(), // this for snapping
-                          itemCount: jobDetails.length,
+                          itemCount: jobDetails.length ,
                           itemBuilder: (context, index) => index % 2 == 0
                               ? GestureDetector(
                               onTap: () {
@@ -533,8 +534,16 @@ class _HomeSearchState extends State<HomeSearch> {
           }
           else {
             return
+               /// Container();
               Center(
-                child: CircularProgressIndicator(color: Colors.pinkAccent[200],));
+                child: Text('Loading ...' ,  style: TextStyle(
+                    fontFamily: 'Questrial',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pinkAccent[200]
+
+                ),),);
+                //CircularProgressIndicator(color: Colors.pinkAccent[200],));
           }
 
         },

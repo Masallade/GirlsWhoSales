@@ -17,6 +17,9 @@ import 'package:girlzwhosell/utils/demo_localization.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/notification_model.dart';
+import '../model/profileUpdate.dart';
+
 final kSpacingUnit = 10.00.w;
 
 const String base_url = "https://biitsolutions.co.uk/girlzwhosell/API/";
@@ -32,7 +35,7 @@ SeekerDetails seekerDetails = SeekerDetails();
 SharedPreferences prefs;
 
 
-
+NotificationModel notificationModel = NotificationModel();
 
 TotalNotification totalNotification = TotalNotification();
 
@@ -41,7 +44,7 @@ mentorModel mentormodel = mentorModel();
 RegistrationModel registrationModel = RegistrationModel();
 AppliedJobDetails appliedJobDetail = AppliedJobDetails();
 fetchAppliedJobsModel fetchAppliedJobs = fetchAppliedJobsModel();
-UserProfile userprofile  = UserProfile();
+ProfileUpdate profileUpdate = ProfileUpdate();
 
   dataSuccessfullyLoaded(BuildContext context, String title, String body, String button) {
 // flutter defined function

@@ -152,6 +152,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, missing_return
 
 import 'dart:convert';
+import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -187,6 +188,39 @@ class _MentorFormState extends State<MentorForm> {
   TextEditingController experinceController = TextEditingController();
   TextEditingController c_companyController = TextEditingController();
   TextEditingController c_RoleController = TextEditingController();
+
+  List data = ["1 month", "2 months" ,"3 months" ,"4 months" ,"5 months" ,"6 months" ,"7 months", "8 months", "9 months" , "10 months", "11 months"];
+  String Experience;
+  String Month;
+
+
+  @override
+  void initState(){
+    super.initState();
+
+    setState(() {
+      print('============= Mentor Screen ===========');
+
+    });
+    getData();
+  }
+
+
+  final url = "https://biitsolutions.co.uk/girlzwhosell/API/experience.php";
+  // ignore: deprecated_member_use
+  List yeardata = List(); //List of Responsebody
+  // ignore: missing_return
+  Future<String> getData() async{
+    var res = await http.get(Uri.parse(url));
+    var resbody = json.decode(res.body);
+    setState(() {
+      yeardata = resbody;
+    });
+    print('jobtitle $resbody');
+  }
+
+
+
 
   bool isEmail(String input) => EmailValidator.validate(input);
 
@@ -641,49 +675,166 @@ class _MentorFormState extends State<MentorForm> {
                                         ),
                                       ),
                                     ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
+                                    //   child: TextFormField(
+                                    //     cursorColor: Colors.pinkAccent[200],
+                                    //     controller: experinceController,
+                                    //     keyboardType: TextInputType.number,
+                                    //     // validate after each user interaction
+                                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    //     decoration: InputDecoration(
+                                    //       contentPadding: EdgeInsets.only(
+                                    //           left: 18, top: 17.0, bottom: 17, right: 18),
+                                    //       border: OutlineInputBorder(
+                                    //         borderRadius: BorderRadius.circular(5.0),
+                                    //       ),
+                                    //       focusedBorder: OutlineInputBorder(
+                                    //         borderRadius: BorderRadius.circular(5.0),
+                                    //         borderSide: BorderSide(
+                                    //           color: Colors.blueGrey[300].withOpacity(0.6),
+                                    //         ),
+                                    //       ),
+                                    //       enabledBorder: OutlineInputBorder(
+                                    //         borderRadius: BorderRadius.circular(5.0),
+                                    //         borderSide: BorderSide(
+                                    //           color: Colors.blueGrey[300].withOpacity(0.6),
+                                    //           width: 1.0,
+                                    //         ),
+                                    //       ),
+                                    //       hintText: 'Sale Experience',
+                                    //       hintStyle: TextStyle(
+                                    //         height: 1.5,
+                                    //         fontSize: 16.0,
+                                    //         fontFamily: 'Questrial',
+                                    //         fontWeight: FontWeight.w400,
+                                    //         color: Color.fromARGB(255, 112, 126, 148),
+                                    //
+                                    //         /* letterSpacing: 0.0, */
+                                    //       ),
+                                    //       prefixIcon: Padding(
+                                    //         padding: EdgeInsets.only(
+                                    //             left: 18, top: 17.0, bottom: 17, right: 18),
+                                    //         child: Icon(Icons.volunteer_activism , color: Color.fromARGB(255, 112, 126, 148),),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
-                                      child: TextFormField(
-                                        cursorColor: Colors.pinkAccent[200],
-                                        controller: experinceController,
-                                        keyboardType: TextInputType.number,
-                                        // validate after each user interaction
-                                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              left: 18, top: 17.0, bottom: 17, right: 18),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                      child: Text(' Select Experience*'),
+                                    ),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
+                                            child: Container(
+                                              width: 175,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(color: Colors.grey[300])),
+                                              child: DropdownButtonHideUnderline(
+                                                child:  ButtonTheme(
+                                                    alignedDropdown: true,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: DropdownButton<String>(
+                                                          hint: Padding(
+                                                            padding: const EdgeInsets.only(left: 8.0),
+                                                            child: new Text('Select Year' ,style: TextStyle(
+                                                                height: 1.5,
+                                                                fontSize: 16.0,
+                                                                fontFamily: 'Questrial',
+                                                                fontWeight: FontWeight.w400,
+                                                                color: Colors.black
+                                                            )),
+                                                          ),
+                                                          value: Experience,
+                                                          onChanged: (String newvalue) {
+                                                            setState(() {
+                                                              Experience = newvalue;
+                                                              //    _dropdownError = null;
+                                                            });
+                                                            print('Selected Year ${Experience}');
+                                                          },
+                                                          items: yeardata.map((item) {
+                                                            return DropdownMenuItem(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text('${item["experience"]}',style: TextStyle(
+                                                                      height: 1.5,
+                                                                      fontSize: 16.0,
+                                                                      fontFamily: 'Questrial',
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black
+                                                                  )),
+                                                                ],
+                                                              ),
+                                                              value: item["id"].toString(),
+                                                            );
+                                                          }).toList()),
+                                                    )
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
-                                              width: 1.0,
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
+                                            child: Container(
+                                              width: 160,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(color: Colors.grey[300])),
+                                              child: DropdownButtonHideUnderline(
+                                                child:  ButtonTheme(
+                                                    alignedDropdown: true,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: DropdownButton<String>(
+                                                          hint: Padding(
+                                                            padding: const EdgeInsets.only(left: 8.0),
+                                                            child: new Text('Select Month' ,style: TextStyle(
+                                                                height: 1.5,
+                                                                fontSize: 16.0,
+                                                                fontFamily: 'Questrial',
+                                                                fontWeight: FontWeight.w400,
+                                                                color: Colors.black
+                                                            )),
+                                                          ),
+                                                          value: Month,
+                                                          onChanged: (String newvalue) {
+                                                            setState(() {
+                                                              Month = newvalue;
+                                                              //    _dropdownError = null;
+                                                            });
+                                                            print('Selected Month ${Month}');
+                                                          },
+                                                          items: data.map((item) {
+                                                            return DropdownMenuItem(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text('${item.toString()}',style: TextStyle(
+                                                                      height: 1.5,
+                                                                      fontSize: 16.0,
+                                                                      fontFamily: 'Questrial',
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black
+                                                                  )),
+                                                                ],
+                                                              ),
+                                                              value: item.toString(),
+                                                            );
+                                                          }).toList()),
+                                                    )
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          hintText: 'Sale Experience',
-                                          hintStyle: TextStyle(
-                                            height: 1.5,
-                                            fontSize: 16.0,
-                                            fontFamily: 'Questrial',
-                                            fontWeight: FontWeight.w400,
-                                            color: Color.fromARGB(255, 112, 126, 148),
-
-                                            /* letterSpacing: 0.0, */
-                                          ),
-                                          prefixIcon: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 18, top: 17.0, bottom: 17, right: 18),
-                                            child: Icon(Icons.volunteer_activism , color: Color.fromARGB(255, 112, 126, 148),),
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -783,7 +934,7 @@ class _MentorFormState extends State<MentorForm> {
         "email": emailcontroller.text,
         "current_role": c_RoleController.text,
         "phone": phoneController.text,
-        "experience": experinceController.text,
+        "experience":  Experience + "Year" + Month  ,
       });
       if(response.statusCode == 200){
         print("Response is: ${response.body}");

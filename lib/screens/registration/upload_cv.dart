@@ -36,11 +36,16 @@ class CustomFilePicker extends StatefulWidget{
   String location;
   String jobtype;
   String Button;
-  CustomFilePicker({this.jobtype,this.ExperiencenDetail,this.firstName,this.firstName2,this.email,this.email2 ,this.phonenno ,this.Button});
+  String industry;
+  String jobtypes;
+  String joblevel;
+  String Month;
+
+  CustomFilePicker({this.jobtype,this.ExperiencenDetail,this.firstName,this.firstName2,this.email,this.email2 ,this.phonenno ,this.Button , this.jobtypes,this.joblevel,this.industry ,this.Month});
 
   @override
   State<StatefulWidget> createState() {
-    return _CustomFilePicker(jobtype: jobtype,ExperiencenDetail: ExperiencenDetail,firstName: firstName,firstName2: firstName2,email: email,email2: email2,phonenno: phonenno,Button: Button);
+    return _CustomFilePicker(jobtype: jobtype,ExperiencenDetail: ExperiencenDetail,firstName: firstName,firstName2: firstName2,email: email,email2: email2,phonenno: phonenno,Button: Button ,jobtypes: jobtypes , joblevel: joblevel ,industry: industry ,Month: Month);
   }
 }
 
@@ -61,9 +66,12 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   String location;
   String jobtype;
   String Button;
+  String industry;
+  String jobtypes;
+  String joblevel;
+  String Month;
 
-
-  _CustomFilePicker({this.jobtype,this.ExperiencenDetail,this.firstName,this.firstName2,this.email,this.email2 ,this.phonenno ,this.Button});
+  _CustomFilePicker({this.jobtype,this.ExperiencenDetail,this.firstName,this.firstName2,this.email,this.email2 ,this.phonenno ,this.Button,this.jobtypes ,this.joblevel,this.industry, this.Month});
 
 
   FilePickerResult selectedfile;
@@ -95,8 +103,10 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
   Future _imgFromCamera() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    //File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      if (pickedFile == null) {
+       return 'video.mp4';
+      }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
@@ -107,6 +117,9 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   Future _imgFromGallery() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
     setState(() {
+      if (pickedFile == null) {
+        return 'video.mp4';
+      }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
@@ -199,16 +212,21 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       "category": Button,
       "job_title": jobtype,
       "city": "",
-      "experience": ExperiencenDetail,
+      "experience": Month + ExperiencenDetail,
       "expected_salary": "",
       "lastname": firstName2,
+      "job_type":jobtypes,
+      "job_level": joblevel,
+      "job_industry":industry,
       "phone": phonenno,
-       "cv": await MultipartFile.fromFile(
+       "cv": await _image == null ? "video.mp4" : MultipartFile.fromFile(
           _image.path,
           filename: basename(_image.path)
         //show only filename from path
       ),
-       "resume": await MultipartFile.fromFile(
+       "resume": await
+       selectedfile == null ? "files.pdf" :
+       MultipartFile.fromFile(
           selectedfile.files.single.path,
           filename: basename(selectedfile.files.single.path)
         //show only filename from path
@@ -228,6 +246,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
     if(response.statusCode == 200){
       print(response.data);
+      print("=================Upload User Data=================");
       print("name : $firstName");
       print("lastname : $firstName2");
       print("email : $email");
@@ -235,7 +254,10 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       print("phone : $phonenno");
       print("Categoreis : $Button");
       print("JobTitle : $jobtype");
-      print("experience : $ExperiencenDetail");
+      print("JobTitle : $jobtypes");
+      print("JobTitle : $joblevel");
+      print("JobTitle : $industry");
+      print("experience : ${Month + ExperiencenDetail + 'Years'}");
       registrationModel = RegistrationModel.fromJson(json.decode(response.data));
       return registrationModel;
     //  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSuccessScreen()));
@@ -868,34 +890,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
     );
   }
 //////////////////
-  Widget showImage() {
-    return FutureBuilder<File>(
-      future: file,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            null != snapshot.data) {
-          tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
-          return Flexible(
-            child: Image.file(
-              snapshot.data,
-              fit: BoxFit.cover,
-            ),
-          );
-        } else if (null != snapshot.error) {
-          return Text(
-            'Error Picking Slip',
-            textAlign: TextAlign.center,
-          );
-        } else {
-          return Text(
-            '',
-            textAlign: TextAlign.center,
-          );
-        }
-      },
-    );
-  }
+
 
 
 
@@ -1005,7 +1000,6 @@ class _uploadVideoCv extends State<uploadVideoCv>{
                       style: TextStyle(fontSize: 18),),
                     //show progress status here
                   ),
-                  showImage(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

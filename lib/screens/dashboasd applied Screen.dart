@@ -52,6 +52,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
     if (snapshot.hasData) {
      Container();
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
@@ -91,52 +92,66 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20 , left: 12 ,right: 10),
-                            child: InkWell(
-                              onTap:(){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackApplication(
-                                    appliedJobDetails:appliedJobDetails[index])));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 350,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:  Border.all(
-                                      color: Color.fromRGBO(238, 242, 248, 1)
-                                  ),
+                          InkWell(
+                            onTap:(){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackApplication(
+                                  appliedJobDetails:appliedJobDetails[index])));
+                            },
+                            child: Container(
+                              height: 200,
+                              width: SizeConfig.screenWidth,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:  Border.all(
+                                    color: Color.fromRGBO(238, 242, 248, 1)
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: ListTile(
-                                    leading: Container(
-                                      height: 50,
-                                      width: 50,
-                                      child:Image.network('${appliedJobDetails[index].companyLogo ?? Placeholder()}'),
-                                    ),
-                                    title: FittedBox(
-                                      child: Text(
-                                        '${appliedJobDetails[index].title ?? " "}',
-                                         style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          fontSize: 15.0,
-                                          //fontWeight: FontWeight.w700,
-                                        ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ListTile(
+                                  leading: Container(
+                                    height: 50,
+                                    width: 50,
+                                    child:Image.network('${appliedJobDetails[index].companyLogo ?? Placeholder()}'),
+                                  ),
+                                  title: FittedBox(
+                                    child: Text(
+                                      '${appliedJobDetails[index].title ?? " "}',
+                                       style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                        //fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    subtitle: Container(
-                                      width:60,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: 10),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              'Experince: ${appliedJobDetails[index].experience ?? ""}',
+                                  ),
+                                  subtitle: Container(
+                                    width:60,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Experince: ${appliedJobDetails[index].experience ?? ""}',
+                                            style: TextStyle(
+                                              fontFamily: 'Questrial',
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                              fontSize: 14.0,
+                                              //fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Row(
+                                         // mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
                                               style: TextStyle(
                                                 fontFamily: 'Questrial',
                                                 fontStyle: FontStyle.normal,
@@ -146,50 +161,33 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                                 //fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 20,),
-                                          Row(
-                                           // mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
-                                                style: TextStyle(
-                                                  fontFamily: 'Questrial',
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                  fontSize: 14.0,
-                                                  //fontWeight: FontWeight.w700,
+                                            SizedBox(width: 60,),
+                                            Container(
+                                              height: 40,
+                                              width: 77,
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(52, 150, 224, 0.15),
+                                                  borderRadius: BorderRadius
+                                                      .circular(12.0)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 10.0),
+                                                child: Text(
+                                                   '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
+                                                    color:color), textAlign: TextAlign.center,
+                                                //   'Applied'
                                                 ),
                                               ),
-                                              SizedBox(width: 10,),
-
-                                              Container(
-                                                height: 40,
-                                                width: 77,
-                                                decoration: BoxDecoration(
-                                                    color: Color.fromRGBO(52, 150, 224, 0.15),
-                                                    borderRadius: BorderRadius
-                                                        .circular(12.0)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(top: 10.0),
-                                                  child: Text(
-                                                     '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
-                                                      color:color), textAlign: TextAlign.center,
-                                                  //   'Applied'
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          )
+                          ),
+                          SizedBox(height: 10,),
                         ],
                       );
                     }),
@@ -208,7 +206,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
 
               ):Text(
-                "Searching...",
+                "Loading ...",
                 style: TextStyle(
                     fontFamily: 'Questrial',
                     fontSize: 30,

@@ -284,6 +284,7 @@ class _JobApplyState extends State<JobApply> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -415,7 +416,7 @@ class _JobApplyState extends State<JobApply> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee}'),
+                                title: Text('${widget.resumee ?? "MyCv.pdf"}'),
                                 // subtitle: Text('1 day ago', style: subtitleStyle),
                               )),
 
@@ -449,7 +450,7 @@ class _JobApplyState extends State<JobApply> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.cv}'),
+                                Text('${widget.cv ?? "MyVideo.mp4"}'),
                                 // Text('1 day ago', style: subtitleStyle),
                               ],
                             ),
@@ -872,6 +873,7 @@ class _SearchApplyState extends State<SearchApply> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -1084,7 +1086,7 @@ class _SearchApplyState extends State<SearchApply> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee}'),
+                                title: Text('${widget.resumee ?? "MyCv.pdf"}'),
                                 // subtitle: Text('1 day ago', style: subtitleStyle),
                               )),
 
@@ -1203,7 +1205,7 @@ class _SearchApplyState extends State<SearchApply> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.cv}'),
+                                Text('${widget.cv ?? "MyVideo.mp4"}'),
                                 // Text('1 day ago', style: subtitleStyle),
                               ],
                             ),
@@ -1633,6 +1635,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -1764,7 +1767,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee}'),
+                                title: Text('${widget.resumee ?? "MyCv.pdf"}'),
                                 //   subtitle: Text('1 day ago', style: subtitleStyle),
                               )),
 
@@ -1795,7 +1798,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.cv}'),
+                                Text('${widget.cv ?? "MyVideo.mp4"}'),
                                 //  Text('1 day ago', style: subtitleStyle),
                               ],
                             ),
@@ -1968,6 +1971,9 @@ class _SavedJobApplyState extends State<SavedJobApply> {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
 }
+
+
+
 
 ////for See All Jobs Details For the job
 class SavedJobApply1 extends StatefulWidget {
@@ -2199,6 +2205,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -2330,7 +2337,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                                     width: 50,
                                     child:
                                         Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.cv ?? ''}'),
+                                title: Text('${widget.cv ?? "MyCv.pdf"}'),
                               )
                           ),
 
@@ -2361,7 +2368,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                                   width: SizeConfig.screenWidth,
                                   child: Image.asset('assets/images/cvbg.png'),
                                 ),
-                                Text('${widget.resumee ?? ''}'),
+                                Text('${widget.resumee ?? "MyVideo.mp4"}'),
                               ],
                             ),
                           )

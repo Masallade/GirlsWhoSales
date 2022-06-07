@@ -74,7 +74,6 @@ class _SignInPageState extends State<SignInPage> {
 
 
 
-
   @override
   void initState() {
     super.initState();
@@ -98,13 +97,16 @@ class _SignInPageState extends State<SignInPage> {
     prefs.setString('userpass', password);
 
     setState(() {
-      userName = userNameController.text;
-      password = passwordController.text;
+      userName = userName;
+      password = password;
       isLoggedIn = true;
     });
+    print('ShareduserName $userName');
+    print('password $password');
 
 
   }
+
   Future<bool> _exitApp(BuildContext context) {
     return showDialog(
       builder: (context) => AlertDialog(
@@ -384,7 +386,6 @@ class _SignInPageState extends State<SignInPage> {
                                   _key.currentState.validate()) {
                                  loginUser();
                                  Requests.Login(context, userName, password,token1, false);
-                                     //.whenComplete(() => registerNotification());
                               }
                             },
                             child: ListTile(

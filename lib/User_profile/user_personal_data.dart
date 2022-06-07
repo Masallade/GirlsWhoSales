@@ -1,6 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -9,11 +9,12 @@ import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
 
+import '../model/profileUpdate.dart';
 
 class EditProfilePage extends StatefulWidget {
   final uName;
@@ -74,6 +75,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -268,7 +270,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   final String firstName;
   bool showPassword = false;
   _EditProfilePage1State({this.uName,this.password, this.user_Id,this.profile, this.userDetails,this.firstName ,this.image});
-  TextEditingController controller = new TextEditingController();
+
 
 
   BuildContext context;
@@ -282,10 +284,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   String city;
 
 
-  String status = '';
 
-  File tmpFile;
-  String errMessage = 'Error Uploading Slip';
 
   String uploadurl = base_url + "user_update.php";
 
@@ -294,7 +293,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   Dio dio = Dio();
 
 
-  String base64Image;
 
   void initState(){
     super.initState();
@@ -306,20 +304,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
 
   File image;
 
-  Future pickImage(ImageSource source ) async {
-
-    try{
-      final image = await ImagePicker.platform.pickImage(source: source);
-      if(image == null )return;
-
-      //final imageTemporary = File(image.path);
-      final imagePermanent = await saveImagePermanently(image.path);
-      print('image is Permamnent : $imagePermanent');
-      setState(()=> this.image = imagePermanent);
-    } catch (e){
-      print('Failed To pickImage : ${e.toString()}');
-    }
-  }
 
   File _image;
   final picker = ImagePicker();
@@ -328,7 +312,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
     setState(() {
       if(pickedFile == null){
-        return 'image.jpg';
+        _image = File('image.png');
       }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -341,7 +325,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if(pickedFile == null){
-        return 'image.jpg';
+        _image = File('image.png');
       }
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -389,7 +373,6 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                         )),
                     onTap: () {
                       _imgFromCamera();
-                      // pickImage(ImageSource.camera);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -400,17 +383,8 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
         });
   }
 
-  Future <File> saveImagePermanently (String imagepath) async{
-    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory(); // 1
 
-    final name = basename(imagepath);
-    final image = File("${appDocumentsDirectory.path}/$name");
-    print('$image');
-    return File(imagepath).copy(image.path);
-
-  }
-
-  uploadResume(context) async {
+   uploadResume(context) async {
 
     try {
       if (formKey.currentState.validate()) {
@@ -422,16 +396,19 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
           "email": email,
           "city": city,
           "mobile_no": Phone,
-          "profile_picture": await MultipartFile.fromFile(_image.path,
-           filename: basename( _image.path),
+          "profile_picture": await
+         // _image.path !=null ?
+          MultipartFile.fromFile(
+             _image.path,
+           filename: basename(_image.path),
           ),
+            //: userDetails[0].profilePicture,
         });
         response = await dio.post(uploadurl,
           data: formData,
           onSendProgress: (int sent, int total) {
             String percentage = (sent / total * 100).toStringAsFixed(2);
             setState(() {
-              // progress = "$sent" + " Bytes of " "$total Bytes - " +  percentage + " % uploaded";
               progress = " " " " + percentage + " % uploading";
               //update the progress
             });
@@ -440,25 +417,48 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
         if (response.statusCode == 200) {
           print('image  $_image');
           print(response.data);
-            Requests.ProfileLogin(context, uName, password, 'token', false).whenComplete(() =>
-                showToast('Profile has been Updated Successfully',
-              context: context,
-              fullWidth: true,
-              backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-              animation: StyledToastAnimation.slideFromBottomFade,
-              reverseAnimation: StyledToastAnimation.fade,
-              position: StyledToastPosition.center,
-              animDuration: Duration(seconds: 2),
-              duration: Duration(seconds: 4),
-              curve: Curves.elasticOut,
-              reverseCurve: Curves.linear,
-            ));
+
+          Requests.ProfileLogin(context, uName, password, 'token', false);
+          showToast('Profile has been Updated Successfully',
+            context: context,
+            fullWidth: true,
+            backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+            animation: StyledToastAnimation.slideFromBottomFade,
+            reverseAnimation: StyledToastAnimation.fade,
+            position: StyledToastPosition.center,
+            animDuration: Duration(seconds: 2),
+            duration: Duration(seconds: 4),
+            curve: Curves.elasticOut,
+            reverseCurve: Curves.linear,
+          );
+        //  profileUpdate = ProfileUpdate.fromJson(json.decode(response.data));
+          //return profileUpdate;
+        }
+        else {
+          showToast('Failed to Update',
+            context: context,
+            fullWidth: true,
+            backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+            animation: StyledToastAnimation.slideFromBottomFade,
+            reverseAnimation: StyledToastAnimation.fade,
+            position: StyledToastPosition.center,
+            animDuration: Duration(seconds: 2),
+            duration: Duration(seconds: 4),
+            curve: Curves.elasticOut,
+            reverseCurve: Curves.linear,
+          );
         }
       }
     } catch(e){
-      print(e.toString());
+      print(e);
     }
   }
+
+
+
+
+
+
 
 
   // DateTime _date = DateTime.now();
@@ -476,10 +476,16 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
   //   }
   // }
 
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
 //    String _formatDate = DateFormat.yMMMd().format(_date);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -521,34 +527,35 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               Center(
                                 child: Stack(
                                   children: [
-                                    _image != null ? ClipOval(
-                                      child: Image.file(
+                                     ClipOval(
+                                      child: _image != null ?
+                                      Image.file(
                                         _image,
                                         width: 160,
                                         height: 160,
                                         fit: BoxFit.cover,
-                                      ),
-                                    )
-                                     : Container(
-                                      width: 130,
-                                      height: 130,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 4,
-                                              color: Theme.of(context).scaffoldBackgroundColor),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                spreadRadius: 2,
-                                                blurRadius: 10,
-                                                color: Colors.black.withOpacity(0.1),
-                                                offset: Offset(0, 10))
-                                          ],
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                userDetails[index].profilePicture ?? Placeholder(),
-                                              ))),
+                                      )
+                                          : Container(
+                                width: 130,
+                                height: 130,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 4,
+                                        color: Theme.of(context).scaffoldBackgroundColor),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          spreadRadius: 2,
+                                          blurRadius: 10,
+                                          color: Colors.black.withOpacity(0.1),
+                                          offset: Offset(0, 10))
+                                    ],
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          userDetails[index].profilePicture ?? Placeholder(),
+                                        ))),
+                              ),
                                     ),
                                     Positioned(
                                         bottom: 0,
@@ -678,7 +685,58 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: (){
+                                    //   uploadResume().then((value) {
+                                    //
+                                    //
+                                    //   //   if(value.status == "100") {
+                                    //   //     final snackBar = SnackBar(
+                                    //   //         behavior: SnackBarBehavior.floating,
+                                    //   //         content: Text('Failed To Update'));
+                                    //   //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    //   //   }
+                                    //   //   if(value.status == "200"){
+                                    //   //     Requests.ProfileLogin(context, uName, password, 'token', false);
+                                    //   //     showToast('Profile has been Updated Successfully',
+                                    //   //       context: context,
+                                    //   //       fullWidth: true,
+                                    //   //       backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                                    //   //       animation: StyledToastAnimation.slideFromBottomFade,
+                                    //   //       reverseAnimation: StyledToastAnimation.fade,
+                                    //   //       position: StyledToastPosition.center,
+                                    //   //       animDuration: Duration(seconds: 2),
+                                    //   //       duration: Duration(seconds: 4),
+                                    //   //       curve: Curves.elasticOut,
+                                    //   //       reverseCurve: Curves.linear,
+                                    //   //     );
+                                    //   //   }
+                                    //   //
+                                    //   // });
+                                    // },}
+                                    // uploadResume().then((value) {
+                                    //   if(value.message == "Update Fail"){
+                                    //     final snackBar = SnackBar(
+                                    //         behavior: SnackBarBehavior.floating,
+                                    //         content: Text('Failed To Update'));
+                                    //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    //   }
+                                    //   if(value.status == "Update Successful"){
+                                    //   //  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSuccessScreen()));
+                                    //     Requests.ProfileLogin(context, uName, password, 'token', false);
+                                    //     showToast('Profile has been Updated Successfully',
+                                    //                 context: context,
+                                    //                 fullWidth: true,
+                                    //                 backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                                    //                 animation: StyledToastAnimation.slideFromBottomFade,
+                                    //                 reverseAnimation: StyledToastAnimation.fade,
+                                    //                 position: StyledToastPosition.center,
+                                    //                 animDuration: Duration(seconds: 2),
+                                    //                 duration: Duration(seconds: 4),
+                                    //                 curve: Curves.elasticOut,
+                                    //                 reverseCurve: Curves.linear,
+                                    //               );
+                                      //}
+                                    //});
                                     uploadResume(context);
                                   },
                                   child: ListTile(
@@ -735,3 +793,27 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     );
   }
 }
+// Future<Map> upDateProfileF(
+//     String userID, String authToken, String name, String phone) async {
+//   Map data = {'name': name, 'phoneNumber': phone};
+//   try {
+//     final response = await http.patch(Uri.parse((updateProfile + userID)),
+//         headers: {
+//           'Authorization': authToken,
+//         },
+//         body: data);
+//     log('Body Response: ${response.body}');
+//     log('Status Code: ${response.statusCode}');
+//     if (response.statusCode == 200) {
+//       Map data = json.decode(response.body);
+//       http.Response response1 = await http.get(
+//           Uri.parse(
+//               'https://perfume-ap.herokuapp.com/api/users/${userModel.data.sId}'),
+//           headers: {'Authorization': userModel.data.token});
+//       log('User Data is Here', error: response1.body);
+//       userModel = UserData.fromJson(json.decode(response1.body));
+//       return data;
+//     } else {
+//       return null;
+//     }
+//   }

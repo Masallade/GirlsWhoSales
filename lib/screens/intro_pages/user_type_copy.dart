@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/mentor_mentee/SignupForm/Mentorform.dart';
+import 'package:girlzwhosell/screens/intro_pages/jobtypess.dart';
+import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/intro_pages/webview_for_employer_login.dart';
 import 'package:girlzwhosell/screens/registration/superPowerPage.dart';
 import 'package:girlzwhosell/utils/constants.dart';
@@ -16,7 +18,7 @@ class UserType extends StatefulWidget {
 class _UserTypeState extends State<UserType> {
   String _text = 'Hello!';
   String _text2 = 'Hi! Welcome to';
-  String _text3 = 'Girlz Who Sell Career Conextions!';
+  String _text3 = 'GirlzWhoSell Career Conextions!';
   String _text4 = '';
   Color Color1 = Colors.blueGrey[300];
   // Color Color1 = Color.fromARGB(255, 112, 126, 148);
@@ -80,15 +82,13 @@ class _UserTypeState extends State<UserType> {
                _doSomething();
                 if(selected == 1){
                   _doSomething();
-                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorSignUp()));
                 }
                 if(selected == 2){
                   _doSomething();
-                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
                 }
               },
               child: Container(
-                width: 335,
+                width: SizeConfig.screenWidth,
                 height: 56,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -120,7 +120,8 @@ class _UserTypeState extends State<UserType> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+           // Navigator.of(context).pop();
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -204,10 +205,11 @@ class _UserTypeState extends State<UserType> {
                           print(selected);
                          if(selected == 0){
                           // _doSomething();
-                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SuperPowerPage()));
+                          //  Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => SuperPowerPage()));
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => entryLevel()));
                          }
                           if(selected == 1){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorForm()));

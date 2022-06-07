@@ -3,73 +3,75 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/jobtitle_model.dart';
 import 'package:girlzwhosell/model/jobtype_model.dart';
-import 'package:girlzwhosell/screens/intro_pages/JobLevel.dart';
 import 'package:girlzwhosell/screens/registration/experice_screen.dart';
+import 'package:girlzwhosell/screens/registration/job-type.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
-class JobType extends StatefulWidget {
-
+class industryLevel extends StatefulWidget {
   String industry;
   String jobtypes;
   String jobtype;
   String joblevel;
+  String selectedJobtitle;
   String Button;
 
   // receive data from the FirstScreen as a parameter
-   JobType({Key key,this.industry,this.jobtype, this.jobtypes ,this.joblevel, this.Button,}) : super(key: key);
+  industryLevel({Key key,this.industry, this.jobtypes, this.jobtype, this.joblevel, this.selectedJobtitle,this.Button}) : super(key: key);
 
   @override
-  _JobTypeState createState() => _JobTypeState( industry: industry, jobtype: jobtype,jobtypes: jobtypes,joblevel: joblevel, Button: Button);
+  _industryLevelState createState() => _industryLevelState(industry: industry, jobtypes: jobtypes, jobtype: jobtype,joblevel: joblevel, selectedJobtitle: selectedJobtitle ,Button: Button);
 }
 
-class _JobTypeState extends State<JobType> {
+class _industryLevelState extends State<industryLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
   String industry;
-  String jobtype;
   String jobtypes;
+  String jobtype;
   String joblevel;
+  String selectedJobtitle;
   String Button;
-  _JobTypeState({this.industry,this.jobtype,this.jobtypes ,this.joblevel, this.Button,});
+
+  _industryLevelState({ this.industry ,this.jobtypes, this.jobtype,this.joblevel, this.selectedJobtitle, this.Button});
 
   @override
   void initState() {
 
-   // getProvinceList();
     getData();
     setState(() {
-      print('jobtype : $jobtypes');
-      print('jobtype : $joblevel');
-      print('jobtype : $Button');
-      print('jobtype : $industry');
-
+      print('=================INDUSTRY Page ================');
+      print('selected joblevel : $joblevel');
+      print('selected jobtypes : $jobtypes');
+      print('lists of selected categories : $Button');
 
     });
 
     super.initState();
   }
 
- // static List<jobCatagories> _data = [];
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/job_title.php";
+  final url = "https://biitsolutions.co.uk//girlzwhosell/API/job_industries.php";
   // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
+
+
+
 // ignore: missing_return
-Future<String> getData() async{
-  var res = await http.get(Uri.parse(url));
-  var resbody = json.decode(res.body);
-  setState(() {
-    data = resbody;
-  });
-  print('jobtitle $resbody');
-}
+  Future<String> getData() async{
+    var res = await http.get(Uri.parse(url));
+    var resbody = json.decode(res.body);
+    setState(() {
+      data = resbody;
+    });
+    print('industry types $resbody');
+  }
   String _dropdownError;
 
   _validateForm() {
     bool _isValid = _formKey.currentState.validate();
 
-    if (jobtype == null) {
+    if (industry == null) {
       setState(() => _dropdownError = "Please select an option!");
       _isValid = false;
     }
@@ -112,13 +114,13 @@ Future<String> getData() async{
                       minHeight: 10.0,
                       backgroundColor: Colors.grey[300],
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
-                      value: 0.6,
+                      value: 0.5,
                     ),
                     SizedBox(height: 5,),
                     Padding(
                       padding: const EdgeInsets.only(left: 280.0),
                       child: Text(
-                        '65%',
+                        '45%',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             color: Colors.blueGrey[300],
@@ -133,14 +135,14 @@ Future<String> getData() async{
             SizedBox(
               height: 37,
             ),
-            Text("You're halfway there!",
+            Text("You're just \n two step away!",
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
               height: 20,
             ),
-            Text('Which of these Job Titles pique\n your curiosity? ',
+            Text('Which of these Industry pique\n your curiosity? ',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
@@ -152,7 +154,7 @@ Future<String> getData() async{
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Text(
-                    "What job are you looking for?",
+                    "which industry type are you looking for?",
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.start,
                     style: TextStyle(
@@ -187,7 +189,7 @@ Future<String> getData() async{
                         child: DropdownButton<String>(
                             hint: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
-                              child: new Text('Select Job Title' ,style: TextStyle(
+                              child: new Text('Select industry' ,style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16.0,
                                   fontFamily: 'Questrial',
@@ -195,19 +197,18 @@ Future<String> getData() async{
                                   color: Colors.black
                               ),),
                             ),
-                            // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
-                            value: jobtype,
+                            value: industry,
                             onChanged: (String newvalue) {
                               setState(() {
-                                jobtype = newvalue;
+                                industry = newvalue;
                                 _dropdownError = null;
                               });
-                              print('newvalue ${jobtype}');
+                              print('newvalue ${industry}');
                             },
                             items: data.map((item) {
                               return DropdownMenuItem(child: Row(
                                 children: [
-                                  Text('${item["title"]}' , style: TextStyle(
+                                  Text('${item["name"]}' , style: TextStyle(
                                       height: 1.5,
                                       fontSize: 16.0,
                                       fontFamily: 'Questrial',
@@ -216,7 +217,7 @@ Future<String> getData() async{
                                   ),),
                                 ],
                               ),
-                                value: item["title"].toString(),
+                                value: item["name"].toString(),
                               );
                             }).toList()),
                       )
@@ -224,6 +225,7 @@ Future<String> getData() async{
                 ),
               ),
             ),
+
             _dropdownError == null
                 ? SizedBox.shrink()
                 : Text(
@@ -252,17 +254,16 @@ Future<String> getData() async{
                   ),
                 ),
                 onPressed: () {
-                  if (jobtype == null) {
-                  //  _formKey.currentState.save();
-                  _validateForm();
+                  if (industry == null) {
+                    _validateForm();
                     print('fail');
 
-                } else {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceScreen(industry: industry,jobtypes: jobtypes,joblevel: joblevel, jobtype: jobtype, Button: Button,)));
-
-                    //  Navigator.push(context, MaterialPageRoute(builder: (context) => jobLevel(jobtype: jobtype,selecjobsTypes:selecjobsTypes ,selectedJobTitles: selectedJobTitles,Button: Button,)));
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceScreen(jobtype: jobtype,selecjobsTypes:selecjobsTypes ,selectedJobTitles: selectedJobTitles,Button: Button,)));
-                     print('Success');
+                  } else {
+                     Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                             builder: (context) => JobType(industry: industry,jobtype: jobtype,jobtypes: jobtypes,joblevel: joblevel, Button:Button)));
+                    print('Success');
                   }
 
 

@@ -77,6 +77,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
           if (snapshot.hasData) {
             Container();
             return Scaffold(
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 elevation: 0.0,
@@ -254,7 +255,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                               AlwaysStoppedAnimation<Color>(Colors.green),
                         )
                       : Text(
-                          "Searching...",
+                          "Loading ...",
                           style: TextStyle(
                               fontFamily: 'Questrial',
                               fontSize: 30,

@@ -308,6 +308,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
+  // ignore: missing_return
   Future <TotalNotification> TotalNotifiction() async {
     final url = "https://biitsolutions.co.uk/girlzwhosell/API/total_notifications.php?seeker_id=$user_Id";
     try{

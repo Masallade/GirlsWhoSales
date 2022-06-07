@@ -12,28 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 SharedPreferences logindata;
 
 class Requests {
-  // ignore: missing_return
-  static Future<List<SearchModel>> getSearch(String query) async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/jobs_list.php";
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        print("Status Code is: ${response.statusCode}");
-        final List data = json.decode(response.body);
-        print("Response is: ${response.body}");
-        return data.map((json) => SearchModel.fromJson(json)).where((element) {
-          final titleLower = element.title.toLowerCase();
-          final locationlower = element.location.toLowerCase();
-          final searchLower = query.toLowerCase();
-
-          return titleLower.contains(searchLower) ||
-              locationlower.contains(searchLower);
-        }).toList();
-      }
-    } catch (e) {
-      print("Error in exception::: ${e.toString()}");
-    }
-  }
 
   static Future<dynamic> Login(
       BuildContext context,
@@ -126,6 +104,32 @@ class Requests {
     }
   }
 
+
+
+  // ignore: missing_return
+  static Future<List<SearchModel>> getSearch(String query) async {
+    final url = "https://biitsolutions.co.uk/girlzwhosell/API/jobs_list.php";
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        print("Status Code is: ${response.statusCode}");
+        final List data = json.decode(response.body);
+        print("Response is: ${response.body}");
+        return data.map((json) => SearchModel.fromJson(json)).where((element) {
+          final titleLower = element.title.toLowerCase();
+          final locationlower = element.location.toLowerCase();
+          final searchLower = query.toLowerCase();
+
+          return titleLower.contains(searchLower) ||
+              locationlower.contains(searchLower);
+        }).toList();
+      }
+    } catch (e) {
+      print("Error in exception::: ${e.toString()}");
+    }
+  }
+
+
   static Future<dynamic> ProfileLogin(BuildContext context, String userName,
       String password, String token1, bool resync) async {
     try {
@@ -179,14 +183,11 @@ class Requests {
                   uName: uName,
                   password: pass,
                   user_Id: loginModel.seekerDetails[0].id,
-                  //cookiee: loginModel.message,
-                  //      jobDetails: loginModel.jobDetails, favoriteJobs: loginModel.favoriteJobs,
                   userDetails: loginModel.seekerDetails,
                   firstName: loginModel.seekerDetails[0].firstname,
                   title: loginModel.seekerDetails[0].jobTitle,
                   profile: loginModel.seekerDetails[0].profilePicture,
-                  // total_applied: loginModel.countOfJobsApplied,
-                  // total_saved: loginModel.countOfJobsSaved,token1: token1,
+                  //token1: token1,
                 );
               },
             ),
