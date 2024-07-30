@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/model/utils.dart';
@@ -9,7 +10,13 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/SavedJobsModel.dart';
+import '../model/all_jobs_model.dart';
+import '../screens/main_menu/all_jobs.dart';
+
 SharedPreferences logindata;
+
+
 
 class Requests {
 
@@ -22,7 +29,10 @@ class Requests {
     try {
       final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
-      utils.showLoadingDialog(context, _keyLoader);
+      if(!resync){
+        utils.showLoadingDialog(context, _keyLoader);
+      }
+
 
       final response = await http.post(
         Uri.parse(base_url + "login.php"),
@@ -37,14 +47,16 @@ class Requests {
         },
       );
 
+      print('herre is the main response ${response.statusCode} ${response.body} ');
+
       if (response.statusCode == 200) {
         LoginModel loginModel = LoginModel.fromJson(json.decode(response.body));
         print("==================SharedPrefrence values==================");
 
         final prefs = await SharedPreferences.getInstance();
 
-        prefs.setString("uName", userName);
-        prefs.setString("pass", password);
+        prefs.setString("uName====", userName);
+        prefs.setString("pass=====", password);
 
         //  logindata.getString('username');
         final uName = await prefs.getString("uName");
@@ -58,43 +70,65 @@ class Requests {
         print(response.statusCode);
         print('statusCode');
 
+
+
         if (loginModel.status == "200") {
           print(loginModel.status);
           print(loginModel.message);
           print(loginModel.jobDetails);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return HomePage(
-                  uName: uName,
-                  password: pass,
-                  user_Id: loginModel.seekerDetails[0].id,
-                  cookiee: loginModel.message,
-                  jobDetails: loginModel.jobDetails,
-                  favoriteJobs: loginModel.favoriteJobs,
-                  userDetails: loginModel.seekerDetails,
-                  firstName: loginModel.seekerDetails[0].firstname,
-                  title: loginModel.seekerDetails[0].jobTitle,
-                  profile: loginModel.seekerDetails[0].profilePicture,
-                  cv: loginModel.seekerDetails[0].cV,
-                  resumee: loginModel.seekerDetails[0].resume,
-                  total_applied: loginModel.countOfJobsApplied,
-                  total_saved: loginModel.countOfJobsSaved,
-                  token1: token1,
-                );
-              },
-            ),
-          );
-          print('===========Calling From Login=========');
-        } else {
-          utils().showDialogCustomForLogin(
+          print(loginModel.seekerDetails);
+
+          CVurl = loginModel.seekerDetails[0].cV;
+          VisumeUrl = loginModel.seekerDetails[0].resume;
+
+          if(!resync){
+            Navigator.push(
               context,
-              "Error",
-              loginModel.message == null
-                  ? "Server returned failure. Please try to restart the application."
-                  : loginModel.message,
-              "OK");
+              MaterialPageRoute(
+                builder: (context) {
+                  return HomePage(
+                    uName: uName,
+                    password: pass,
+                    user_Id: loginModel.seekerDetails[0].id,
+                    cookiee: loginModel.message,
+                    jobDetails: loginModel.jobDetails,
+                    favoriteJobs: loginModel.favoriteJobs,
+                    userDetails: loginModel.seekerDetails,
+                    firstName: loginModel.seekerDetails[0].firstname,
+                    title: loginModel.seekerDetails[0].jobTitle,
+                    profile: loginModel.seekerDetails[0].profilePicture,
+                    // city : loginModel.seekerDetails[0].city,
+                    nationality: loginModel.seekerDetails[0].city,
+                    cv: loginModel.seekerDetails[0].cV,
+                    resumee: loginModel.seekerDetails[0].resume,
+                    total_applied: loginModel.countOfJobsApplied,
+                    total_saved: loginModel.countOfJobsSaved,
+                    token1: token1,
+                  );
+                },
+              ),
+            );
+            print('===========Calling From Login meri=========');
+          }
+        } else {
+          if(!resync){
+            utils().showDialogCustomForLogin(
+                context,
+                "Error",
+                loginModel.message == null
+                    ? "Server returned failure. Please try to restart the application."
+                    : loginModel.message,
+                "OK");
+          }else{
+            utils().showDialogCustomForLogin(
+                context,
+                "Error",
+                loginModel.message == null
+                    ? "Server returned failure. Please try to restart the application."
+                    : loginModel.message,
+                "OK");
+          }
+
         }
       }
     } catch (error) {
@@ -107,35 +141,60 @@ class Requests {
 
 
   // ignore: missing_return
+  // static Future<List<SearchModel>> getSearch(String query) async {//old code tariq
+  //   final url = "https://biitsolutions.co.uk/girlzwhosell/API/jobs_list.php";
+  //   try {
+  //     final response = await http.get(Uri.parse(url));
+  //     if (response.statusCode == 200) {
+  //       print("Status Code is: ${response.statusCode}");
+  //       final List data = json.decode(response.body);
+  //       print("Response is: ${response.body}");
+  //       return data.map((json) => SearchModel.fromJson(json)).where((element) {
+  //         final titleLower = element.title.toLowerCase();
+  //         final locationlower = element.location.toLowerCase();
+  //         final searchLower = query.toLowerCase();
+  //
+  //         return titleLower.contains(searchLower) ||
+  //             locationlower.contains(searchLower);
+  //       }).toList();
+  //     }
+  //   } catch (e) {
+  //     print("Error in exception::: ${e.toString()}");
+  //   }
+  // }
   static Future<List<SearchModel>> getSearch(String query) async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/jobs_list.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/jobs_list.php";
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         print("Status Code is: ${response.statusCode}");
         final List data = json.decode(response.body);
         print("Response is: ${response.body}");
-        return data.map((json) => SearchModel.fromJson(json)).where((element) {
-          final titleLower = element.title.toLowerCase();
-          final locationlower = element.location.toLowerCase();
+        return data
+            .map((json) => SearchModel.fromJson(json))
+            .where((element) {
+          final title = element.title ?? '';
+          final location = element.location ?? '';
           final searchLower = query.toLowerCase();
 
+          final titleLower = title.toLowerCase();
+          final locationLower = location.toLowerCase();
+
           return titleLower.contains(searchLower) ||
-              locationlower.contains(searchLower);
-        }).toList();
+              locationLower.contains(searchLower);
+        })
+            .toList();
       }
     } catch (e) {
-      print("Error in exception::: ${e.toString()}");
+      print("Error in exception: ${e.toString()}");
     }
   }
+
 
 
   static Future<dynamic> ProfileLogin(BuildContext context, String userName,
       String password, String token1, bool resync) async {
     try {
-      final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-
-      utils.showLoadingDialog(context, _keyLoader);
 
       final response = await http.post(
         Uri.parse(base_url + "login.php"),
@@ -175,10 +234,24 @@ class Requests {
           print(loginModel.status);
           print(loginModel.message);
           print(loginModel.jobDetails);
+          showToast(
+            'Profile has been Updated Successfully',
+            context: context,
+            fullWidth: true,
+            backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+            animation: StyledToastAnimation.slideFromBottomFade,
+            reverseAnimation: StyledToastAnimation.fade,
+            position: StyledToastPosition.center,
+            animDuration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
+            curve: Curves.elasticOut,
+            reverseCurve: Curves.linear,
+          );
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
+                print('nationality in request : $seekerDetails.state');
                 return ProfileMain(
                   uName: uName,
                   password: pass,
@@ -187,6 +260,8 @@ class Requests {
                   firstName: loginModel.seekerDetails[0].firstname,
                   title: loginModel.seekerDetails[0].jobTitle,
                   profile: loginModel.seekerDetails[0].profilePicture,
+                  city: loginModel.seekerDetails[0].city,
+                  nationality: loginModel.seekerDetails[0].city,
                   //token1: token1,
                 );
               },
@@ -211,4 +286,80 @@ class Requests {
           context, "Failed", "No Internet Connection.", "OK");
     }
   }
+
+
+  //getting all job details
+
+  static Future<List<JobDetails>> getJobDetails(int user_ID) async {
+    var request = http.Request('GET', Uri.parse(base_url + 'jobs_filtered.php?user_id=$user_ID'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(await response.stream.bytesToString());
+      all_jobs_details = [];
+
+      for (var jsonItem in responseData) {
+        JobDetails job = JobDetails.fromJson(jsonItem);
+        all_jobs_details.add(job);
+      }
+      print("hello =================== >>>>>>>> +++++++++ ${all_jobs_details.length}");
+
+
+      return all_jobs_details;
+    } else {
+      print(response.reasonPhrase);
+      return null;
+    }
+  }
+
+  static List<FavoriteJobs> updatefavoriteJobs;
+
+  static Future<List<FavoriteJobs>> updatefavoriteJob(
+      BuildContext context,String userID) async {
+    String get_key_url =
+        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${userID}";
+
+    // http.Response response;
+    try {
+      final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
+      // if (showLoading) showLoadingDialog(context, _keyLoader);
+
+      final http.Response response = await http.get(Uri.parse(get_key_url));
+      // print("email,${get_key_url}");
+      // if (showLoading)
+      //   Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+      if (response.statusCode == 200) {
+        AllFavoriteJobss resp = AllFavoriteJobss.fromJson(json.decode(response.body));
+
+
+        if (resp.status == 100) {
+          // showDialogCustom(
+          //     context,
+          //     "Failed",
+          //     resp.message.length == 0 ? "record not found" : resp.message,
+          //     "OK");
+          return [];
+        }
+        // totalSavedJobs = resp.savedJobs.length;
+        updatefavoriteJobs = resp.favJobs;
+        print("jobs are hereeeeeeeeeeee ===============>>>>>> ${updatefavoriteJobs}");
+        return resp.favJobs;
+      }
+    } catch (error) {
+      Future.delayed(
+          Duration.zero,
+              () => dataSuccessfullyLoaded(
+              context,
+              getTranslated(context, 'Not_Found'),
+              getTranslated(context, 'Data_Not_Found'),
+              getTranslated(context, 'OK')));
+      return [];
+    }
+  }
+
 }
+
+

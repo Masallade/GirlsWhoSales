@@ -1,5 +1,7 @@
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:girlzwhosell/User_profile/current_password.dart';
 import 'package:girlzwhosell/User_profile/user_personal_data.dart';
 import 'package:girlzwhosell/http/Requests.dart';
@@ -8,9 +10,12 @@ import 'package:girlzwhosell/screens/Notification_screen.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/profile/cv_update.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../../utils/constants.dart';
+import 'help_form.dart';
 
 class ProfileMain extends StatefulWidget {
   final uName;
@@ -20,8 +25,10 @@ class ProfileMain extends StatefulWidget {
   final String title;
   final profile;
   final List<SeekerDetails> userDetails;
+  final city;
+  String nationality;
 
-  const ProfileMain(
+ ProfileMain(
       {Key key,
       this.uName,
       this.password,
@@ -29,7 +36,9 @@ class ProfileMain extends StatefulWidget {
       this.userDetails,
       this.firstName,
       this.title,
-      this.profile})
+      this.profile,
+        this.nationality,
+      this.city})
       : super(key: key);
 
   @override
@@ -38,9 +47,11 @@ class ProfileMain extends StatefulWidget {
       this.password,
       this.user_Id,
       this.firstName,
+      this.nationality,
       this.title,
       this.profile,
-      this.userDetails);
+      this.userDetails,
+      this.city);
 }
 
 class _ProfileMainState extends State<ProfileMain> {
@@ -48,13 +59,15 @@ class _ProfileMainState extends State<ProfileMain> {
   final password;
   final user_Id;
   final String firstName;
+  String nationality;
   final String title;
   final String profile;
+  final String city;
 
   final List<SeekerDetails> userDetails;
 
-  _ProfileMainState(this.uName, this.password, this.user_Id, this.firstName,
-      this.title, this.profile, this.userDetails);
+  _ProfileMainState(this.uName, this.password, this.user_Id, this.firstName, this.nationality,
+      this.title, this.profile, this.userDetails, this.city);
 
   Future<bool> _exitApp(BuildContext context) {
     return showDialog(
@@ -84,6 +97,7 @@ class _ProfileMainState extends State<ProfileMain> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  logOutUser();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SignInPage()));
                 },
@@ -108,6 +122,17 @@ class _ProfileMainState extends State<ProfileMain> {
         false;
   }
 
+  Future logOutUser()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(prefs != null){
+      prefs.setBool(KeyisUserAlreadyLogin, false);
+    }
+
+
+  }
+
+
   SharedPreferences logindata;
   String username;
 
@@ -116,6 +141,7 @@ class _ProfileMainState extends State<ProfileMain> {
   void initState() {
     super.initState();
     print('${firstName}');
+    print('${nationality}');
     print('${profile}');
     print('${title}');
     print('$user_Id');
@@ -130,10 +156,11 @@ class _ProfileMainState extends State<ProfileMain> {
       username = logindata.getString('username');
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    // SizeConfig().init(context);
+    return WillPopScope(
+     onWillPop: ()=>_exitApp(context),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -188,7 +215,7 @@ class _ProfileMainState extends State<ProfileMain> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               SizedBox(
                 child: ListTile(
@@ -203,18 +230,26 @@ class _ProfileMainState extends State<ProfileMain> {
                                    password: password,
                                    user_Id: user_Id,
                                    profile: profile,
-                                   userDetails: userDetails)
+                                   city: city,
+                                   nationality: nationality,
+                                   userDetails: userDetails),
                            ));
                      },
-                      child: FadeInImage.assetNetwork(
-                        fadeInCurve: Curves.easeInBack,
-                          width: 80,
-                          height: 120,
-                          placeholder: 'assets/images/loading.gif',
-                          placeholderScale: 2.0,
-                          fadeOutDuration: Duration(seconds: 2),
-                          image: profile ?? Placeholder(),
-                          fit: BoxFit.cover),
+                      child: ClipOval(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: FadeInImage.assetNetwork(
+                            fit: BoxFit.cover,
+                            fadeInCurve: Curves.easeInBack,
+                            // width: 400,
+                            height: 200,
+                            placeholder: 'assets/images/loading.gif',
+                            placeholderScale: 2.0,
+                            fadeOutDuration: Duration(seconds: 2),
+                            image: profile ?? Placeholder(),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   title: Padding(
@@ -245,7 +280,7 @@ class _ProfileMainState extends State<ProfileMain> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 10,
               ),
               InkWell(
                 onTap: () {
@@ -257,6 +292,8 @@ class _ProfileMainState extends State<ProfileMain> {
                               password: password,
                               user_Id: user_Id,
                               profile: profile,
+                              city: city,
+                              nationality: nationality,
                               userDetails: userDetails)
                       ));
                 },
@@ -298,7 +335,9 @@ class _ProfileMainState extends State<ProfileMain> {
                               user_id: user_Id,
                               userDetails: userDetails,
                               password: password,
-                              uName: uName)));
+                              uName: uName),
+                      ),
+                  );
                 },
                 child: Container(
                     child: Padding(
@@ -307,7 +346,7 @@ class _ProfileMainState extends State<ProfileMain> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'My Cv',
+                        'My CV',
                         style: TextStyle(
                             fontFamily: 'Questrial',
                             fontSize: 16,
@@ -389,9 +428,10 @@ class _ProfileMainState extends State<ProfileMain> {
                             fontWeight: FontWeight.w400),
                       ),
                       totalNotification.totalCountNotf == "0" ?
-                      Icon(Icons.arrow_forward_ios) :    Badge(
+                      Icon(Icons.arrow_forward_ios) :    badge.Badge(
                           position: BadgePosition.topEnd(top: -20 ,end: 10),
-                          badgeColor: Colors.red,
+                          badgeStyle: BadgeStyle(badgeColor: Colors.red),
+                          // badgeColor: Colors.red,
                           badgeContent: Text('${totalNotification.totalCountNotf == '0' ? '' :totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
                           child: Icon(Icons.arrow_forward_ios)),
                     ],
@@ -405,8 +445,117 @@ class _ProfileMainState extends State<ProfileMain> {
                   thickness: 1.0,
                 ),
               ),
+              //tariq  you add here
               SizedBox(
-                height: 80,
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HelpForm()));
+                },
+                child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Help Form',
+                            style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          // totalNotification.totalCountNotf == "0" ?
+                          Icon(Icons.arrow_forward_ios),
+                              // :    badge.Badge(
+                              // position: BadgePosition.topEnd(top: -20 ,end: 10),
+                              // badgeStyle: BadgeStyle(badgeColor: Colors.red),
+                              // // badgeColor: Colors.red,
+                              // badgeContent: Text('${totalNotification.totalCountNotf == '0' ? '' :totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
+                              // child: Icon(Icons.arrow_forward_ios)),
+                        ],
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Divider(
+                  color: Color.fromRGBO(238, 242, 248, 1),
+                  thickness: 1.0,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  Alert(
+                    context: context,
+                    type: AlertType.warning,
+                    title: "ALERT",
+                    desc: "Are You Sure You Want To Delete Your Account!",
+                    buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: (){
+                          String Id = user_Id;
+                          DeleteAccount(Id);
+                        },
+                        color: Color.fromRGBO(225, 50, 50, 1.0),
+                      ),
+                      DialogButton(
+                        child: Text(
+                          "No",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        color: Color.fromRGBO(0, 179, 134, 1.0),
+                        // gradient: LinearGradient(colors: [
+                        //   Color.fromRGBO(116, 116, 191, 1.0),
+                        //   Color.fromRGBO(52, 138, 199, 1.0)
+                        // ]),
+                      )
+                    ],
+                  ).show();
+                },
+                child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Delete Account',
+                            style: TextStyle(
+                                fontFamily: 'Questrial',
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Icon(Icons.arrow_forward_ios),
+                        ],
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Divider(
+                  color: Color.fromRGBO(238, 242, 248, 1),
+                  thickness: 1.0,
+                ),
+              ),
+              //tariq  you add here
+
+              SizedBox(
+                height: 40,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0),
@@ -449,5 +598,31 @@ class _ProfileMainState extends State<ProfileMain> {
         ),
       ),
     );
+  }
+
+
+  Future DeleteAccount(String UserId) async {
+
+    CircularProgressIndicator();
+
+    var request = http.MultipartRequest('POST', Uri.parse('https://girlzwhosellcareerconextions.com/API/delete_account.php'));
+    request.fields.addAll({
+      'seeker_id': UserId
+    });
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+
+      Fluttertoast.showToast(msg: "User Deleted Successfully");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => SignInPage()));
+      // print(await response.stream.bytesToString());
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
   }
 }

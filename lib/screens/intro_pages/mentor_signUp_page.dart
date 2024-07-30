@@ -520,7 +520,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
 
   // ignore: missing_return
   Future<mentorModel> Registration() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/mentor_signup.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/mentor_signup.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "first_name": fname.text,

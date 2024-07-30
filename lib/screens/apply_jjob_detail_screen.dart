@@ -15,6 +15,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
+import '../views/RequirementTab.dart';
+
 class JobApply extends StatefulWidget {
   final JobDetails jobDetails;
   final List<SeekerDetails> userDetails;
@@ -355,213 +357,143 @@ class _JobApplyState extends State<JobApply> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('as ',
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 18.0,
-                          fontFamily: 'Questrial',
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 112, 126, 148),
-                        )),
-                    Text('${jobDetails.title != null ? jobDetails.title : ''}',
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 18.0,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.pinkAccent[200],
-                        )),
+                    // Text('as ',
+                    //     style: TextStyle(
+                    //       height: 1.5,
+                    //       fontSize: 18.0,
+                    //       fontFamily: 'Questrial',
+                    //       fontWeight: FontWeight.w500,
+                    //       color: Color.fromARGB(255, 112, 126, 148),
+                    //     )),
+                    // Text('${jobDetails.title != null ? jobDetails.title : ''}',
+                    //     style: TextStyle(
+                    //       height: 1.5,
+                    //       fontSize: 18.0,
+                    //       fontFamily: 'Poppins',
+                    //       fontWeight: FontWeight.w700,
+                    //       color: Colors.pinkAccent[200],
+                    //     )),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                child: Container(
-                    height: 500,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Text('Resume',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        height: 1.5,
-                                        fontSize: 20.0,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                ),
-                              ]),
-                          //  SizedBox(height: 20),
-                          Container(
-                              height: 120,
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(20),
-                              width: SizeConfig.screenWidth,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.grey[300]),
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                    height: 50,
-                                    width: 50,
-                                    child:
-                                        Image.asset('assets/images/pdfbg.png')),
-                                title: Text('${widget.resumee ?? "MyCv.pdf"}'),
-                                // subtitle: Text('1 day ago', style: subtitleStyle),
-                              )),
-
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Text('Video Cv',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        height: 1.5,
-                                        fontSize: 20.0,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                ),
-                              ]),
-                          // SizedBox(height: 20),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey[300]),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: SizeConfig.screenWidth,
-                                  child: Image.asset('assets/images/cvbg.png'),
-                                ),
-                                Text('${widget.cv ?? "MyVideo.mp4"}'),
-                                // Text('1 day ago', style: subtitleStyle),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
+              SizedBox(height: 20,),
+              Text(
+                '${jobDetails.title ?? " "}',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: 24.0,
+                  //fontWeight: FontWeight.w700,
+                ),
               ),
-              showImage(),
-              // Align(
-              //     alignment: Alignment.topLeft,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(left: 12.0),
-              //       child: Text('*' ,textAlign: TextAlign.center, style: TextStyle(color: Colors.red ,fontSize: 30),),
-              //     )),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                '${jobDetails.companyName ?? " "} ' +
+                    '\- ${jobDetails.location ?? " "}',
+                style: TextStyle(
+                  fontFamily: 'Questrial',
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.blueGrey[300],
+                  fontSize: 16.0,
+                  //fontWeight: FontWeight.w700,
+                ),
+                // style: kTitleStyle,
+              ),
+              SizedBox(height: 40,),
+
               // Padding(
-              //   padding: const EdgeInsets.only(left: 12.0 , right: 12.0),
+              //   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
               //   child: Container(
-              //       child: Column(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           DottedBorder(
-              //             strokeWidth: 1.0,
-              //             color: Colors.grey[300],
-              //             // padding: EdgeInsets.all(4),
-              //             dashPattern: [9, 5],
-              //             child: Container(
-              //               height: 70,
-              //               width: SizeConfig.screenWidth,
-              //               decoration: BoxDecoration(
-              //                 //  color: Colors.blue,
-              //                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              //               ),
-              //               child: GestureDetector(
-              //                 onTap: () {
-              //                   selectFile();
-              //                 },
-              //                 child: ListTile(
-              //                   leading: Image.asset('assets/images/cvIcon.png'),
-              //                   title: selectedfile == null
-              //                       ? Text(
-              //                     'Upload Cv/Resume',
-              //                     style: TextStyle(
-              //                         height: 1.5,
-              //                         fontSize: 17.0,
-              //                         fontFamily: 'Questrial',
-              //                         fontWeight: FontWeight.w400,
-              //                         color: Colors.blueGrey[400]
-              //                       /* letterSpacing: 0.0, */
-              //                     ),
-              //                   )
-              //                       : Text(basename(selectedfile.files.single.path)),
-              //                   trailing: selectedfile != null
-              //                       ? Icon(
-              //                     Icons.check,
-              //                     color: Colors.green,
-              //                   )
-              //                       : null,
-              //                 ),
-              //               ),
+              //       height: 500,
+              //       child: SingleChildScrollView(
+              //         scrollDirection: Axis.vertical,
+              //         child: Column(
+              //           children: [
+              //             SizedBox(
+              //               height: 25,
               //             ),
-              //           ),
-              //           SizedBox(
-              //             height: 20,
-              //           ),
-              //           DottedBorder(
-              //             strokeWidth: 1.0,
-              //             color: Colors.grey[300],
-              //             // padding: EdgeInsets.all(4),
-              //             dashPattern: [9, 5],
-              //             child: Container(
-              //               height: 70,
-              //               width: SizeConfig.screenWidth,
-              //               decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              //               ),
-              //               child: GestureDetector(
-              //                 onTap: () {
-              //                   _showPicker(context);
-              //                 },
-              //                 child: ListTile(
-              //                     leading: Image.asset('assets/images/cvIcon.png'),
-              //                     title: _image == null
-              //                         ? Text(
-              //                       'Upload Visume!',
-              //                       style: TextStyle(
+              //             Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Padding(
+              //                     padding: const EdgeInsets.only(left: 12.0),
+              //                     child: Text('Resume',
+              //                         style: TextStyle(
+              //                           color: Colors.black,
               //                           height: 1.5,
-              //                           fontSize: 17.0,
-              //                           fontFamily: 'Questrial',
-              //                           fontWeight: FontWeight.w400,
-              //                           color: Colors.blueGrey[300]
-              //                         /* letterSpacing: 0.0, */
-              //                       ),
-              //                     )
-              //                         : Text(basename(_image.path),
-              //                     ),
-              //                     trailing: _image != null
-              //                         ? Icon(
-              //                       Icons.check,
-              //                       color: Colors.green,
-              //                     )
-              //                         : null),
+              //                           fontSize: 20.0,
+              //                           fontFamily: 'Poppins',
+              //                           fontWeight: FontWeight.w500,
+              //                         )),
+              //                   ),
+              //                 ]),
+              //             //  SizedBox(height: 20),
+              //             Container(
+              //                 height: 120,
+              //                 padding: EdgeInsets.all(10),
+              //                 margin: EdgeInsets.all(20),
+              //                 width: SizeConfig.screenWidth,
+              //                 decoration: BoxDecoration(
+              //                   borderRadius: BorderRadius.circular(5),
+              //                   border: Border.all(color: Colors.grey[300]),
+              //                 ),
+              //                 child: ListTile(
+              //                   leading: Container(
+              //                       height: 50,
+              //                       width: 40,
+              //                       // child: Image.asset('assets/images/pdfbg.png'),
+              //                   ),
+              //                   // title: Text('${widget.resumee ?? "MyCv.pdf"}'),
+              //                   title: Text('Your Cv is Saved If you update your Cv then Go to Your Profile'),
+              //                   // subtitle: Text('1 day ago', style: subtitleStyle),
+              //                 )),
+              //
+              //             Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Padding(
+              //                     padding: const EdgeInsets.only(left: 12.0),
+              //                     child: Text('Video Cv',
+              //                         style: TextStyle(
+              //                           color: Colors.black,
+              //                           height: 1.5,
+              //                           fontSize: 20.0,
+              //                           fontFamily: 'Poppins',
+              //                           fontWeight: FontWeight.w500,
+              //                         )),
+              //                   ),
+              //                 ]),
+              //             // SizedBox(height: 20),
+              //             Container(
+              //               padding: EdgeInsets.all(10),
+              //               margin: EdgeInsets.all(20),
+              //               decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(5),
+              //                 border: Border.all(color: Colors.grey[300]),
               //               ),
-              //             ),
-              //           )
-              //         ],
+              //               child: Column(
+              //                 children: [
+              //                   Container(
+              //                     height: 100,
+              //                     width: SizeConfig.screenWidth,
+              //                      child: Image.asset('assets/images/cvbg.png'),
+              //                   ),
+              //                   Text('Your Video Cv Is Saved'),
+              //                   // Text('${widget.cv ?? "MyVideo.mp4"}'),
+              //                   // Text('1 day ago', style: subtitleStyle),
+              //                 ],
+              //               ),
+              //             )
+              //           ],
+              //         ),
               //       )),
               // ),
-              SizedBox(
-                height: 20,
-              ),
+              showImage(),
               Column(
                 children: [
                   Container(

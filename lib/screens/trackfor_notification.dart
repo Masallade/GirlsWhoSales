@@ -220,7 +220,7 @@ class _TrackDetailState extends State<TrackDetail> {
     );
   }
   Future  UpdateNotifictionColor() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/update_notification.php?id=${notificationsDetail.id}";
+    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationsDetail.id}";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){

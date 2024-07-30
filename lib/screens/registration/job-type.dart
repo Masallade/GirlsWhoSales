@@ -17,12 +17,12 @@ class JobType extends StatefulWidget {
   String jobtype;
   String joblevel;
   String Button;
-
+final String userId;
   // receive data from the FirstScreen as a parameter
-   JobType({Key key,this.industry,this.jobtype, this.jobtypes ,this.joblevel, this.Button,}) : super(key: key);
+   JobType({Key key,this.industry,this.jobtype, this.jobtypes ,this.joblevel, this.Button,this.userId}) : super(key: key);
 
   @override
-  _JobTypeState createState() => _JobTypeState( industry: industry, jobtype: jobtype,jobtypes: jobtypes,joblevel: joblevel, Button: Button);
+  _JobTypeState createState() => _JobTypeState( industry: industry, jobtype: jobtype,jobtypes: jobtypes,joblevel: joblevel, Button: Button ,userId: userId);
 }
 
 class _JobTypeState extends State<JobType> {
@@ -32,7 +32,8 @@ class _JobTypeState extends State<JobType> {
   String jobtypes;
   String joblevel;
   String Button;
-  _JobTypeState({this.industry,this.jobtype,this.jobtypes ,this.joblevel, this.Button,});
+  final String userId;
+  _JobTypeState({this.industry,this.jobtype,this.jobtypes ,this.joblevel, this.Button,this.userId});
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _JobTypeState extends State<JobType> {
       print('jobtype : $joblevel');
       print('jobtype : $Button');
       print('jobtype : $industry');
+      print('Userid is $userId');
 
 
     });
@@ -52,7 +54,7 @@ class _JobTypeState extends State<JobType> {
   }
 
  // static List<jobCatagories> _data = [];
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/job_title.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/job_title.php";
   // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
 // ignore: missing_return
@@ -103,7 +105,7 @@ Future<String> getData() async{
             ),
             Padding(
               padding:
-              const EdgeInsets.only(left: 12.0, right: 12.0,top: 45.0),
+              const EdgeInsets.only(left: 12.0, right: 12.0,top: 20.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -131,21 +133,21 @@ Future<String> getData() async{
               ),
             ),
             SizedBox(
-              height: 37,
+              height: 10,
             ),
-            Text("You're halfway there!",
+            Text("You're just \n two step away!",//You're halfway there!
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text('Which of these Job Titles pique\n your curiosity? ',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               children: [
@@ -231,7 +233,7 @@ Future<String> getData() async{
               style: TextStyle(color: Colors.red),
             ),
             SizedBox(
-              height: 120,
+              height: 80,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),

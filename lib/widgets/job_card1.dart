@@ -329,8 +329,9 @@ class _JobCard2State extends State<JobCard2> {
                               size: 40,
                             ),
                           ),
-                        )
-                      ]),
+                        ),
+                      ],
+                  ),
                   SizedBox(
                     height: 16,
                   ),

@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '3'
+    flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.3'
+    flutterVersionName = '1.0.0'
 }
 
 def keystoreProperties = new Properties()
@@ -32,7 +32,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    namespace "com.girlzwhosell"
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -53,8 +54,8 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.girlzwhosell"
         minSdkVersion 23
-        targetSdkVersion 31
-        versionCode flutterVersionCode.toInteger()
+        targetSdkVersion 33
+        versionCode 3 //android 20 for ios it must be 2
         versionName flutterVersionName
     }
 
@@ -84,5 +85,12 @@ dependencies{
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
 }
 apply plugin: 'com.google.gms.google-services'
+
+
+
+
+

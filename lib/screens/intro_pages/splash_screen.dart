@@ -1,89 +1,76 @@
 import 'dart:async';
-
 import 'package:animated_splash/animated_splash.dart';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/screens/intro_pages/second_splash_screen.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
+import 'package:girlzwhosell/screens/intro_pages/user_type_copy.dart';
+import 'package:girlzwhosell/screens/intro_pages/webview_for_employer_login.dart';
+import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:just_audio/just_audio.dart';
+// import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../http/Requests.dart';
+import '../../mentor_mentee/SignupForm/Mentorform.dart';
 
 
 
-// class SplashScreen extends StatefulWidget {
-//   @override
-//   _SplashScreenState createState() => _SplashScreenState();
-// }
-//
-// class _SplashScreenState extends State<SplashScreen> {
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     Timer(Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()),
-//     ));
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     SizeConfig().init(context);
-//     return Scaffold(
-//       body: ClipRRect(
-//         borderRadius: BorderRadius.zero,
-//         child: Container(
-//           width: MediaQuery.of(context).size.width,
-//           height: 812.0,
-//           decoration: BoxDecoration(
-//             gradient: LinearGradient(
-//               begin: Alignment(-1.0, -1.0),
-//               end: Alignment(0.9999999701976781, 0.9999999701976781),
-//               stops: [0.0, 1.0],
-//               colors: [
-//                 Color.fromARGB(255, 255, 203, 221),
-//                 Color.fromARGB(255, 204, 227, 254)
-//               ],
-//             ),
-//           ),
-//           child: Stack(
-//               clipBehavior: Clip.none,
-//               fit: StackFit.expand,
-//               alignment: Alignment.center,
-//               children: [
-//                 Image.asset('assets/images/girlwhosell.gif'),
-//               ]),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-final player = AudioPlayer();
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
+
 class _SplashScreenState extends State<SplashScreen> {
+
+  int userTypeValue = 1;
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
-    player.setAsset('assets/audio/sound.mp3');
+    userType();
+    // autoLogIn();
+    // player.setAssset('assets/audio/sound.mp3');
   }
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    player.dispose();
+    // player.dispose();
   }
+
+
+  Future<int> userType() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(prefs.getBool(KeyisUserAlreadyLogin) ?? false){
+      print("return ttype 3 valuue");
+      return 3;
+    }else{
+      prefs.setBool(KeyisUserAlreadyLogin, false);
+    }
+    userTypeValue = prefs.getInt('usertype');
+
+    if (userTypeValue == null || (userTypeValue != 0 && userTypeValue != 1 && userTypeValue != 2)) {
+      userTypeValue = -1;
+      prefs.setInt('usertype', userTypeValue);
+    }
+
+    print('User type: $userTypeValue');
+    return userTypeValue;
+  }
+
+
+
   Function playSound = (){
-    player.play();
+    // player.play();
     return 1;
   };
-  Map<int, Widget> output = {1 : SignInPage()};
-
+  Map<int, Widget> output0= {1 : UserType()};//UserType, SignInPage,WebViewClass
+  Map<int, Widget> output1= {1 : SignInPage()};//UserType, SignInPage,WebViewClass
+  Map<int, Widget> output2= {1 : WebViewClass()};//UserType, SignInPage,WebViewClass
+  Map<int, Widget> output3= {1 : SecondSplash()};
 
   String email;
 
@@ -93,22 +80,79 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
 
+
   @override
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return AnimatedSplash(
-        imagePath:'assets/images/finalsplashlogo.gif',
-        home: SignInPage(),
-        customFunction: playSound,
-        duration: 2000,
-        type: AnimatedSplashType.BackgroundProcess,
-        outputAndHome: output,
-      );
+
+    return FutureBuilder<int>(
+      future: userType(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for the userTypeValue, show a loading screen
+          // return CircularProgressIndicator();
+          return Container(
+                    color: Colors.white,
+                  );
+          //         or any other loading widget
+        } else if (snapshot.hasError) {
+          // Handle error if the userTypeValue retrieval fails
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // userTypeValue is retrieved successfully
+          int userTypeValue = snapshot.data;
+
+          if (userTypeValue == -1) {
+            return AnimatedSplash(
+              imagePath: 'assets/images/finalsplashlogo.gif',
+              onReadyToGoNextScreen: ()=>UserType(), // SignInPage, UserType, WebViewClass
+
+
+              onAnimationCompleted: ()=> output0,
+            );
+          } else if (userTypeValue == 0 || userTypeValue == 1) {
+            return AnimatedSplash(
+              imagePath: 'assets/images/finalsplashlogo.gif',
+              onReadyToGoNextScreen: ()=>SignInPage(), // SignInPage, UserType, WebViewClass
+              duration: Duration(milliseconds: 2000),
+              onAnimationCompleted: ()=>output1,
+            );
+          } else if (userTypeValue == 2) {
+            return AnimatedSplash(
+              imagePath: 'assets/images/finalsplashlogo.gif',
+                onReadyToGoNextScreen: ()=> WebViewClass(), // SignInPage, UserType, WebViewClass
+
+              duration: Duration(milliseconds: 2000),
+              onAnimationCompleted: ()=>output2,
+            );
+          }else if (userTypeValue == 3){
+            return AnimatedSplash(
+              imagePath: 'assets/images/finalsplashlogo.gif',
+              onReadyToGoNextScreen: ()=>SecondSplash(), // SignInPage, UserType, WebViewClass
+
+              duration: Duration(milliseconds: 2000),
+              onAnimationCompleted: ()=>output3,
+            );
+          } else {
+            // Handle unexpected userTypeValue
+            return Text('Invalid userTypeValue');
+          }
+        }
+      },
+    );
   }
-   autoLogIn() async {
+
+
+
+  autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userName = prefs.getString('username');
-    final String userPass = prefs.getString('userpass');
+
+    if(!prefs.getBool(KeyisUserAlreadyLogin))
+      return;
+
+    final String userName = prefs.getString(keyUserName);
+    final String userPass = prefs.getString(KeyUserPassword);
 
     if (userName != null || userPass != null) {
       setState(() {
@@ -116,6 +160,7 @@ class _SplashScreenState extends State<SplashScreen> {
         email = userName;
         password = userPass;
         Requests.Login(context, email, password,'',false);
+        print("user auto login successsfully");
       });
       return;
     }

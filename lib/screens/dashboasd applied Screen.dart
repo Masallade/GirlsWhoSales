@@ -148,7 +148,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                         ),
                                         SizedBox(height: 20,),
                                         Row(
-                                         // mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
@@ -161,7 +161,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                                 //fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            SizedBox(width: 60,),
+
                                             Container(
                                               height: 40,
                                               width: 77,
@@ -223,7 +223,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
   }
    // ignore: missing_return
    Future<List<AppliedJobDetails>> request(BuildContext context, bool showLoading) async {
-    String get_key_url =  "https://biitsolutions.co.uk/girlzwhosell/API/fetch_applied_jobs.php?user_id=${user_Id}";
+    String get_key_url =  "https://girlzwhosellcareerconextions.com/API/fetch_applied_jobs.php?user_id=${user_Id}";
 
     // http.Response response;
     try {

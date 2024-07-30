@@ -206,7 +206,7 @@ class _MentorFormState extends State<MentorForm> {
   }
 
 
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/experience.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/experience.php";
   // ignore: deprecated_member_use
   List yeardata = List(); //List of Responsebody
   // ignore: missing_return
@@ -925,7 +925,7 @@ class _MentorFormState extends State<MentorForm> {
     );
   }
   Future<mentorModel> Registration() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/mentor_signup.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/mentor_signup.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "first_name": fname.text,

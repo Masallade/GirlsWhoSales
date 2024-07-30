@@ -17,12 +17,12 @@ class industryLevel extends StatefulWidget {
   String joblevel;
   String selectedJobtitle;
   String Button;
-
+  final String userId;
   // receive data from the FirstScreen as a parameter
-  industryLevel({Key key,this.industry, this.jobtypes, this.jobtype, this.joblevel, this.selectedJobtitle,this.Button}) : super(key: key);
+  industryLevel({Key key,this.industry, this.jobtypes, this.jobtype, this.joblevel, this.selectedJobtitle,this.Button ,this.userId}) : super(key: key);
 
   @override
-  _industryLevelState createState() => _industryLevelState(industry: industry, jobtypes: jobtypes, jobtype: jobtype,joblevel: joblevel, selectedJobtitle: selectedJobtitle ,Button: Button);
+  _industryLevelState createState() => _industryLevelState(industry: industry, jobtypes: jobtypes, jobtype: jobtype,joblevel: joblevel, selectedJobtitle: selectedJobtitle ,Button: Button, userId: userId);
 }
 
 class _industryLevelState extends State<industryLevel> {
@@ -33,8 +33,8 @@ class _industryLevelState extends State<industryLevel> {
   String joblevel;
   String selectedJobtitle;
   String Button;
-
-  _industryLevelState({ this.industry ,this.jobtypes, this.jobtype,this.joblevel, this.selectedJobtitle, this.Button});
+final String userId;
+  _industryLevelState({ this.industry ,this.jobtypes, this.jobtype,this.joblevel, this.selectedJobtitle, this.Button ,this.userId});
 
   @override
   void initState() {
@@ -43,6 +43,7 @@ class _industryLevelState extends State<industryLevel> {
     setState(() {
       print('=================INDUSTRY Page ================');
       print('selected joblevel : $joblevel');
+      print("userId is $userId");
       print('selected jobtypes : $jobtypes');
       print('lists of selected categories : $Button');
 
@@ -105,7 +106,7 @@ class _industryLevelState extends State<industryLevel> {
             ),
             Padding(
               padding:
-              const EdgeInsets.only(left: 12.0, right: 12.0,top: 45.0),
+              const EdgeInsets.only(left: 12.0, right: 12.0,top: 20.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -133,28 +134,28 @@ class _industryLevelState extends State<industryLevel> {
               ),
             ),
             SizedBox(
-              height: 37,
+              height: 10,
             ),
-            Text("You're just \n two step away!",
+            Text("You're halfway there!",//You're just \n two step away!
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
-            Text('Which of these Industry pique\n your curiosity? ',
+            Text('Which of these Industries pique\n your curiosity? ',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Text(
-                    "which industry type are you looking for?",
+                    "Which industry type are you looking for?",
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.start,
                     style: TextStyle(
@@ -233,7 +234,7 @@ class _industryLevelState extends State<industryLevel> {
               style: TextStyle(color: Colors.red),
             ),
             SizedBox(
-              height: 120,
+              height: 80,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),

@@ -342,3 +342,32 @@ class FavoriteJobs {
     return data;
   }
 }
+class AllFavoriteJobss {
+  String message;
+  String status;
+  List<FavoriteJobs> favJobs;
+
+  AllFavoriteJobss({this.message, this.status, this.favJobs});
+
+  AllFavoriteJobss.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    status = json['status'];
+    if (json['Saved_Jobs'] != null) {
+      // ignore: deprecated_member_use
+      favJobs = new List<FavoriteJobs>();
+      json['Saved_Jobs'].forEach((v) {
+        favJobs.add(new FavoriteJobs.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
+    data['status'] = this.status;
+    if (this.favJobs != null) {
+      data['Saved_Jobs'] = this.favJobs.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}

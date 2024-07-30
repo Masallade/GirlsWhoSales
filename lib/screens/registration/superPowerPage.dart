@@ -14,10 +14,11 @@ class SuperPowerPage extends StatefulWidget {
   String jobtypes;
   String joblevel;
  final String Button;
-  SuperPowerPage({Key key ,this.jobtypes ,this.joblevel, this.Button}) : super(key: key);
+ final String userId;
+  SuperPowerPage({Key key ,this.jobtypes ,this.joblevel, this.Button ,this.userId}) : super(key: key);
 
   @override
-  _SuperPowerPageState createState() => _SuperPowerPageState( jobtypes: jobtypes,joblevel: joblevel, Button: Button);
+  _SuperPowerPageState createState() => _SuperPowerPageState( jobtypes: jobtypes,joblevel: joblevel, Button: Button , userId: userId);
 }
 
 class _SuperPowerPageState extends State<SuperPowerPage> {
@@ -26,14 +27,15 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
   String jobtypes;
   String joblevel;
   String Button ='';
-  _SuperPowerPageState({this.jobtypes, this.joblevel, this.Button});
+  final String userId;
+  _SuperPowerPageState({this.jobtypes, this.joblevel, this.Button ,this.userId});
 
   static List<superPowerModel> _data = [];
 
 
   Future<List<superPowerModel>> getSalesList() async {
 
-    final response = await http.get(Uri.parse("https://biitsolutions.co.uk/girlzwhosell/API/categories.php"));
+    final response = await http.get(Uri.parse("https://girlzwhosellcareerconextions.com/API/categories.php"));
 
    setState(() {
      _data = parseSales(response.body);
@@ -52,6 +54,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
    print('========Categories Page ============');
    print('${'jobtype $jobtypes'}');
     print('${'joblevel $joblevel'}');
+    print('${'userid $userId'}');
     super.initState();
   }
 
@@ -97,7 +100,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                 SizedBox(height: 5,),
                 Padding(
                   padding: const EdgeInsets.only(left: 280.0),
-                  child: Text('35%' , textAlign: TextAlign.end, style: TextStyle(color: Colors.blueGrey[300] , fontFamily: 'Poppins' , fontWeight: FontWeight.w600),   ),
+                  child: Text('35%' , textAlign: TextAlign.end, style: TextStyle(color: Colors.blueGrey[300] , fontFamily: 'Poppins' , fontWeight: FontWeight.w600),),
                 ),
               ],
             ),
@@ -234,10 +237,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                 onPressed:() {
                   if( _multiSelectKey.currentState.validate()){
                     _multiSelectKey.currentState.save();
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => JobType(selecjobsTypes: selecjobsTypes,Button:Button)));
+
                         Navigator.push(context, MaterialPageRoute(builder: (context) => industryLevel(jobtypes:jobtypes,joblevel: joblevel, Button: Button,)));
 
                   }else{

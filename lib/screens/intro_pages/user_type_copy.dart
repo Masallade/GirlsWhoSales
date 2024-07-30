@@ -7,20 +7,27 @@ import 'package:girlzwhosell/screens/registration/superPowerPage.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserType extends StatefulWidget {
+final String userId;
 
+   UserType({Key key, this.userId}) : super(key: key);
   @override
-  _UserTypeState createState() => _UserTypeState();
+  _UserTypeState createState() => _UserTypeState(userId:userId);
 }
 
 class _UserTypeState extends State<UserType> {
+
+  final String userId;
   String _text = 'Hello!';
   String _text2 = 'Hi! Welcome to';
   String _text3 = 'GirlzWhoSell Career Conextions!';
   String _text4 = '';
   Color Color1 = Colors.blueGrey[300];
+
+  _UserTypeState({this.userId});
   // Color Color1 = Color.fromARGB(255, 112, 126, 148);
   void _doSomething() {
     setState(() {
@@ -57,6 +64,17 @@ class _UserTypeState extends State<UserType> {
     }
   }
 
+  Future<Null> userType(int type) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    prefs.setInt('usertype',type);
+    print("player prefes set ${prefs.getInt('usertype')}");
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     var n = 3;
@@ -77,13 +95,16 @@ class _UserTypeState extends State<UserType> {
               onTap: () {
                 setState(() {
                   selected = i;
+                  userType(0);
                   print(i);
                 });
                _doSomething();
                 if(selected == 1){
+                  userType(1);
                   _doSomething();
                 }
                 if(selected == 2){
+                  userType(2);
                   _doSomething();
                 }
               },
@@ -118,17 +139,17 @@ class _UserTypeState extends State<UserType> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
-           // Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-            size: 30.0,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+        //    // Navigator.of(context).pop();
+        //   },
+        //   icon: Icon(
+        //     Icons.arrow_back_ios,
+        //     color: Colors.black,
+        //     size: 30.0,
+        //   ),
+        // ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -209,11 +230,10 @@ class _UserTypeState extends State<UserType> {
                           //     context,
                           //     MaterialPageRoute(
                           //         builder: (context) => SuperPowerPage()));
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => entryLevel()));
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));//SignInPage,entryLevel
                          }
                           if(selected == 1){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MentorForm()));
-
                           }
                           if(selected == 2){
                            Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));

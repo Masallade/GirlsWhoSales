@@ -1,19 +1,26 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:girlzwhosell/extension_for_login.dart';
+import 'package:girlzwhosell/guest_user/guest_user.dart';
 import 'package:girlzwhosell/helpers/svg/svg.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/screens/intro_pages/Forget_password.dart';
 import 'package:girlzwhosell/screens/intro_pages/user_type_copy.dart';
+import 'package:girlzwhosell/screens/intro_pages/webview_for_employer_login.dart';
+import 'package:girlzwhosell/screens/profile/help_form.dart';
+import 'package:girlzwhosell/screens/verifyEmailScreen/verifyEmail.dart';
+import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/utils/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../registration/upload_cv.dart';
+import 'jobtypess.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -43,16 +50,16 @@ class _SignInPageState extends State<SignInPage> {
 
 
 
-  final _firebaseMessaging = FirebaseMessaging.instance;
-  String token1;
+  // final _firebaseMessaging = FirebaseMessaging.instance;
+  String token1 = 'token1';
 
   Future getToken() async {
-    await _firebaseMessaging.getToken().then((token) {
-      print(" Token is :$token");
-      setState(() {
-        token1 = token;
-      });
-    });
+    // await _firebaseMessaging.getToken().then((token) {
+    //   print(" Token is :$token");
+    //   setState(() {
+    //     token1 = token;
+    //   });
+    // });
   }
 
   String txt = 'Hi there! Welcome';
@@ -93,8 +100,9 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<Null> loginUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('username', userName);
-    prefs.setString('userpass', password);
+    prefs.setString(keyUserName, userName);
+    prefs.setString(KeyUserPassword, password);
+    prefs.setBool(KeyisUserAlreadyLogin,true);
 
     setState(() {
       userName = userName;
@@ -103,8 +111,6 @@ class _SignInPageState extends State<SignInPage> {
     });
     print('ShareduserName $userName');
     print('password $password');
-
-
   }
 
   Future<bool> _exitApp(BuildContext context) {
@@ -169,7 +175,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: ()=>_exitApp(context) ,
+      onWillPop: ()=>_exitApp(context),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
@@ -177,7 +183,7 @@ class _SignInPageState extends State<SignInPage> {
           Column(
             children: [
               SizedBox(
-                height: 40,
+                height: 60,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0),
@@ -187,7 +193,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 5,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 30.0, right: 30.0),
@@ -197,7 +203,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 5,
               ),
               Align(
                   alignment: Alignment.center,
@@ -208,9 +214,10 @@ class _SignInPageState extends State<SignInPage> {
                       style: subtitleStyle,
                       textAlign: TextAlign.center,
                     ),
-                  )),
+                  ),
+              ),
               SizedBox(
-                height: 30,
+                height: 10,
               ),
               Flexible(
                 flex: 7,
@@ -372,7 +379,7 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 12.0, right: 12.0, top: 28),
+                            left: 12.0, right: 12.0, top: 20),
                         child: Container(
                           width: SizeConfig.screenWidth,
                           height: 55.0,
@@ -385,6 +392,10 @@ class _SignInPageState extends State<SignInPage> {
                               if (key.currentState.validate() &&
                                   _key.currentState.validate()) {
                                  loginUser();
+                                 user_updated_list = false;
+                                  kuserName = userName;
+                                  kuserPass = password;
+                                  kuserToken = token1;
                                  Requests.Login(context, userName, password,token1, false);
                               }
                             },
@@ -409,48 +420,189 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                              color: Colors.blueGrey[300],
+                              fontFamily: "Questrial",
+                              fontSize: 16,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("Register Now");
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => entryLevel()));//entryLevel,UserType
+                            },
+                            child: Text(
+                              Strings.createAccount,
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Questrial",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Having Issue With App?",
+                            style: TextStyle(
+                              color: Colors.blueGrey[300],
+                              fontFamily: "Questrial",
+                              fontSize: 16,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("Help Form");
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => HelpForm()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => VerifyEmail()));
+                            },
+                            child: Text('Get Help',
+                              // Strings.createAccount,
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Questrial",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Visibility(
+                        visible: true,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 20), // Adjust the margin to position the button
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
+                              },
+                              child: Text("Switch to Hiring",style: TextStyle(color: Colors.blueAccent),),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 0,
+                      ),
+                      Visibility(
+                        visible: true,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 20), // Adjust the margin to position the button
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>GuestUser()));
+                              },
+                              child: Text("Guest User",style: TextStyle(color: Colors.blueAccent),),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
+
+
             ],
           ),
-        ]),
-        bottomNavigationBar: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Don't have an account?",
-              style: TextStyle(
-                color: Colors.blueGrey[300],
-                fontFamily: "Questrial",
-                fontSize: 16,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            GestureDetector(
-              onTap: () {
-                print("Register Now");
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => UserType()));
-              },
-              child: Text(
-                Strings.createAccount,
-                style: TextStyle(
-                  color: Colors.blue[800],
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Questrial",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
+              // Visibility(
+              //   visible: true,
+              //   child: Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: Container(
+              //       margin: EdgeInsets.only(bottom: 20), // Adjust the margin to position the button
+              //       child: GestureDetector(
+              //         onTap: () {
+              //           Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewClass()));
+              //         },
+              //         child: Text("Switch to Hiring",style: TextStyle(color: Colors.blueAccent),),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+        ],
         ),
+        // bottomNavigationBar: Padding(
+        //   padding: const EdgeInsets.only(bottom: 30.0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
+        //       Text(
+        //         "Having Issue With App?",
+        //         style: TextStyle(
+        //           color: Colors.blueGrey[300],
+        //           fontFamily: "Questrial",
+        //           fontSize: 16,
+        //           fontStyle: FontStyle.normal,
+        //           fontWeight: FontWeight.w400,
+        //         ),
+        //       ),
+        //       SizedBox(
+        //         width: 5.0,
+        //       ),
+        //       GestureDetector(
+        //         onTap: () {
+        //           print("Help Form");
+        //           Navigator.push(
+        //               context, MaterialPageRoute(builder: (context) => HelpForm()));
+        //           // Navigator.push(
+        //           //     context,
+        //           //     MaterialPageRoute(
+        //           //         builder: (context) => VerifyEmail()));
+        //         },
+        //         child: Text('Get Help',
+        //           // Strings.createAccount,
+        //           style: TextStyle(
+        //             color: Colors.blue[800],
+        //             fontWeight: FontWeight.w400,
+        //             fontFamily: "Questrial",
+        //             fontStyle: FontStyle.normal,
+        //             fontSize: 16,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

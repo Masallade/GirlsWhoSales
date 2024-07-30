@@ -106,30 +106,30 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          GestureDetector(
-            onTap: () {
-              if (isLiked == true) {
-                IsButton = true;
-                savejob();
-              } else {
-                Unsavejob();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: FavoriteButton(
-                isFavorite: false,
-                valueChanged: (isLiked) {
-                  print('Is Favorite : $isLiked');
-                  if (isLiked) {
-                    savejob();
-                  } else {
-                    Unsavejob();
-                  }
-                },
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     if (isLiked == true) {
+          //       IsButton = true;
+          //       savejob();
+          //     } else {
+          //       Unsavejob();
+          //     }
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(right: 20.0),
+          //     child: FavoriteButton(
+          //       isFavorite: false,
+          //       valueChanged: (isLiked) {
+          //         print('Is Favorite : $isLiked');
+          //         if (isLiked) {
+          //           savejob();
+          //         } else {
+          //           Unsavejob();
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
           // Padding(
           //   padding: const EdgeInsets.all(20.0),
           //   child: GestureDetector(
@@ -325,9 +325,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    DescriptionTabtwo(
-                      favoriteJobs: widget.favoriteJobs,
-                    ),
+                    DescriptionTabtwo(favoriteJobs: widget.favoriteJobs),
                     RequirementsTabtwo(favoriteJobs: widget.favoriteJobs),
                     CompanyTabtwo(favoriteJobs: widget.favoriteJobs),
                   ],
@@ -409,7 +407,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
   }
 
   Future<JobAppliedDetailModel> alreadyapplied() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/applied_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
@@ -592,30 +590,30 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          GestureDetector(
-            onTap: () {
-              if (isLiked == true) {
-                IsButton = true;
-                savejob();
-              } else {
-                Unsave();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: FavoriteButton(
-                isFavorite: false,
-                valueChanged: (isLiked) {
-                  print('Is Favorite : $isLiked');
-                  if (isLiked) {
-                    savejob();
-                  } else {
-                    Unsave();
-                  }
-                },
-              ),
-            ),
-          )
+          // GestureDetector(
+          //   onTap: () {
+          //     if (isLiked == true) {
+          //       IsButton = true;
+          //       savejob();
+          //     } else {
+          //       Unsave();
+          //     }
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(right: 20.0),
+          //     child: FavoriteButton(
+          //       isFavorite: false,
+          //       valueChanged: (isLiked) {
+          //         print('Is Favorite : $isLiked');
+          //         if (isLiked) {
+          //           savejob();
+          //         } else {
+          //           Unsave();
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
         leading: IconButton(
           icon: Icon(
@@ -888,7 +886,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   }
 
   Future<JobAppliedDetailModel> alreadyapplied() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/applied_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,

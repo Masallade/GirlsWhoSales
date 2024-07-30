@@ -22,6 +22,7 @@ class DescriptionTab extends StatelessWidget {
        SizedBox(height: 30.0),
         Text(
           '${jobDetails.description ?? " "}',
+          textAlign: TextAlign.justify,
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,

@@ -60,7 +60,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
   }
 
 
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/experience.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/experience.php";
   // ignore: deprecated_member_use
   List yeardata = List(); //List of Responsebody
   // ignore: missing_return
@@ -819,7 +819,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
   }
   // ignore: missing_return
   Future<mentorModel> Registration() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/mentee.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/mentee.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "first_name": fname.text,

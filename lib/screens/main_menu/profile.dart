@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
@@ -5,15 +8,19 @@ import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/Notification_screen.dart';
 import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/dashboasd%20applied%20Screen.dart';
+import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
-
+import 'package:http/http.dart' as http;
+import '../../model/total_saved_jobs.dart';
 import '../../utils/constants.dart';
 
 class Profile extends StatefulWidget {
   final user_Id;
   final firstName;
   final title;
+  final city;
+  String nationality;
   final String total_applied;
   final String total_saved;
   final List<FavoriteJobs> favoriteJobs;
@@ -24,8 +31,11 @@ class Profile extends StatefulWidget {
   final password;
   final cv;
   final resume;
-  const Profile(
-      {Key key,
+
+  Profile(
+      {
+        this.city,
+        this.nationality,
       this.user_Id,
       this.userDetails,
       this.title,
@@ -38,8 +48,7 @@ class Profile extends StatefulWidget {
       this.uName,
       this.password,
       this.cv,
-      this.resume})
-      : super(key: key);
+      this.resume});
 
   @override
   _ProfileState createState() => _ProfileState(
@@ -53,6 +62,8 @@ class Profile extends StatefulWidget {
       jobDetails: jobDetails,
       uName: uName,
       password: password,
+      city : city,
+      nationality: nationality,
       cv: cv,
       resume: resume);
 }
@@ -62,6 +73,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   final user_Id;
   final firstName;
   final title;
+  String nationality;
   final String total_applied;
   final String total_saved;
   final List<FavoriteJobs> favoriteJobs;
@@ -72,10 +84,20 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   final password;
   final cv;
   final resume;
+  final city;
+
+  // Total_Saved_Job total_saved_job;
+  // String saved_job_counter = "0";
+
+  String newsavedjob;
+
+
   _ProfileState(
       {this.user_Id,
       this.firstName,
       this.title,
+        this.city,
+        this.nationality,
       this.total_applied,
       this.total_saved,
       this.favoriteJobs,
@@ -87,12 +109,23 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       this.cv,
       this.resume});
 
+
+
   void initState() {
     super.initState();
     print('$user_Id');
+    // getTotalSavedJobs(int.tryParse(user_Id.toString()));
     print('$firstName');
     print('$cv');
     print('$resume');
+    setState(() {
+      if(totalSavedJobs != null){
+        newsavedjob = totalSavedJobs;
+      }else{
+        newsavedjob = total_saved;
+      }
+
+    });
     //appiedDashboadJobs();
   }
 
@@ -142,9 +175,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 scale: 1.0,
                                 color: Colors.black,
                               ) :
-                              Badge(
+                              badge.Badge(
                                 position: BadgePosition.topEnd(top: -20 ,end: 10),
-                                badgeColor: Colors.red,
+                                badgeStyle: BadgeStyle(badgeColor: Colors.red),
+                                // badgeColor: Colors.red,
                                badgeContent: Text('${totalNotification.totalCountNotf == "0" ? '' : totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
                                 child: Image.asset(
                                   'assets/images/notification.png',
@@ -171,6 +205,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     const EdgeInsets.only(left: 12.0, right: 12.0, top: 20),
                 child: GestureDetector(
                   onTap: () {
+                    print('click on saved jobs');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -202,7 +237,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         Padding(
                           padding: const EdgeInsets.only(left: 60.0),
                           child: Text(
-                            '$total_saved',
+                            '$newsavedjob',//  total_saved
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 48,
@@ -353,4 +388,31 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       ),
     );
   }
+
+  // Future<void>  getTotalSavedJobs(int userId)async{
+  //   var request = http.Request('GET', Uri.parse('https://biitsolutions.co.uk/girlzwhosell/API/total_saved_jobs.php?user_id=$userId'));
+  //
+  //
+  //   http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //
+  //     String jsonBody  = await response.stream.bytesToString();
+  //     Map<String, dynamic> jsonResponse = json.decode(jsonBody);
+  //     total_saved_job = Total_Saved_Job.fromJson(jsonResponse);
+  //
+  //
+  //     setState(() {
+  //       saved_job_counter = total_saved_job.countOfJobsSaved;
+  //     });
+  //
+  //     print("totatl saved jobs ${total_saved_job.countOfJobsSaved}");
+  //     print("totatl appllied jobs ${total_saved_job.countOfJobsApplied}");
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  //
+  // }
+
 }

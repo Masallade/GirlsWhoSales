@@ -21,11 +21,13 @@ class ExperienceScreen extends StatefulWidget {
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
   String Month;
-  ExperienceScreen({this.industry, this.jobtypes, this.joblevel, this.jobtype,this.Button,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles ,this.Month});
+  final String userId;
+
+  ExperienceScreen({this.industry, this.jobtypes, this.joblevel, this.jobtype,this.Button,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles ,this.Month ,this.userId});
 
   @override
   _ExperienceScreenState createState() => _ExperienceScreenState(
-   industry: industry, jobtypes: jobtypes,joblevel: joblevel, Button: Button,  jobtype: jobtype,selectedJobtitle: selectedJobtitle, ExperiencenDetail: ExperiencenDetail, onSubmit: onSubmit , selecjobsTypes: selecjobsTypes,selectedJobTitles: selectedJobTitles ,Month: Month);
+   industry: industry, jobtypes: jobtypes,joblevel: joblevel, Button: Button,  jobtype: jobtype,selectedJobtitle: selectedJobtitle, ExperiencenDetail: ExperiencenDetail, onSubmit: onSubmit , selecjobsTypes: selecjobsTypes,selectedJobTitles: selectedJobTitles,userId: userId);
 }
 
 class _ExperienceScreenState extends State<ExperienceScreen> {
@@ -40,20 +42,23 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   String jobtype;
   String selectedJobtitle;
   String ExperiencenDetail;
+  final String userId;
+
   final ValueChanged<String> onSubmit;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
-  _ExperienceScreenState({this.industry, this.jobtypes, this.joblevel, this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,this.Month});
+  _ExperienceScreenState({this.industry, this.jobtypes, this.joblevel, this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,this.userId});
 
   bool isValue = false;
   String _dropdownError;
+
 
   _validateForm() {
     bool _isValid = _formKey.currentState.validate();
 
     if (ExperiencenDetail == null) {
       setState(() => _dropdownError = "Please select an experience!");
-      _isValid = false;
+      _isValid = true;
     }
 
     if (_isValid) {
@@ -71,13 +76,19 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
      print('listofjobtype : $Button');
      print('industry : $industry');
      print('jobtitle : $jobtype');
+     print("userid is $userId");
 
    });
     getData();
   }
 
 
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/experience.php";
+  final key = GlobalKey<FormFieldState>();
+
+  TextEditingController selectYear = TextEditingController();
+
+
+  final url = "https://girlzwhosellcareerconextions.com/API/experience.php";
   // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
   // ignore: missing_return
@@ -90,8 +101,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     print('jobtitle $resbody');
   }
 
-  List Monthdata = ["1 month", "2 months" ,"3 months" ,"4 months" ,"5 months" ,"6 months" ,"7 months", "8 months", "9 months" , "10 months", "11 months"];
-  String Month;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -119,7 +129,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                   scale: 2.7,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0,right: 12.0,top: 45.0),
+                  padding: const EdgeInsets.only(left: 12.0,right: 12.0,top: 20.0),
                   child: Column(
                     children: [
                       LinearProgressIndicator(
@@ -145,21 +155,21 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 37,
+                  height: 10,
                 ),
                 Text("Almost there!",
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.center,
                     style: HeadingStyle),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text('How experienced are you?',
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.center,
                     style: subtitleStyle),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 Row(
                   children: [
@@ -187,12 +197,12 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0,top: 16),
                   child: Container(
-                  //  height: 150,
+                    //  height: 150,
                     width: SizeConfig.screenWidth,
-                    height: 200.0,
+                    height: 70.0,
                     decoration: BoxDecoration(
-                 //    color: Colors.yellow,
-                   //   border: Border.all(width: 1.0, color: Colors.grey[300]),
+                      //  color: Colors.yellow,
+                      //   border: Border.all(width: 1.0, color: Colors.grey[300]),
                     ),
                     child: GestureDetector(
                       onTapDown: (_) =>
@@ -213,7 +223,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                     child: DropdownButton<String>(
                                         hint: Padding(
                                           padding: const EdgeInsets.only(left: 8.0),
-                                          child: new Text('Select Month' ,style: TextStyle(
+                                          child: new Text('Select Experience' ,style: TextStyle(
                                               height: 1.5,
                                               fontSize: 16.0,
                                               fontFamily: 'Questrial',
@@ -222,19 +232,19 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                           )),
                                         ),
                                         // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
-                                        value: Month,
+                                        value: ExperiencenDetail,
                                         onChanged: (String newvalue) {
                                           setState(() {
-                                            Month = newvalue;
+                                            ExperiencenDetail = newvalue;
                                             _dropdownError = null;
                                           });
-                                          print('newvalue ${Month}');
+                                          print('newvalue ${ExperiencenDetail}');
                                         },
-                                        items: Monthdata.map((item) {
+                                        items: data.map((item) {
                                           return DropdownMenuItem(
                                             child: Row(
                                               children: [
-                                                Text('${item}',style: TextStyle(
+                                                Text('${item["experience"]}',style: TextStyle(
                                                     height: 1.5,
                                                     fontSize: 16.0,
                                                     fontFamily: 'Questrial',
@@ -243,77 +253,27 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                                 )),
                                               ],
                                             ),
-                                            value: item.toString(),
+                                            value: item["id"].toString(),
                                           );
                                         }).toList()),
                                   )
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
-                          Container(
-                            width: SizeConfig.screenWidth,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                border: Border.all(color: Colors.grey[300])),
-                            child: DropdownButtonHideUnderline(
-                              child:  ButtonTheme(
-                                alignedDropdown: true,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: DropdownButton<String>(
-                                    hint: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: new Text('Select Experience' ,style: TextStyle(
-                                          height: 1.5,
-                                          fontSize: 16.0,
-                                          fontFamily: 'Questrial',
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black
-                                      )),
-                                    ),
-                                    // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
-                                    value: ExperiencenDetail,
-                                    onChanged: (String newvalue) {
-                                      setState(() {
-                                        ExperiencenDetail = newvalue;
-                                        _dropdownError = null;
-                                      });
-                                      print('newvalue ${ExperiencenDetail}');
-                                    },
-                                      items: data.map((item) {
-                                        return DropdownMenuItem(
-                                          child: Row(
-                                          children: [
-                                            Text('${item["experience"]}',style: TextStyle(
-                                                height: 1.5,
-                                                fontSize: 16.0,
-                                                fontFamily: 'Questrial',
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.black
-                                            )),
-                                          ],
-                                        ),
-                                          value: item["id"].toString(),
-                                        );
-                                      }).toList()),
-                                )
-                                ),
-                              ),
-                            ),
-
-
                         ],
                       ),
                     ),
                   ),
                 ),
+
                 _dropdownError == null
                     ? SizedBox.shrink()
                     : Text(
                   _dropdownError ?? "",
                   style: TextStyle(color: Colors.red),
+                ),
+                SizedBox(
+                  height: 80,
                 ),
                 Padding(
                   padding: const EdgeInsets.only( left: 12, right: 12),
@@ -328,20 +288,22 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                       // border: Border.all(color: Theme.of(context).accentColor)),
                     ),
                     child: GestureDetector(
-                      // only enable the button if the text is not empty
+
                       onTap: () async {
-                        if (ExperiencenDetail == null ) {
+                        if (ExperiencenDetail == null) {
                           _validateForm();
                           print('ExperiencenDetail Succeffull $ExperiencenDetail');
                           print('fail');
 
-                        } else {
-                          Navigator.push(
+                        } else
+                          {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,jobtypes: jobtypes, joblevel: joblevel,industry: industry,Month:Month)));
+                                  builder: (context) => RegistrationPage(jobtype:jobtype ,ExperiencenDetail: ExperiencenDetail,Button: Button,jobtypes: jobtypes, joblevel: joblevel,industry: industry,)));
                           print('Successful');
-                        }
+                          }
+
                       },
                       child: ListTile(
                         title: Center(

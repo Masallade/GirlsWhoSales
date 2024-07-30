@@ -133,16 +133,18 @@ class _TrackApplicationState extends State<TrackApplication> {
                             borderRadius: BorderRadius.circular(12.0)),
                         child: Padding(
                           padding:
-                          const EdgeInsets.only(top: 15, left: 10.0),
-                          child: Text(
-                            '${appliedJobDetails.jobtype ?? " "}',style: TextStyle(
-                            fontFamily: 'Questrial',
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(1, 82, 174, 1),
-                            fontSize: 16.0,
-                            //fontWeight: FontWeight.w700,
-                          ),
+                          const EdgeInsets.only(top: 0, left: 0.0),
+                          child: Center(
+                            child: Text(
+                              '${appliedJobDetails.jobtype ?? " "}',style: TextStyle(
+                              fontFamily: 'Questrial',
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromRGBO(1, 82, 174, 1),
+                              fontSize: 16.0,
+                              //fontWeight: FontWeight.w700,
+                            ),
+                            ),
                           ),
                         ),
                       ),

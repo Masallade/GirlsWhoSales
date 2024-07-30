@@ -3,6 +3,7 @@ import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/new_widgets/search_widget.dart';
+import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
 
@@ -72,6 +73,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
 
   void initState() {
     super.initState();
+
     init();
     print('searchdetailscreenCV : $cv');
     print('searchdetailscreenresume : $resume');
@@ -80,7 +82,15 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
 
   Future init() async {
     final search = await Requests.getSearch(location);
-    setState(() => this.joblist = search);
+    if (search !=   null){
+      setState(() {
+        joblist = search;
+      });
+      // setState(() => this.joblist = search);
+    }else{
+      print("search result is null");
+    }
+
   }
 
   final controller = TextEditingController();
@@ -95,6 +105,8 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
         leading: InkWell(
             splashColor: Colors.blue[800],
             onTap: () {
+              // Requests.Login(context, u_Name, password,"", false);
+              SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
               Navigator.of(context).pop();
             },
             child: Icon(
@@ -123,7 +135,8 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
               )),
           Expanded(
             child: ListView.builder(
-                itemCount: joblist.length == null ? 0 : joblist.length,
+                itemCount: joblist != null ? joblist.length : 0,
+                // itemCount: joblist.length == null ? 0 : joblist.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () async {
@@ -139,7 +152,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
                                       firstName: firstName,
                                       appliedStatus:
                                           jobAppliedDetailModel.applied,
-                                      jobid: jobId,
+                                      jobid: joblist[index].id,//jobId
                                       cv: cv,
                                       resumee: resume,
                                     )));

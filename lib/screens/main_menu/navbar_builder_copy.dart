@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
+import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/main_menu/more/home_search_copy.dart';
 import 'package:girlzwhosell/screens/main_menu/profile.dart';
@@ -9,8 +10,12 @@ import 'package:girlzwhosell/screens/main_menu/shortlisted.dart';
 import 'package:girlzwhosell/screens/profile/profile_main.dart';
 import 'package:http/http.dart' as http;
 
+import '../../http/Requests.dart';
+import '../../model/SavedJobsModel.dart';
 import '../../model/total_notification.dart';
+import '../../user_preferences/user_pref_manager.dart';
 import '../../utils/constants.dart';
+import 'more/home_search_copy.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -28,6 +33,8 @@ class HomePage extends StatefulWidget {
   final String total_applied;
   final String total_saved;
   final jobId;
+  final city;
+  String nationality;
 
   final List<JobDetails> jobDetails;
   final List<FavoriteJobs> favoriteJobs;
@@ -39,6 +46,7 @@ class HomePage extends StatefulWidget {
       {Key key,
       this.uName,
       this.password,
+        this.nationality,
       this.user_Id,
       this.cookiee,
       this.jobDetails,
@@ -47,7 +55,7 @@ class HomePage extends StatefulWidget {
       this.userDetails,
       this.firstName,
       this.title,
-      this.profile,
+      this.profile, this.city,
       this.phoneno,
       this.email,
       this.resumee,
@@ -69,9 +77,11 @@ class HomePage extends StatefulWidget {
         firstName: firstName,
         title: title,
         phoneno: phoneno,
+        nationality :nationality,
         profile: profile,
         email: email,
         cv: cv,
+        city : city,
         resumee: resumee,
         total_applied: total_applied,
         total_saved: total_saved,
@@ -85,6 +95,7 @@ class _HomePageState extends State<HomePage> {
   final user_Id;
   final cookiee;
   final firstName;
+  String nationality;
   String title;
   String phoneno;
   String profile;
@@ -96,12 +107,15 @@ class _HomePageState extends State<HomePage> {
   final String total_applied;
   final String total_saved;
   final jobId;
+  final city;
 
-  final List<JobDetails> jobDetails;
+  List<JobDetails> jobDetails;
   final List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
   String token1;
   PushNotificationMessage notificationInfo;
+
+   List<SavedJobs> savedJobs;
 
   _HomePageState(
       {this.uName,
@@ -110,6 +124,7 @@ class _HomePageState extends State<HomePage> {
       this.cookiee,
       this.jobId,
       this.jobDetails,
+        this.nationality,
       this.favoriteJobs,
       this.userDetails,
       this.firstName,
@@ -121,7 +136,10 @@ class _HomePageState extends State<HomePage> {
       this.resumee,
       this.total_applied,
       this.total_saved,
+        this.city,
       this.token1});
+
+
 
   PageController pageController;
   int pageIndex = 0;
@@ -132,6 +150,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   onItemSelected(int pageIndex) {
+    SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
     pageController.animateToPage(
       pageIndex,
       duration: Duration(milliseconds: 50),
@@ -139,22 +158,42 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<String> loadViewData() async {
+    savedJobs = await request(context, false);
+    return "OK";
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pageController = PageController();
+     u_Name = uName;
+     u_password= password;
+     u_Id = user_Id;
+     u_firstName = firstName;
+     u_jobId= jobId;
+
     print('uName is $uName');
     print('name $firstName');
+    print('nationality meri: $nationality');
     print('title $title');
     print('pass is $password');
-    print('token is $token1');
-    print('ProfilePic is $profile');
+    // print('token is $token1');
+    // print('ProfilePic is $profile');
     print('cv is $cv');
+    print ("cv url is $CVurl");
+    print('city is : $city');
     print('resume is $resumee');
+    print("Resme  url is $VisumeUrl");
+
+    loadViewData();
+
     setState(() {
       TotalNotifiction();
     });
+
+    Requests.getJobDetails(int.tryParse(user_Id.toString()));
   }
 
   @override
@@ -232,6 +271,7 @@ class _HomePageState extends State<HomePage> {
               favoriteJobs: favoriteJobs,
               userDetails: userDetails,
               jobId: jobId,
+              nationality : nationality,
               cv: cv,
               resume: resumee,
               totalNotification: totalNotification.totalCountNotf,
@@ -243,7 +283,9 @@ class _HomePageState extends State<HomePage> {
                 total_saved: total_saved,
                 favoriteJobs: favoriteJobs,
                 uName: uName,
+                city: city,
                 password: password,
+                nationality : nationality,
                 cv: cv,
                 resume: resumee),
             ProfileMain(
@@ -253,7 +295,10 @@ class _HomePageState extends State<HomePage> {
                 firstName: firstName,
                 title: title,
                 profile: profile,
-                userDetails: userDetails),
+                city : city,
+                nationality : nationality,
+                userDetails: userDetails,
+            ),
             Shortlisted(),
           ],
           controller: pageController,
@@ -310,7 +355,7 @@ class _HomePageState extends State<HomePage> {
 
   // ignore: missing_return
   Future <TotalNotification> TotalNotifiction() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/total_notifications.php?seeker_id=$user_Id";
+    final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){
@@ -324,4 +369,55 @@ class _HomePageState extends State<HomePage> {
       print(e.toString());
     }
   }
+
+
+
+  Future<List<SavedJobs>> request(
+      BuildContext context, bool showLoading) async {
+    String get_key_url =
+        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
+
+    // http.Response response;
+    try {
+      final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
+      if (showLoading) showLoadingDialog(context, _keyLoader);
+
+      final http.Response response = await http.get(Uri.parse(get_key_url));
+      print("email,${get_key_url}");
+      if (showLoading)
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+      if (response.statusCode == 200) {
+        AllSavedJobss resp = AllSavedJobss.fromJson(json.decode(response.body));
+        print(response.statusCode);
+        print(response.body);
+
+        if (resp.status == 100) {
+          showDialogCustom(
+              context,
+              "Failed",
+              resp.message.length == 0 ? "record not found" : resp.message,
+              "OK");
+          return [];
+        }
+        setState(() {
+          // totalSavedJobs = resp.savedJobs.length;
+        });
+        return resp.savedJobs;
+      }
+    } catch (error) {
+      Future.delayed(
+          Duration.zero,
+              () => dataSuccessfullyLoaded(
+              context,
+              getTranslated(context, 'Not_Found'),
+              getTranslated(context, 'Data_Not_Found'),
+              getTranslated(context, 'OK')));
+      return [];
+    }
+  }
+
+
+
 }

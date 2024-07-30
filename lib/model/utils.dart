@@ -25,7 +25,7 @@ class utils {
         backgroundColor: Colors.grey,
         actions: <Widget>[
           // ignore: deprecated_member_use
-          new FlatButton(
+          new InkWell(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -37,13 +37,13 @@ class utils {
                   child: new Text(
                     'No', style: TextStyle(color: Colors.black),)
               ),
-              onPressed: () {
+              onTap: () {
                 Navigator.of(context).pop();
               }
           ),
           //SizedBox(height: 10),
           // ignore: deprecated_member_use
-          new FlatButton(
+          new InkWell(
             child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -55,7 +55,7 @@ class utils {
                 child: new Text(
                   'Yes', style: TextStyle(color: Colors.black),)
             ),
-            onPressed: ()=> SystemNavigator.pop(),
+            onTap: ()=> SystemNavigator.pop(),
           ),
         ],
       ),
@@ -180,7 +180,7 @@ class utils {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
-            new FlatButton(
+            new InkWell(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -192,7 +192,7 @@ class utils {
                   child: new Text(
                     button, style: TextStyle(color: Colors.black),)
               ),
-              onPressed: () {
+              onTap: () {
                 Navigator.of(context).pop();
               },
             ),
@@ -217,7 +217,7 @@ class utils {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
-            new FlatButton(
+            new InkWell(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -229,7 +229,7 @@ class utils {
                   child: new Text(
                     button, style: TextStyle(color: Colors.black),)
               ),
-              onPressed: () {
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -263,7 +263,7 @@ class utils {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
-            new FlatButton(
+            new InkWell(
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -275,7 +275,7 @@ class utils {
                   child: new Text(
                     button, style: TextStyle(color: Colors.black),)
               ),
-              onPressed: () {
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -305,9 +305,9 @@ class utils {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
-            new FlatButton(
+            new InkWell(
               child: new Text(button),
-              onPressed: () {
+              onTap: () {
                 Navigator.of(context).pop();
               },
             ),

@@ -33,6 +33,8 @@ class _CompanyTabState extends State<CompanyTab> {
       throw 'Could not launch $url';
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     String url = widget.jobDetails.url;

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:girlzwhosell/utils/willscope.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/extension_for_login.dart';
@@ -8,12 +8,29 @@ import 'package:girlzwhosell/model/jobtitle_model.dart';
 import 'package:girlzwhosell/model/jobtype_model.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/registration/upload_cv.dart';
+import 'package:girlzwhosell/screens/verifyEmailScreen/verifyEmail.dart';
+import 'package:girlzwhosell/utils/constants2.dart';
+import 'package:girlzwhosell/utils/size_config.dart';
+import 'package:http/http.dart'as http;
+import 'dart:convert';
+
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import 'package:girlzwhosell/helpers/svg/svg.dart';
+import 'package:girlzwhosell/model/login_model.dart';
+import 'package:girlzwhosell/model/verify_email_Signup.dart';
+import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
+import 'package:girlzwhosell/screens/verifyEmailScreen/verifyOtp.dart';
+import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 
+import '../verifyEmailScreen/verifyOtp.dart';
+
 // ignore: must_be_immutable
 class RegistrationPage extends StatefulWidget {
+  String city;
   String firstName;
   String firstName2;
   String email;
@@ -22,6 +39,7 @@ class RegistrationPage extends StatefulWidget {
   String Password;
   String cv;
   String ExperiencenDetail;
+  String nationality;
   String resume;
   String title;
   String phone;
@@ -32,9 +50,13 @@ class RegistrationPage extends StatefulWidget {
   String jobtypes;
   String joblevel;
   String Month;
+  final String userId;
+
   RegistrationPage(
       {this.firstName,
       this.firstName2,
+        this.nationality,
+        this.city,
       this.email,
         this.phonenno,
         this.email2,
@@ -44,7 +66,7 @@ class RegistrationPage extends StatefulWidget {
       this.resume,
       this.title,
       this.phone,
-      this.location, this.jobtype ,this.Button ,this.jobtypes,this.joblevel,this.industry ,this.Month});
+      this.location, this.jobtype ,this.Button ,this.jobtypes,this.joblevel,this.industry ,this.Month ,this.userId});
 
   @override
   _RegistrationPageState createState() => _RegistrationPageState(
@@ -55,15 +77,18 @@ class RegistrationPage extends StatefulWidget {
       email2: email2,
       Password: Password,
       cv: cv,
+      city: city,
+      nationality : nationality,
       ExperiencenDetail: ExperiencenDetail,
       resume: resume,
       title: title,
       phone: phone,
       location: location,
-  jobtype: jobtype,Button: Button ,jobtypes: jobtypes ,joblevel: joblevel , industry: industry ,Month:Month);
+  jobtype: jobtype,Button: Button ,jobtypes: jobtypes ,joblevel: joblevel , industry: industry ,Month:Month, userId: userId,);
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  String city;
   String firstName;
   String firstName2;
   String email;
@@ -71,6 +96,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String email2;
   String Password;
   String cv;
+  String nationality;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
   String ExperiencenDetail;
@@ -84,9 +110,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String jobtypes;
   String joblevel;
   String Month;
+  final String userId;
+
+  String userName;
+  final key = GlobalKey<FormFieldState>();
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+
+  bool isPhone(String input) =>
+      RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
+          .hasMatch(input);
+
+  LoginModel loginModel;
 
 
-  final url = "https://biitsolutions.co.uk/girlzwhosell/API/job_title.php";
+
+  final url = "https://girlzwhosellcareerconextions.com/API/job_title.php";
   // ignore: deprecated_member_use
   List data = List(); //List of Responsebody
   // ignore: missing_return
@@ -103,32 +142,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
   void initState(){
- super.initState();
+  super.initState();
   print('===========RegistrationPage=============');
   print('joblevel $joblevel');
   print('jobtypes $jobtypes');
   print('jobcategories $Button');
   print('Types of job $jobtype');
   print('Pickedindustry $industry');
-  print('Selected experience ${ Month+ExperiencenDetail }');
+  print('userid is $userId');
+  print('Selected experience ${ExperiencenDetail}');
+ // print('Selected experience ${ExperiencenDetail }');
+ // print('Selected experience ${Month}');
   }
 
   GlobalKey<FormState> formKey = GlobalKey();
 
   TextEditingController fname = TextEditingController();
   TextEditingController Lname = TextEditingController();
+  TextEditingController stateController = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
   final phoneController = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController confirmPass = TextEditingController();
-  bool isEmail(String input) => EmailValidator.validate(input);
-
-  bool isPhone(String input) =>
-      RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
-          .hasMatch(input);
 
   _RegistrationPageState(
       {this.firstName,
+        this.city,
         this.firstName2,
         this.email,
         this.phonenno,
@@ -139,7 +178,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         this.resume,
         this.title,
         this.phone,
-        this.location,this.selecjobsTypes,this.selectedJobTitles ,this.jobtype,this.Button ,this.jobtypes,this.joblevel , this.industry,this.Month});
+        this.nationality,
+        this.location,this.userId ,this.jobtype,this.Button ,this.jobtypes,this.joblevel , this.industry,this.Month,});
 
          bool _passwordVisible=false;
          bool _passwordVisible1 = false;
@@ -171,7 +211,61 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
     );
   }
+  Future<VerifyEmailsignup> forgotPassword() async{
+    final url = "https://girlzwhosellcareerconextions.com/API/email_register.php";
+    try{
+      final response = await http.post(Uri.parse(url) , body: {
+        'email': userName,
 
+      });
+      if(response.statusCode == 200){
+        print("Response is: ${response.body}");
+        print("Status Code is: ${response.statusCode}");
+        verifyEmail = VerifyEmailsignup.fromJson(json.decode(response.body));
+        return verifyEmail;
+      }
+    }
+    catch(e){
+      print("Error in exception::: ${e.toString()}");
+    }
+  }
+  Future<VerifyEmailsignup> submitForm() async {
+
+    print("password is =====  >>>>>>>>>${passwordcontroller.text.toString()}");
+    print("password new is =====  >>>>>>>>>${passwordcontroller.text}");
+
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://girlzwhosellcareerconextions.com/API/email_register.php'));
+      request.fields.addAll({
+        'email': userName ?? '',
+        'firstname': firstName ?? '',
+        'lastname': firstName2 ?? '',
+        'phone': phone ?? '',
+        'password': passwordcontroller.text.toString(),
+        'experience': '',
+        'job_title': jobtypes??'',
+        'job_industry': jobtype??'',
+        'job_level': joblevel ?? '',
+        'job_type': jobtype ?? '',
+        'city': city ?? '',
+      });
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print("object here  ===========>>>>");
+        String responsBody = await response.stream.bytesToString();
+        verifyEmail = VerifyEmailsignup.fromJson(json.decode(responsBody));
+        return verifyEmail;
+      } else {
+        print('Error  during form submission: ');
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      print('Error occurred during form submission: $e');
+    }
+  }
 
 
   @override
@@ -200,7 +294,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
               SizedBox(
-                height: 37,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 12.0,right: 12.0),
@@ -223,22 +317,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
               SizedBox(
-                height: 37,
+                height: 10,
               ),
               // PageTitle(titleText: Strings.titleText1, fontSize: 20.0, fontWeight: FontWeight.bold,),
               Text('Now, let’s get you registered.', style: HeadingStyle),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Text('Please create an account.',
                   overflow: TextOverflow.visible,
                   textAlign: TextAlign.center,
                   style: subtitleStyle),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12, top: 28),
+                padding: const EdgeInsets.only(left: 12.0, right: 12, top: 20),
                 child: TextFormField(
                   cursorColor: Colors.pinkAccent[200],
                   controller: fname,
@@ -257,7 +351,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     });
                     print('firstName $firstName');
                   },
-
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
                     border: OutlineInputBorder(
@@ -283,7 +376,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       fontFamily: 'Questrial',
                       fontWeight: FontWeight.w400,
                       color: Color.fromARGB(255, 112, 126, 148),
-
                       /* letterSpacing: 0.0, */
                     ),
                     prefixIcon: Padding(
@@ -362,27 +454,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
                 child: TextFormField(
+                  key: key,
                   cursorColor: Colors.pinkAccent[200],
                   controller: emailcontroller,
                   keyboardType: TextInputType.emailAddress,
                   validator: (userName) {
                     if (!isEmail(userName) && !isPhone(userName)) {
-                      return 'Please enter a valid email.';
+                      return  'Please enter a valid email.';
                     } else
                       return null;
                   },
-
-                  // validate after each user interaction
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-
-                  onChanged: (String changedValue) {
-
-                    setState(() {
-                      email = changedValue;
-
-                    });
-                    print('email $email');
+                  onChanged: (email){
+                    userName = email;
                   },
+                  onSaved: (String email){},
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
                     border: OutlineInputBorder(
@@ -438,7 +524,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     } else
                       return null;
                   },
-
                   // validate after each user interaction
                   autovalidateMode: AutovalidateMode.onUserInteraction,
 
@@ -582,6 +667,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     if (value.isValidPassword == null) {
                       return "Please Enter Confrim Password";
                     } else if (value.isValidPassword == passwordcontroller.text) {
+
                       return "Password Matched";
                     } else if (value != passwordcontroller.text) {
                       return "Password must be same as above";
@@ -661,24 +747,82 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   child: GestureDetector(
                     onTap: () {
                       if (formKey.currentState.validate()) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CustomFilePicker(
-                                      jobtype: jobtype,
-                                      ExperiencenDetail: ExperiencenDetail,
-                                      firstName: firstName,
-                                      firstName2: Lname.text,
-                                      email: email,
-                                      email2: email2,
-                                      phonenno: phonenno,
-                                      Button: Button,
-                                  jobtypes: jobtypes,
-                                  joblevel: joblevel,
-                                  industry: industry,
-                                  Month: Month,
-                                    )));
-                      } else {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => CustomFilePicker(
+                        //               jobtype: jobtype,
+                        //               nationality : nationality,
+                        //               ExperiencenDetail: ExperiencenDetail,
+                        //               firstName: firstName,
+                        //               firstName2: firstName2,
+                        //               email: email,
+                        //               email2: email2,
+                        //               city: city,
+                        //               phonenno: phonenno,
+                        //               Button: Button,
+                        //           jobtypes: jobtypes,
+                        //           joblevel: joblevel,
+                        //           industry: industry,
+                        //           Month: Month,
+                        //           userId:userId
+                        //             )));
+                       //--------------------------------------------------------------------------------------
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => VerifyEmail())
+                        // );
+
+                        if(key.currentState.validate()){
+
+                          submitForm().then((value) async{//forgotPassword
+                            if(value != null) {
+                              if (value.status == "100") {
+                                final snackBar = SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    content: Text(
+                                        'Email Already Exist /Try another valid email'));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar);
+                              }
+                              if (value.status == "200") {
+                                await Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        OtpVerification(
+                                          user_Id: verifyotp.userId,
+                                          Msg: verifyEmail.message,
+                                          jobtype: jobtype,
+                                          nationality: nationality,
+                                          ExperiencenDetail: ExperiencenDetail,
+                                          firstName: firstName,
+                                          firstName2: firstName2,
+                                          email: email,
+                                          email2: email2,
+                                          city: city,
+                                          phonenno: phonenno,
+                                          Button: Button,
+                                          jobtypes: jobtypes,
+                                          joblevel: joblevel,
+                                          industry: industry,
+                                          Month: Month,)));
+                              }
+                            }else{
+                              // Handle the case when value is null
+                              print('Value is null');
+                            }
+                          });
+
+
+                        }
+
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>  OtpVerification( user_Id: verifyotp.userId,Msg: verifyEmail.message,))
+                        // );
+                      }
+                      else {
                         print('Try Again');
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             behavior: SnackBarBehavior.floating,
@@ -713,34 +857,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 height: 27,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Already have an account?", style: subtitleStyle),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Login Now");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignInPage()));
-                      },
-                      child: Text(
-                        'Login Now',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.pinkAccent[200],
-                          fontFamily: 'Questrial',
-                          fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Already have an account?", style: subtitleStyle),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          print("Login Now");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInPage()));
+                        },
+                        child: Text(
+                          'Login Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.pinkAccent[200],
+                            fontFamily: 'Questrial',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
@@ -748,5 +895,4 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
   }
-
 }

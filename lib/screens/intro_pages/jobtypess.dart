@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/screens/intro_pages/JobLevel.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
@@ -8,23 +7,27 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class entryLevel extends StatefulWidget {
+  final String userId;
   String jobtypes;
   // receive data from the FirstScreen as a parameter
-  entryLevel({Key key,this.jobtypes, }) : super(key: key);
+  entryLevel({Key key,this.userId,this.jobtypes, }) : super(key: key);
 
   @override
-  _entryLevelState createState() => _entryLevelState(jobtypes: jobtypes,);
+  _entryLevelState createState() => _entryLevelState(userId: userId,jobtypes: jobtypes,);
 }
 
 class _entryLevelState extends State<entryLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
+  final String userId;
   String jobtypes;
 
-  _entryLevelState({ this.jobtypes});
+  _entryLevelState({ this.userId,this.jobtypes});
 
   @override
   void initState() {
     getData();
+    print("======EntryPage====");
+    print("userid is $userId");
     super.initState();
   }
 
@@ -82,7 +85,7 @@ class _entryLevelState extends State<entryLevel> {
             ),
             Padding(
               padding:
-              const EdgeInsets.only(left: 12.0, right: 12.0,top: 45.0),
+              const EdgeInsets.only(left: 12.0, right: 12.0,top: 20.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -110,7 +113,7 @@ class _entryLevelState extends State<entryLevel> {
               ),
             ),
             SizedBox(
-              height: 37,
+              height: 10,
             ),
             Text(
                 //"Congrats, almost You're there!",
@@ -119,7 +122,7 @@ class _entryLevelState extends State<entryLevel> {
                 textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text('Please answer the following questions to\n proceed to registration.',
                 //'Which of these Job Type pique\n your curiosity? ',
@@ -127,7 +130,7 @@ class _entryLevelState extends State<entryLevel> {
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               children: [
@@ -213,7 +216,7 @@ class _entryLevelState extends State<entryLevel> {
               style: TextStyle(color: Colors.red),
             ),
             SizedBox(
-              height: 120,
+              height: 80,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
@@ -239,7 +242,7 @@ class _entryLevelState extends State<entryLevel> {
                     print('fail');
 
                   } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => jobLevel(jobtypes: jobtypes,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => jobLevel( jobtypes: jobtypes,)));
                     print('Success');
                   }
 

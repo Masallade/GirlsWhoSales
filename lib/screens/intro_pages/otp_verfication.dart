@@ -225,7 +225,7 @@ class _PhoneVerification extends State<PhoneVerification> {
 
   // ignore: missing_return
   Future <verifyOtp> verifyOTP() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API//verify_otp.php";
+    final url = "https://girlzwhosellcareerconextions.com/API//verify_otp.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         'otp': _pinEditingController.text,

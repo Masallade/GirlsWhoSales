@@ -123,114 +123,105 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: EdgeInsets.only(top: 10),
-                                    height: 200,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                        //  border: Border.all(color: Colors.grey[300]),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SavedScreenDetailTwo(
+                                            savedJobs: savedJobs[index],
+                                            user_Id: user_Id,
+                                            uName: uName,
+                                            password: password,
+                                            firstName: firstName,
+                                            cv: cv,
+                                            resume: resume,
+                                          ),
                                         ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SavedScreenDetailTwo(
-                                              savedJobs: savedJobs[index],
-                                              user_Id: user_Id,
-                                              uName: uName,
-                                              password: password,
-                                              firstName: firstName,
-                                              cv: cv,
-                                              resume: resume,
+                                      );
+                                    },
+                                    child: Card(
+                                      // color: Colors.yellow,
+                                      shape: Border.all(
+                                          color: Color.fromRGBO(
+                                              238, 242, 248, 1),
+                                      ),
+                                      elevation: 1.0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: ListTile(
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            child: Image.network(
+                                                savedJobs[index].companyLogo),
+                                          ),
+                                          title: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 30.0),
+                                            child: Text(
+                                              '${savedJobs[index].title}',
+                                              style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                      FontWeight.w500),
                                             ),
                                           ),
-                                        );
-                                      },
-                                      child: Card(
-                                        shape: Border.all(
-                                            // left: BorderSide(
-                                            //     color: Colors.pinkAccent[200],
-                                            //     width: 5)
-                                            color: Color.fromRGBO(
-                                                238, 242, 248, 1)),
-                                        elevation: 1.0,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: ListTile(
-                                            leading: Container(
-                                              height: 50,
-                                              width: 50,
-                                              child: Image.network(
-                                                  savedJobs[index].companyLogo),
-                                            ),
-                                            title: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 30.0),
-                                              child: Text(
-                                                '${savedJobs[index].title}',
-                                                style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                          subtitle: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
                                               ),
-                                            ),
-                                            subtitle: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 30.0),
-                                                    child: Text(
-                                                      '${savedJobs[index].companyName}',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Questrial',
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors
-                                                            .blueGrey[300],
-                                                        fontSize: 16.0,
-                                                        //fontWeight: FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 16),
-                                                Padding(
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 30.0),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Text(
-                                                      ' \$ ${savedJobs[index].minSalary + '-'}' +
-                                                          '\$${savedJobs[index].maxSalary + '/month'}',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Questrial',
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors
-                                                            .blueGrey[300],
-                                                        fontSize: 14.0,
-                                                        //fontWeight: FontWeight.w700,
-                                                      ),
+                                                  child: Text(
+                                                    '${savedJobs[index].companyName}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Questrial',
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors
+                                                          .blueGrey[300],
+                                                      fontSize: 18.0,
+                                                      //fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(height: 16),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.only(
+                                                        left: 30.0),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.topLeft,
+                                                  child: Text(
+                                                    ' \$ ${savedJobs[index].minSalary + '-'}' +
+                                                        '\$${savedJobs[index].maxSalary + '/month'}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Questrial',
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors
+                                                          .blueGrey[300],
+                                                      fontSize: 14.0,
+                                                      //fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -273,7 +264,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
   Future<List<SavedJobs>> request(
       BuildContext context, bool showLoading) async {
     String get_key_url =
-        "https://biitsolutions.co.uk/girlzwhosell/API/fetch_saved_jobs.php?user_id=${user_Id}";
+        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
 
     // http.Response response;
     try {
@@ -299,6 +290,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
               "OK");
           return [];
         }
+        // totalSavedJobs = resp.savedJobs.length;
         return resp.savedJobs;
       }
     } catch (error) {

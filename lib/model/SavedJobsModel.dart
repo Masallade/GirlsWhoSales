@@ -1,3 +1,5 @@
+import 'package:girlzwhosell/model/login_model.dart';
+
 class AllSavedJobss {
   String message;
   String status;
@@ -104,3 +106,4 @@ class SavedJobs {
     return data;
   }
 }
+

@@ -350,7 +350,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
   }
   // ignore: missing_return
   Future<CurrentPasswordModel> currentPassword() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/change_password.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/change_password.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
          'user_id': user_id,

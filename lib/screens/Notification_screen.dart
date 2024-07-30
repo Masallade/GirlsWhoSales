@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:girlzwhosell/model/total_notification.dart';
 import 'package:girlzwhosell/screens/trackfor_notification.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
@@ -38,11 +39,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool isloading = false;
 
   Future<String> loadViewData() async {
-
-    notificationsDetails = await request(context, false);
+   TotalNotifiction();
+   notificationsDetails = await request(context, false);
     return "OK";
   }
 bool isActive=false;
+
+  void initState() {
+    TotalNotifiction();
+    super.initState();
+  }
+  Future <TotalNotification> TotalNotifiction() async {
+    final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
+    try{
+      final http.Response response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200 ){
+        print('response is : ${response.body}');
+
+        totalNotification = TotalNotification.fromJson(json.decode(response.body));
+        return totalNotification;
+      }
+    } catch (e){
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -59,6 +80,7 @@ bool isActive=false;
                 leading: IconButton(
                     onPressed: () {
                       UpdateNotifiction();
+                      UpdateNotifictionColor();
                       Navigator.of(context).pop();
                     },
                     icon: Icon(
@@ -107,7 +129,7 @@ bool isActive=false;
                                           UpdateNotifictionColor();
                                     },
                                     child:Container(
-                                          height: 100,
+                                          height: 140,
                                           width: SizeConfig.screenWidth,
                                           decoration: BoxDecoration(
                                             color: Color(int.parse(notificationsDetails[index].color)).withOpacity(0.05),
@@ -225,7 +247,7 @@ bool isActive=false;
   }
   // ignore: missing_return
   Future<List<NotificationsDetails>> request(BuildContext context, bool showLoading) async {
-    String get_key_url =  "https://biitsolutions.co.uk/girlzwhosell/API/fetch_notifications.php";
+    String get_key_url =  "https://girlzwhosellcareerconextions.com/API/fetch_notifications.php";
 
     try {
       final GlobalKey<State> _keyLoader = new GlobalKey<State>();
@@ -261,22 +283,23 @@ bool isActive=false;
       return [];
     }
   }
-  Future  UpdateNotifiction() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/update_total_notifications.php?seeker_id=$user_Id";
+
+  Future  <TotalNotification> UpdateNotifiction() async {
+    final url = "https://girlzwhosellcareerconextions.com/API/update_total_notifications.php?seeker_id=$user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){
         print('response is : ${response.body}');
-        // totalNotification = TotalNotification.fromJson(json.decode(response.body));
-        // return totalNotification;
+        totalNotification = TotalNotification.fromJson(json.decode(response.body));
+        return totalNotification;
 
       }
     } catch (e){
       print(e.toString());
     }
   }
-  Future  UpdateNotifictionColor() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/update_notification.php?id=${notificationModel.notificationsDetails[0].id}";
+  Future  <TotalNotification> UpdateNotifictionColor() async {
+    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationModel.notificationsDetails[0].id}";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){

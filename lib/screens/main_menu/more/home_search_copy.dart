@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
@@ -17,6 +18,12 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../http/Requests.dart';
+import '../../../model/SavedJobsModel.dart';
+import '../../../model/total_saved_jobs.dart';
+import '../../../user_preferences/user_pref_manager.dart';
+import '../new_job_details_model.dart';
 import 'general_search.dart';
 import 'package:http/http.dart' as http;
 class HomeSearch extends StatefulWidget {
@@ -27,7 +34,7 @@ class HomeSearch extends StatefulWidget {
   final List<JobDetails> jobDetails;
   final List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
-
+  String nationality;
   final jobId;
   final cv;
   final resume;
@@ -38,6 +45,7 @@ class HomeSearch extends StatefulWidget {
   HomeSearch(
       {Key key,
       this.uName,
+        this.nationality,
       this.password,
       this.user_Id,
       this.firstName,
@@ -62,8 +70,10 @@ class HomeSearch extends StatefulWidget {
         favoriteJobs: favoriteJobs,
         jobId: jobId,
         cv: cv,
+        nationality: nationality,
         resume: resume,
-        location: location, Location: Location,
+        location: location,
+    Location: Location,
 //      totalNotification: totalNotification
       );
 }
@@ -73,12 +83,13 @@ class _HomeSearchState extends State<HomeSearch> {
   final password;
   final user_Id;
   final String firstName;
-  final List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
+  List<JobDetails> jobDetails;
+  List<FavoriteJobs> favoriteJobs;
   final List<SeekerDetails> userDetails;
   final jobId;
   final cv;
   final resume;
+  String nationality;
   //final String totalNotification;
   PushNotificationMessage notificationInfo;
 
@@ -92,6 +103,7 @@ class _HomeSearchState extends State<HomeSearch> {
     this.userDetails,
     this.jobId,
     this.cv,
+    this.nationality,
     this.resume,
   //  this.totalNotification,
     this.location,
@@ -103,10 +115,13 @@ class _HomeSearchState extends State<HomeSearch> {
   List<SearchModel> joblist = [];
 
 
-
   @override
   void initState() {
-    print('jobDetailslength${jobDetails.length}');
+
+    SharedPreferencesManager.initialize();
+    SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
+
+
     print('userid${user_Id}');
     print('firstname is: $firstName');
     print('uName on homesearch : $uName');
@@ -116,7 +131,7 @@ class _HomeSearchState extends State<HomeSearch> {
   }
 
   Future <TotalNotification> TotalNotifiction() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/total_notifications.php?seeker_id=$user_Id";
+    final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){
@@ -181,9 +196,9 @@ class _HomeSearchState extends State<HomeSearch> {
                                    'assets/images/notification.png',
                                    scale: 1.0,
                                    color: Colors.black,
-                                 ) :   Badge(
+                                 ) :   badge.Badge(
                                       position: BadgePosition.topEnd(top: -20 ,end: 10),
-                                      badgeColor: Colors.red,
+                                      // : Colors.red,
                                       badgeContent: Text('${totalNotification.totalCountNotf ?? ''}' , style: TextStyle(color: Colors.white , fontSize: 15),),
                                       child: Image.asset(
                                         'assets/images/notification.png',
@@ -332,6 +347,8 @@ class _HomeSearchState extends State<HomeSearch> {
                           padding: const EdgeInsets.only(right: 12.0),
                           child: GestureDetector(
                             onTap: () {
+
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -341,6 +358,7 @@ class _HomeSearchState extends State<HomeSearch> {
                                         user_Id: user_Id,
                                         firstName: firstName,
                                         jobDetails: jobDetails,
+                                        // jobDetails: jobDetails[index],
                                         favoriteJobs: favoriteJobs,
                                         userDetails: userDetails,
                                         jobId: jobId,
@@ -377,7 +395,7 @@ class _HomeSearchState extends State<HomeSearch> {
                     )
                         : Container(
                       width: SizeConfig.screenWidth,
-                      height: 200,
+                      height: 230,
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
@@ -386,8 +404,7 @@ class _HomeSearchState extends State<HomeSearch> {
                           physics:
                           const PageScrollPhysics(), // this for snapping
                           itemCount: jobDetails.length ,
-                          itemBuilder: (context, index) => index % 2 == 0
-                              ? GestureDetector(
+                          itemBuilder: (context, index) => index % 2 == 0 ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -401,7 +418,7 @@ class _HomeSearchState extends State<HomeSearch> {
                                       user_Id: user_Id,
                                       appliedStatus:
                                       jobAppliedDetailModel.applied,
-                                      jobid: jobId,
+                                      jobid: jobDetails[index].id,//c
                                       cv: cv,
                                       resumee: resume,
                                     ),
@@ -426,7 +443,7 @@ class _HomeSearchState extends State<HomeSearch> {
                                       user_Id: user_Id,
                                       appliedStatus:
                                       jobAppliedDetailModel.applied,
-                                      jobid: jobId,
+                                      jobid: jobDetails[index].id,//jobDetails[index].id
                                       cv: cv,
                                       resumee: resume,
                                     ),
@@ -488,11 +505,11 @@ class _HomeSearchState extends State<HomeSearch> {
                       padding: const EdgeInsets.all(10),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: favoriteJobs == null
+                        child: favoriteJobs == null//Requests.updatefavoriteJobs , favoriteJobs
                             ? Container(
                           child: Center(
                             child: Text(
-                              'No Saved Jobs !',
+                              'No Saved Jobs!',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Questrial',
@@ -503,7 +520,7 @@ class _HomeSearchState extends State<HomeSearch> {
                         )
                             : Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: favoriteJobs
+                          children: favoriteJobs//Requests.updatefavoriteJobs,favoriteJobs
                               .asMap()
                               .entries
                               .map(
@@ -550,6 +567,35 @@ class _HomeSearchState extends State<HomeSearch> {
       ),
     );
   }
+  List<New_Job_Details> jobDetailsList;
+
+  Future<List<New_Job_Details>> getalljobDetails()async{
+    var request = http.Request('GET', Uri.parse('https://girlzwhosellcareerconextions.com/API/jobs_filtered.php?$user_Id'));
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print("================+++++++++++++++===============================");
+      print(await response.stream.bytesToString());
+      String responseBody = await response.stream.bytesToString();
+      List<dynamic> jsonList = json.decode(responseBody);
+
+      jobDetailsList = jsonList
+          .map((json) => New_Job_Details.fromJson(json))
+          .toList();
+
+      return jobDetailsList;
+      
+    }
+    else {
+      print(response.reasonPhrase);
+      return [];
+    }
+
+  }
+
+
 
 
 }

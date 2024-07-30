@@ -2,25 +2,36 @@ name: girlzwhosell
 description: girlzwhosell Career Connexions
 
 publish_to: 'none'
-version: 1.0.3
+version: 1.0.3 #for ios 1.0.2 for android  1.2.0
+#version code is inside the app/build.gradle versionCode 15 //android 15 for ios it must be 3
+#also change in info.plist
+#  <key>CFBundleShortVersionString</key>
+#  <string>4</string>
+#  <key>CFBundleVersion</key>
+#  <string>1.0.3</string>
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.11.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+#    flutter version 3.3.2
 
   http:
-  webview_flutter: ^3.0.1
+  webview_flutter: ^4.2.0 #3.0.1
   shared_preferences:
   multi_select_flutter:
   pin_input_text_field: ^4.1.1
-  flutter_tindercard: ^0.2.0
+  flutter_tindercard:
+    git:
+      url: https://github.com/Masallade/dawood_version_flutter_tindercard.git
+  animated_splash:
+    git:
+      url: https://github.com/Masallade/dawood_version_animated_splash.git
   favorite_button: ^0.0.4
   path_provider: ^2.0.9
-  firebase_messaging:
-  firebase_core:
+
   overlay_support:
   cupertino_icons: ^1.0.4
   font_awesome_flutter: ^10.1.0
@@ -30,26 +41,32 @@ dependencies:
   url_launcher: ^6.0.20
   flutter_screenutil: ^5.3.1
   carousel_slider: ^4.0.0
-  flutter_svg: ^1.0.3
+  flutter_svg:
   animations: ^2.0.2
-  dio: ^4.0.5
-  file_picker: ^4.4.0
+  dio: ^4.0.4 #5.1.0
+  file_picker: ^5.2.6
   image_picker:
   email_validator: ^2.0.1
   fluttertoast: ^8.0.7
   intl: ^0.17.0
-  flutter_secure_storage: ^5.0.2
+  flutter_secure_storage: ^6.0.0
   animated_text_kit:
-  firebase_analytics: ^9.1.1
-  flutter_downloader: ^1.7.2
-  permission_handler: ^9.0.2
-  flutter_styled_toast: ^2.0.0
-  animated_splash: ^1.0.0
-  animated_splash_screen: ^1.1.0
+#  flutter_downloader: ^1.7.2
+  permission_handler:
+  flutter_styled_toast: ^2.1.0
+#  animated_splash: ^1.0.0
+  animated_splash_screen: ^1.3.0
   lottie:
-  badges: ^2.0.2
-  just_audio: ^0.9.20
-  new_version: ^0.3.0
+  badges: ^3.0.3
+#  just_audio: ^0.9.20
+  new_version: ^0.3.1
+  cached_network_image: ^3.2.1
+  slider_captcha: ^0.1.10
+  sn_progress_dialog: ^1.0.0
+  flutter_inappwebview: ^5.7.2+3
+#  flutter_downloader: ^1.10.4
+  flutter_file_downloader: ^1.1.2
+#  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +117,49 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Questrial-Regular.ttf
+
+
+          #added this code in info.plist filee
+          # this is handling the choose file button from webview
+
+#          <key>UTExportedTypeDeclarations</key>
+#          <array>
+#          <dict>
+#          <key>UTTypeIdentifier</key>
+#          <string>com.girlzwhosell.flutter_inappwebview.file</string>
+#          <key>UTTypeTagSpecification</key>
+#          <dict>
+#          <key>public.filename-extension</key>
+#          <array>
+#          <string>*</string>
+#          </array>
+#          <key>public.mime-type</key>
+#          <string>application/octet-stream</string>
+#          </dict>
+#          </dict>
+#          </array>
+
+          #added this code in  AndroidManifest.xml file
+          # this is handling the choose file button from webview
+
+#          <provider
+#          android:name="androidx.core.content.FileProvider"
+#          android:authorities="com.girlzwhosell.flutter_inappwebview.fileprovider"
+#          android:exported="false"
+#          android:grantUriPermissions="true">
+#          <meta-data
+#          android:name="android.support.FILE_PROVIDER_PATHS"
+#          android:resource="@xml/provider_paths" />
+#          </provider>
+
+#    <!--        to download file into device-->
+#    <provider
+#    android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
+#    android:authorities="${applicationId}.flutter_downloader.provider"
+#    android:exported="false"
+#    android:grantUriPermissions="true">
+#    <meta-data
+#    android:name="android.support.FILE_PROVIDER_PATHS"
+#    android:resource="@xml/provider_paths"/>
+#    </provider>
+#    <!--        to download file into device-->

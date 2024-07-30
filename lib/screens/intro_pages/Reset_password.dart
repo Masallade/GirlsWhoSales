@@ -305,7 +305,7 @@ Set your new password.''',
 
   // ignore: missing_return
   Future<ResetPasswordModel> resetPassword() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/reset_password.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/reset_password.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         "id": widget.user_Id,

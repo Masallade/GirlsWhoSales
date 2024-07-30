@@ -179,15 +179,22 @@ SizedBox(height: 28,),
                   onTap: () async{
                     if(key.currentState.validate()){
                       forgotPassword().then((value) async{
-                        if(value.message == null) {
+                        // if(value.message == null) {
+                        //   final snackBar = SnackBar(
+                        //       behavior: SnackBarBehavior.floating,
+                        //       content: Text('Cannot Send email!'));
+                        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        // }
+                        if(value.status == "200"){
+                          await  Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneVerification( user_Id: verifyotp.userId,Msg: forgetPasswordModel.message,)));
+                        }
+                        else {
                           final snackBar = SnackBar(
                               behavior: SnackBarBehavior.floating,
                               content: Text('Cannot Send email!'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                        if(value.message == "Please check your email for OTP code and enter here to reset password."){
-                          await  Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneVerification( user_Id: verifyotp.userId,Msg: forgetPasswordModel.message,)));
-                        }
+
                       });
                     }
                   },
@@ -251,7 +258,7 @@ SizedBox(height: 28,),
 
 // ignore: missing_return
 Future<ForgetPasswordModel> forgotPassword() async{
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API//otp.php";
+    final url = "https://girlzwhosellcareerconextions.com/API//otp.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
         'email': userName,

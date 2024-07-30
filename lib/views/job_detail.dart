@@ -10,6 +10,7 @@ import 'package:girlzwhosell/model/job_apply_detail_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/screens/apply_jjob_detail_screen.dart';
+import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/views/RequirementTab.dart';
 import 'package:girlzwhosell/views/company_tab.dart';
@@ -17,6 +18,9 @@ import 'package:girlzwhosell/views/description_tab.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:favorite_button/favorite_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class JobDetail extends StatefulWidget {
   final uName;
@@ -33,6 +37,7 @@ class JobDetail extends StatefulWidget {
   final String jobid;
   final cv;
   final resumee;
+
   const JobDetail(
       {Key key,
       this.uName,
@@ -106,6 +111,8 @@ class _JobDetailState extends State<JobDetail> {
 
   @override
   void initState() {
+
+
     super.initState();
     print("userid: $user_Id");
     // print("jobid: $jobid");
@@ -115,6 +122,14 @@ class _JobDetailState extends State<JobDetail> {
       print("AppliedStatus: ${appliedStatus}");
     });
   }
+
+  bool getJobStatus(){
+    if(SharedPreferencesManager.getUserPref("${user_Id}_${jobid}") == false)
+      return false;
+    else
+      return true;
+  }
+
 
   _JobDetailState(
       this.uName,
@@ -213,22 +228,63 @@ class _JobDetailState extends State<JobDetail> {
         elevation: 0,
         actions: [
           GestureDetector(
+            onTap: (){
+              alreadySavedJob().then((value) async {
+                // if (value.status == 200) {
+                //   showToast(
+                //     'This is normal toast with animation',
+                //     context: context,
+                //     animation: StyledToastAnimation.scale,
+                //   );
+                //   showToast(
+                //     "You've Already Saved \n this Job",
+                //     context: context,
+                //     fullWidth: true,
+                //     backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                //     animation: StyledToastAnimation.slideFromBottomFade,
+                //     reverseAnimation: StyledToastAnimation.fade,
+                //     position: StyledToastPosition.left,
+                //     animDuration: Duration(seconds: 2),
+                //     duration: Duration(seconds: 4),
+                //     curve: Curves.elasticOut,
+                //     reverseCurve: Curves.linear,
+                //   );
+                // }
+                // if (value.status == 100) {
+                //   savejob().whenComplete(() => ShowsavedJobs(context));
+                // }
+              }
+              );
+            },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: FavoriteButton(
-                isFavorite: false,
-                valueChanged: (isLiked) {
+                isFavorite: getJobStatus(),//getLikeStatus()
+                valueChanged: (newIsLiked) {
+                  // isLiked = newIsLiked;
                   print('Is Favorite : $isLiked');
-                  if (isLiked) {
-                    savejob().whenComplete(() => ShowsavedJobs(context));
-                    //.whenComplete(() => Requests.Login(context, uName, password, 'token', false));
-                  } else {
+                  if (getJobStatus() == true) {//getLikeStatus()
+                    IsButton == false;
+                    isLiked = false;
                     Unsavejob();
+
+                  } else {
+                    isLiked = true;
+                    savejob();
                   }
+
+                  setState(() {
+                    SharedPreferencesManager.setUserPref("${user_Id}_${jobid}",isLiked);
+                    //added for update lists
+                    Requests.updatefavoriteJob(context,user_Id.toString());
+                  });
+
                 },
               ),
+              // child: Icon(Icons.save_alt,//old code tariq
+              // color: Colors.pink,),
             ),
-          )
+          ),
         ],
         leading: IconButton(
           icon: Icon(
@@ -236,7 +292,12 @@ class _JobDetailState extends State<JobDetail> {
             color: Colors.black,
             //  color: kBlack,
           ),
-          onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
+              Navigator.pop(context);
+              print("hereeererrere");
+            }
+          // onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           '${jobDetails.companyName ?? " "}',
@@ -266,7 +327,7 @@ class _JobDetailState extends State<JobDetail> {
             children: <Widget>[
               //SizedBox(height: 10.0),
               Container(
-                constraints: BoxConstraints(maxHeight: 290.0),
+                constraints: BoxConstraints(maxHeight: 290.0),//290
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -274,7 +335,7 @@ class _JobDetailState extends State<JobDetail> {
                         height: 70.0,
                         child: Image.network(
                             '${jobDetails.companyLogo == null ? '' : jobDetails.companyLogo}')),
-                    SizedBox(height: 8.0),
+                    SizedBox(height:8.0),
                     Text(
                       '${jobDetails.title ?? " "}',
                       style: TextStyle(
@@ -282,7 +343,7 @@ class _JobDetailState extends State<JobDetail> {
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
-                        fontSize: 24.0,
+                        fontSize: 18.0,
                         //fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -302,27 +363,30 @@ class _JobDetailState extends State<JobDetail> {
                       ),
                       // style: kTitleStyle,
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 10.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           height: 50,
-                          width: 100,
+                          width: 110,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 15, left: 10.0),
-                            child: Text(
-                              '${jobDetails.jobType ?? " "}',
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(1, 82, 174, 1),
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
+                            padding: const EdgeInsets.only(top: 0, left: 0),
+                            child: Center(
+                              child: Text(
+                                '${jobDetails.jobType ?? " "}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(1, 82, 174, 1),
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -332,21 +396,24 @@ class _JobDetailState extends State<JobDetail> {
                         ),
                         Container(
                           height: 50,
-                          width: 100,
+                          width: 110,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 15, left: 10.0),
-                            child: Text(
-                              '${jobDetails.type ?? " "}',
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.blue[800],
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
+                            padding: const EdgeInsets.only(top: 0, left: 0.0),
+                            child: Center(
+                              child: Text(
+                                '${jobDetails.type ?? " "}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Questrial',
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.blue[800],
+                                  fontSize: 16.0,
+                                  //fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -368,7 +435,7 @@ class _JobDetailState extends State<JobDetail> {
                         //fontWeight: FontWeight.w700,
                       ),
                     ),
-                    // SizedBox(height: 20,),
+                    // SizedBox(height: 10,),
                     Expanded(
                       child: Material(
                         color: Colors.white,
@@ -431,13 +498,13 @@ class _JobDetailState extends State<JobDetail> {
                     animation: StyledToastAnimation.scale,
                   );
                   showToast(
-                    "You've Alreay Applied \n For this Job",
+                    "You've Already Applied \n For this Job",
                     context: context,
                     fullWidth: true,
                     backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
                     animation: StyledToastAnimation.slideFromBottomFade,
                     reverseAnimation: StyledToastAnimation.fade,
-                    position: StyledToastPosition.bottom,
+                    position: StyledToastPosition.left,
                     animDuration: Duration(seconds: 2),
                     duration: Duration(seconds: 4),
                     curve: Curves.elasticOut,
@@ -487,8 +554,8 @@ class _JobDetailState extends State<JobDetail> {
     );
   }
 
-  Future<JobAppliedDetailModel> alreadyapplied() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
+   Future<JobAppliedDetailModel> alreadyapplied() async {
+    final url = "https://girlzwhosellcareerconextions.com/API/applied_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
@@ -509,7 +576,7 @@ class _JobDetailState extends State<JobDetail> {
 
   Future<CheckSaved> alreadySavedJob() async {
     final url =
-        "https://biitsolutions.co.uk/girlzwhosell/API/check_saved_job.php";
+        "https://girlzwhosellcareerconextions.com/API/check_saved_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
@@ -518,12 +585,15 @@ class _JobDetailState extends State<JobDetail> {
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
         print('${jobDetails.id}');
-        print("Status Code is: ${response.statusCode}");
+        print("Status Code of already saved: ${response.statusCode}");
         checkSaved = CheckSaved.fromJson(json.decode(response.body));
         return checkSaved;
       }
+      else{
+        print('status code is 100');
+      }
     } catch (e) {
-      print("Error in exception::: ${e.toString()}");
+      print("Error in exception and status code is ::: ${e.toString()}");
     }
   }
 
@@ -534,23 +604,6 @@ class _JobDetailState extends State<JobDetail> {
       "job_id": jobDetails.id,
     });
     if (res.statusCode == 200) {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      //  print("==================SharedPrefrence values==================");
-      //
-      //  final prefs = await SharedPreferences.getInstance();
-      //
-      //  prefs.setString('user_Id', user_Id);
-      //  prefs.setString('job_Id', jobDetails.id);
-      //  prefs.setBool('stateOfButton', true);
-      //
-      //   uid = await prefs.getString('user_Id');
-      //   Jid = await prefs.getString('job_Id');
-      //  IsButton = prefs.getBool('stateOfButton');
-      //
-      //  print('userid is :$uid');
-      //  print('jobid is : $Jid');
-      //  print('IsButton : $IsButton');
-
       print("==================Response values==================");
       print(res.body);
 
@@ -581,16 +634,6 @@ class _JobDetailState extends State<JobDetail> {
       "job_id": jobDetails.id,
     });
     if (res.statusCode == 200) {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // print("==================SharedPrefrence values==================");
-      //
-      // final prefs = await SharedPreferences.getInstance();
-      // prefs.setString('user_Id', user_Id);
-      // prefs.setString('job_Id', jobDetails.id);
-      // uid = await prefs.getString('user_Id');
-      // Jid = await prefs.getString('job_Id');
-      // print('userid is :$uid');
-      // print('jobid is : $Jid');
 
       print("==================Response values==================");
       print(res.body);
@@ -714,18 +757,24 @@ class _JobDetailOneState extends State<JobDetailOne> {
 
   String cv;
   String resumee;
-
+  // SharedPreferences prefs;
   @override
   void initState() {
     super.initState();
-    print("userid: $user_Id");
-    // print("jobid: $jobid");
-    print('firstName : $firstName');
 
+    getJobStatus();
     setState(() {
-      print("AppliedStatus: ${appliedStatus}");
+      print("job status:==============>>>>>>>>>>>>>>>>>>>>> ${jobid}");
     });
   }
+  bool getJobStatus(){
+    if(SharedPreferencesManager.getUserPref("${user_Id}_${jobid}") == false)
+      return false;
+    else
+      return true;
+  }
+
+
 
   _JobDetailOneState(
       this.uName,
@@ -751,27 +800,46 @@ class _JobDetailOneState extends State<JobDetailOne> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          GestureDetector(
-            // onTap: () {
-            //   if(isLiked == true){
-            //     IsButton = true;
-            //     savejob();
-            //   }else{
-            //     Unsavejob();
-            //   }
-            // },
+
+          GestureDetector(//old code
+            onTap: () {
+              // if(isLiked == true){
+              //   isLiked = false;
+              // } else{
+              //   isLiked = true;
+              // }
+              // if(isLiked == true){
+              //   IsButton = true;
+              //   savejob();
+              // }else{
+              //   Unsavejob();
+              // }
+            },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: FavoriteButton(
-                isFavorite: false,
-                valueChanged: (isLiked) {
+              // child: Icon(Icons.save_alt,//old code tariq
+              // color: Colors.pink,),
+                child: FavoriteButton(
+                isFavorite: getJobStatus(),//getLikeStatus()
+                valueChanged: (newIsLiked) {
+                  // isLiked = newIsLiked;
                   print('Is Favorite : $isLiked');
-                  if (isLiked == true) {
-                    IsButton == true;
-                    savejob();
-                  } else {
+                  if (getJobStatus() == true) {
+                    IsButton == false;
+                    isLiked = false;
                     Unsavejob();
+
+                  } else {
+                    isLiked = true;
+                    savejob();
                   }
+
+                  setState(() {
+                    SharedPreferencesManager.setUserPref("${user_Id}_${jobid}",isLiked);
+                    //added for update lists
+                    Requests.updatefavoriteJob(context,user_Id.toString());
+                  });
+
                 },
               ),
             ),
@@ -832,7 +900,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontSize: 24.0,
+                          fontSize: 18.0,
                           //fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -855,13 +923,13 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         // style: kTitleStyle,
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 10.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           height: 50,
-                          width: 100,
+                          width: 110,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
@@ -887,7 +955,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         ),
                         Container(
                           height: 50,
-                          width: 100,
+                          width: 110,
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(238, 242, 248, 1.0),
                               borderRadius: BorderRadius.circular(12.0)),
@@ -1044,7 +1112,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
   }
 
   Future<JobAppliedDetailModel> alreadyapplied() async {
-    final url = "https://biitsolutions.co.uk/girlzwhosell/API/applied_job.php";
+    final url = "https://girlzwhosellcareerconextions.com/API/applied_job.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
@@ -1132,4 +1200,6 @@ class _JobDetailOneState extends State<JobDetailOne> {
   getCurrentDate() {
     return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   }
+
+
 }

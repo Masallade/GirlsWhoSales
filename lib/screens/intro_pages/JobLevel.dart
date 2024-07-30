@@ -9,22 +9,29 @@ import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 
+import 'industrialTypes.dart';
+
 class jobLevel extends StatefulWidget {
   String jobtypes;
   String joblevel;
+  final String userId;
+  final String Button;
 
   // receive data from the FirstScreen as a parameter
-  jobLevel({Key key,this.jobtypes, this.joblevel,}) : super(key: key);
+  jobLevel({Key key,this.jobtypes, this.joblevel,this.userId,this.Button}) : super(key: key);
 
   @override
-  _jobLevelState createState() => _jobLevelState(jobtypes: jobtypes,joblevel: joblevel,);
+  _jobLevelState createState() => _jobLevelState(jobtypes: jobtypes,joblevel: joblevel,userId: userId);
 }
 
 class _jobLevelState extends State<jobLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
   String jobtypes;
   String joblevel;
-  _jobLevelState({ this.jobtypes,this.joblevel,});
+  final String userId;
+  String Button ='';
+
+  _jobLevelState({ this.jobtypes,this.joblevel,this.userId,this.Button});
 
   @override
   void initState() {
@@ -32,6 +39,7 @@ class _jobLevelState extends State<jobLevel> {
     getData();
     setState(() {
       print('=================JOB LEVEL Page ================');
+      print('selected userid: $userId');
       print('selected jobtype: $jobtypes');
     });
 
@@ -92,7 +100,7 @@ class _jobLevelState extends State<jobLevel> {
             ),
             Padding(
               padding:
-              const EdgeInsets.only(left: 12.0, right: 12.0,top: 45.0),
+              const EdgeInsets.only(left: 12.0, right: 12.0,top: 20.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -120,21 +128,21 @@ class _jobLevelState extends State<jobLevel> {
               ),
             ),
             SizedBox(
-              height: 37,
+              height: 10,
             ),
-            Text("You're halfway there!",
+            Text("Good Going . . .",
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: HeadingStyle),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text('Which of these Job Level pique\n your curiosity? ',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
                 style: subtitleStyle),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               children: [
@@ -220,7 +228,7 @@ class _jobLevelState extends State<jobLevel> {
               style: TextStyle(color: Colors.red),
             ),
             SizedBox(
-              height: 120,
+              height: 80,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
@@ -246,11 +254,11 @@ class _jobLevelState extends State<jobLevel> {
                     print('fail');
 
                   } else {
-
-                      Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                            builder: (context) => SuperPowerPage(jobtypes: jobtypes, joblevel: joblevel,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => industryLevel(jobtypes:jobtypes,joblevel: joblevel, Button: Button,)));
+                      // Navigator.push(
+                      //    context,
+                      //    MaterialPageRoute(
+                      //       builder: (context) => SuperPowerPage(jobtypes: jobtypes, joblevel: joblevel,)));
                         print('Success');
                   }
 
