@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/style_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/model/login_model.dart';
+import 'package:lottie/lottie.dart';
 
 
 class CompanyCard extends StatelessWidget {
-  final JobDetails jobDetails;
-  final String userId;
+  final JobDetails? jobDetails;
+  final String? userId;
   CompanyCard({this.userId, this.jobDetails});
   @override
   Widget build(BuildContext context) {
@@ -13,11 +19,21 @@ class CompanyCard extends StatelessWidget {
         height: 168,
         // width: 288,
         // height: 180,
-        margin: EdgeInsets.only(right: 15.0, left: 15),
+        margin: EdgeInsets.all(AppMargin.m14),
         padding: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            color: Color.fromRGBO(1, 82, 174, 1)
+            borderRadius: BorderRadius.circular(AppSize.s16),
+            color: ColorManager.white,
+          border: Border.all(
+            color: ColorManager.pinkPrimary,
+            width: AppSize.s2
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: ColorManager.bluePrimary,
+              blurRadius: AppSize.s5,
+            )
+          ]
           // color: Colors.green,
 
         ),
@@ -27,7 +43,13 @@ class CompanyCard extends StatelessWidget {
                 leading: Container(
                     width: 40,
                     height: 40,
-                    child: Image.network(jobDetails.companyLogo ?? Image.asset('assets/images/splashlogo.png'))
+                    child:jobDetails!.companyLogo==StringManager.noCompanyLogoErrorHandler?
+                    SizedBox(
+                      height: AppSize.s50,
+                      child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),
+                    )
+                        : Image.network(jobDetails!.companyLogo ?? Image.asset('assets/images/splashlogo.png') as String)
+
                     // child: Image.network(jobDetails.companyLogo ??  Placeholder())//old tariq
                 ),
                 title: Column(
@@ -35,14 +57,7 @@ class CompanyCard extends StatelessWidget {
                       SizedBox(height: 10,),
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
-                          fontFamily: 'Questrial',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          //fontWeight: FontWeight.w700,
-                        ),),
+                        child: Text('${jobDetails!.title ?? ""}' , style: Theme.of(context).textTheme.displaySmall),
                       ),
                       // Align(
                       //   alignment: Alignment.topLeft,
@@ -60,14 +75,7 @@ class CompanyCard extends StatelessWidget {
                       SizedBox(height: 5),
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('${jobDetails.companyName ?? ""}' , style: TextStyle(
-                          fontFamily: 'Questrial',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          //fontWeight: FontWeight.w700,
-                        ),),
+                        child: Text('${jobDetails!.companyName ?? ""}' , style:Theme.of(context).textTheme.titleMedium,),
                       ),
                       // Align(
                       //     alignment: Alignment.topLeft,
@@ -91,22 +99,14 @@ class CompanyCard extends StatelessWidget {
                             height: 40,
                             width: 80,
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(154, 201, 254, 1),
-                                //  color: Colors.blue[200],
-                                borderRadius: BorderRadius.circular(5.0)),
+                                color: ColorManager.bluePrimary,
+                                borderRadius: BorderRadius.circular(AppSize.s5)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               // child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
-                                  style: TextStyle(
-                                    fontFamily: 'Questrial',
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(1, 82, 174, 1),
-                                    fontSize: 12.0,
-                                    //fontWeight: FontWeight.w700,
-                                  ),
+                                  '${jobDetails!.jobType == null ? '' : jobDetails!.jobType}' ,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               // ),
                             ),
@@ -118,21 +118,14 @@ class CompanyCard extends StatelessWidget {
                             height: 40,
                             width: 80,
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(154, 201, 254, 1),
-                                //  color: Colors.blue[200],
-                                borderRadius: BorderRadius.circular(5.0)),
+                                color: ColorManager.bluePrimary,
+                                borderRadius: BorderRadius.circular(AppSize.s5)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               // child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.type ?? " "}',
-                                  style: TextStyle(
-                                    fontFamily: 'Questrial',
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(1, 82, 174, 1),
-                                    fontSize: 12.0,
-                                  ),
+                                  '${jobDetails!.type ?? " "}',
+                                  style: Theme.of(context).textTheme.bodySmall
                                 ),
                               // ),
                             ),
@@ -149,15 +142,8 @@ class CompanyCard extends StatelessWidget {
                   // FittedBox(
                   //   child:
                     Text(
-                      '${jobDetails.location ?? " "}',
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                        fontSize: 14.0,
-                        //fontWeight: FontWeight.w700,
-                      ),
+                      '${jobDetails!.location ?? " "}',
+                      style: Theme.of(context).textTheme.bodyLarge,
                       //   style: kTitleStyle.copyWith(color: Colors.white),
                     ),
                   // ),
@@ -165,16 +151,9 @@ class CompanyCard extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     // child: FittedBox(
                       child: Text(
-                        '\$${jobDetails.minSalary ?? " "} ' +
-                            '- \$${jobDetails.maxSalary ?? " "}',
-                        style: TextStyle(
-                          fontFamily: 'Questrial',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          fontSize: 14.0,
-                          //fontWeight: FontWeight.w700,
-                        ),
+                        '\$${jobDetails!.minSalary ?? " "} ' +
+                            '- \$${jobDetails!.maxSalary ?? " "}',
+                        style: Theme.of(context).textTheme.bodyLarge
                       ),
                     // ),
                   ),
@@ -189,8 +168,8 @@ class CompanyCard extends StatelessWidget {
 
 
 class AllJobCard extends StatelessWidget {
-  final JobDetails jobDetails;
-  final String userId;
+  final JobDetails? jobDetails;
+  final String? userId;
   AllJobCard({this.userId, this.jobDetails});
 
   @override
@@ -199,13 +178,13 @@ class AllJobCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8.0),
       child: Container(
         width: 300,
-        height: 300,
+        height: 600,
         margin: EdgeInsets.only(right: 15.0),
         padding: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6)),
-          borderRadius: BorderRadius.circular(10.0),
-          color: Color.fromRGBO(1, 82, 174, 1),
+          border: Border.all(color:ColorManager.pinkPrimary),
+          borderRadius: BorderRadius.circular(AppSize.s14),
+          color: ColorManager.white,
           // color: Colors.yellow,
           boxShadow: [
             BoxShadow(
@@ -232,36 +211,22 @@ class AllJobCard extends StatelessWidget {
                 leading: Container(
                     width: 60,
                     height: 60,
-                    child: Image.network(jobDetails.companyLogo ?? Image.asset('assets/images/splashlogo.png'))),
+                    child:jobDetails!.companyLogo==StringManager.noCompanyLogoErrorHandler?SizedBox(height: AppSize.s50,child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),): Image.network(jobDetails!.companyLogo ?? Image.asset('assets/images/splashlogo.png') as String)),
                 title: Column(
                     children: [
                       SizedBox(height: 10,),
                       Align(
                         alignment: Alignment.topLeft,
                         // child: FittedBox(
-                          child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
-                            fontFamily: 'Questrial',
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            //fontWeight: FontWeight.w700,
-                          ),),
+                          child: Text('${jobDetails!.title ?? ""}' , style: getSfRoundedBold(color: ColorManager.bluePrimary,fontSize: FontSize.s16),),
                         // ),
                       ),
                       SizedBox(height: 5,),
                       Align(
                           alignment: Alignment.topLeft,
                           // child: FittedBox(
-                            child: Text('${jobDetails.companyName ?? ""}'  ,
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey[400],
-                                fontSize: 14.0,
-                                //fontWeight: FontWeight.w700,
-                              ),
+                            child: Text('${jobDetails!.companyName ?? ""}'  ,
+                              style: getSfTextMediumStyle(color: ColorManager.pinkPrimary,fontSize: FontSize.s16),
                             ),
                           // ),
                       ),
@@ -269,15 +234,8 @@ class AllJobCard extends StatelessWidget {
                       Align(
                           alignment: Alignment.topLeft,
                           // child: FittedBox(
-                            child: Text('Experience ${jobDetails.experience ?? "" }' + ' Years',
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey[400],
-                                fontSize: 14.0,
-                                //fontWeight: FontWeight.w700,
-                              ),
+                            child: Text('Experience ${jobDetails!.experience ?? "" }' + ' Years',
+                              style:getQuestrialRegularStyle(color: ColorManager.darkGrey,fontSize: FontSize.s14),
                             ),
                           // ),
                       ),
@@ -289,22 +247,15 @@ class AllJobCard extends StatelessWidget {
                             height: 40,
                             width: 80,
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(154, 201, 254, 1),
+                                color: ColorManager.bluePrimary,
                                 //  color: Colors.blue[200],
-                                borderRadius: BorderRadius.circular(5.0)),
+                                borderRadius: BorderRadius.circular(AppSize.s5)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               // child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
-                                  style: TextStyle(
-                                    fontFamily: 'Questrial',
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(1, 82, 174, 1),
-                                    fontSize: 12.0,
-                                    //fontWeight: FontWeight.w700,
-                                  ),
+                                  '${jobDetails!.jobType == null ? '' : jobDetails!.jobType}' ,
+                                  style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s14),
                                 ),
                               // ),
                             ),
@@ -316,22 +267,14 @@ class AllJobCard extends StatelessWidget {
                             height: 40,
                             width: 80,
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(154, 201, 254, 1),
-                                //  color: Colors.blue[200],
-                                borderRadius: BorderRadius.circular(5.0)),
+                                color: ColorManager.bluePrimary,
+                                borderRadius: BorderRadius.circular(AppSize.s5),),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               // child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.type == null ? '' : jobDetails.type}'
-                                  ,                           style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(1, 82, 174, 1),
-                                  fontSize: 12.0,
-                                  //fontWeight: FontWeight.w700,
-                                ),
+                                  '${jobDetails!.type == null ? '' : jobDetails!.type}'
+                                  , style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s14)
                                 ),
                               // ),
                             ),
@@ -347,42 +290,24 @@ class AllJobCard extends StatelessWidget {
                   // FittedBox(
                   //   child :
                     Text(
-                      '${jobDetails.location == null ? '' : jobDetails.location}',
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                        fontSize: 14.0,
-                      ),
+                      '${jobDetails!.location == null ? '' : jobDetails!.location}',
+                      style: getQuestrialRegularStyle(color: ColorManager.pinkPrimary,fontSize: FontSize.s14)
                     ),
                   // ),
                   Align(
                     alignment: Alignment.topLeft,
                     // child: FittedBox(
                       child: Text(
-                        '\$${jobDetails.minSalary == null ? '' : jobDetails.minSalary} ' +
-                            '- \$${jobDetails.maxSalary == null ? '' : jobDetails.maxSalary}',
-                        style: TextStyle(
-                          fontFamily: 'Questrial',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
+                        '\$${jobDetails!.minSalary == null ? '' : jobDetails!.minSalary} ' +
+                            '- \$${jobDetails!.maxSalary == null ? '' : jobDetails!.maxSalary}',
+                        style:getQuestrialRegularStyle(color: ColorManager.pinkPrimary,fontSize: FontSize.s14)
                       ),
                     // ),
                   ),
                 ],
               ),
               SizedBox(height: 55,),
-              Text('Available Positions: ${jobDetails.totalPositions}' , style: TextStyle(
-                  fontFamily: 'Questrial',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                  fontSize: 24.0
-              ),)
+              Text('Available Positions: ${jobDetails!.totalPositions}' , style: getSfRoundedBold(color: ColorManager.bluePrimary,fontSize: FontSize.s20),)
             ]),
       ),
     );

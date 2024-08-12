@@ -23,10 +23,6 @@ import '../../utils/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-
-
-
-
 class HelpForm extends StatefulWidget {
   @override
   _HelpFormState createState() => _HelpFormState();
@@ -55,13 +51,13 @@ class _HelpFormState extends State<HelpForm> {
     'Other'
   ];
 
-  String _name;
-  String _email;
-  String _userId;
-  String _deviceInfo;
-  String _issueCategory;
-  String _issueDescription;
-  bool _privacycheckbox = false;
+  late String _name;
+  late String _email;
+  late String _userId;
+  late String _deviceInfo;
+  String? _issueCategory;
+  late String _issueDescription;
+  bool? _privacycheckbox = false;
   bool _captchaValidated = false;
 
   @override
@@ -178,38 +174,38 @@ class _HelpFormState extends State<HelpForm> {
               SizedBox(
                 height: 15,
               ),
-              // TextFormField(
-              //   keyboardType: TextInputType.name,
-              //   controller: userController,
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Field is required';
-              //     }
-              //     if (value!= null) {
-              //       return null;
-              //     } else {
-              //       return 'Please enter your user name';
-              //     }
-              //   },
-              //   onSaved: (value) {
-              //     _userId = userController.text;
-              //   },
-              //   onChanged: (value) {
-              //     _userId = value;
-              //   },
-              //   textAlignVertical: TextAlignVertical.center,
-              //   textInputAction: TextInputAction.next,
-              //   style: TextStyle(fontSize: 16,color: Colors.black),
-              //   cursorColor: Colors.blue,
-              //   decoration: getInputDecoration(
-              //     hint: 'User Name',
-              //     errorColor: Colors.red,
-              //     darkMode: false,
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 15,
-              // ),
+              TextFormField(
+                keyboardType: TextInputType.name,
+                controller: userController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Field is required';
+                  }
+                  if (value!= null) {
+                    return null;
+                  } else {
+                    return 'Please enter your user name';
+                  }
+                },
+                onSaved: (value) {
+                  _userId = userController.text;
+                },
+                onChanged: (value) {
+                  _userId = value;
+                },
+                textAlignVertical: TextAlignVertical.center,
+                textInputAction: TextInputAction.next,
+                style: TextStyle(fontSize: 16,color: Colors.black),
+                cursorColor: Colors.blue,
+                decoration: getInputDecoration(
+                  hint: 'User Name',
+                  errorColor: Colors.red,
+                  darkMode: false,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
               TextFormField(
                 keyboardType: TextInputType.name,
                 controller: deviceController,
@@ -308,7 +304,9 @@ class _HelpFormState extends State<HelpForm> {
                   ),
                   GestureDetector(
                     onTap: () async{
-                      final url = 'https://biitsolutions.co.uk/girlzwhosell/policy';
+
+                      //final url = 'https://biitsolutions.co.uk/girlzwhosell/policy';
+                      final url = 'https://girlzwhosellcareerconextions.com/policy';
                       final uri = Uri.parse(url);
                       if (await canLaunchUrl(uri)){
                         await launchUrl(uri);
@@ -416,13 +414,13 @@ class _HelpFormState extends State<HelpForm> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if (_formKey.currentState.validate() ) {
+                      if (_formKey.currentState!.validate() ) {
 
-                        if (!_privacycheckbox && _captchaValidated){
+                        if (!_privacycheckbox! && _captchaValidated){
                           FlutterToastMsg('Please Accept Our Privacy Policy.');
-                        } else if (!_captchaValidated && _privacycheckbox){
+                        } else if (!_captchaValidated && _privacycheckbox!){
                           FlutterToastMsg('Please Fill The Captcha.');
-                        }else if (!_captchaValidated && !_privacycheckbox){
+                        }else if (!_captchaValidated && !_privacycheckbox!){
                           FlutterToastMsg('Please Accept Our Privacy Policy and Fill the Captcha.');
                         }else{
 
@@ -466,7 +464,7 @@ class _HelpFormState extends State<HelpForm> {
     );
   }
 
-  String validateEmail(String value) {
+  String? validateEmail(String? value) {
 
     if (value == null ||  value.isEmpty) {
       return 'Email is required';
@@ -492,7 +490,7 @@ class _HelpFormState extends State<HelpForm> {
   String filePath = "";
   Future uploadfile() async {
 
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null){
       File file = File(result.files.single.path ?? "");
@@ -516,7 +514,7 @@ class _HelpFormState extends State<HelpForm> {
       'email': _email,
       'username': _userId,
       'device_info': _deviceInfo,
-      'issue_catagory': _issueCategory,
+      'issue_catagory': _issueCategory!,
       'issue_description': _issueDescription,
     });
 

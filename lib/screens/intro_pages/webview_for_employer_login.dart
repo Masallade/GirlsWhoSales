@@ -15,18 +15,20 @@ class _WebViewClassState extends State<WebViewClass> {
   // final Completer<WebViewController> _controller =
   // Completer<WebViewController>();
 
-  WebViewController  controller;
+  WebViewController?  controller;
 
   bool isLoading = true;
   bool isLogin = false;
-  final url = 'https://biitsolutions.co.uk/girlzwhosell/employers/auth/login';
+  // final url = 'https://biitsolutions.co.uk/girlzwhosell/employers/auth/login';
+  final url = 'https://girlzwhosellcareerconextions.com/employers/auth/login';
 
   // WebViewController _webViewController;
 
-  String urlLogin = 'https://biitsolutions.co.uk/girlzwhosell/employers/dashboard';
+  // String urlLogin = 'https://biitsolutions.co.uk/girlzwhosell/employers/dashboard';
+  String urlLogin = 'https://girlzwhosellcareerconextions.com/employers/dashboard';
 
-  InAppWebViewController webViewController;
-  PullToRefreshController refreshController;
+  InAppWebViewController? webViewController;
+  PullToRefreshController? refreshController;
 
 
   @override
@@ -141,20 +143,31 @@ class _WebViewClassState extends State<WebViewClass> {
     print('Case usr is $url');
 
     switch (url){
-      case "https://biitsolutions.co.uk/girlzwhosell/employers/dashboard":
+      // case "https://biitsolutions.co.uk/girlzwhosell/employers/dashboard":
+      case "https://girlzwhosellcareerconextions.com/employers/dashboard":
         print("case dashboard start");
         setState(() {
           isLoading = true;
           isLogin = true;
         });
         break;
-      case "https://biitsolutions.co.uk/girlzwhosell/employers/auth/login":
+      // case "https://biitsolutions.co.uk/girlzwhosell/employers/auth/login":
+      case "https://girlzwhosellcareerconextions.com/employers/auth/login":
         print("case logiin start");
         setState(() {
           isLoading = true;
           isLogin = false;
         });
         break;
+    // dawood edit
+      case "https://girlzwhosellcareerconextions.com/employers/job/listing":
+        print("case dashboard start");
+        setState(() {
+          isLoading = true;
+          isLogin = true;
+        });
+        break;
+    // dawood edit/
       default:
         print("case default start");
         setState(() {
@@ -166,13 +179,23 @@ class _WebViewClassState extends State<WebViewClass> {
 
   void EndLoadPage(String url) {
     switch(url){
-      case "https://biitsolutions.co.uk/girlzwhosell/employers/auth/login":
+      // case "https://biitsolutions.co.uk/girlzwhosell/employers/auth/login":
+      case "https://girlzwhosellcareerconextions.com/employers/auth/login":
         print("case login end");
         setState(() {
           isLoading = false;
           isLogin = false;
         });
         break;
+        // dawood edit
+      case "https://girlzwhosellcareerconextions.com/employers/job/listing":
+        print("case dashboard start");
+        setState(() {
+          isLoading = true;
+          isLogin = true;
+        });
+        break;
+        // dawood edit/
       default:
         print("case default end");
         setState(() {
@@ -184,10 +207,10 @@ class _WebViewClassState extends State<WebViewClass> {
   }
 
   void openFilePicker() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      String filePath = result.files.single.path;
+      String? filePath = result.files.single.path;
       // Pass the filePath to the WebView or handle it as needed
     }
   }

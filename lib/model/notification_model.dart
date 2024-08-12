@@ -1,7 +1,7 @@
 class NotificationModel {
-  String message;
-  String status;
-  List<NotificationsDetails> notificationsDetails;
+  String? message;
+  String? status;
+  List<NotificationsDetails>? notificationsDetails;
 
   NotificationModel({this.message, this.status, this.notificationsDetails});
 
@@ -11,7 +11,7 @@ class NotificationModel {
     if (json['Notifications_Details'] != null) {
       notificationsDetails = <NotificationsDetails>[];
       json['Notifications_Details'].forEach((v) {
-        notificationsDetails.add(new NotificationsDetails.fromJson(v));
+        notificationsDetails!.add(new NotificationsDetails.fromJson(v));
       });
     }
   }
@@ -22,33 +22,33 @@ class NotificationModel {
     data['status'] = this.status;
     if (this.notificationsDetails != null) {
       data['Notifications_Details'] =
-          this.notificationsDetails.map((v) => v.toJson()).toList();
+          this.notificationsDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class NotificationsDetails {
-  String id;
-  String seekerId;
-  String jobId;
-  String notifyTitle;
-  String notifyText;
-  String companyLogo;
-  String msg;
-  int staus;
-  String appliedDate;
-  String description;
-  String title;
-  String maxSalary;
-  String minSalary;
-  String skills;
-  String experience;
-  String url;
-  String companyName;
-  String city;
-  String jobType;
-  String color;
+  String? id;
+  String? seekerId;
+  String? jobId;
+  String? notifyTitle;
+  String? notifyText;
+  String? companyLogo;
+  String? msg;
+  int? staus;
+  String? appliedDate;
+  String? description;
+  String? title;
+  String? maxSalary;
+  String? minSalary;
+  String? skills;
+  String? experience;
+  String? url;
+  String? companyName;
+  String? city;
+  String? jobType;
+  String? color;
   NotificationsDetails(
       {this.id,
         this.seekerId,

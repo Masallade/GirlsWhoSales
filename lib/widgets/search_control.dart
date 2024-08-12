@@ -5,7 +5,7 @@ import 'package:girlzwhosell/utils/constants.dart';
 
 class SearchControl extends StatelessWidget {
   const SearchControl({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

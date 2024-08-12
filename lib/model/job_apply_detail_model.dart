@@ -13,9 +13,9 @@ class JobAppliedDetailModel {
     this.applied,
   });
 
-  int status;
-  String message;
-  int applied;
+  int? status;
+  String? message;
+  int? applied;
 
   factory JobAppliedDetailModel.fromJson(Map<String, dynamic> json) =>
       JobAppliedDetailModel(

@@ -1,6 +1,6 @@
 class HelpForm_Model {
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   HelpForm_Model({this.message, this.status});
 

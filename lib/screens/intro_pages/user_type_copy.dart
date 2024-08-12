@@ -11,21 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserType extends StatefulWidget {
-final String userId;
+final String? userId;
 
-   UserType({Key key, this.userId}) : super(key: key);
+   UserType({Key? key, this.userId}) : super(key: key);
   @override
   _UserTypeState createState() => _UserTypeState(userId:userId);
 }
 
 class _UserTypeState extends State<UserType> {
 
-  final String userId;
+  final String? userId;
   String _text = 'Hello!';
   String _text2 = 'Hi! Welcome to';
   String _text3 = 'GirlzWhoSell Career Conextions!';
   String _text4 = '';
-  Color Color1 = Colors.blueGrey[300];
+  Color? Color1 = Colors.blueGrey[300];
 
   _UserTypeState({this.userId});
   // Color Color1 = Color.fromARGB(255, 112, 126, 148);
@@ -50,9 +50,11 @@ class _UserTypeState extends State<UserType> {
   int selected = -1;
 
   GlobalKey<FormState> _formKey = GlobalKey();
-  String url ='https://biitsolutions.co.uk/girlzwhosell/uploads/terms_conditions/GWS_Terms_and_Conditions.docx';
 
-  Future<void> launched;
+  //String url ='https://biitsolutions.co.uk/girlzwhosell/uploads/terms_conditions/GWS_Terms_and_Conditions.docx';
+  String url ='https://girlzwhosellcareerconextions.com/uploads/terms_conditions/GWS_Terms_and_Conditions.docx';
+
+  Future<void>? launched;
   Future<void> _launchInBrowser(String url) async {
     if (!await launch(
       url,
@@ -202,7 +204,7 @@ class _UserTypeState extends State<UserType> {
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: Size(SizeConfig.screenWidth, 60.0),
+                          fixedSize: Size(SizeConfig.screenWidth!, 60.0),
                           primary: Color.fromARGB(255, 255, 65, 129),
                           //onSurface:  Colors.pinkAccent[200],
                           shape: RoundedRectangleBorder(
@@ -217,8 +219,8 @@ class _UserTypeState extends State<UserType> {
                         ),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
                           // setState(() {
                           //   selected = i;
                           //   print(i);

@@ -1,16 +1,16 @@
 class JobsHot {
-  String title;
-  String companyName;
-  String deadline;
-  String experience;
-  String education;
-  String vacancies;
-  String salary;
-  String location;
-  String image;
-  String responsibility;
-  String requirement;
-  String salaryBreakdown;
+  String? title;
+  String? companyName;
+  String? deadline;
+  String? experience;
+  String? education;
+  String? vacancies;
+  String? salary;
+  String? location;
+  String? image;
+  String? responsibility;
+  String? requirement;
+  String? salaryBreakdown;
 
   JobsHot({
     this.title,

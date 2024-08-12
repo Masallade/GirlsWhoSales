@@ -1,22 +1,22 @@
 class New_Job_Details {
-  String id;
-  String employerId;
-  String title;
-  String description;
-  String minSalary;
-  String maxSalary;
-  String experience;
-  String skills;
-  String location;
-  String totalPositions;
-  String requiredEducation;
-  String companyLogo;
-  String companyName;
-  String jobType;
-  String type;
-  String expiryDate;
-  String category;
-  String url;
+  String? id;
+  String? employerId;
+  String? title;
+  String? description;
+  String? minSalary;
+  String? maxSalary;
+  String? experience;
+  String? skills;
+  String? location;
+  String? totalPositions;
+  String? requiredEducation;
+  String? companyLogo;
+  String? companyName;
+  String? jobType;
+  String? type;
+  String? expiryDate;
+  String? category;
+  String? url;
 
   New_Job_Details(
       {this.id,

@@ -8,12 +8,12 @@ import 'package:girlzwhosell/screens/main_menu/home_screens_contant/detail/detai
 import 'package:girlzwhosell/utils/constants.dart';
 
 class JobCard extends StatelessWidget {
-  final Job data;
-  final JobDetails jobDetails;
-  final String userId;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final String? userId;
 
 
-  const JobCard({Key key, this.data, this.jobDetails, this.userId}) : super(key: key);
+  const JobCard({Key? key, this.data, this.jobDetails, this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class JobCard extends StatelessWidget {
                     // ),
                     SizedBox(width: kSpacingUnit),
                     Text(
-                      jobDetails.title,
+                      jobDetails!.title!,
                       //data.companyName,
                       style: kCardTitleTextStyle,
                     ),
@@ -67,7 +67,7 @@ class JobCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  jobDetails.experience,
+                  jobDetails!.experience!,
                   style: TextStyle(
                     color: Colors.black,
                     fontStyle: FontStyle.normal,
@@ -79,7 +79,7 @@ class JobCard extends StatelessWidget {
                 ),
                 SizedBox(height: kSpacingUnit * 0.5),
                 Text(
-                  jobDetails.location,
+                  jobDetails!.location!,
                   style: kCaptionTextStyle,
                 ),
               ],

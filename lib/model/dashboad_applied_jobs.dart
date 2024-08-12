@@ -1,7 +1,7 @@
 class fetchAppliedJobsModel {
-  String message;
-  String status;
-  List<AppliedJobDetails> appliedJobDetails;
+  String? message;
+  String? status;
+  List<AppliedJobDetails>? appliedJobDetails;
 
   fetchAppliedJobsModel({this.message, this.status, this.appliedJobDetails});
 
@@ -10,9 +10,9 @@ class fetchAppliedJobsModel {
     status = json['status'];
     if (json['Applied_Job_Details'] != null) {
       // ignore: deprecated_member_use
-      appliedJobDetails = new List<AppliedJobDetails>();
+      appliedJobDetails = List<AppliedJobDetails>.empty(growable: true);
       json['Applied_Job_Details'].forEach((v) {
-        appliedJobDetails.add(new AppliedJobDetails.fromJson(v));
+        appliedJobDetails!.add(new AppliedJobDetails.fromJson(v));
       });
     }
   }
@@ -23,29 +23,29 @@ class fetchAppliedJobsModel {
     data['status'] = this.status;
     if (this.appliedJobDetails != null) {
       data['Applied_Job_Details'] =
-          this.appliedJobDetails.map((v) => v.toJson()).toList();
+          this.appliedJobDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AppliedJobDetails {
-  String seekerId;
-  String msg;
-  int staus;
-  String appliedDate;
-  String description;
-  String title;
-  String maxSalary;
-  String minSalary;
-  String skills;
-  String experience;
-  String companyLogo;
-  String jobId;
-  String url;
-  String location;
-  String companyName;
-  String jobtype;
+  String? seekerId;
+  String? msg;
+  int? staus;
+  String? appliedDate;
+  String? description;
+  String? title;
+  String? maxSalary;
+  String? minSalary;
+  String? skills;
+  String? experience;
+  String? companyLogo;
+  String? jobId;
+  String? url;
+  String? location;
+  String? companyName;
+  String? jobtype;
   AppliedJobDetails(
       {this.seekerId,
         this.msg,

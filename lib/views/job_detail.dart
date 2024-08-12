@@ -25,21 +25,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 class JobDetail extends StatefulWidget {
   final uName;
   final password;
-  final Job data;
-  final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final int appliedStatus;
-  final List<FavoriteJobs> favoriteJobs;
-  final String jobid;
+  final int? appliedStatus;
+  final List<FavoriteJobs>? favoriteJobs;
+  final String? jobid;
   final cv;
   final resumee;
 
   const JobDetail(
-      {Key key,
+      {Key? key,
       this.uName,
       this.password,
       this.data,
@@ -82,32 +82,32 @@ class _JobDetailState extends State<JobDetail> {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
+  final String? firstName;
   final total_applied;
   final total_saved;
-  final String jobid;
-  final List<FavoriteJobs> favoriteJobs;
+  final String? jobid;
+  final List<FavoriteJobs>? favoriteJobs;
 
   String errMessage = 'Error Uploading Slip';
   String status = '';
-  final Job data;
-  final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
 
-  bool IsButton;
-  bool isLiked;
+  bool? IsButton;
+  late bool isLiked;
 
-  final int appliedStatus;
+  final int? appliedStatus;
   bool isapplied = false;
-  int resp;
+  int? resp;
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
-  String cv;
-  String resumee;
+  String? cv;
+  String? resumee;
 
   @override
   void initState() {
@@ -215,8 +215,8 @@ class _JobDetailState extends State<JobDetail> {
             ),
           ),
           context: context,
-        ) ??
-        false;
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
@@ -300,7 +300,7 @@ class _JobDetailState extends State<JobDetail> {
           // onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          '${jobDetails.companyName ?? " "}',
+          '${jobDetails!.companyName ?? " "}',
           style: TextStyle(
             fontFamily: 'Poppins',
             fontStyle: FontStyle.normal,
@@ -334,10 +334,10 @@ class _JobDetailState extends State<JobDetail> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${jobDetails.companyLogo == null ? '' : jobDetails.companyLogo}')),
+                            '${jobDetails!.companyLogo == null ? '' : jobDetails!.companyLogo}')),
                     SizedBox(height:8.0),
                     Text(
-                      '${jobDetails.title ?? " "}',
+                      '${jobDetails!.title ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontStyle: FontStyle.normal,
@@ -351,8 +351,8 @@ class _JobDetailState extends State<JobDetail> {
                       height: 5,
                     ),
                     Text(
-                      '${jobDetails.companyName ?? " "} ' +
-                          '\- ${jobDetails.location ?? " "}',
+                      '${jobDetails!.companyName ?? " "} ' +
+                          '\- ${jobDetails!.location ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Questrial',
                         fontStyle: FontStyle.normal,
@@ -377,7 +377,7 @@ class _JobDetailState extends State<JobDetail> {
                             padding: const EdgeInsets.only(top: 0, left: 0),
                             child: Center(
                               child: Text(
-                                '${jobDetails.jobType ?? " "}',
+                                '${jobDetails!.jobType ?? " "}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
@@ -404,7 +404,7 @@ class _JobDetailState extends State<JobDetail> {
                             padding: const EdgeInsets.only(top: 0, left: 0.0),
                             child: Center(
                               child: Text(
-                                '${jobDetails.type ?? " "}',
+                                '${jobDetails!.type ?? " "}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
@@ -424,8 +424,8 @@ class _JobDetailState extends State<JobDetail> {
                       height: 8,
                     ),
                     Text(
-                      '\$ ${jobDetails.minSalary ?? " "} ' +
-                          '\- ${jobDetails.maxSalary ?? " "}',
+                      '\$ ${jobDetails!.minSalary ?? " "} ' +
+                          '\- ${jobDetails!.maxSalary ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontStyle: FontStyle.normal,
@@ -501,7 +501,7 @@ class _JobDetailState extends State<JobDetail> {
                     "You've Already Applied \n For this Job",
                     context: context,
                     fullWidth: true,
-                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
                     animation: StyledToastAnimation.slideFromBottomFade,
                     reverseAnimation: StyledToastAnimation.fade,
                     position: StyledToastPosition.left,
@@ -559,11 +559,11 @@ class _JobDetailState extends State<JobDetail> {
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
-        "job_id": jobDetails.id,
+        "job_id": jobDetails!.id,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
-        print('${jobDetails.id}');
+        print('${jobDetails!.id}');
         print("Status Code is: ${response.statusCode}");
         jobAppliedDetailModel =
             JobAppliedDetailModel.fromJson(json.decode(response.body));
@@ -572,6 +572,7 @@ class _JobDetailState extends State<JobDetail> {
     } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
+    return jobAppliedDetailModel;
   }
 
   Future<CheckSaved> alreadySavedJob() async {
@@ -580,11 +581,11 @@ class _JobDetailState extends State<JobDetail> {
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
-        "job_id": jobDetails.id,
+        "job_id": jobDetails!.id,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
-        print('${jobDetails.id}');
+        print('${jobDetails!.id}');
         print("Status Code of already saved: ${response.statusCode}");
         checkSaved = CheckSaved.fromJson(json.decode(response.body));
         return checkSaved;
@@ -595,13 +596,14 @@ class _JobDetailState extends State<JobDetail> {
     } catch (e) {
       print("Error in exception and status code is ::: ${e.toString()}");
     }
+    return checkSaved;
   }
 
   /////////
   Future savejob() async {
     var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
-      "job_id": jobDetails.id,
+      "job_id": jobDetails!.id,
     });
     if (res.statusCode == 200) {
       print("==================Response values==================");
@@ -611,7 +613,7 @@ class _JobDetailState extends State<JobDetail> {
         'Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -631,7 +633,7 @@ class _JobDetailState extends State<JobDetail> {
   Future Unsavejob() async {
     var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
-      "job_id": jobDetails.id,
+      "job_id": jobDetails!.id,
     });
     if (res.statusCode == 200) {
 
@@ -642,7 +644,7 @@ class _JobDetailState extends State<JobDetail> {
         'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,
@@ -673,21 +675,21 @@ class _JobDetailState extends State<JobDetail> {
 class JobDetailOne extends StatefulWidget {
   final uName;
   final password;
-  final Job data;
-  final SearchModel joblist;
+  final Job? data;
+  final SearchModel? joblist;
   // final  JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final int appliedStatus;
-  final List<FavoriteJobs> favoriteJobs;
-  final String jobid;
+  final int? appliedStatus;
+  final List<FavoriteJobs>? favoriteJobs;
+  final String? jobid;
   final cv;
   final resumee;
   const JobDetailOne(
-      {Key key,
+      {Key? key,
       this.uName,
       this.password,
       this.data,
@@ -730,33 +732,33 @@ class _JobDetailOneState extends State<JobDetailOne> {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
+  final String? firstName;
   final total_applied;
   final total_saved;
-  final String jobid;
-  final List<FavoriteJobs> favoriteJobs;
+  final String? jobid;
+  final List<FavoriteJobs>? favoriteJobs;
 
   String errMessage = 'Error Uploading Slip';
   String status = '';
-  final Job data;
-  final SearchModel joblist;
+  final Job? data;
+  final SearchModel? joblist;
   // final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
 
-  bool IsButton;
-  bool isLiked;
+  bool? IsButton;
+  late bool isLiked;
 
-  final int appliedStatus;
+  final int? appliedStatus;
   bool isapplied = false;
-  int resp;
+  int? resp;
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
 
-  String cv;
-  String resumee;
+  String? cv;
+  String? resumee;
   // SharedPreferences prefs;
   @override
   void initState() {
@@ -855,7 +857,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
         ),
         title: FittedBox(
           child: Text(
-            '${joblist.companyName ?? " "}',
+            '${joblist!.companyName ?? " "}',
             style: TextStyle(
               fontFamily: 'Poppins',
               fontStyle: FontStyle.normal,
@@ -890,11 +892,11 @@ class _JobDetailOneState extends State<JobDetailOne> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${joblist.companyLogo == null ? Placeholder() : joblist.companyLogo}')),
+                            '${joblist!.companyLogo == null ? Placeholder() : joblist!.companyLogo}')),
                     SizedBox(height: 8.0),
                     FittedBox(
                       child: Text(
-                        '${joblist.title ?? " "}',
+                        '${joblist!.title ?? " "}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -910,8 +912,8 @@ class _JobDetailOneState extends State<JobDetailOne> {
                     ),
                     FittedBox(
                       child: Text(
-                        '${joblist.companyName ?? " "} ' +
-                            '\- ${joblist.location ?? " "}',
+                        '${joblist!.companyName ?? " "} ' +
+                            '\- ${joblist!.location ?? " "}',
                         style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
@@ -937,7 +939,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                             padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
-                                '${joblist.jobType ?? " "}',
+                                '${joblist!.jobType ?? " "}',
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
                                   fontStyle: FontStyle.normal,
@@ -963,7 +965,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                             padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
-                                '${joblist.type ?? " "}',
+                                '${joblist!.type ?? " "}',
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
                                   fontStyle: FontStyle.normal,
@@ -984,8 +986,8 @@ class _JobDetailOneState extends State<JobDetailOne> {
                     FittedBox(
                       child: FittedBox(
                         child: Text(
-                          '\$ ${joblist.minSalary ?? " "} ' +
-                              '\- ${joblist.maxSalary ?? " "}',
+                          '\$ ${joblist!.minSalary ?? " "} ' +
+                              '\- ${joblist!.maxSalary ?? " "}',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontStyle: FontStyle.normal,
@@ -1059,7 +1061,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
                     "You've Alreay Applied \n For this Job",
                     context: context,
                     fullWidth: true,
-                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
                     animation: StyledToastAnimation.slideFromBottomFade,
                     reverseAnimation: StyledToastAnimation.fade,
                     position: StyledToastPosition.bottom,
@@ -1116,11 +1118,11 @@ class _JobDetailOneState extends State<JobDetailOne> {
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
-        "job_id": joblist.id,
+        "job_id": joblist!.id,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
-        print('${joblist.id}');
+        print('${joblist!.id}');
         print("Status Code is: ${response.statusCode}");
         jobAppliedDetailModel =
             JobAppliedDetailModel.fromJson(json.decode(response.body));
@@ -1129,13 +1131,14 @@ class _JobDetailOneState extends State<JobDetailOne> {
     } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
+    return jobAppliedDetailModel;
   }
 
   /////////
   Future savejob() async {
     var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
-      "job_id": joblist.id,
+      "job_id": joblist!.id,
     });
     if (res.statusCode == 200) {
       print("==================Response values==================");
@@ -1145,7 +1148,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
         'Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -1165,7 +1168,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
   Future Unsavejob() async {
     var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
-      "job_id": joblist.id,
+      "job_id": joblist!.id,
     });
     if (res.statusCode == 200) {
       print("==================Response values==================");
@@ -1174,7 +1177,7 @@ class _JobDetailOneState extends State<JobDetailOne> {
         'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,

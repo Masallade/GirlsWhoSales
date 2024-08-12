@@ -1,7 +1,7 @@
 class superPowerModel {
-  String id;
-  String name;
-  String description;
+  String? id;
+  String? name;
+  String? description;
 
   superPowerModel({this.id, this.name, this.description});
 

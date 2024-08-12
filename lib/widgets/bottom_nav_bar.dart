@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 class BottomNavBar extends StatefulWidget {
   final int currentIndex;
   final double iconSize;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final List<BottomNavBarItem> items;
   final ValueChanged<int> onItemSelected;
 
   BottomNavBar(
-      {Key key,
+      {Key? key,
       this.currentIndex = 0,
       this.iconSize = 24,
       this.backgroundColor,
-      @required this.items,
-      @required this.onItemSelected}) {
+      required this.items,
+      required this.onItemSelected}) {
     assert(items != null);
     assert(items.length >= 2 || items.length >= 5);
     assert(onItemSelected != null);
@@ -33,19 +33,19 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  final int currentIndex;
-  final double iconSize;
-  Color backgroundColor;
+  final int? currentIndex;
+  final double? iconSize;
+  Color? backgroundColor;
   List<BottomNavBarItem> items;
-  int _selectedIndex;
+  int? _selectedIndex;
   ValueChanged<int> onItemSelected;
 
   _BottomNavBarState(
-      {@required this.items,
+      {required this.items,
       this.currentIndex,
       this.backgroundColor,
       this.iconSize,
-      @required this.onItemSelected});
+      required this.onItemSelected});
 
   Widget _buildItem(BottomNavBarItem item, bool isSelected) {
     return AnimatedContainer(
@@ -131,11 +131,11 @@ class BottomNavBarItem {
   final Icon icon;
   final Text title;
   final Color activeColor;
-  final Color inactiveColor;
+  final Color? inactiveColor;
 
   BottomNavBarItem(
-      {@required this.icon,
-      @required this.title,
+      {required this.icon,
+      required this.title,
       this.activeColor = Colors.blue,
       this.inactiveColor}) {
     assert(icon != null);

@@ -34,8 +34,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   _NotificationScreenState({this.user_Id});
 
 
-  PushNotificationMessage notificationInfo;
-  List<NotificationsDetails> notificationsDetails;
+  PushNotificationMessage? notificationInfo;
+  List<NotificationsDetails>? notificationsDetails;
   bool isloading = false;
 
   Future<String> loadViewData() async {
@@ -61,7 +61,9 @@ bool isActive=false;
       }
     } catch (e){
       print(e.toString());
+      return totalNotification;
     }
+    return totalNotification;
   }
 
   @override
@@ -103,14 +105,14 @@ bool isActive=false;
                 child: Column(
                   children: [
                     Container(
-                      height: SizeConfig.screenHeight  *0.9,
+                      height: SizeConfig.screenHeight!  *0.9,
                       child:notificationsDetails ==null ? Container(
                           child: Center(
                               child: Text('No Notification' ,
                                 style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),
                               )))
                           : ListView.builder(
-                          itemCount: notificationsDetails.length == null ? 0 : notificationsDetails.length,
+                          itemCount: notificationsDetails!.length == null ? 0 : notificationsDetails!.length,
                           itemBuilder: (context, index) {
                             return SingleChildScrollView(
                               scrollDirection: Axis.vertical,
@@ -122,7 +124,7 @@ bool isActive=false;
 
 
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackDetail(
-                                          notificationsDetail:notificationsDetails[index])));
+                                          notificationsDetail:notificationsDetails![index])));
                                       setState(() {
 
                                       });
@@ -132,7 +134,7 @@ bool isActive=false;
                                           height: 140,
                                           width: SizeConfig.screenWidth,
                                           decoration: BoxDecoration(
-                                            color: Color(int.parse(notificationsDetails[index].color)).withOpacity(0.05),
+                                            color: Color(int.parse(notificationsDetails![index].color!)).withOpacity(0.05),
                                             border:  Border.all(
                                                 color: Color.fromRGBO(236, 242, 248, 1)
                                             ),
@@ -141,10 +143,10 @@ bool isActive=false;
                                             leading: Container(
                                               height: 50,
                                               width: 50,
-                                              child: Image.network('${notificationsDetails[index].companyLogo ?? Placeholder()}'),
+                                              child: Image.network('${notificationsDetails![index].companyLogo ?? Placeholder()}'),
                                             ),
                                             title: Text(
-                                              '${notificationsDetails[index].notifyTitle ?? " "}',
+                                              '${notificationsDetails![index].notifyTitle ?? " "}',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontStyle: FontStyle.normal,
@@ -154,7 +156,7 @@ bool isActive=false;
                                                 //fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            subtitle: Text('${notificationsDetails[index].notifyText ?? " "}',
+                                            subtitle: Text('${notificationsDetails![index].notifyText ?? " "}',
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
@@ -246,7 +248,7 @@ bool isActive=false;
         });
   }
   // ignore: missing_return
-  Future<List<NotificationsDetails>> request(BuildContext context, bool showLoading) async {
+  Future<List<NotificationsDetails>?> request(BuildContext context, bool showLoading) async {
     String get_key_url =  "https://girlzwhosellcareerconextions.com/API/fetch_notifications.php";
 
     try {
@@ -260,7 +262,7 @@ bool isActive=false;
       print("Url,${get_key_url}");
       print("userid,${user_Id}");
       if (showLoading)
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       if (response.statusCode == 200) {
        // NotificationModel resp = NotificationModel.fromJson(json.decode(response.body));
         notificationModel = NotificationModel.fromJson(json.decode(response.body));
@@ -271,7 +273,7 @@ bool isActive=false;
           showDialogCustom(
               context,
               "Notifications",
-              notificationModel.message.length == 0 ? "record not found" : notificationModel.message,
+              notificationModel.message!.length == 0 ? "record not found" : notificationModel.message,
               "OK");
           return [];
         }
@@ -296,10 +298,12 @@ bool isActive=false;
       }
     } catch (e){
       print(e.toString());
+      return totalNotification;
     }
+    return totalNotification;
   }
-  Future  <TotalNotification> UpdateNotifictionColor() async {
-    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationModel.notificationsDetails[0].id}";
+  Future <void> UpdateNotifictionColor() async {
+    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationModel.notificationsDetails![0].id}";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){

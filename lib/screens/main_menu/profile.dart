@@ -2,7 +2,14 @@ import 'dart:convert';
 
 import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/style_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/Notification_screen.dart';
@@ -20,13 +27,13 @@ class Profile extends StatefulWidget {
   final firstName;
   final title;
   final city;
-  String nationality;
-  final String total_applied;
-  final String total_saved;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
-  final List<AppliedJobDetails> appliedJobDetails;
-  final List<JobDetails> jobDetails;
+  String? nationality;
+  final String? total_applied;
+  final String? total_saved;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
+  final List<AppliedJobDetails>? appliedJobDetails;
+  final List<JobDetails>? jobDetails;
   final uName;
   final password;
   final cv;
@@ -73,13 +80,13 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   final user_Id;
   final firstName;
   final title;
-  String nationality;
-  final String total_applied;
-  final String total_saved;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
-  List<AppliedJobDetails> appliedJobDetails;
-  final List<JobDetails> jobDetails;
+  String? nationality;
+  final String? total_applied;
+  final String? total_saved;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
+  List<AppliedJobDetails>? appliedJobDetails;
+  final List<JobDetails>? jobDetails;
   final uName;
   final password;
   final cv;
@@ -89,7 +96,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   // Total_Saved_Job total_saved_job;
   // String saved_job_counter = "0";
 
-  String newsavedjob;
+  String? newsavedjob;
 
 
   _ProfileState(
@@ -145,14 +152,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0, top: 32),
                       child: Text(
-                        "Welcome,",
-                        style: TextStyle(
-                          color: Colors.black,
-                          height: 1.5,
-                          fontSize: 20.0,
-                          fontFamily: 'Questrial',
-                          fontWeight: FontWeight.w400,
-                        ),
+                        StringManager.welcome,
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
                     Padding(
@@ -170,21 +171,15 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             ))));
                               },
                               child:
-                              totalNotification.totalCountNotf == "0" ? Image.asset(
-                                'assets/images/notification.png',
-                                scale: 1.0,
-                                color: Colors.black,
-                              ) :
+                              totalNotification.totalCountNotf == "0" ?
+                                  Icon(CupertinoIcons.bell,color: ColorManager.pinkPrimary,size: AppSize.s32,)
+                              :
                               badge.Badge(
                                 position: BadgePosition.topEnd(top: -20 ,end: 10),
                                 badgeStyle: BadgeStyle(badgeColor: Colors.red),
                                 // badgeColor: Colors.red,
                                badgeContent: Text('${totalNotification.totalCountNotf == "0" ? '' : totalNotification.totalCountNotf}' , style: TextStyle(color: Colors.white , fontSize: 15),),
-                                child: Image.asset(
-                                  'assets/images/notification.png',
-                                  scale: 1.0,
-                                  color: Colors.black,
-                                ),
+                                child: Icon(CupertinoIcons.bell,color: ColorManager.pinkPrimary,size: AppSize.s32,),
                               )
                           )),
                     ),
@@ -192,10 +187,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 12.0, top: 60),
                         child: Text(
                           '$firstName',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Poppins',
-                              fontSize: 24),
+                          style: Theme.of(context).textTheme.displayLarge,
                         )),
                   ],
                 ),
@@ -222,26 +214,20 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     height: 150,
                     width: SizeConfig.screenWidth,
                     decoration: BoxDecoration(
-                        color: Colors.pink[100],
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: ColorManager.pinkPrimary,
+                        borderRadius: BorderRadius.all(Radius.circular(AppSize.s5))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          'Saved \n Jobs',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              color: Colors.pinkAccent[200]),
+                          '${StringManager.saved} \n ${StringManager.jobs} ',
+                          style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s20),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 60.0),
                           child: Text(
                             '$newsavedjob',//  total_saved
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 48,
-                                color: Colors.pinkAccent[200]),
+                            style: getSfRoundedHeavyStyle(color: ColorManager.white,fontSize: FontSize.s35),
                           ),
                         ),
                       ],
@@ -264,26 +250,20 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     height: 150,
                     width: SizeConfig.screenWidth,
                     decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: ColorManager.bluePrimary,
+                        borderRadius: BorderRadius.all(Radius.circular(AppSize.s5))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          'Applied \n Jobs',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              color: Colors.blue[800]),
+                          '${StringManager.applied} \n ${StringManager.jobs}',
+                          style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s20),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 60.0),
                           child: Text(
                             '$total_applied',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 48,
-                                color: Colors.blue[900]),
+                            style: getSfRoundedHeavyStyle(color: ColorManager.white,fontSize: FontSize.s35)
                           ),
                         ),
                       ],
@@ -321,15 +301,23 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               builder: (context) =>
                                   AllSavedJobs(user_Id: user_Id)));
                     },
-                    child: Text(
-                      "See All",
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blueGrey[300],
-                        fontSize: 16.0,
-                        //fontWeight: FontWeight.w700,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: ColorManager.pinkPrimary,
+                        borderRadius: BorderRadius.circular(AppSize.s5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: ColorManager.pinkPrimary,
+                            blurRadius: AppSize.s2
+                          )
+                        ]
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppPadding.p8),
+                        child: Text(
+                          StringManager.seeAll,
+                          style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s16),
+                        ),
                       ),
                     ),
                   ),
@@ -359,7 +347,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         )
                       : Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: favoriteJobs
+                          children: favoriteJobs!
                               .asMap()
                               .entries
                               .map(

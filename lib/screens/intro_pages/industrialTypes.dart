@@ -11,15 +11,15 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class industryLevel extends StatefulWidget {
-  String industry;
-  String jobtypes;
-  String jobtype;
-  String joblevel;
-  String selectedJobtitle;
-  String Button;
-  final String userId;
+  String? industry;
+  String? jobtypes;
+  String? jobtype;
+  String? joblevel;
+  String? selectedJobtitle;
+  String? Button;
+  final String? userId;
   // receive data from the FirstScreen as a parameter
-  industryLevel({Key key,this.industry, this.jobtypes, this.jobtype, this.joblevel, this.selectedJobtitle,this.Button ,this.userId}) : super(key: key);
+  industryLevel({Key? key,this.industry, this.jobtypes, this.jobtype, this.joblevel, this.selectedJobtitle,this.Button ,this.userId}) : super(key: key);
 
   @override
   _industryLevelState createState() => _industryLevelState(industry: industry, jobtypes: jobtypes, jobtype: jobtype,joblevel: joblevel, selectedJobtitle: selectedJobtitle ,Button: Button, userId: userId);
@@ -27,13 +27,13 @@ class industryLevel extends StatefulWidget {
 
 class _industryLevelState extends State<industryLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
-  String industry;
-  String jobtypes;
-  String jobtype;
-  String joblevel;
-  String selectedJobtitle;
-  String Button;
-final String userId;
+  String? industry;
+  String? jobtypes;
+  String? jobtype;
+  String? joblevel;
+  String? selectedJobtitle;
+  String? Button;
+final String? userId;
   _industryLevelState({ this.industry ,this.jobtypes, this.jobtype,this.joblevel, this.selectedJobtitle, this.Button ,this.userId});
 
   @override
@@ -52,14 +52,15 @@ final String userId;
     super.initState();
   }
 
-  final url = "https://biitsolutions.co.uk//girlzwhosell/API/job_industries.php";
+  //final url = "https://biitsolutions.co.uk//girlzwhosell/API/job_industries.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/job_industries.php";
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
+  List? data = List.empty(growable: true); //List of Responsebody
 
 
 
 // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -67,10 +68,10 @@ final String userId;
     });
     print('industry types $resbody');
   }
-  String _dropdownError;
+  String? _dropdownError;
 
   _validateForm() {
-    bool _isValid = _formKey.currentState.validate();
+    bool _isValid = _formKey.currentState!.validate();
 
     if (industry == null) {
       setState(() => _dropdownError = "Please select an option!");
@@ -114,7 +115,7 @@ final String userId;
                     LinearProgressIndicator(
                       minHeight: 10.0,
                       backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                      valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                       value: 0.5,
                     ),
                     SizedBox(height: 5,),
@@ -181,7 +182,7 @@ final String userId;
                 height: 70,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6))),
+                    border: Border.all(color: Colors.blueGrey[300]!.withOpacity(0.6))),
                 child: DropdownButtonHideUnderline(
                   child:  ButtonTheme(
                       alignedDropdown: true,
@@ -199,14 +200,14 @@ final String userId;
                               ),),
                             ),
                             value: industry,
-                            onChanged: (String newvalue) {
+                            onChanged: (String? newvalue) {
                               setState(() {
                                 industry = newvalue;
                                 _dropdownError = null;
                               });
                               print('newvalue ${industry}');
                             },
-                            items: data.map((item) {
+                            items: data!.map((item) {
                               return DropdownMenuItem(child: Row(
                                 children: [
                                   Text('${item["name"]}' , style: TextStyle(
@@ -240,7 +241,7 @@ final String userId;
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(SizeConfig.screenWidth, 60.0),
+                    fixedSize: Size(SizeConfig.screenWidth!, 60.0),
                     primary: Color.fromARGB(255, 255, 65, 129),
                     //onSurface:  Colors.pinkAccent[200],
                     shape: RoundedRectangleBorder(

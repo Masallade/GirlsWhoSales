@@ -12,8 +12,8 @@ import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart'as http;
 
 class ResetPasswordPage extends StatefulWidget {
-  final String user_Id;
-  final String Msg;
+  final String? user_Id;
+  final String? Msg;
 ResetPasswordPage({this.user_Id,this.Msg});
   @override
   _ResetPasswordPage createState() {
@@ -26,12 +26,12 @@ class _ResetPasswordPage extends State<ResetPasswordPage> {
  // String user_Id;
 
   GlobalKey<FormState> _form = GlobalKey<FormState>();
-  String Password;
+  String? Password;
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController _confirmPass = TextEditingController();
-  String email2;
+  String? email2;
   bool _passwordVisible = false;
-  var confirmPass ='';
+  String? confirmPass ='';
 
 
   @override
@@ -102,7 +102,7 @@ Set your new password.''',
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
                   validator: (v) {
-                    if (v.isValidPassword) {
+                    if (v!.isValidPassword) {
                       return null;
                     } else {
                       return 'Password must contain an uppercase, \n lowercase, numeric digit and special character ,\n must be 8 character';
@@ -115,14 +115,14 @@ Set your new password.''',
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                       ),
                     ),
                     hintText: 'New Password',
@@ -229,14 +229,14 @@ Set your new password.''',
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                       ),
                     ),
 
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color:Colors.grey[300],
+                        color:Colors.grey[300]!,
                         width: 1.0,
                       ),
                     ),
@@ -259,7 +259,7 @@ Set your new password.''',
                 ),
                   child: GestureDetector(
                     onTap: () async{
-                      if(_form.currentState.validate()){
+                      if(_form.currentState!.validate()){
                         resetPassword().then((value) async{
                           if(value.status == "100") {
                             final snackBar = SnackBar(
@@ -322,5 +322,6 @@ Set your new password.''',
     catch(e){
       print("Error in exception::: ${e.toString()}");
     }
+    return resetPasswordModel;
   }
 }

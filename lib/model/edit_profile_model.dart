@@ -14,8 +14,8 @@ class EditProfileModel {
     this.status,
   });
 
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   factory EditProfileModel.fromJson(Map<String, dynamic> json) => EditProfileModel(
     message: json["message"],

@@ -7,8 +7,8 @@ import 'package:girlzwhosell/model/search_model.dart';
 
 
 class RequirementsTab extends StatelessWidget {
-  final JobDetails jobDetails;
-  final String userId;
+  final JobDetails? jobDetails;
+  final String? userId;
   RequirementsTab({this.jobDetails,this.userId});
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class RequirementsTab extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-            '${jobDetails.skills ?? " "}',
+            '${jobDetails!.skills ?? " "}',
             style: TextStyle(
               fontFamily: 'Questrial',
               fontStyle: FontStyle.normal,
@@ -31,7 +31,7 @@ class RequirementsTab extends StatelessWidget {
   }
 }
 class RequirementsTabtwo extends StatelessWidget {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final  user_Id;
   RequirementsTabtwo({this.favoriteJobs,this.user_Id});
   @override
@@ -40,7 +40,7 @@ class RequirementsTabtwo extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '${favoriteJobs.skills ?? " "}',
+          '${favoriteJobs!.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -55,7 +55,7 @@ class RequirementsTabtwo extends StatelessWidget {
   }
 }
 class RequirementsTabthree extends StatelessWidget {
-  final SavedJobs savedJobs;
+  final SavedJobs? savedJobs;
   final  user_Id;
   RequirementsTabthree({this.savedJobs,this.user_Id});
   @override
@@ -64,7 +64,7 @@ class RequirementsTabthree extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '${savedJobs.skills ?? " "}',
+          '${savedJobs!.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -79,8 +79,8 @@ class RequirementsTabthree extends StatelessWidget {
   }
 }
 class RequirementsTabFour extends StatelessWidget {
-  final SearchModel jobList;
-  final String userId;
+  final SearchModel? jobList;
+  final String? userId;
   RequirementsTabFour({this.jobList,this.userId});
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class RequirementsTabFour extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '${jobList.skills ?? " "}',
+          '${jobList!.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -103,8 +103,8 @@ class RequirementsTabFour extends StatelessWidget {
   }
 }
 class RequirementsTabFive extends StatelessWidget {
-  final String userId;
-  final AppliedJobDetails appliedJobDetails;
+  final String? userId;
+  final AppliedJobDetails? appliedJobDetails;
 
   RequirementsTabFive({this.userId,this.appliedJobDetails});
   @override
@@ -113,7 +113,7 @@ class RequirementsTabFive extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '${appliedJobDetails.skills ?? " "}',
+          '${appliedJobDetails!.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -129,8 +129,8 @@ class RequirementsTabFive extends StatelessWidget {
 }
 
 class NotificationReq extends StatelessWidget {
-  final String userId;
-  final NotificationsDetails notificationsDetail;
+  final String? userId;
+  final NotificationsDetails? notificationsDetail;
 
   NotificationReq({this.userId,this.notificationsDetail});
   @override
@@ -139,7 +139,7 @@ class NotificationReq extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.0),
         Text(
-          '${notificationsDetail.skills ?? " "}',
+          '${notificationsDetail!.skills ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,

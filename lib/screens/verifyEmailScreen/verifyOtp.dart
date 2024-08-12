@@ -24,29 +24,29 @@ import 'package:path/path.dart';
 
 
 class OtpVerification extends StatefulWidget {
-  String city;
-  String firstName;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String ExperiencenDetail;
-  String nationality;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
+  String? city;
+  String? firstName;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? ExperiencenDetail;
+  String? nationality;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
 
-  final String user_Id;
-  final String Msg;
+  final String? user_Id;
+  final String? Msg;
 
   OtpVerification({this.user_Id, this.Msg,this.firstName,
     this.firstName2,
@@ -87,29 +87,29 @@ class OtpVerification extends StatefulWidget {
 }
 
 class _PhoneVerification extends State<OtpVerification> {
-  String user_Id;
-  String city;
-  String firstName;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String nationality;
+  String? user_Id;
+  String? city;
+  String? firstName;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? nationality;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
-  String ExperiencenDetail;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
+  String? ExperiencenDetail;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
 
 
   _PhoneVerification({this.user_Id, this.firstName,
@@ -145,7 +145,7 @@ class _PhoneVerification extends State<OtpVerification> {
   TextEditingController _pinEditingController =
   TextEditingController(text: '');
   bool _enable = true;
-  String Pin;
+  String? Pin;
 
 
   @override
@@ -245,23 +245,23 @@ class _PhoneVerification extends State<OtpVerification> {
                       textCapitalization: TextCapitalization.characters,
                       onSubmit: (pin) {
                         print("gtepin===$pin");
-                        pin=Pin;
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                        pin=Pin!;
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
                         }
                       },
                       onChanged: (pin) {
                         setState(() {
                           debugPrint('onChanged execute. pin:$pin');
                         });
-                        pin =Pin;
+                        pin =Pin!;
                       },
                       onSaved: (pin) {
                         debugPrint('onSaved pin:$pin');
                         pin =Pin;
                       },
                       validator: (pin) {
-                        if (pin.isEmpty) {
+                        if (pin!.isEmpty) {
                           setState(() {
                             // _hasError = true;
                           });
@@ -294,7 +294,7 @@ class _PhoneVerification extends State<OtpVerification> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        if(_formKey.currentState.validate()){
+                        if(_formKey.currentState!.validate()){
                           verifyOTP().then((value) async{
                             if(value.status == "100") {
                               final snackBar = SnackBar(
@@ -375,6 +375,7 @@ class _PhoneVerification extends State<OtpVerification> {
     catch(e){
       print("Error in exception::: ${e.toString()}");
     }
+    return signUpverifyOtp;
   }
 
   // Future  <RegistrationModel> uploadResume(context) async {

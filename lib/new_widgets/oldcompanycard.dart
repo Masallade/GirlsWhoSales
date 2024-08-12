@@ -3,8 +3,8 @@ import 'package:girlzwhosell/model/login_model.dart';
 
 
 class CompanyCard extends StatelessWidget {
-  final JobDetails jobDetails;
-  final String userId;
+  final JobDetails? jobDetails;
+  final String? userId;
   CompanyCard({this.userId, this.jobDetails});
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class CompanyCard extends StatelessWidget {
                 leading: Container(
                   width: 40,
                   height: 40,
-                  child: jobDetails.companyLogo != null
-                      ? Image.network(jobDetails.companyLogo)
+                  child: jobDetails!.companyLogo != null
+                      ? Image.network(jobDetails!.companyLogo!)
                       : Image.asset('assets/images/splashlogo.png'),
                 ),
                 // child: Image.network(jobDetails.companyLogo ?? Placeholder())),
@@ -38,7 +38,7 @@ class CompanyCard extends StatelessWidget {
                       Align(
                         alignment: Alignment.topLeft,
                         child: FittedBox(
-                          child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
+                          child: Text('${jobDetails!.title ?? ""}' , style: TextStyle(
                             fontFamily: 'Questrial',
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w400,
@@ -52,7 +52,7 @@ class CompanyCard extends StatelessWidget {
                       Align(
                           alignment: Alignment.topLeft,
                           child: FittedBox(
-                            child: Text('${jobDetails.companyName ?? ""}'  ,
+                            child: Text('${jobDetails!.companyName ?? ""}'  ,
                               style: TextStyle(
                                 fontFamily: 'Questrial',
                                 fontStyle: FontStyle.normal,
@@ -78,7 +78,7 @@ class CompanyCard extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
+                                  '${jobDetails!.jobType == null ? '' : jobDetails!.jobType}' ,
                                   style: TextStyle(
                                     fontFamily: 'Questrial',
                                     fontStyle: FontStyle.normal,
@@ -105,7 +105,7 @@ class CompanyCard extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.type ?? " "}',
+                                  '${jobDetails!.type ?? " "}',
                                   style: TextStyle(
                                     fontFamily: 'Questrial',
                                     fontStyle: FontStyle.normal,
@@ -128,7 +128,7 @@ class CompanyCard extends StatelessWidget {
                 children: [
                   FittedBox(
                     child: Text(
-                      '${jobDetails.location ?? " "}',
+                      '${jobDetails!.location ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Questrial',
                         fontStyle: FontStyle.normal,
@@ -144,8 +144,8 @@ class CompanyCard extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                       child: Text(
-                        '\$${jobDetails.minSalary ?? " "} ' +
-                            '- \$${jobDetails.maxSalary ?? " "}',
+                        '\$${jobDetails!.minSalary ?? " "} ' +
+                            '- \$${jobDetails!.maxSalary ?? " "}',
                         style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
@@ -168,8 +168,8 @@ class CompanyCard extends StatelessWidget {
 
 
 class AllJobCard extends StatelessWidget {
-  final JobDetails jobDetails;
-  final String userId;
+  final JobDetails? jobDetails;
+  final String? userId;
   AllJobCard({this.userId, this.jobDetails});
 
   @override
@@ -182,7 +182,7 @@ class AllJobCard extends StatelessWidget {
         margin: EdgeInsets.only(right: 15.0),
         padding: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6)),
+          border: Border.all(color: Colors.blueGrey[300]!.withOpacity(0.6)),
           borderRadius: BorderRadius.circular(10.0),
           color: Color.fromRGBO(1, 82, 174, 1),
           // color: Colors.yellow,
@@ -211,14 +211,14 @@ class AllJobCard extends StatelessWidget {
                 leading: Container(
                     width: 60,
                     height: 60,
-                    child: Image.network(jobDetails.companyLogo ?? Image.asset('assets/images/splashlogo.png'))),
+                    child: Image.network(jobDetails!.companyLogo ?? Image.asset('assets/images/splashlogo.png') as String)),
                 title: Column(
                     children: [
                       SizedBox(height: 10,),
                       Align(
                         alignment: Alignment.topLeft,
                         child: FittedBox(
-                          child: Text('${jobDetails.title ?? ""}' , style: TextStyle(
+                          child: Text('${jobDetails!.title ?? ""}' , style: TextStyle(
                             fontFamily: 'Questrial',
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w400,
@@ -232,7 +232,7 @@ class AllJobCard extends StatelessWidget {
                       Align(
                           alignment: Alignment.topLeft,
                           child: FittedBox(
-                            child: Text('${jobDetails.companyName ?? ""}'  ,
+                            child: Text('${jobDetails!.companyName ?? ""}'  ,
                               style: TextStyle(
                                 fontFamily: 'Questrial',
                                 fontStyle: FontStyle.normal,
@@ -247,7 +247,7 @@ class AllJobCard extends StatelessWidget {
                       Align(
                           alignment: Alignment.topLeft,
                           child: FittedBox(
-                            child: Text('Experience ${jobDetails.experience ?? "" }' + ' Years',
+                            child: Text('Experience ${jobDetails!.experience ?? "" }' + ' Years',
                               style: TextStyle(
                                 fontFamily: 'Questrial',
                                 fontStyle: FontStyle.normal,
@@ -273,7 +273,7 @@ class AllJobCard extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.jobType == null ? '' : jobDetails.jobType}' ,
+                                  '${jobDetails!.jobType == null ? '' : jobDetails!.jobType}' ,
                                   style: TextStyle(
                                     fontFamily: 'Questrial',
                                     fontStyle: FontStyle.normal,
@@ -300,7 +300,7 @@ class AllJobCard extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12, left: 10.0 ,right: 7,bottom: 7),
                               child: FittedBox(
                                 child: Text(
-                                  '${jobDetails.type == null ? '' : jobDetails.type}'
+                                  '${jobDetails!.type == null ? '' : jobDetails!.type}'
                                   ,                           style: TextStyle(
                                   fontFamily: 'Questrial',
                                   fontStyle: FontStyle.normal,
@@ -325,7 +325,7 @@ class AllJobCard extends StatelessWidget {
                 children: [
                   FittedBox(
                     child : Text(
-                      '${jobDetails.location == null ? '' : jobDetails.location}',
+                      '${jobDetails!.location == null ? '' : jobDetails!.location}',
                       style: TextStyle(
                         fontFamily: 'Questrial',
                         fontStyle: FontStyle.normal,
@@ -339,8 +339,8 @@ class AllJobCard extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                       child: Text(
-                        '\$${jobDetails.minSalary == null ? '' : jobDetails.minSalary} ' +
-                            '- \$${jobDetails.maxSalary == null ? '' : jobDetails.maxSalary}',
+                        '\$${jobDetails!.minSalary == null ? '' : jobDetails!.minSalary} ' +
+                            '- \$${jobDetails!.maxSalary == null ? '' : jobDetails!.maxSalary}',
                         style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
@@ -354,7 +354,7 @@ class AllJobCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 55,),
-              Text('Available Positions: ${jobDetails.totalPositions}' , style: TextStyle(
+              Text('Available Positions: ${jobDetails!.totalPositions}' , style: TextStyle(
                   fontFamily: 'Questrial',
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w400,

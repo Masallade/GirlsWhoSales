@@ -5,15 +5,15 @@ import 'package:girlzwhosell/views/company_tab.dart';
 import 'package:girlzwhosell/views/description_tab.dart';
 
 class TrackApplication extends StatefulWidget {
-  final AppliedJobDetails appliedJobDetails;
-   TrackApplication ({Key key , this.appliedJobDetails, }) : super(key: key);
+  final AppliedJobDetails? appliedJobDetails;
+   TrackApplication ({Key? key , this.appliedJobDetails, }) : super(key: key);
 
   @override
   _TrackApplicationState createState() => _TrackApplicationState(appliedJobDetails: appliedJobDetails);
 }
 
 class _TrackApplicationState extends State<TrackApplication> {
-  final AppliedJobDetails appliedJobDetails;
+  final AppliedJobDetails? appliedJobDetails;
   _TrackApplicationState({this.appliedJobDetails});
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _TrackApplicationState extends State<TrackApplication> {
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: FittedBox(
-                child: Text('${appliedJobDetails.msg}' ,
+                child: Text('${appliedJobDetails!.msg}' ,
                   textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
@@ -92,10 +92,10 @@ class _TrackApplicationState extends State<TrackApplication> {
                       width: 70.0,
                       height: 70.0,
                       child: Image.network(
-                          '${appliedJobDetails.companyLogo ?? Placeholder()}')),
+                          '${appliedJobDetails!.companyLogo ?? Placeholder()}')),
                   SizedBox(height: 8.0),
                   Text(
-                    '${appliedJobDetails.title ?? " "}',
+                    '${appliedJobDetails!.title ?? " "}',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontStyle: FontStyle.normal,
@@ -109,8 +109,8 @@ class _TrackApplicationState extends State<TrackApplication> {
                     height: 5,
                   ),
                   Text(
-                    '${appliedJobDetails.companyName ?? " "} ' +
-                        '\- ${appliedJobDetails.location ?? " "}',
+                    '${appliedJobDetails!.companyName ?? " "} ' +
+                        '\- ${appliedJobDetails!.location ?? " "}',
                     style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
@@ -136,7 +136,7 @@ class _TrackApplicationState extends State<TrackApplication> {
                           const EdgeInsets.only(top: 0, left: 0.0),
                           child: Center(
                             child: Text(
-                              '${appliedJobDetails.jobtype ?? " "}',style: TextStyle(
+                              '${appliedJobDetails!.jobtype ?? " "}',style: TextStyle(
                               fontFamily: 'Questrial',
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w400,
@@ -179,8 +179,8 @@ class _TrackApplicationState extends State<TrackApplication> {
                     height: 8,
                   ),
                   Text(
-                    '\$ ${appliedJobDetails.minSalary ?? " "} ' +
-                        '\- ${appliedJobDetails.maxSalary ?? " "}',
+                    '\$ ${appliedJobDetails!.minSalary ?? " "} ' +
+                        '\- ${appliedJobDetails!.maxSalary ?? " "}',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontStyle: FontStyle.normal,

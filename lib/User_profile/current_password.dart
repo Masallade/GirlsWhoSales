@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 class CurrentPassword extends StatefulWidget {
   final user_id;
-  const CurrentPassword({Key key, this.user_id}) : super(key: key);
+  const CurrentPassword({Key? key, this.user_id}) : super(key: key);
 
   @override
   _CurrentPasswordState createState() => _CurrentPasswordState(this.user_id);
@@ -20,9 +20,9 @@ class CurrentPassword extends StatefulWidget {
 
 class _CurrentPasswordState extends State<CurrentPassword> {
   final user_id;
-  String current_password;
-  String NewPassword;
-  String confirmPassword;
+  String? current_password;
+  String? NewPassword;
+  String? confirmPassword;
   TextEditingController Currentpassword= TextEditingController();
   TextEditingController NewPass= TextEditingController();
    TextEditingController ConfirmPass= TextEditingController();
@@ -98,14 +98,14 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color:Colors.grey[300],
+                        color:Colors.grey[300]!,
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -154,7 +154,7 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                   controller: NewPass,
                   obscureText: !_passwordVisible2,
                   validator: (v) {
-                    if (v.isValidPassword) {
+                    if (v!.isValidPassword) {
                       return null;
                     } else {
                       return 'Password must contain an uppercase, \n lowercase, numeric digit and special character ,\n must be 8 character';
@@ -168,14 +168,14 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color:Colors.grey[300],
+                        color:Colors.grey[300]!,
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -222,11 +222,11 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                   cursorColor: Colors.pinkAccent[200],
                   controller:ConfirmPass,
                   obscureText: !_passwordVisible3,
-                  validator: (String value) {
+                  validator: (String? value) {
                     //   confirmPassword = value;
                     value = value;
                     print('confirm password is: $value');
-                    if (value.isValidPassword == null) {
+                    if (value!.isValidPassword == null) {
                       return "Please Re-Enter New Password";
                     } else if (value.isValidPassword == NewPass.text) {
                       return "Password Matched";
@@ -244,14 +244,14 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color:Colors.grey[300],
+                        color:Colors.grey[300]!,
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -306,8 +306,8 @@ class _CurrentPasswordState extends State<CurrentPassword> {
                 ),
                   child: GestureDetector(
                     onTap: (){
-                      if (formKey.currentState.validate()) {
-                        formKey.currentState.save();
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
                         currentPassword().then((value) {
                           if (value.status == "100") {
                             final Snackbar = SnackBar(
@@ -370,12 +370,13 @@ class _CurrentPasswordState extends State<CurrentPassword> {
     catch(e){
       print("Error in exception::: ${e.toString()}");
     }
+    return currentPasswordModel;
   }
 }
 
 
 class PasswordSuccess extends StatelessWidget {
-  const PasswordSuccess({Key key}) : super(key: key);
+  const PasswordSuccess({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -12,13 +12,13 @@ import 'package:http/http.dart'as http;
 import 'industrialTypes.dart';
 
 class jobLevel extends StatefulWidget {
-  String jobtypes;
-  String joblevel;
-  final String userId;
-  final String Button;
+  String? jobtypes;
+  String? joblevel;
+  final String? userId;
+  final String? Button;
 
   // receive data from the FirstScreen as a parameter
-  jobLevel({Key key,this.jobtypes, this.joblevel,this.userId,this.Button}) : super(key: key);
+  jobLevel({Key? key,this.jobtypes, this.joblevel,this.userId,this.Button}) : super(key: key);
 
   @override
   _jobLevelState createState() => _jobLevelState(jobtypes: jobtypes,joblevel: joblevel,userId: userId);
@@ -26,10 +26,10 @@ class jobLevel extends StatefulWidget {
 
 class _jobLevelState extends State<jobLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
-  String jobtypes;
-  String joblevel;
-  final String userId;
-  String Button ='';
+  String? jobtypes;
+  String? joblevel;
+  final String? userId;
+  String? Button ='';
 
   _jobLevelState({ this.jobtypes,this.joblevel,this.userId,this.Button});
 
@@ -46,14 +46,14 @@ class _jobLevelState extends State<jobLevel> {
     super.initState();
   }
 
-  final url = "https://biitsolutions.co.uk//girlzwhosell/API/job_level.php";
+  //final url = "https://biitsolutions.co.uk//girlzwhosell/API/job_level.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/job_level.php";
+
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
-
-
+  List? data = List.empty(growable: true); //List of Responsebody
 
 // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -61,10 +61,10 @@ class _jobLevelState extends State<jobLevel> {
     });
     print('Different job Level $resbody');
   }
-  String _dropdownError;
+  String? _dropdownError;
 
   _validateForm() {
-    bool _isValid = _formKey.currentState.validate();
+    bool _isValid = _formKey.currentState!.validate();
 
     if (joblevel == null) {
       setState(() => _dropdownError = "Please select an Job Level!");
@@ -108,7 +108,7 @@ class _jobLevelState extends State<jobLevel> {
                     LinearProgressIndicator(
                       minHeight: 10.0,
                       backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                      valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                       value: 0.3,
                     ),
                     SizedBox(height: 5,),
@@ -175,7 +175,7 @@ class _jobLevelState extends State<jobLevel> {
                 height: 70,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6))),
+                    border: Border.all(color: Colors.blueGrey[300]!.withOpacity(0.6))),
                 child: DropdownButtonHideUnderline(
                   child:  ButtonTheme(
                       alignedDropdown: true,
@@ -193,14 +193,14 @@ class _jobLevelState extends State<jobLevel> {
                               ),),
                             ),
                             value: joblevel,
-                            onChanged: (String newvalue) {
+                            onChanged: (String? newvalue) {
                               setState(() {
                                 joblevel = newvalue;
                                 _dropdownError = null;
                               });
                               print('newvalue ${joblevel}');
                             },
-                            items: data.map((item) {
+                            items: data!.map((item) {
                               return DropdownMenuItem(child: Row(
                                 children: [
                                   Text('${item["type"]}' , style: TextStyle(
@@ -234,7 +234,7 @@ class _jobLevelState extends State<jobLevel> {
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(SizeConfig.screenWidth, 60.0),
+                    fixedSize: Size(SizeConfig.screenWidth!, 60.0),
                     primary: Color.fromARGB(255, 255, 65, 129),
                     //onSurface:  Colors.pinkAccent[200],
                     shape: RoundedRectangleBorder(

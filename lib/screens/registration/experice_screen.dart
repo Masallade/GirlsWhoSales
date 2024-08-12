@@ -10,18 +10,18 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class ExperienceScreen extends StatefulWidget {
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String jobtype;
-  String Button;
-  String selectedJobtitle;
-  String ExperiencenDetail;
-  final ValueChanged<dynamic> onSubmit;
-  List<superPowerModel> selecjobsTypes = [];
-  List<jobCatagories> selectedJobTitles = [];
-  String Month;
-  final String userId;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? jobtype;
+  String? Button;
+  String? selectedJobtitle;
+  String? ExperiencenDetail;
+  final ValueChanged<dynamic>? onSubmit;
+  List<superPowerModel>? selecjobsTypes = [];
+  List<jobCatagories>? selectedJobTitles = [];
+  String? Month;
+  final String? userId;
 
   ExperienceScreen({this.industry, this.jobtypes, this.joblevel, this.jobtype,this.Button,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles ,this.Month ,this.userId});
 
@@ -35,26 +35,26 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   // declare a variable to keep track of the input text
   // create a TextEditingController
   TextEditingController fieldControllor= TextEditingController();
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Button;
-  String jobtype;
-  String selectedJobtitle;
-  String ExperiencenDetail;
-  final String userId;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Button;
+  String? jobtype;
+  String? selectedJobtitle;
+  String? ExperiencenDetail;
+  final String? userId;
 
-  final ValueChanged<String> onSubmit;
-  List<superPowerModel> selecjobsTypes = [];
-  List<jobCatagories> selectedJobTitles = [];
+  final ValueChanged<String>? onSubmit;
+  List<superPowerModel>? selecjobsTypes = [];
+  List<jobCatagories>? selectedJobTitles = [];
   _ExperienceScreenState({this.industry, this.jobtypes, this.joblevel, this.Button,this.jobtype,this.selectedJobtitle,this.ExperiencenDetail, this.onSubmit,this.selecjobsTypes,this.selectedJobTitles,this.userId});
 
   bool isValue = false;
-  String _dropdownError;
+  String? _dropdownError;
 
 
   _validateForm() {
-    bool _isValid = _formKey.currentState.validate();
+    bool _isValid = _formKey.currentState!.validate();
 
     if (ExperiencenDetail == null) {
       setState(() => _dropdownError = "Please select an experience!");
@@ -90,9 +90,9 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
 
   final url = "https://girlzwhosellcareerconextions.com/API/experience.php";
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
+  List? data = List.empty(growable: true); //List of Responsebody
   // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -136,7 +136,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                         minHeight: 10.0,
                         backgroundColor: Colors.grey[300],
                         valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                        AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                         value: 0.7,
                       ),
                       SizedBox(height: 5,),
@@ -214,7 +214,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                             height: 70,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
-                                border: Border.all(color: Colors.grey[300])),
+                                border: Border.all(color: Colors.grey[300]!)),
                             child: DropdownButtonHideUnderline(
                               child:  ButtonTheme(
                                   alignedDropdown: true,
@@ -233,14 +233,14 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                                         ),
                                         // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
                                         value: ExperiencenDetail,
-                                        onChanged: (String newvalue) {
+                                        onChanged: (String? newvalue) {
                                           setState(() {
                                             ExperiencenDetail = newvalue;
                                             _dropdownError = null;
                                           });
                                           print('newvalue ${ExperiencenDetail}');
                                         },
-                                        items: data.map((item) {
+                                        items: data!.map((item) {
                                           return DropdownMenuItem(
                                             child: Row(
                                               children: [

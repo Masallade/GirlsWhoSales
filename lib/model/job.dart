@@ -1,12 +1,12 @@
 class Job {
-  final int id;
-  final String companyName;
-  final String imgUrl;
-  final String position;
-  final String location;
-  final String type;
-  final List<String> responsibilities;
-  final List<String> qualifications;
+  final int? id;
+  final String? companyName;
+  final String? imgUrl;
+  final String? position;
+  final String? location;
+  final String? type;
+  final List<String>? responsibilities;
+  final List<String>? qualifications;
 
   Job({
     this.id,

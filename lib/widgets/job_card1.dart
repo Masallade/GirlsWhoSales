@@ -9,19 +9,19 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JobCard1 extends StatefulWidget {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final user_Id;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   // final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
   const JobCard1(
-      {Key key,
+      {Key? key,
       this.favoriteJobs,
       this.user_Id,
       this.uName,
@@ -49,14 +49,14 @@ class JobCard1 extends StatefulWidget {
 }
 
 class _JobCard1State extends State<JobCard1> {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final user_Id;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   // final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
 
   final jobId;
   final cv;
@@ -119,8 +119,8 @@ class _JobCard1State extends State<JobCard1> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Image.network(
-                      favoriteJobs.companyLogo ??
-                          Image.asset('assets/images/splashlogo.png'),
+                      favoriteJobs!.companyLogo ??
+                          Image.asset('assets/images/splashlogo.png') as String,
                       height: 40,
                       width: 40,
                     ),
@@ -130,7 +130,7 @@ class _JobCard1State extends State<JobCard1> {
               title: Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
-                  '${favoriteJobs.companyName ?? ""}',
+                  '${favoriteJobs!.companyName ?? ""}',
                   style: TextStyle(
                     color: Color.fromRGBO(113, 126, 149, 1),
                     fontStyle: FontStyle.normal,
@@ -146,7 +146,7 @@ class _JobCard1State extends State<JobCard1> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      '${favoriteJobs.title}',
+                      '${favoriteJobs!.title}',
                       style: TextStyle(
                         color: Color.fromRGBO(34, 34, 34, 1),
                         fontStyle: FontStyle.normal,
@@ -160,7 +160,7 @@ class _JobCard1State extends State<JobCard1> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      '${favoriteJobs.jobType}',
+                      '${favoriteJobs!.jobType}',
                       style: TextStyle(
                         color: Color.fromRGBO(1, 82, 174, 1),
                         fontStyle: FontStyle.normal,
@@ -181,19 +181,19 @@ class _JobCard1State extends State<JobCard1> {
 }
 
 class JobCard2 extends StatefulWidget {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final user_Id;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   // final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
   const JobCard2(
-      {Key key,
+      {Key? key,
       this.favoriteJobs,
       this.user_Id,
       this.uName,
@@ -221,20 +221,20 @@ class JobCard2 extends StatefulWidget {
 }
 
 class _JobCard2State extends State<JobCard2> {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final user_Id;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   // final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
 
   final jobId;
   final cv;
   final resume;
-  bool isLiked;
-  bool IsButton;
+  bool? isLiked;
+  bool? IsButton;
 
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
@@ -310,8 +310,8 @@ class _JobCard2State extends State<JobCard2> {
                             child: Align(
                               alignment: Alignment.topLeft,
                               child: Image.network(
-                                favoriteJobs.companyLogo ??
-                                    Image.asset('assets/images/splashlogo.png'),
+                                favoriteJobs!.companyLogo ??
+                                    Image.asset('assets/images/splashlogo.png') as String,
                                 height: 40,
                                 width: 40,
                               ),
@@ -340,7 +340,7 @@ class _JobCard2State extends State<JobCard2> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        '${favoriteJobs.title ?? ""}',
+                        '${favoriteJobs!.title ?? ""}',
                         //style: kCaptionTextStyle,
                         style: TextStyle(
                           color: Colors.black,
@@ -360,7 +360,7 @@ class _JobCard2State extends State<JobCard2> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        favoriteJobs.companyName ?? " ",
+                        favoriteJobs!.companyName ?? " ",
                         //data.companyName,
                         style: TextStyle(
                           color: Color.fromRGBO(113, 126, 149, 1),
@@ -381,7 +381,7 @@ class _JobCard2State extends State<JobCard2> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Salary \$ ${favoriteJobs.minSalary ?? " " + favoriteJobs.maxSalary ?? ""}",
+                        "Salary \$ ${favoriteJobs!.minSalary ?? " " + favoriteJobs!.maxSalary! ?? ""}",
                         style: TextStyle(
                           color: Color.fromRGBO(113, 126, 149, 1),
                           fontStyle: FontStyle.normal,
@@ -402,11 +402,11 @@ class _JobCard2State extends State<JobCard2> {
   }
 
   Future savejob() async {
-    String uid;
-    String Jid;
+    String? uid;
+    String? Jid;
     var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
-      "job_id": favoriteJobs.jobId,
+      "job_id": favoriteJobs!.jobId,
     });
     if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -415,7 +415,7 @@ class _JobCard2State extends State<JobCard2> {
       final prefs = await SharedPreferences.getInstance();
 
       prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', favoriteJobs.jobId);
+      prefs.setString('job_Id', favoriteJobs!.jobId!);
       prefs.setBool('stateOfButton', true);
 
       uid = await prefs.getString('user_Id');
@@ -433,7 +433,7 @@ class _JobCard2State extends State<JobCard2> {
         'Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -451,11 +451,11 @@ class _JobCard2State extends State<JobCard2> {
   }
 
   Future Unsavejob() async {
-    String uid;
-    String Jid;
+    String? uid;
+    String? Jid;
     var res = await http.post(Uri.parse(removefavjob), body: {
       "seeker_id": user_Id,
-      "job_id": favoriteJobs.jobId,
+      "job_id": favoriteJobs!.jobId,
     });
     if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -463,7 +463,7 @@ class _JobCard2State extends State<JobCard2> {
 
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('user_Id', user_Id);
-      prefs.setString('job_Id', favoriteJobs.jobId);
+      prefs.setString('job_Id', favoriteJobs!.jobId!);
       uid = await prefs.getString('user_Id');
       Jid = await prefs.getString('job_Id');
       print('userid is :$uid');
@@ -476,7 +476,7 @@ class _JobCard2State extends State<JobCard2> {
         'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,

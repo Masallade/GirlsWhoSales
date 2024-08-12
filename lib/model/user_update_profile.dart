@@ -1,6 +1,6 @@
 class UserProfile {
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   UserProfile({this.message, this.status});
 

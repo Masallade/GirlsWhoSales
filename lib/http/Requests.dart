@@ -14,7 +14,7 @@ import '../model/SavedJobsModel.dart';
 import '../model/all_jobs_model.dart';
 import '../screens/main_menu/all_jobs.dart';
 
-SharedPreferences logindata;
+SharedPreferences? logindata;
 
 
 
@@ -22,8 +22,8 @@ class Requests {
 
   static Future<dynamic> Login(
       BuildContext context,
-      String userName,
-      String password,
+      String? userName,
+      String? password,
       String token1 ,
       bool resync) async {
     try {
@@ -55,8 +55,8 @@ class Requests {
 
         final prefs = await SharedPreferences.getInstance();
 
-        prefs.setString("uName====", userName);
-        prefs.setString("pass=====", password);
+        prefs.setString("uName====", userName!);
+        prefs.setString("pass=====", password!);
 
         //  logindata.getString('username');
         final uName = await prefs.getString("uName");
@@ -78,8 +78,8 @@ class Requests {
           print(loginModel.jobDetails);
           print(loginModel.seekerDetails);
 
-          CVurl = loginModel.seekerDetails[0].cV;
-          VisumeUrl = loginModel.seekerDetails[0].resume;
+          CVurl = loginModel.seekerDetails![0].cV;
+          VisumeUrl = loginModel.seekerDetails![0].resume;
 
           if(!resync){
             Navigator.push(
@@ -89,18 +89,18 @@ class Requests {
                   return HomePage(
                     uName: uName,
                     password: pass,
-                    user_Id: loginModel.seekerDetails[0].id,
+                    user_Id: loginModel.seekerDetails![0].id,
                     cookiee: loginModel.message,
                     jobDetails: loginModel.jobDetails,
                     favoriteJobs: loginModel.favoriteJobs,
                     userDetails: loginModel.seekerDetails,
-                    firstName: loginModel.seekerDetails[0].firstname,
-                    title: loginModel.seekerDetails[0].jobTitle,
-                    profile: loginModel.seekerDetails[0].profilePicture,
+                    firstName: loginModel.seekerDetails![0].firstname,
+                    title: loginModel.seekerDetails![0].jobTitle,
+                    profile: loginModel.seekerDetails![0].profilePicture,
                     // city : loginModel.seekerDetails[0].city,
-                    nationality: loginModel.seekerDetails[0].city,
-                    cv: loginModel.seekerDetails[0].cV,
-                    resumee: loginModel.seekerDetails[0].resume,
+                    nationality: loginModel.seekerDetails![0].city,
+                    cv: loginModel.seekerDetails![0].cV,
+                    resumee: loginModel.seekerDetails![0].resume,
                     total_applied: loginModel.countOfJobsApplied,
                     total_saved: loginModel.countOfJobsSaved,
                     token1: token1,
@@ -132,9 +132,10 @@ class Requests {
         }
       }
     } catch (error) {
+      print('dawood dawood dawood');
       print(error.toString());
-      utils().showDialogCustomForLogin(context, "Failed",
-          "No Internet Connection. Or Some Internal Issues", "OK");
+      // utils().showDialogCustomForLogin(context, "Failed",
+      //     "No Internet Connection. Or Some Internal Issues", "OK");
     }
   }
 
@@ -162,7 +163,7 @@ class Requests {
   //     print("Error in exception::: ${e.toString()}");
   //   }
   // }
-  static Future<List<SearchModel>> getSearch(String query) async {
+  static Future<List<SearchModel>?> getSearch(String query) async {
     final url = "https://girlzwhosellcareerconextions.com/API/jobs_list.php";
     try {
       final response = await http.get(Uri.parse(url));
@@ -188,12 +189,13 @@ class Requests {
     } catch (e) {
       print("Error in exception: ${e.toString()}");
     }
+    return null;
   }
 
 
 
-  static Future<dynamic> ProfileLogin(BuildContext context, String userName,
-      String password, String token1, bool resync) async {
+  static Future<dynamic> ProfileLogin(BuildContext context, String? userName,
+      String? password, String token1, bool resync) async {
     try {
 
       final response = await http.post(
@@ -216,8 +218,8 @@ class Requests {
 
         final prefs = await SharedPreferences.getInstance();
 
-        prefs.setString("uName", userName);
-        prefs.setString("pass", password);
+        prefs.setString("uName", userName!);
+        prefs.setString("pass", password!);
 
         final uName = await prefs.getString("uName");
         final pass = await prefs.getString("pass");
@@ -238,7 +240,7 @@ class Requests {
             'Profile has been Updated Successfully',
             context: context,
             fullWidth: true,
-            backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+            backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
             animation: StyledToastAnimation.slideFromBottomFade,
             reverseAnimation: StyledToastAnimation.fade,
             position: StyledToastPosition.center,
@@ -255,13 +257,13 @@ class Requests {
                 return ProfileMain(
                   uName: uName,
                   password: pass,
-                  user_Id: loginModel.seekerDetails[0].id,
+                  user_Id: loginModel.seekerDetails![0].id,
                   userDetails: loginModel.seekerDetails,
-                  firstName: loginModel.seekerDetails[0].firstname,
-                  title: loginModel.seekerDetails[0].jobTitle,
-                  profile: loginModel.seekerDetails[0].profilePicture,
-                  city: loginModel.seekerDetails[0].city,
-                  nationality: loginModel.seekerDetails[0].city,
+                  firstName: loginModel.seekerDetails![0].firstname,
+                  title: loginModel.seekerDetails![0].jobTitle,
+                  profile: loginModel.seekerDetails![0].profilePicture,
+                  city: loginModel.seekerDetails![0].city,
+                  nationality: loginModel.seekerDetails![0].city,
                   //token1: token1,
                 );
               },
@@ -282,15 +284,15 @@ class Requests {
       }
     } catch (error) {
       print(error.toString());
-      utils().showDialogCustomForLogin(
-          context, "Failed", "No Internet Connection.", "OK");
+      // utils().showDialogCustomForLogin(
+      //     context, "Failed", "No Internet Connection.", "OK");
     }
   }
 
 
   //getting all job details
 
-  static Future<List<JobDetails>> getJobDetails(int user_ID) async {
+  static Future<List<JobDetails>?> getJobDetails(int? user_ID) async {
     var request = http.Request('GET', Uri.parse(base_url + 'jobs_filtered.php?user_id=$user_ID'));
 
     http.StreamedResponse response = await request.send();
@@ -301,9 +303,9 @@ class Requests {
 
       for (var jsonItem in responseData) {
         JobDetails job = JobDetails.fromJson(jsonItem);
-        all_jobs_details.add(job);
+        all_jobs_details!.add(job);
       }
-      print("hello =================== >>>>>>>> +++++++++ ${all_jobs_details.length}");
+      print("hello =================== >>>>>>>> +++++++++ ${all_jobs_details!.length}");
 
 
       return all_jobs_details;
@@ -313,9 +315,9 @@ class Requests {
     }
   }
 
-  static List<FavoriteJobs> updatefavoriteJobs;
+  static List<FavoriteJobs>? updatefavoriteJobs;
 
-  static Future<List<FavoriteJobs>> updatefavoriteJob(
+  static Future<List<FavoriteJobs>?> updatefavoriteJob(
       BuildContext context,String userID) async {
     String get_key_url =
         "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${userID}";

@@ -1,6 +1,6 @@
 class Files_Upload_Model {
-  int status;
-  String message;
+  int? status;
+  String? message;
 
   Files_Upload_Model({this.status, this.message});
 

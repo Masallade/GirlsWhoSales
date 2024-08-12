@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 
 class DetailItem extends StatelessWidget {
-  final String data;
+  final String? data;
 
-  const DetailItem({Key key, this.data}) : super(key: key);
+  const DetailItem({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: kSpacingUnit * 2),
       child: Text(
-        data,
+        data!,
         style: kCaptionTextStyle.copyWith(
           color: kPrimaryTextColor,
           fontWeight: FontWeight.w400,

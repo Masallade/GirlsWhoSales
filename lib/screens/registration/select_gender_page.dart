@@ -12,7 +12,7 @@ class SelectGender extends StatefulWidget {
 
 class _SelectGenderState extends State<SelectGender> {
   List<String> _selectGender = ['♂ Male', '♀ Female', ' ⚧  Other'];
-  int _defaultChoiceIndex;
+  int? _defaultChoiceIndex;
 
   @override
   void initState() {

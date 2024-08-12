@@ -59,8 +59,8 @@ class utils {
           ),
         ],
       ),
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   static Widget getLoader(){
@@ -69,8 +69,8 @@ class utils {
         child: TweenAnimationBuilder(
           tween: Tween(begin: 0.0,end: 1.0),
           duration: Duration(seconds: 3),
-          builder: (context,value,child){
-            int percentage = (value*100).ceil();
+          builder: (context,dynamic value,child){
+            int? percentage = (value*100).ceil();
             return Container(
               width: 200.0,
               height: 200.0,
@@ -84,7 +84,7 @@ class utils {
                           stops: [value,value],
                           // 0.0 , 0.5 , 0.5 , 1.0
                           center: Alignment.center,
-                          colors: [Colors.lightBlue[800],Colors.grey.withAlpha(55)]
+                          colors: [Colors.lightBlue[800]!,Colors.grey.withAlpha(55)]
                       ).createShader(rect);
                     },
                     child: Container(
@@ -164,7 +164,7 @@ class utils {
         });
   }
 
-  void showDialogCustom(BuildContext context, String title, String body, String button) {
+  void showDialogCustom(BuildContext context, String title, String? body, String button) {
     // flutter defined function
     showDialog(
       context: context,
@@ -176,7 +176,7 @@ class utils {
           ),
           backgroundColor: Colors.grey,
           title: new Text(title),
-          content: new Text(body),
+          content: new Text(body!),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
@@ -201,7 +201,7 @@ class utils {
       },
     );
   }
-  void showDialogCustomForLogin(BuildContext context, String title, String body, String button) {
+  void showDialogCustomForLogin(BuildContext context, String title, String? body, String button) {
     // flutter defined function
     showDialog(
       context: context,
@@ -213,7 +213,7 @@ class utils {
           ),
           backgroundColor: Colors.grey,
           title: new Text(title , style: HeadingStyle,),
-          content: new Text(body , ),
+          content: new Text(body! , ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             // ignore: deprecated_member_use
@@ -230,14 +230,14 @@ class utils {
                     button, style: TextStyle(color: Colors.black),)
               ),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignInPage();
-                    },
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return SignInPage();
+                //     },
+                //   ),
+                // );
                 //   Navigator.of(context).pop();
               },
             ),

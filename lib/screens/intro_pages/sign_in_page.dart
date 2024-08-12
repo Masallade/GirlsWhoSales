@@ -28,8 +28,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  String userName;
-  String password;
+  String? userName;
+  String? password;
 
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -76,8 +76,8 @@ class _SignInPageState extends State<SignInPage> {
 
   ///For AutoLogin
   bool isLoggedIn = false;
-  SharedPreferences logindata;
-  bool newUser;
+  SharedPreferences? logindata;
+  bool? newUser;
 
 
 
@@ -100,8 +100,8 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<Null> loginUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(keyUserName, userName);
-    prefs.setString(KeyUserPassword, password);
+    prefs.setString(keyUserName, userName!);
+    prefs.setString(KeyUserPassword, password!);
     prefs.setBool(KeyisUserAlreadyLogin,true);
 
     setState(() {
@@ -167,8 +167,8 @@ class _SignInPageState extends State<SignInPage> {
         ],
       ),
       context: context,
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
@@ -238,7 +238,7 @@ class _SignInPageState extends State<SignInPage> {
                             },
                             keyboardType: TextInputType.emailAddress,
                             validator: (v) {
-                              if (v.isValidEmail) {
+                              if (v!.isValidEmail) {
                                 return null;
                               } else {
                                 return 'Please enter your registered email';
@@ -265,14 +265,14 @@ class _SignInPageState extends State<SignInPage> {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(
-                                  color: Colors.blueGrey[300],
+                                  color: Colors.blueGrey[300]!,
                                 ),
                               ),
 
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(
-                                  color: Colors.blueGrey[300],
+                                  color: Colors.blueGrey[300]!,
                                 ),
                               ),
                               hintStyle: TextStyle(
@@ -332,14 +332,14 @@ class _SignInPageState extends State<SignInPage> {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(
-                                color: Colors.blueGrey[300],
+                                color: Colors.blueGrey[300]!,
                               ),
                             ),
 
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(
-                                color: Colors.blueGrey[300],
+                                color: Colors.blueGrey[300]!,
                               ),
                             ),
                             //   labelText: 'Password',
@@ -389,8 +389,8 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              if (key.currentState.validate() &&
-                                  _key.currentState.validate()) {
+                              if (key.currentState!.validate() &&
+                                  _key.currentState!.validate()) {
                                  loginUser();
                                  user_updated_list = false;
                                   kuserName = userName;

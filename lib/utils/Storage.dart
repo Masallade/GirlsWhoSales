@@ -22,7 +22,7 @@ class Storage extends StorageBase {
 abstract class StorageBase {
 
   @protected
-  FlutterSecureStorage _storage;
+  late FlutterSecureStorage _storage;
 
 
 
@@ -50,7 +50,7 @@ abstract class StorageBase {
 
   List<_SecItem> items = [];
 
-  Future<String> get_idforDevices() async {
+  Future<String?> get_idforDevices() async {
 
     try {
       return readWhereKey(key_idforDevices);
@@ -58,7 +58,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getCookie() async {
+  Future<String?> getCookie() async {
 
     try {
       return readWhereKey(key_token);
@@ -67,7 +67,7 @@ abstract class StorageBase {
     }
   }
 
-  Future<String> getfcm_token() async {
+  Future<String?> getfcm_token() async {
 
     try {
       return readWhereKey(fcm_token);
@@ -76,7 +76,7 @@ abstract class StorageBase {
     }
   }
 
-  Future<String> getUser_name() async {
+  Future<String?> getUser_name() async {
 
     try {
       return readWhereKey(name);
@@ -84,7 +84,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_email() async {
+  Future<String?> getUser_email() async {
 
     try {
       return readWhereKey(email);
@@ -92,7 +92,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_cnic() async {
+  Future<String?> getUser_cnic() async {
 
     try {
       return readWhereKey(cnic);
@@ -100,7 +100,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_cellPhone() async {
+  Future<String?> getUser_cellPhone() async {
 
     try {
       return readWhereKey(cellPhone);
@@ -108,7 +108,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_company() async {
+  Future<String?> getUser_company() async {
 
     try {
       return readWhereKey(company);
@@ -116,7 +116,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_city() async {
+  Future<String?> getUser_city() async {
 
     try {
       return readWhereKey(city);
@@ -124,7 +124,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_mailingAddress() async {
+  Future<String?> getUser_mailingAddress() async {
 
     try {
       return readWhereKey(mailingAddress);
@@ -132,7 +132,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> getUser_dob() async {
+  Future<String?> getUser_dob() async {
 
     try {
       return readWhereKey(dob);
@@ -159,11 +159,11 @@ abstract class StorageBase {
 
 
   void updatetokenInfo(LoginModel resp) {
-    addNewItem(key_token, jsonEncode(resp.seekerDetails[0].id));
-    addNewItem(key_idforDevices, jsonEncode(resp.seekerDetails[0].firstname));
-    addNewItem(name, jsonEncode(resp.seekerDetails[0].lastname));
-    addNewItem(email, jsonEncode(resp.seekerDetails[0].email));
-    addNewItem(cnic, jsonEncode(resp.seekerDetails[0].address));
+    addNewItem(key_token, jsonEncode(resp.seekerDetails![0].id));
+    addNewItem(key_idforDevices, jsonEncode(resp.seekerDetails![0].firstname));
+    addNewItem(name, jsonEncode(resp.seekerDetails![0].lastname));
+    addNewItem(email, jsonEncode(resp.seekerDetails![0].email));
+    addNewItem(cnic, jsonEncode(resp.seekerDetails![0].address));
     // addNewItem(cellPhone, jsonEncode(resp.userDetails.cellPhone));
     // addNewItem(company, jsonEncode(resp.userDetails.company));
     // addNewItem(city, jsonEncode(resp.userDetails.city));
@@ -183,7 +183,7 @@ abstract class StorageBase {
   final key_device_id = 'key_device_id';
   final key_index = 'key_index';
 
-  Future<String> get_DeviceID() async {
+  Future<String?> get_DeviceID() async {
 
     try {
       return readWhereKey(key_device_id);
@@ -191,7 +191,7 @@ abstract class StorageBase {
       return null;
     }
   }
-  Future<String> get_PositionID() async {
+  Future<String?> get_PositionID() async {
 
     try {
       return readWhereKey(key_positionId);
@@ -200,7 +200,7 @@ abstract class StorageBase {
     }
   }
 
-  Future<String> get_contact() async {
+  Future<String?> get_contact() async {
 
     try {
       return readWhereKey(key_contact);
@@ -209,7 +209,7 @@ abstract class StorageBase {
     }
   }
 
-  Future<String> get_index() async {
+  Future<String?> get_index() async {
 
     try {
       return readWhereKey(key_index);
@@ -262,7 +262,7 @@ abstract class StorageBase {
     print("delete = "+key);
   }
 
-  Future<String> readWhereKey(String key) async {
+  Future<String?> readWhereKey(String key) async {
 
     final keyValue = await _storage.read(key: key);
     return keyValue;
@@ -281,5 +281,5 @@ class _SecItem {
   _SecItem(this.key, this.value);
 
   final String key;
-  final String value;
+  final String? value;
 }

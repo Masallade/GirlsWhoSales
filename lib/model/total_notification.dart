@@ -1,5 +1,5 @@
 class TotalNotification {
-  String totalCountNotf;
+  String? totalCountNotf;
 
   TotalNotification({this.totalCountNotf});
 

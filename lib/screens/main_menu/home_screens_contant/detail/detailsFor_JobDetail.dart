@@ -11,12 +11,12 @@ import 'package:intl/intl.dart';
 
 
 class DetailsForJobDetail extends StatefulWidget {
-  final Job data;
-  final JobDetails jobDetails;
-  final String userId;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final String? userId;
 
 
-  const DetailsForJobDetail({Key key, this.data, this.jobDetails, this.userId}) : super(key: key);
+  const DetailsForJobDetail({Key? key, this.data, this.jobDetails, this.userId}) : super(key: key);
   static final String uploadEndPoint =
       base_url+'apply_job.php';
 
@@ -30,9 +30,9 @@ class DetailsForJobDetail extends StatefulWidget {
 class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
    String errMessage = 'Error Uploading Slip';
    String status = '';
-   final Job data;
-  final JobDetails jobDetails;
-  final String userId;
+   final Job? data;
+  final JobDetails? jobDetails;
+  final String? userId;
 
    _DetailsForJobDetailState(this.data, this.jobDetails, this.userId);
 
@@ -65,7 +65,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
               ),
             ),
             Text(
-              jobDetails.title,
+              jobDetails!.title!,
               style: kSubTitleTextStyle.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -95,7 +95,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                         children: [
                           SizedBox(height: kSpacingUnit * 5),
                           SvgPicture.asset(
-                            jobDetails.companyLogo != null ? jobDetails.companyLogo : "",
+                            jobDetails!.companyLogo != null ? jobDetails!.companyLogo! : "",
                             height: 50.sp,
                             width: 50.sp,
                           ),
@@ -104,7 +104,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                             style: kSubTitleTextStyle,
                           ),
                           Text(
-                            jobDetails.location,
+                            jobDetails!.location!,
                             style: kCaptionTextStyle,
                           ),
                           SizedBox(height: kSpacingUnit * 2),
@@ -121,7 +121,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                     ),
                                     SizedBox(width: kSpacingUnit * 6),
                                     Text(
-                                      jobDetails.minSalary,
+                                      jobDetails!.minSalary!,
                                       style: kTitleTextStyle,
                                     ),
                                     SizedBox(width: kSpacingUnit * 2),
@@ -131,7 +131,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                     ),
                                     SizedBox(width: kSpacingUnit * 2),
                                     Text(
-                                      jobDetails.maxSalary,
+                                      jobDetails!.maxSalary!,
                                       style: kTitleTextStyle,
                                     ),
                                   ],
@@ -145,7 +145,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                     ),
                                     SizedBox(width: kSpacingUnit * 6),
                                     Text(
-                                      jobDetails.experience,
+                                      jobDetails!.experience!,
                                       style: kTitleTextStyle,
                                     ),
 
@@ -160,7 +160,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                     ),
                                     SizedBox(width: kSpacingUnit *4),
                                     Text(
-                                      jobDetails.totalPositions,
+                                      jobDetails!.totalPositions!,
                                       style: kTitleTextStyle,
                                     ),
 
@@ -172,7 +172,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                   style: kSubTitleTextStyle,
                                 ),
                                 Text(
-                                  jobDetails.skills,
+                                  jobDetails!.skills!,
                                   style: kTitleTextStyle,
                                 ),
                                 SizedBox(height: kSpacingUnit * 2),
@@ -182,7 +182,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                 ),
                                 SizedBox(width: kSpacingUnit * 4),
                                 Text(
-                                  jobDetails.requiredEducation,
+                                  jobDetails!.requiredEducation!,
                                   style: kTitleTextStyle,
                                 ),
                                 SizedBox(height: kSpacingUnit * 2),
@@ -191,7 +191,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
                                   style: kSubTitleTextStyle,
                                 ),
                                 Text(
-                                  jobDetails.description,
+                                  jobDetails!.description!,
                                   style: kTitleTextStyle,
                                 ),
                                 SizedBox(height: kSpacingUnit * 6),
@@ -291,8 +291,8 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
 
     http.post(Uri.parse(DetailsForJobDetail.uploadEndPoint), body: {
       "user_id": userId,
-      "job_id": jobDetails.id,
-      "emp_id": jobDetails.employerId,
+      "job_id": jobDetails!.id,
+      "emp_id": jobDetails!.employerId,
       "cover_letter": "123456",
       "applied_date": getCurrentDate(),
 
@@ -313,7 +313,7 @@ class _DetailsForJobDetailState extends State<DetailsForJobDetail> {
 
      http.post(Uri.parse(DetailsForJobDetail.uploadsavejob), body: {
        "user_id": userId,
-       "job_id": jobDetails.id,
+       "job_id": jobDetails!.id,
 
      }).then((result) {
        setStatus(result.statusCode == 200 ? result.body : errMessage);

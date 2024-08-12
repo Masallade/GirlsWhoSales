@@ -43,7 +43,7 @@ class _SkillPageState extends State<SkillPage> {
                   ),
                   PageTitle(titleText: Strings.titleText2, fontSize: 25.0,),
                   Container(
-                    height: SizeConfig.screenHeight*.8,
+                    height: SizeConfig.screenHeight!*.8,
                     child: Column(
                       children: <Widget>[
                         Expanded(

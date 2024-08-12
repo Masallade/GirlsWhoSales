@@ -5,7 +5,7 @@ import '../../http/Requests.dart';
 import '../../utils/constants.dart';
 
 class SecondSplash extends StatefulWidget {
-  const SecondSplash({Key key}) : super(key: key);
+  const SecondSplash({Key? key}) : super(key: key);
 
   @override
   State<SecondSplash> createState() => _SecondSplashState();
@@ -23,7 +23,7 @@ class _SecondSplashState extends State<SecondSplash> {
   Future getloadinDashboard()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(prefs.getBool(KeyisUserAlreadyLogin)){
+    if(prefs.getBool(KeyisUserAlreadyLogin)!){
      autoLogIn();
     }
   }
@@ -42,11 +42,11 @@ class _SecondSplashState extends State<SecondSplash> {
   autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(!prefs.getBool(KeyisUserAlreadyLogin))
+    if(!prefs.getBool(KeyisUserAlreadyLogin)!)
       return;
 
-    final String userName = prefs.getString(keyUserName);
-    final String userPass = prefs.getString(KeyUserPassword);
+    final String? userName = prefs.getString(keyUserName);
+    final String? userPass = prefs.getString(KeyUserPassword);
 
     if (userName != null || userPass != null) {
       setState(() {

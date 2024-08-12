@@ -12,14 +12,14 @@ import 'package:http/http.dart'as http;
 // ignore: must_be_immutable
 class JobType extends StatefulWidget {
 
-  String industry;
-  String jobtypes;
-  String jobtype;
-  String joblevel;
-  String Button;
-final String userId;
+  String? industry;
+  String? jobtypes;
+  String? jobtype;
+  String? joblevel;
+  String? Button;
+final String? userId;
   // receive data from the FirstScreen as a parameter
-   JobType({Key key,this.industry,this.jobtype, this.jobtypes ,this.joblevel, this.Button,this.userId}) : super(key: key);
+   JobType({Key? key,this.industry,this.jobtype, this.jobtypes ,this.joblevel, this.Button,this.userId}) : super(key: key);
 
   @override
   _JobTypeState createState() => _JobTypeState( industry: industry, jobtype: jobtype,jobtypes: jobtypes,joblevel: joblevel, Button: Button ,userId: userId);
@@ -27,12 +27,12 @@ final String userId;
 
 class _JobTypeState extends State<JobType> {
   GlobalKey <FormState> _formKey = GlobalKey();
-  String industry;
-  String jobtype;
-  String jobtypes;
-  String joblevel;
-  String Button;
-  final String userId;
+  String? industry;
+  String? jobtype;
+  String? jobtypes;
+  String? joblevel;
+  String? Button;
+  final String? userId;
   _JobTypeState({this.industry,this.jobtype,this.jobtypes ,this.joblevel, this.Button,this.userId});
 
   @override
@@ -56,9 +56,9 @@ class _JobTypeState extends State<JobType> {
  // static List<jobCatagories> _data = [];
   final url = "https://girlzwhosellcareerconextions.com/API/job_title.php";
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
+  List? data = List.empty(growable: true); //List of Responsebody
 // ignore: missing_return
-Future<String> getData() async{
+Future<String?> getData() async{
   var res = await http.get(Uri.parse(url));
   var resbody = json.decode(res.body);
   setState(() {
@@ -66,10 +66,10 @@ Future<String> getData() async{
   });
   print('jobtitle $resbody');
 }
-  String _dropdownError;
+  String? _dropdownError;
 
   _validateForm() {
-    bool _isValid = _formKey.currentState.validate();
+    bool _isValid = _formKey.currentState!.validate();
 
     if (jobtype == null) {
       setState(() => _dropdownError = "Please select an option!");
@@ -113,7 +113,7 @@ Future<String> getData() async{
                     LinearProgressIndicator(
                       minHeight: 10.0,
                       backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                      valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                       value: 0.6,
                     ),
                     SizedBox(height: 5,),
@@ -180,7 +180,7 @@ Future<String> getData() async{
                 height: 70,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6))),
+                    border: Border.all(color: Colors.blueGrey[300]!.withOpacity(0.6))),
                 child: DropdownButtonHideUnderline(
                   child:  ButtonTheme(
                       alignedDropdown: true,
@@ -199,14 +199,14 @@ Future<String> getData() async{
                             ),
                             // value:  jobTitle == null ? null : Lists.jobCatagories[jobTitle],
                             value: jobtype,
-                            onChanged: (String newvalue) {
+                            onChanged: (String? newvalue) {
                               setState(() {
                                 jobtype = newvalue;
                                 _dropdownError = null;
                               });
                               print('newvalue ${jobtype}');
                             },
-                            items: data.map((item) {
+                            items: data!.map((item) {
                               return DropdownMenuItem(child: Row(
                                 children: [
                                   Text('${item["title"]}' , style: TextStyle(
@@ -239,7 +239,7 @@ Future<String> getData() async{
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(SizeConfig.screenWidth, 60.0),
+                    fixedSize: Size(SizeConfig.screenWidth!, 60.0),
                     primary: Color.fromARGB(255, 255, 65, 129),
                     //onSurface:  Colors.pinkAccent[200],
                     shape: RoundedRectangleBorder(

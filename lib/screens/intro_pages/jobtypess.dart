@@ -7,10 +7,10 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class entryLevel extends StatefulWidget {
-  final String userId;
-  String jobtypes;
+  final String? userId;
+  String? jobtypes;
   // receive data from the FirstScreen as a parameter
-  entryLevel({Key key,this.userId,this.jobtypes, }) : super(key: key);
+  entryLevel({Key? key,this.userId,this.jobtypes, }) : super(key: key);
 
   @override
   _entryLevelState createState() => _entryLevelState(userId: userId,jobtypes: jobtypes,);
@@ -18,8 +18,8 @@ class entryLevel extends StatefulWidget {
 
 class _entryLevelState extends State<entryLevel> {
   GlobalKey <FormState> _formKey = GlobalKey();
-  final String userId;
-  String jobtypes;
+  final String? userId;
+  String? jobtypes;
 
   _entryLevelState({ this.userId,this.jobtypes});
 
@@ -31,14 +31,16 @@ class _entryLevelState extends State<entryLevel> {
     super.initState();
   }
 
-  final url = "https://biitsolutions.co.uk//girlzwhosell/API/jobtype.php";
+  //final url = "https://biitsolutions.co.uk//girlzwhosell/API/jobtype.php";
+  final url = "https://girlzwhosellcareerconextions.com/API/jobtype.php";
+
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
+  List? data = List.empty(growable: true); //List of Responsebody
 
 
 
 // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -46,10 +48,10 @@ class _entryLevelState extends State<entryLevel> {
     });
     print('Different job typess $resbody');
   }
-  String _dropdownError;
+  String? _dropdownError;
 
   _validateForm() {
-    bool _isValid = _formKey.currentState.validate();
+    bool _isValid = _formKey.currentState!.validate();
 
     if (jobtypes == null) {
       setState(() => _dropdownError = "Please select an option!");
@@ -93,7 +95,7 @@ class _entryLevelState extends State<entryLevel> {
                     LinearProgressIndicator(
                       minHeight: 10.0,
                       backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                      valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                       value: 0.2,
                     ),
                     SizedBox(height: 5,),
@@ -163,7 +165,7 @@ class _entryLevelState extends State<entryLevel> {
                 height: 70,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.blueGrey[300].withOpacity(0.6))),
+                    border: Border.all(color: Colors.blueGrey[300]!.withOpacity(0.6))),
                 child: DropdownButtonHideUnderline(
                   child:  ButtonTheme(
                       alignedDropdown: true,
@@ -181,14 +183,14 @@ class _entryLevelState extends State<entryLevel> {
                               ),),
                             ),
                             value: jobtypes,
-                            onChanged: (String newvalue) {
+                            onChanged: (String? newvalue) {
                               setState(() {
                                 jobtypes = newvalue;
                                 _dropdownError = null;
                               });
                               print('newvalue ${jobtypes}');
                             },
-                            items: data.map((item) {
+                            items: data!.map((item) {
                               return DropdownMenuItem(child: Row(
                                 children: [
                                   Text('${item["type"]}' , style: TextStyle(
@@ -222,7 +224,7 @@ class _entryLevelState extends State<entryLevel> {
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(SizeConfig.screenWidth, 60.0),
+                    fixedSize: Size(SizeConfig.screenWidth!, 60.0),
                     primary: Color.fromARGB(255, 255, 65, 129),
                     //onSurface:  Colors.pinkAccent[200],
                     shape: RoundedRectangleBorder(

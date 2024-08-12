@@ -18,18 +18,18 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class SavedScreenDetail extends StatefulWidget {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final String? firstName;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
   const SavedScreenDetail(
-      {Key key,
+      {Key? key,
       this.favoriteJobs,
       this.user_Id,
       this.jobDetails,
@@ -61,10 +61,10 @@ class SavedScreenDetail extends StatefulWidget {
 class _SavedScreenDetailState extends State<SavedScreenDetail> {
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
 //  final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
@@ -72,7 +72,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
   bool isLiked = false;
   String errMessage = 'Error Uploading Slip';
   String status = '';
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   _SavedScreenDetailState(
       {this.favoriteJobs,
       this.user_Id,
@@ -87,7 +87,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
 
   var SaveResponse;
   var Result;
-  bool IsButton;
+  bool? IsButton;
   static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String removefavjob = base_url + 'unsave_job.php';
   @override
@@ -148,7 +148,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         ),
         title: FittedBox(
           child: Text(
-            '${widget.favoriteJobs.companyName ?? " "}',
+            '${widget.favoriteJobs!.companyName ?? " "}',
             style: TextStyle(
               fontFamily: 'Poppins',
               fontStyle: FontStyle.normal,
@@ -186,13 +186,13 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            favoriteJobs.companyLogo ?? Placeholder()),
+                            favoriteJobs!.companyLogo ?? Placeholder() as String),
                       ),
                     ),
                     SizedBox(height: 20.0),
                     FittedBox(
                       child: Text(
-                        favoriteJobs.title,
+                        favoriteJobs!.title!,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -208,8 +208,8 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                     ),
                     FittedBox(
                       child: Text(
-                        '${favoriteJobs.companyName ?? " "} ' +
-                            '\- ${favoriteJobs.name ?? " "}',
+                        '${favoriteJobs!.companyName ?? " "} ' +
+                            '\- ${favoriteJobs!.name ?? " "}',
                         style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
@@ -235,7 +235,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                             padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
-                                favoriteJobs.jobType ?? " ",
+                                favoriteJobs!.jobType ?? " ",
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
                                   fontStyle: FontStyle.normal,
@@ -261,7 +261,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                             padding: const EdgeInsets.only(top: 15, left: 10.0),
                             child: FittedBox(
                               child: Text(
-                                favoriteJobs.jobType ?? " ",
+                                favoriteJobs!.jobType ?? " ",
                                 style: TextStyle(
                                   fontFamily: 'Questrial',
                                   fontStyle: FontStyle.normal,
@@ -281,8 +281,8 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                     ),
                     FittedBox(
                       child: Text(
-                        '\$${favoriteJobs.minSalary ?? " "} ' +
-                            '\-${favoriteJobs.maxSalary ?? " " + '/month'}',
+                        '\$${favoriteJobs!.minSalary ?? " "} ' +
+                            '\-${favoriteJobs!.maxSalary ?? " " + '/month'}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -354,7 +354,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
                     "You've Alreay Applied \n For this Job",
                     context: context,
                     fullWidth: true,
-                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
                     animation: StyledToastAnimation.slideFromBottomFade,
                     reverseAnimation: StyledToastAnimation.fade,
                     position: StyledToastPosition.bottom,
@@ -411,7 +411,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
-        "job_id": favoriteJobs.jobId,
+        "job_id": favoriteJobs!.jobId,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
@@ -423,12 +423,13 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
     } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
+    return jobAppliedDetailModel;
   }
 
   Future savejob() async {
     var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
-      "job_id": favoriteJobs.jobId,
+      "job_id": favoriteJobs!.jobId,
     });
     if (res.statusCode == 200) {
       print("==================Response values==================");
@@ -438,7 +439,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         'Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -458,7 +459,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
   Future Unsavejob() async {
     var res = await http.post(Uri.parse(removefavjob), body: {
       "user_id": user_Id,
-      "job_id": favoriteJobs.jobId,
+      "job_id": favoriteJobs!.jobId,
     });
     if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -479,7 +480,7 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
         'Removed From Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,
@@ -509,15 +510,15 @@ class _SavedScreenDetailState extends State<SavedScreenDetail> {
 
 class SavedScreenDetailTwo extends StatefulWidget {
   final user_Id;
-  final SavedJobs savedJobs;
-  final JobDetails jobDetails;
+  final SavedJobs? savedJobs;
+  final JobDetails? jobDetails;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   final resume;
   final cv;
   const SavedScreenDetailTwo(
-      {Key key,
+      {Key? key,
       this.user_Id,
       this.savedJobs,
       this.jobDetails,
@@ -544,16 +545,16 @@ class SavedScreenDetailTwo extends StatefulWidget {
 
 class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   final user_Id;
-  bool IsButton;
-  bool isLiked;
+  bool? IsButton;
+  bool? isLiked;
   String errMessage = 'Error Uploading Slip';
   String status = '';
-  final SavedJobs savedJobs;
-  final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final SavedJobs? savedJobs;
+  final JobDetails? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
-  final String firstName;
+  final String? firstName;
   final cv;
   final resume;
 
@@ -624,7 +625,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          '${savedJobs.companyName}',
+          '${savedJobs!.companyName}',
           style: TextStyle(
             fontFamily: 'Poppins',
             fontStyle: FontStyle.normal,
@@ -659,13 +660,13 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                       child: Container(
                         width: 70.0,
                         height: 70.0,
-                        child: Image.network(savedJobs.companyLogo ?? " "),
+                        child: Image.network(savedJobs!.companyLogo ?? " "),
                       ),
                     ),
                     SizedBox(height: 8.0),
                     FittedBox(
                       child: Text(
-                        '${savedJobs.title}',
+                        '${savedJobs!.title}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -681,7 +682,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     ),
                     FittedBox(
                       child: Text(
-                        '${savedJobs.companyName} ' + '\-${savedJobs.name}',
+                        '${savedJobs!.companyName} ' + '\-${savedJobs!.name}',
                         style: TextStyle(
                           fontFamily: 'Questrial',
                           fontStyle: FontStyle.normal,
@@ -709,7 +710,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                                   const EdgeInsets.only(top: 10, left: 10.0),
                               child: FittedBox(
                                 child: Text(
-                                  '${savedJobs.jobType ?? " "}',
+                                  '${savedJobs!.jobType ?? " "}',
                                   style: TextStyle(
                                     fontFamily: 'Questrial',
                                     fontStyle: FontStyle.normal,
@@ -736,7 +737,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                                   const EdgeInsets.only(top: 10, left: 10.0),
                               child: FittedBox(
                                 child: Text(
-                                  savedJobs.type ?? " ",
+                                  savedJobs!.type ?? " ",
                                   style: TextStyle(
                                     fontFamily: 'Questrial',
                                     fontStyle: FontStyle.normal,
@@ -757,8 +758,8 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     ),
                     FittedBox(
                       child: Text(
-                        '\$${savedJobs.minSalary} ' +
-                            '\-${savedJobs.maxSalary}',
+                        '\$${savedJobs!.minSalary} ' +
+                            '\-${savedJobs!.maxSalary}',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontStyle: FontStyle.normal,
@@ -834,7 +835,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
                     "You've Alreay Applied \n For this Job",
                     context: context,
                     fullWidth: true,
-                    backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                    backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
                     animation: StyledToastAnimation.slideFromBottomFade,
                     reverseAnimation: StyledToastAnimation.fade,
                     position: StyledToastPosition.bottom,
@@ -890,7 +891,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     try {
       final response = await http.post(Uri.parse(url), body: {
         "user_id": user_Id,
-        "job_id": savedJobs.jobId,
+        "job_id": savedJobs!.jobId,
       });
       if (response.statusCode == 200) {
         print("Response is: ${response.body}");
@@ -902,14 +903,15 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
     } catch (e) {
       print("Error in exception::: ${e.toString()}");
     }
+    return jobAppliedDetailModel;
   }
 
   Future savejob() async {
-    String uid;
-    String Jid;
+    String? uid;
+    String? Jid;
     var res = await http.post(Uri.parse(uploadsavejob), body: {
       "user_id": user_Id,
-      "job_id": jobDetails.id,
+      "job_id": jobDetails!.id,
     });
     if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -936,7 +938,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         'Added To Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromLeftFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.top,
@@ -956,7 +958,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
   Future Unsave() async {
     var res = await http.post(Uri.parse(removefavjob), body: {
       "user_id": user_Id,
-      "job_id": jobDetails.id,
+      "job_id": jobDetails!.id,
     });
     if (res.statusCode == 200) {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -977,7 +979,7 @@ class _SavedScreenDetailTwoState extends State<SavedScreenDetailTwo> {
         'Remove From Saved Jobs',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,

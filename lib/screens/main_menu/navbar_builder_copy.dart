@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/all_saved_jobs.dart';
@@ -30,20 +33,20 @@ class HomePage extends StatefulWidget {
   final email;
   final cv;
   final resumee;
-  final String total_applied;
-  final String total_saved;
+  final String? total_applied;
+  final String? total_saved;
   final jobId;
   final city;
-  String nationality;
+  String? nationality;
 
-  final List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
-  final String token1;
-  PushNotificationMessage notificationInfo;
+  final List<JobDetails>? jobDetails;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
+  final String? token1;
+  PushNotificationMessage? notificationInfo;
 
   HomePage(
-      {Key key,
+      {Key? key,
       this.uName,
       this.password,
         this.nationality,
@@ -95,27 +98,27 @@ class _HomePageState extends State<HomePage> {
   final user_Id;
   final cookiee;
   final firstName;
-  String nationality;
-  String title;
-  String phoneno;
-  String profile;
-  String email;
-  String location;
-  String Location;
-  String cv;
-  String resumee;
-  final String total_applied;
-  final String total_saved;
+  String? nationality;
+  String? title;
+  String? phoneno;
+  String? profile;
+  String? email;
+  String? location;
+  String? Location;
+  String? cv;
+  String? resumee;
+  final String? total_applied;
+  final String? total_saved;
   final jobId;
   final city;
 
-  List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
-  String token1;
-  PushNotificationMessage notificationInfo;
+  List<JobDetails>? jobDetails;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
+  String? token1;
+  PushNotificationMessage? notificationInfo;
 
-   List<SavedJobs> savedJobs;
+   List<SavedJobs>? savedJobs;
 
   _HomePageState(
       {this.uName,
@@ -141,7 +144,7 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  PageController pageController;
+  PageController? pageController;
   int pageIndex = 0;
   onPageChanged(int pageIndex) {
     setState(() {
@@ -151,7 +154,7 @@ class _HomePageState extends State<HomePage> {
 
   onItemSelected(int pageIndex) {
     SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
-    pageController.animateToPage(
+    pageController!.animateToPage(
       pageIndex,
       duration: Duration(milliseconds: 50),
       curve: Curves.easeInOut,
@@ -199,7 +202,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    pageController.dispose();
+    pageController!.dispose();
     super.dispose();
   }
 
@@ -250,8 +253,8 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           context: context,
-        ) ??
-        false;
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
@@ -259,6 +262,9 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () => _exitApp(),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(StringManager.home),
+        ),
         backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
@@ -310,39 +316,39 @@ class _HomePageState extends State<HomePage> {
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
           ),
+
           child: BottomNavigationBar(
-            elevation: 3.0,
-            backgroundColor: Colors.white,
+
+            backgroundColor: Colors.pink,
+
             selectedFontSize: 16,
             unselectedFontSize: 12,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             selectedLabelStyle: TextStyle(
-              color: Colors.pinkAccent[200],
+              color: ColorManager.bluePrimary,
             ),
             unselectedLabelStyle: TextStyle(
-              color: Colors.blueGrey[300],
+              color: ColorManager.pinkPrimary,
             ),
-            selectedItemColor: Colors.pinkAccent[200],
-            unselectedItemColor: Colors.blueGrey[300],
+            selectedItemColor: ColorManager.bluePrimary,
+            unselectedItemColor: ColorManager.pinkPrimary,
             onTap: onItemSelected, // new
             currentIndex: pageIndex, // new
             items: [
               new BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage(
-                  'assets/images/Asset 1.png',
-                )),
+                icon: Icon(CupertinoIcons.home),
                 label: 'Home',
               ),
               new BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/Asset 3.png')),
+                icon: Icon(Icons.dashboard),
                 label: 'Dashboard',
               ),
               new BottomNavigationBarItem(
-                  icon: ImageIcon(AssetImage('assets/images/Asset 2.png')),
+                  icon:Icon(CupertinoIcons.profile_circled),
                   label: 'Profile'),
               new BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/Asset 4.png')),
+                icon: Icon(CupertinoIcons.info),
                 label: 'About Us',
               ),
             ],
@@ -354,7 +360,7 @@ class _HomePageState extends State<HomePage> {
 
 
   // ignore: missing_return
-  Future <TotalNotification> TotalNotifiction() async {
+  Future <TotalNotification?> TotalNotifiction() async {
     final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
@@ -372,7 +378,7 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  Future<List<SavedJobs>> request(
+  Future<List<SavedJobs>?> request(
       BuildContext context, bool showLoading) async {
     String get_key_url =
         "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
@@ -386,7 +392,7 @@ class _HomePageState extends State<HomePage> {
       final http.Response response = await http.get(Uri.parse(get_key_url));
       print("email,${get_key_url}");
       if (showLoading)
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
 
       if (response.statusCode == 200) {
         AllSavedJobss resp = AllSavedJobss.fromJson(json.decode(response.body));
@@ -397,7 +403,7 @@ class _HomePageState extends State<HomePage> {
           showDialogCustom(
               context,
               "Failed",
-              resp.message.length == 0 ? "record not found" : resp.message,
+              resp.message!.length == 0 ? "record not found" : resp.message,
               "OK");
           return [];
         }

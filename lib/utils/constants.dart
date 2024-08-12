@@ -35,11 +35,11 @@ ResetPasswordModel resetPasswordModel = ResetPasswordModel();
 CurrentPasswordModel currentPasswordModel = CurrentPasswordModel();
 EditProfileModel editProfileModel = EditProfileModel();
 SeekerDetails seekerDetails = SeekerDetails();
-SharedPreferences prefs;
+SharedPreferences? prefs;
 VerifyEmailsignup verifyEmail = VerifyEmailsignup();
 
-String kuserName = '';
-String kuserPass = '';
+String? kuserName = '';
+String? kuserPass = '';
 String kuserToken = "";
 bool kuserFileUploaded = false;
 
@@ -47,21 +47,21 @@ String keyUserName = "userName";
 String KeyUserPassword = "userPassword";
 String KeyisUserAlreadyLogin = "isuserAlreadyLogin";
 
-String CVurl = "";
-String VisumeUrl = "";
+String? CVurl = "";
+String? VisumeUrl = "";
 
-String u_Name = "";
-String u_password= "";
-String u_Id = "";
-String u_firstName = "";
-String u_jobId= "";
+String? u_Name = "";
+String? u_password= "";
+String? u_Id = "";
+String? u_firstName = "";
+String? u_jobId= "";
 
 List<JobDetails> updatedlikeJobList = [];
 bool user_updated_list = false;
 
-List<JobDetails> all_jobs_details;
+List<JobDetails>? all_jobs_details;
 
-String totalSavedJobs = "";
+String? totalSavedJobs = "";
 
 NotificationModel notificationModel = NotificationModel();
 
@@ -76,7 +76,7 @@ ProfileUpdate profileUpdate = ProfileUpdate();
 SignUpverifyOtp signUpverifyOtp = SignUpverifyOtp();
 
 dataSuccessfullyLoaded(
-    BuildContext context, String title, String body, String button) {
+    BuildContext context, String? title, String? body, String? button) {
 // flutter defined function
   showDialog(
     context: context,
@@ -86,8 +86,8 @@ dataSuccessfullyLoaded(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         backgroundColor: Colors.grey,
-        title: new Text(title),
-        content: new Text(body),
+        title: new Text(title!),
+        content: new Text(body!),
         actions: <Widget>[
 // usually buttons at the bottom of the dialog
 // ignore: deprecated_member_use
@@ -100,7 +100,7 @@ dataSuccessfullyLoaded(
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: new Text(
-                  button,
+                  button!,
                   style: TextStyle(color: Colors.black),
                 )),
             onTap: () {
@@ -114,7 +114,7 @@ dataSuccessfullyLoaded(
 }
 
 showDialogCustom(
-    BuildContext context, String title, String body, String button) {
+    BuildContext context, String title, String? body, String button) {
 // flutter defined function
   showDialog(
     context: context,
@@ -122,7 +122,7 @@ showDialogCustom(
 // return object of type Dialog
       return AlertDialog(
         title: new Text(title),
-        content: new Text(body),
+        content: new Text(body!),
         actions: <Widget>[
 // usually buttons at the bottom of the dialog
 // ignore: deprecated_member_use
@@ -165,8 +165,8 @@ Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
       });
 }
 
-String getTranslated(BuildContext context, String key) {
-  return DemoLocalization.of(context).translate(key);
+String? getTranslated(BuildContext context, String key) {
+  return DemoLocalization.of(context)!.translate(key);
 }
 
 const kSilverColor = const Color(0xFFF6F7FB);
@@ -248,8 +248,8 @@ FloatingActionButton floatingActionButtonNext(
 
 class BackgroundWidget extends StatelessWidget {
   const BackgroundWidget({
-    Key key,
-    @required this.size,
+    Key? key,
+    required this.size,
   }) : super(key: key);
 
   final Size size;
@@ -269,7 +269,7 @@ class BackgroundWidget extends StatelessWidget {
 
 class BackButtonPop extends StatelessWidget {
   const BackButtonPop({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -295,7 +295,7 @@ class BackButtonPop extends StatelessWidget {
 
 class BackButtonPop2 extends StatelessWidget {
   const BackButtonPop2({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -317,11 +317,11 @@ class PageTitle extends StatelessWidget {
       this.fontStyle,
       this.fontWeight});
 
-  final String titleText;
+  final String? titleText;
   final fontSize;
-  final Color colour;
-  final FontStyle fontStyle;
-  final FontWeight fontWeight;
+  final Color? colour;
+  final FontStyle? fontStyle;
+  final FontWeight? fontWeight;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -334,7 +334,7 @@ class PageTitle extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    titleText,
+                    titleText!,
                     style: TextStyle(
                         //  color: Theme.of(context).accentColor,
                         fontFamily: "SourceSansPro",
@@ -355,7 +355,7 @@ class PageTitle extends StatelessWidget {
 class CommonInputForm extends StatelessWidget {
   CommonInputForm({this.labelText});
 
-  final String labelText;
+  final String? labelText;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -377,14 +377,14 @@ class CommonInputForm extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide(
-                  color: Colors.blue[800],
+                  color: Colors.blue[800]!,
                 ),
               ),
 
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide(
-                  color: Colors.blue[800],
+                  color: Colors.blue[800]!,
                   width: 2.0,
                 ),
               ),
@@ -400,9 +400,9 @@ class CommonInputForm extends StatelessWidget {
 
 class ProfileImageContainer extends StatelessWidget {
   ProfileImageContainer({this.height, this.width, this.backgroundImage});
-  final double height;
-  final double width;
-  final ImageProvider backgroundImage;
+  final double? height;
+  final double? width;
+  final ImageProvider? backgroundImage;
 
   @override
   Widget build(BuildContext context) {
@@ -458,16 +458,16 @@ class HomeClipper2 extends CustomClipper<Path> {
 class RowPreferredAreas extends StatelessWidget {
   RowPreferredAreas({this.label, this.icon});
 
-  final String label;
-  final Widget icon;
+  final String? label;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Padding(padding: EdgeInsets.all(10.0)),
-        icon,
-        Text(label, style: TextStyle(fontSize: 15)),
+        icon!,
+        Text(label!, style: TextStyle(fontSize: 15)),
       ],
     );
   }
@@ -475,14 +475,14 @@ class RowPreferredAreas extends StatelessWidget {
 
 class PaddingPreferredAreas extends StatelessWidget {
   PaddingPreferredAreas({this.label});
-  final String label;
+  final String? label;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 45.0, top: 10.0),
       child: Container(
         child: Text(
-          label,
+          label!,
           style: TextStyle(fontSize: 15),
         ),
         alignment: Alignment.centerLeft,

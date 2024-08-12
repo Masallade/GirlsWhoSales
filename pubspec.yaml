@@ -6,12 +6,12 @@ version: 1.0.3 #for ios 1.0.2 for android  1.2.0
 #version code is inside the app/build.gradle versionCode 15 //android 15 for ios it must be 3
 #also change in info.plist
 #  <key>CFBundleShortVersionString</key>
-#  <string>4</string>
+ #  <string>4</string>
 #  <key>CFBundleVersion</key>
 #  <string>1.0.3</string>
 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -56,13 +56,13 @@ dependencies:
   flutter_styled_toast: ^2.1.0
 #  animated_splash: ^1.0.0
   animated_splash_screen: ^1.3.0
-  lottie:
+  lottie: ^2.3.2
   badges: ^3.0.3
 #  just_audio: ^0.9.20
   new_version: ^0.3.1
   cached_network_image: ^3.2.1
   slider_captcha: ^0.1.10
-  sn_progress_dialog: ^1.0.0
+  progress_dialog_fork: ^1.0.0
   flutter_inappwebview: ^5.7.2+3
 #  flutter_downloader: ^1.10.4
   flutter_file_downloader: ^1.1.2
@@ -91,32 +91,36 @@ flutter:
     - assets/icons/search.svg
     - assets/icons/slider_icon.svg
     - assets/audio/sound.mp3
+    - assets/lottie_animation/
 
   fonts:
     - family: SF Pro Rounded
       fonts:
-        - asset: assets/fonts/SF-Pro-Rounded-Thin.otf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Thin.otf
           weight: 100
-        - asset: assets/fonts/SF-Pro-Rounded-Bold.otf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Bold.otf
           weight: 600
-        - asset: assets/fonts/SF-Pro-Rounded-Heavy.otf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Heavy.otf
           weight: 800
     - family: SF Pro Text
       fonts:
-        - asset: assets/fonts/SF-Pro-Text-Regular.otf
-        - asset: assets/fonts/SF-Pro-Text-Medium.otf
+        - asset: assets/fonts/SF-Pro-Text/SF-Pro-Text-Regular.otf
+          weight: 300
+        - asset: assets/fonts/SF-Pro-Text/SF-Pro-Text-Medium.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Text/SF-Pro-Text-Bold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Text/SF-Pro-Text-Semibold.otf
           weight: 500
-        - asset: assets/fonts/SF-Pro-Text-Bold.otf
-          weight: 600
-        - asset: assets/fonts/SF-Pro-Text-Semibold.otf
-          weight: 600
 
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-    - family: Poppins
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+          weight: 200
+    - family: Questrial
       fonts:
-        - asset: assets/fonts/Questrial-Regular.ttf
+        - asset: assets/fonts/Questrial/Questrial-Regular.ttf
+          weight: 300
 
 
           #added this code in info.plist filee

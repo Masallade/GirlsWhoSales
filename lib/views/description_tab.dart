@@ -11,9 +11,9 @@ import '../model/notification_model.dart';
 
 class DescriptionTab extends StatelessWidget {
 
-  final Job data;
-  final JobDetails jobDetails;
-  final String userId;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final String? userId;
   DescriptionTab({this.jobDetails ,this.userId ,this.data});
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class DescriptionTab extends StatelessWidget {
       children: <Widget>[
        SizedBox(height: 30.0),
         Text(
-          '${jobDetails.description ?? " "}',
+          '${jobDetails!.description ?? " "}',
           textAlign: TextAlign.justify,
           style: TextStyle(
             fontFamily: 'Questrial',
@@ -40,9 +40,9 @@ class DescriptionTab extends StatelessWidget {
 }
 
 class DescriptionTabtwo extends StatelessWidget {
-  final FavoriteJobs favoriteJobs;
-  final Job data;
-  final JobDetails jobDetails;
+  final FavoriteJobs? favoriteJobs;
+  final Job? data;
+  final JobDetails? jobDetails;
   final  user_Id;
   DescriptionTabtwo({this.favoriteJobs,this.data ,this.jobDetails ,this.user_Id});
   @override
@@ -51,7 +51,7 @@ class DescriptionTabtwo extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 30.0),
         Text(
-          '${favoriteJobs.description ?? " "}',
+          '${favoriteJobs!.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -68,7 +68,7 @@ class DescriptionTabtwo extends StatelessWidget {
 
 
 class DescriptionTabthree extends StatelessWidget {
-  final SavedJobs savedJobs;
+  final SavedJobs? savedJobs;
   final  user_Id;
   DescriptionTabthree({this.savedJobs,this.user_Id});
   @override
@@ -82,7 +82,7 @@ class DescriptionTabthree extends StatelessWidget {
         // ),
         SizedBox(height: 25.0),
         Text(
-          '${ savedJobs.description ?? " "}',
+          '${ savedJobs!.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -101,10 +101,10 @@ class DescriptionTabthree extends StatelessWidget {
 
 class DescriptionTabFour extends StatelessWidget {
 
-  final Job data;
-  final SearchModel jobList;
+  final Job? data;
+  final SearchModel? jobList;
   //final JobDetails jobDetails;
-  final String userId;
+  final String? userId;
   DescriptionTabFour({this.jobList ,this.userId ,this.data});
   @override
   Widget build(BuildContext context) {
@@ -112,7 +112,7 @@ class DescriptionTabFour extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 30.0),
         Text(
-          '${jobList.description ?? " "}',
+          '${jobList!.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -131,8 +131,8 @@ class DescriptionTabFour extends StatelessWidget {
 
 class DescriptionTabFive extends StatelessWidget {
 
-  final AppliedJobDetails appliedJobDetails;
-  final String userId;
+  final AppliedJobDetails? appliedJobDetails;
+  final String? userId;
   DescriptionTabFive({this.appliedJobDetails ,this.userId});
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class DescriptionTabFive extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 30.0),
         Text(
-          '${appliedJobDetails.description ?? " "}',
+          '${appliedJobDetails!.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,
@@ -159,8 +159,8 @@ class DescriptionTabFive extends StatelessWidget {
 
 class NotificationDesc extends StatelessWidget {
 
-  final NotificationsDetails notificationsDetail;
-  final String userId;
+  final NotificationsDetails? notificationsDetail;
+  final String? userId;
   NotificationDesc({this.notificationsDetail ,this.userId});
   @override
   Widget build(BuildContext context) {
@@ -168,7 +168,7 @@ class NotificationDesc extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 30.0),
         Text(
-          '${notificationsDetail.description ?? " "}',
+          '${notificationsDetail!.description ?? " "}',
           style: TextStyle(
             fontFamily: 'Questrial',
             fontStyle: FontStyle.normal,

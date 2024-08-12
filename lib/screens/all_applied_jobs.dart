@@ -5,7 +5,7 @@ import 'package:girlzwhosell/views/job_detail.dart';
 
 class AllAppliedJobs extends StatefulWidget {
   final user_id;
-  const AllAppliedJobs({Key key, this.user_id}) : super(key: key);
+  const AllAppliedJobs({Key? key, this.user_id}) : super(key: key);
 
   @override
   _AllAppliedJobsState createState() =>
@@ -14,7 +14,7 @@ class AllAppliedJobs extends StatefulWidget {
 
 class _AllAppliedJobsState extends State<AllAppliedJobs> {
   final user_id;
-  final List<JobDetails> jobDetails;
+  final List<JobDetails>? jobDetails;
   _AllAppliedJobsState({this.user_id, this.jobDetails});
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _AllAppliedJobsState extends State<AllAppliedJobs> {
             child: Container(
               height: SizeConfig.screenHeight,
               child: ListView.builder(
-                  itemCount: jobDetails.length,
+                  itemCount: jobDetails!.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -65,12 +65,12 @@ class _AllAppliedJobsState extends State<AllAppliedJobs> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => JobDetail(jobDetails: jobDetails[index], user_Id:user_id),
+                                builder: (context) => JobDetail(jobDetails: jobDetails![index], user_Id:user_id),
                               ),
                             );
                           },
                           child: Card(
-                            shape: Border(left: BorderSide(color: Colors.blue[800], width: 5)),
+                            shape: Border(left: BorderSide(color: Colors.blue[800]!, width: 5)),
                             elevation: 1.0,
                             child: Padding(
                               padding: const EdgeInsets.all(20.0),
@@ -82,7 +82,7 @@ class _AllAppliedJobsState extends State<AllAppliedJobs> {
                                 title: Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: Text(
-                                    '${jobDetails[index].title}',
+                                    '${jobDetails![index].title}',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontStyle: FontStyle.normal,
@@ -99,7 +99,7 @@ class _AllAppliedJobsState extends State<AllAppliedJobs> {
                                       height: 10,
                                     ),
                                     Text(
-                                      '${jobDetails[index].experience + ' Year Experience'}',
+                                      '${jobDetails![index].experience! + ' Year Experience'}',
                                       style: TextStyle(
                                         fontFamily: 'Questrial',
                                         fontStyle: FontStyle.normal,
@@ -113,7 +113,7 @@ class _AllAppliedJobsState extends State<AllAppliedJobs> {
                                       height: 20,
                                     ),
                                     Text(
-                                      '\$${jobDetails[index].minSalary + '-'}' + '\$${jobDetails[index].maxSalary + '/month'}',
+                                      '\$${jobDetails![index].minSalary! + '-'}' + '\$${jobDetails![index].maxSalary! + '/month'}',
                                       style: TextStyle(
                                         fontFamily: 'Questrial',
                                         fontStyle: FontStyle.normal,

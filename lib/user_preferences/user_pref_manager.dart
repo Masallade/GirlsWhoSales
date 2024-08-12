@@ -7,7 +7,7 @@ import '../model/total_saved_jobs.dart';
 import '../utils/constants.dart';
 
 class SharedPreferencesManager {
-  static SharedPreferences _prefs;
+  static SharedPreferences? _prefs;
 
   static Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
@@ -22,10 +22,10 @@ class SharedPreferencesManager {
     await _prefs?.setBool(key, value);
   }
 
-  static Total_Saved_Job total_saved_job;
+  static late Total_Saved_Job total_saved_job;
   static String saved_job_counter = "0";
 
-  static Future<void>  getTotalSavedJobs(int userId)async{
+  static Future<void>  getTotalSavedJobs(int? userId)async{
     var request = http.Request('GET', Uri.parse('https://girlzwhosellcareerconextions.com/API/total_saved_jobs.php?user_id=$userId'));
 
 

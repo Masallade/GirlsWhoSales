@@ -9,7 +9,7 @@ class introSuccessScreen extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   introSuccessScreen({this.uName,this.password ,this.user_Id ,this.userDetails});
   @override
   _introSuccessScreenState createState() => _introSuccessScreenState(uName: uName ,password: password , user_Id: user_Id , userDetails: userDetails);
@@ -19,7 +19,7 @@ class _introSuccessScreenState extends State<introSuccessScreen> {
   final uName;
   final password;
   final user_Id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   _introSuccessScreenState ({this.uName,this.password ,this.user_Id ,this.userDetails});
   @override
   Widget build(BuildContext context) {

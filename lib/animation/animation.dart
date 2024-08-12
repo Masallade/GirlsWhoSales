@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 class TopAnime extends StatelessWidget {
-  Widget child;
-  Curve curve;
+  Widget? child;
+  Curve? curve;
   int seconds;
   int padding;
 
@@ -29,8 +29,8 @@ class TopAnime extends StatelessWidget {
 }
 
 class BottomAnime extends StatelessWidget {
-  Widget child;
-  Curve curve;
+  Widget? child;
+  Curve? curve;
   int seconds;
   int padding;
 
@@ -56,8 +56,8 @@ class BottomAnime extends StatelessWidget {
 }
 
 class LeftAnime extends StatelessWidget {
-  Widget child;
-  Curve curve;
+  Widget? child;
+  Curve? curve;
   int seconds;
   int padding;
 
@@ -83,8 +83,8 @@ class LeftAnime extends StatelessWidget {
 }
 
 class RightAnime extends StatelessWidget {
-  Widget child;
-  Curve curve;
+  Widget? child;
+  Curve? curve;
   int seconds;
   int padding;
 

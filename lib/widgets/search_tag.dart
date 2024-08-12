@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 
 class SearchTag extends StatelessWidget {
-  final String tag;
+  final String? tag;
 
   const SearchTag({
-    Key key,
+    Key? key,
     this.tag,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class SearchTag extends StatelessWidget {
           children: [
             SizedBox(width: kSpacingUnit),
             Text(
-              tag,
+              tag!,
               style: kCaptionTextStyle.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,

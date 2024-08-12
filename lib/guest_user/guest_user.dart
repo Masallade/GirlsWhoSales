@@ -10,7 +10,7 @@ import '../new_widgets/search_widget.dart';
 import '../screens/intro_pages/sign_in_page.dart';
 
 class GuestUser extends StatefulWidget {
-  const GuestUser({Key key}) : super(key: key);
+  const GuestUser({Key? key}) : super(key: key);
 
   @override
   State<GuestUser> createState() => _GuestUserState();
@@ -51,13 +51,15 @@ class _GuestUserState extends State<GuestUser> {
      });
 
     final url = "https://girlzwhosellcareerconextions.com/API/jobs_list.php";
+     final response = await http.get(Uri.parse(url));
+     print("Status Code is: ${response.statusCode}");
+     final List data = json.decode(response.body);
 
     try {
-      final response = await http.get(Uri.parse(url));
+
       if (response.statusCode == 200) {
 
-        print("Status Code is: ${response.statusCode}");
-        final List data = json.decode(response.body);
+
         setState(() {
           dataText = 'loading data successfully';
           isLoading = false;
@@ -86,6 +88,19 @@ class _GuestUserState extends State<GuestUser> {
         isLoading = false;
       });
     }
+     return data
+         .map((json) => SearchModel.fromJson(json))
+         .where((element) {
+       final title = element.title ?? '';
+       final location = element.location ?? '';
+       final searchLower = query.toLowerCase();
+
+       final titleLower = title.toLowerCase();
+       final locationLower = location.toLowerCase();
+
+       return titleLower.contains(searchLower) ||
+           locationLower.contains(searchLower);
+     }).toList();
   }
 
 
@@ -176,7 +191,7 @@ class _GuestUserState extends State<GuestUser> {
     if (!mounted) return;
     setState(() {
       this.location = query;
-      this.joblist = search;
+      this.joblist = search!;
     });
   }
 
@@ -185,7 +200,7 @@ class _GuestUserState extends State<GuestUser> {
     child: Card(
       child: ListTile(
         leading: Image.network(
-          jobslist.companyLogo ?? Placeholder(),
+          jobslist.companyLogo ?? Placeholder() as String,
           fit: BoxFit.cover,
           width: 50,
           height: 50,
@@ -234,7 +249,7 @@ class _GuestUserState extends State<GuestUser> {
               height: 10,
             ),
             Text(
-              '\$${jobslist.minSalary ?? " " + jobslist.maxSalary ?? " "}',
+              '\$${jobslist.minSalary ?? " " + jobslist.maxSalary! ?? " "}',
               style: TextStyle(
                 fontFamily: 'Questrial',
                 fontStyle: FontStyle.normal,

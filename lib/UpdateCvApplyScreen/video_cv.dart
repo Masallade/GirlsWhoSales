@@ -20,8 +20,8 @@ class VideoCv extends StatefulWidget{
   final uName;
   final password;
   final user_id;
-  bool isLiked;
-  final SearchModel joblist;
+  bool? isLiked;
+  final SearchModel? joblist;
   final firstName;
 
   VideoCv({this.uName,this.password ,this.user_id,this.joblist, this.firstName});
@@ -39,22 +39,22 @@ class _VideoCv extends State<VideoCv>{
   final uName;
   final password;
   final user_id;
-  bool isLiked;
-  final SearchModel joblist;
+  bool? isLiked;
+  final SearchModel? joblist;
   final firstName;
 
   _VideoCv({this.uName,this.password ,this.user_id,this.joblist, this.firstName});
 
 
 
-  File _image;
+  File? _image;
   final picker = ImagePicker();
-  Response response;
-  String progress;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
-  String base64Image;
-  File tmpFile;
+  Future<File>? file;
+  String? base64Image;
+  File? tmpFile;
 
   String uploadurl = base_url + "apply_job.php";
 
@@ -118,10 +118,10 @@ class _VideoCv extends State<VideoCv>{
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -144,15 +144,24 @@ class _VideoCv extends State<VideoCv>{
 
 
   uploadResume(context) async {
+    MultipartFile? videoFile;
+    if (_image != null) {
+      videoFile = await MultipartFile.fromFile(
+        _image!.path,
+        filename: basename(_image!.path), // Get the filename from the path
+      );
+    }
 
     FormData formdata = FormData.fromMap({
       "id": user_id,
-      "video_cv": await MultipartFile.fromFile(
-          _image == null ? null : _image.path,
-          filename: basename(_image.path)
-        //show only filename from path
-      ),
+      // "video_cv": await MultipartFile.fromFile(
+      //     _image == null ? null : _image!.path,
+      //     filename: basename(_image!.path)
+      //   //show only filename from path
+      // ),
+      "video_cv": videoFile
     });
+
 
     response = await dio.post(uploadurl,
       data: formdata,
@@ -240,7 +249,7 @@ class _VideoCv extends State<VideoCv>{
                         padding: const EdgeInsets.all(20.0),
                         child: DottedBorder(
                           strokeWidth: 1.0,
-                          color: Colors.grey[300],
+                          color: Colors.grey[300]!,
                           // padding: EdgeInsets.all(4),
                           dashPattern: [9, 5],
                           child: Container(
@@ -268,7 +277,7 @@ class _VideoCv extends State<VideoCv>{
                                       /* letterSpacing: 0.0, */
                                     ),
                                   )
-                                      : Text(basename(_image.path),
+                                      : Text(basename(_image!.path),
                                   ),
                                   trailing: _image != null
                                       ? Icon(
@@ -292,7 +301,7 @@ class _VideoCv extends State<VideoCv>{
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               fixedSize:
-              Size(SizeConfig.screenWidth, 60.0),
+              Size(SizeConfig.screenWidth!, 60.0),
               primary: Color.fromARGB(255, 255, 65, 129),
               //onSurface:  Colors.pinkAccent[200],
               shape: RoundedRectangleBorder(

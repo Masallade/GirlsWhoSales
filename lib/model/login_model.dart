@@ -1,12 +1,12 @@
 class LoginModel {
-  String message;
-  String status;
-  List<JobDetails> jobDetails;
-  List<SeekerDetails> seekerDetails;
-  List<FavoriteJobs> favoriteJobs;
-  String countOfJobsSaved;
-  String countOfJobsApplied;
-  String welcomeMessage;
+  String? message;
+  String? status;
+  List<JobDetails>? jobDetails;
+  List<SeekerDetails>? seekerDetails;
+  List<FavoriteJobs>? favoriteJobs;
+  String? countOfJobsSaved;
+  String? countOfJobsApplied;
+  String? welcomeMessage;
 
   LoginModel(
       {this.message,
@@ -23,23 +23,23 @@ class LoginModel {
     status = json['status'];
     if (json['Job_details'] != null) {
       // ignore: deprecated_member_use
-      jobDetails = new List<JobDetails>();
+      jobDetails = List<JobDetails>.empty(growable: true);
       json['Job_details'].forEach((v) {
-        jobDetails.add(new JobDetails.fromJson(v));
+        jobDetails!.add(new JobDetails.fromJson(v));
       });
     }
     if (json['Seeker_details'] != null) {
       // ignore: deprecated_member_use
-      seekerDetails = new List<SeekerDetails>();
+      seekerDetails = List<SeekerDetails>.empty(growable: true);
       json['Seeker_details'].forEach((v) {
-        seekerDetails.add(new SeekerDetails.fromJson(v));
+        seekerDetails!.add(new SeekerDetails.fromJson(v));
       });
     }
     if (json['Favorite_Jobs'] != null) {
       // ignore: deprecated_member_use
-      favoriteJobs = new List<FavoriteJobs>();
+      favoriteJobs = List<FavoriteJobs>.empty(growable:true);
       json['Favorite_Jobs'].forEach((v) {
-        favoriteJobs.add(new FavoriteJobs.fromJson(v));
+        favoriteJobs!.add(new FavoriteJobs.fromJson(v));
       });
     }
     countOfJobsSaved = json['Count_of_Jobs_saved'];
@@ -52,14 +52,14 @@ class LoginModel {
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.jobDetails != null) {
-      data['Job_details'] = this.jobDetails.map((v) => v.toJson()).toList();
+      data['Job_details'] = this.jobDetails!.map((v) => v.toJson()).toList();
     }
     if (this.seekerDetails != null) {
       data['Seeker_details'] =
-          this.seekerDetails.map((v) => v.toJson()).toList();
+          this.seekerDetails!.map((v) => v.toJson()).toList();
     }
     if (this.favoriteJobs != null) {
-      data['Favorite_Jobs'] = this.favoriteJobs.map((v) => v.toJson()).toList();
+      data['Favorite_Jobs'] = this.favoriteJobs!.map((v) => v.toJson()).toList();
     }
     data['Count_of_Jobs_saved'] = this.countOfJobsSaved;
     data['Count_of_Jobs_applied'] = this.countOfJobsApplied;
@@ -69,24 +69,24 @@ class LoginModel {
 }
 
 class JobDetails {
-  String id;
-  String employerId;
-  String title;
-  String description;
-  String minSalary;
-  String maxSalary;
-  String experience;
-  String skills;
-  String location;
-  String totalPositions;
-  String requiredEducation;
-  String companyLogo;
-  String companyName;
-  String jobType;
-  String type;
-  String expiryDate;
-  String category;
-  String url;
+  String? id;
+  String? employerId;
+  String? title;
+  String? description;
+  String? minSalary;
+  String? maxSalary;
+  String? experience;
+  String? skills;
+  String? location;
+  String? totalPositions;
+  String? requiredEducation;
+  String? companyLogo;
+  String? companyName;
+  String? jobType;
+  String? type;
+  String? expiryDate;
+  String? category;
+  String? url;
 
   JobDetails(
       {this.id,
@@ -154,32 +154,32 @@ class JobDetails {
 }
 
 class SeekerDetails {
-  String id;
-  String firstname;
-  String lastname;
-  String fatherName;
-  String motherName;
-  String email;
-  String dob;
-  String age;
-  String profilePicture;
-  String mobileNumber;
-  String category;
-  String jobTitle;
-  String description;
-  String maritalStatus;
-  String country;
-  String state;
-  String city;
-  String postcode;
-  String address;
-  String experience;
-  String educationLevel;
-  String skills;
-  String currentSalary;
-  String expectedSalary;
-  String resume;
-  String cV;
+  String? id;
+  String? firstname;
+  String? lastname;
+  String? fatherName;
+  String? motherName;
+  String? email;
+  String? dob;
+  String? age;
+  String? profilePicture;
+  String? mobileNumber;
+  String? category;
+  String? jobTitle;
+  String? description;
+  String? maritalStatus;
+  String? country;
+  String? state;
+  String? city;
+  String? postcode;
+  String? address;
+  String? experience;
+  String? educationLevel;
+  String? skills;
+  String? currentSalary;
+  String? expectedSalary;
+  String? resume;
+  String? cV;
 
   SeekerDetails(
       {this.id,
@@ -271,21 +271,21 @@ class SeekerDetails {
 }
 
 class FavoriteJobs {
-  String jobId;
-  String id;
-  String title;
-  String jobType;
-  String description;
-  String name;
-  String createdDate;
-  String companyName;
-  String companyLogo;
-  String minSalary;
-  String maxSalary;
-  String skills;
-  String employerId;
-  String experience;
-  String url;
+  String? jobId;
+  String? id;
+  String? title;
+  String? jobType;
+  String? description;
+  String? name;
+  String? createdDate;
+  String? companyName;
+  String? companyLogo;
+  String? minSalary;
+  String? maxSalary;
+  String? skills;
+  String? employerId;
+  String? experience;
+  String? url;
 
   FavoriteJobs(
       {this.jobId,
@@ -343,9 +343,9 @@ class FavoriteJobs {
   }
 }
 class AllFavoriteJobss {
-  String message;
-  String status;
-  List<FavoriteJobs> favJobs;
+  String? message;
+  String? status;
+  List<FavoriteJobs>? favJobs;
 
   AllFavoriteJobss({this.message, this.status, this.favJobs});
 
@@ -354,9 +354,9 @@ class AllFavoriteJobss {
     status = json['status'];
     if (json['Saved_Jobs'] != null) {
       // ignore: deprecated_member_use
-      favJobs = new List<FavoriteJobs>();
+      favJobs = List<FavoriteJobs>.empty(growable:true);
       json['Saved_Jobs'].forEach((v) {
-        favJobs.add(new FavoriteJobs.fromJson(v));
+        favJobs!.add(new FavoriteJobs.fromJson(v));
       });
     }
   }
@@ -366,7 +366,7 @@ class AllFavoriteJobss {
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.favJobs != null) {
-      data['Saved_Jobs'] = this.favJobs.map((v) => v.toJson()).toList();
+      data['Saved_Jobs'] = this.favJobs!.map((v) => v.toJson()).toList();
     }
     return data;
   }

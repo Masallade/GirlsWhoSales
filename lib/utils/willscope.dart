@@ -38,8 +38,8 @@ class utils {
           ),
         ],
       ),
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
   static Widget getLoader(){
     return Scaffold(
@@ -47,8 +47,8 @@ class utils {
         child: TweenAnimationBuilder(
           tween: Tween(begin: 0.0,end: 1.0),
           duration: Duration(seconds: 6),
-          builder: (context,value,child){
-            int percentage = (value*100).ceil();
+          builder: (context,dynamic value,child){
+            int? percentage = (value*100).ceil();
             return Container(
               width: 200.0,
               height: 200.0,
@@ -101,8 +101,8 @@ class utils {
         child: TweenAnimationBuilder(
           tween: Tween(begin: 0.0,end: 1.0),
           duration: Duration(seconds: 50),
-          builder: (context,value,child){
-            int percentage = (value*100).ceil();
+          builder: (context,dynamic value,child){
+            int? percentage = (value*100).ceil();
             return Container(
               width: 200.0,
               height: 200.0,

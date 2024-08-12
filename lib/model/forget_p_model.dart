@@ -14,8 +14,8 @@ class ForgetPasswordModel {
     this.status,
   });
 
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   factory ForgetPasswordModel.fromJson(Map<String, dynamic> json) => ForgetPasswordModel(
     message: json["message"],

@@ -1,6 +1,6 @@
 class RegistrationModel {
-  int status;
-  String message;
+  int? status;
+  String? message;
 
   RegistrationModel({this.status, this.message});
 

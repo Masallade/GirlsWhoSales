@@ -2,7 +2,7 @@
 
 
 class Settings {
- String jobid;
+ String? jobid;
  Settings({this.jobid});
 
 }

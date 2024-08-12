@@ -13,7 +13,7 @@ class AddReferences extends StatefulWidget {
 
 class _AddReferencesState extends State<AddReferences> {
   List<String> _selectRelationChoice = ['Relative', 'Family Friend', 'Trainer', 'Academic', 'Professional'];
-  int _defaultRelationChoiceIndex;
+  int? _defaultRelationChoiceIndex;
 
   @override
   void initState() {

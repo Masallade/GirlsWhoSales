@@ -4,7 +4,12 @@ import 'dart:convert';
 
 import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
@@ -18,7 +23,9 @@ import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../dawood/presentation/resources/style_manager.dart';
 import '../../../http/Requests.dart';
 import '../../../model/SavedJobsModel.dart';
 import '../../../model/total_saved_jobs.dart';
@@ -30,20 +37,20 @@ class HomeSearch extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  final List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
-  String nationality;
+  final String? firstName;
+  final List<JobDetails>? jobDetails;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
+  String? nationality;
   final jobId;
   final cv;
   final resume;
-  final String location;
-  final String Location;
-  final String totalNotification;
+  final String? location;
+  final String? Location;
+  final String? totalNotification;
 
   HomeSearch(
-      {Key key,
+      {Key? key,
       this.uName,
         this.nationality,
       this.password,
@@ -82,16 +89,16 @@ class _HomeSearchState extends State<HomeSearch> {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  List<JobDetails> jobDetails;
-  List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final String? firstName;
+  List<JobDetails>? jobDetails;
+  List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
-  String nationality;
+  String? nationality;
   //final String totalNotification;
-  PushNotificationMessage notificationInfo;
+  PushNotificationMessage? notificationInfo;
 
   _HomeSearchState({
     this.uName,
@@ -110,8 +117,8 @@ class _HomeSearchState extends State<HomeSearch> {
     this.Location,
     //  this.notificationInfo
   });
-  String Location = '';
-  String location = '';
+  String? Location = '';
+  String? location = '';
   List<SearchModel> joblist = [];
 
 
@@ -130,7 +137,7 @@ class _HomeSearchState extends State<HomeSearch> {
     super.initState();
   }
 
-  Future <TotalNotification> TotalNotifiction() async {
+  Future <TotalNotification?> TotalNotifiction() async {
     final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
@@ -168,14 +175,8 @@ class _HomeSearchState extends State<HomeSearch> {
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0, top: 8),
                             child: Text(
-                              "Let's Find",
-                              style: TextStyle(
-                                color: Colors.blue[800],
-                                height: 1.5,
-                                fontSize: 24.0,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
+                              StringManager.letsFind,
+                              style: Theme.of(context).textTheme.displayLarge,
                             ),
                           ),
                           Padding(
@@ -192,90 +193,75 @@ class _HomeSearchState extends State<HomeSearch> {
                                                       user_Id: user_Id))));
                                     },
                                     child:
-                                 totalNotification.totalCountNotf == "0" ? Image.asset(
-                                   'assets/images/notification.png',
-                                   scale: 1.0,
-                                   color: Colors.black,
-                                 ) :   badge.Badge(
+                                 totalNotification.totalCountNotf == "0" ? Icon(CupertinoIcons.bell,color: ColorManager.pinkPrimary,size: AppSize.s32,) :   badge.Badge(
                                       position: BadgePosition.topEnd(top: -20 ,end: 10),
                                       // : Colors.red,
                                       badgeContent: Text('${totalNotification.totalCountNotf ?? ''}' , style: TextStyle(color: Colors.white , fontSize: 15),),
-                                      child: Image.asset(
-                                        'assets/images/notification.png',
-                                        scale: 1.0,
-                                        color: Colors.black,
-                                      ),
+                                      child: Icon(CupertinoIcons.bell,color: ColorManager.pinkPrimary,size: AppSize.s32,)
                                     )
                                 )),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0, top: 45),
                             child: Text(
-                              "Your Dream Job",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.pinkAccent[200],
-                                height: 1.5,
-                                fontSize: 24.0,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
+                              StringManager.yourDreamJob,
+                              style: Theme.of(context).textTheme.displayMedium,
                             ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(height: 17.0),
-                    InkWell(
-                      splashColor: Colors.pinkAccent[200],
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => JobSearchSecond(
-                                  uName: uName,
-                                  password: password,
-                                  user_Id: user_Id,
-                                  firstName: firstName,
-                                  jobDetails: jobDetails,
-                                  favoriteJobs: favoriteJobs,
-                                  userDetails: userDetails,
-                                  jobId: jobId,
-                                  cv: cv,
-                                  resume: resume,
-                                )));
-                      },
-                      child: Container(
-                        height: 52,
-                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black26),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              'assets/images/search.png',
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Job Title',
-                              style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   splashColor: Colors.pinkAccent[200],
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => JobSearchSecond(
+                    //               uName: uName,
+                    //               password: password,
+                    //               user_Id: user_Id,
+                    //               firstName: firstName,
+                    //               jobDetails: jobDetails,
+                    //               favoriteJobs: favoriteJobs,
+                    //               userDetails: userDetails,
+                    //               jobId: jobId,
+                    //               cv: cv,
+                    //               resume: resume,
+                    //             )));
+                    //   },
+                    //   child: Container(
+                    //     height: 52,
+                    //     margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(5),
+                    //       color: Colors.white,
+                    //       border: Border.all(color: Colors.black26),
+                    //     ),
+                    //     padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       children: [
+                    //         Image.asset(
+                    //           'assets/images/search.png',
+                    //           color: Colors.black,
+                    //         ),
+                    //         SizedBox(
+                    //           width: 20,
+                    //         ),
+                    //         Text(
+                    //           'Job Title',
+                    //           style: TextStyle(
+                    //               fontFamily: 'Questrial',
+                    //               color: Colors.black,
+                    //               fontSize: 16,
+                    //               fontWeight: FontWeight.w400),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     InkWell(
                       splashColor: Colors.blue[800],
                       onTap: () {
@@ -297,30 +283,21 @@ class _HomeSearchState extends State<HomeSearch> {
                       },
                       child: Container(
                         height: 52,
-                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        margin: const EdgeInsets.symmetric(horizontal: AppMargin.m35),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(15),
+                          color: ColorManager.bluePrimary,
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset(
-                              'assets/images/location.png',
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
                             Text(
-                              'Location',
-                              style: TextStyle(
-                                  fontFamily: 'Questrial',
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
+                              StringManager.searchJob,
+                                style: getSfRoundedBold(color: ColorManager.white, fontSize: FontSize.s17)
                             ),
+                            LottieBuilder.asset('assets/lottie_animation/search_job.json')
+                            
                           ],
                         ),
                       ),
@@ -364,15 +341,23 @@ class _HomeSearchState extends State<HomeSearch> {
                                         jobId: jobId,
                                       )));
                             },
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                fontFamily: 'Questrial',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.blueGrey[300],
-                                fontSize: 16.0,
-                                //fontWeight: FontWeight.w700,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: ColorManager.pinkPrimary,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorManager.pinkPrimary,
+                                    blurRadius: AppSize.s2,
+                                  ),
+                                ],
+                                  borderRadius: BorderRadius.circular(AppSize.s8)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                child: Text(
+                                  'See All',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                               ),
                             ),
                           ),
@@ -395,7 +380,7 @@ class _HomeSearchState extends State<HomeSearch> {
                     )
                         : Container(
                       width: SizeConfig.screenWidth,
-                      height: 230,
+                      height: 260,
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
@@ -403,8 +388,8 @@ class _HomeSearchState extends State<HomeSearch> {
                           scrollDirection: Axis.horizontal,
                           physics:
                           const PageScrollPhysics(), // this for snapping
-                          itemCount: jobDetails.length ,
-                          itemBuilder: (context, index) => index % 2 == 0 ? GestureDetector(
+                          itemCount: jobDetails!.length ,
+                          itemBuilder: (context, index) =>  GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -413,12 +398,12 @@ class _HomeSearchState extends State<HomeSearch> {
                                       uName: uName,
                                       password: password,
                                       firstName: firstName,
-                                      jobDetails: jobDetails[index],
+                                      jobDetails: jobDetails![index],
                                       userDetails: userDetails,
                                       user_Id: user_Id,
                                       appliedStatus:
                                       jobAppliedDetailModel.applied,
-                                      jobid: jobDetails[index].id,//c
+                                      jobid: jobDetails![index].id,//c
                                       cv: cv,
                                       resumee: resume,
                                     ),
@@ -426,34 +411,35 @@ class _HomeSearchState extends State<HomeSearch> {
                                 );
                               },
                               child: CompanyCard(
-                                jobDetails: jobDetails[index],
+                                jobDetails: jobDetails![index],
                                 userId: user_Id,
                               ))
-                              : GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => JobDetail(
-                                      uName: uName,
-                                      password: password,
-                                      firstName: firstName,
-                                      jobDetails: jobDetails[index],
-                                      userDetails: userDetails,
-                                      user_Id: user_Id,
-                                      appliedStatus:
-                                      jobAppliedDetailModel.applied,
-                                      jobid: jobDetails[index].id,//jobDetails[index].id
-                                      cv: cv,
-                                      resumee: resume,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: CompanyCard2(
-                                jobDetails: jobDetails[index],
-                                userId: user_Id,
-                              ))),
+                              // : GestureDetector(
+                              // onTap: () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => JobDetail(
+                              //         uName: uName,
+                              //         password: password,
+                              //         firstName: firstName,
+                              //         jobDetails: jobDetails![index],
+                              //         userDetails: userDetails,
+                              //         user_Id: user_Id,
+                              //         appliedStatus:
+                              //         jobAppliedDetailModel.applied,
+                              //         jobid: jobDetails![index].id,//jobDetails[index].id
+                              //         cv: cv,
+                              //         resumee: resume,
+                              //       ),
+                              //     ),
+                              //   );
+                              // },
+                              // child: CompanyCard2(
+                              //   jobDetails: jobDetails![index],
+                              //   userId: user_Id,
+                              // ))
+                      ),
                     ),
                     SizedBox(height: 31.0),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -486,15 +472,23 @@ class _HomeSearchState extends State<HomeSearch> {
                                       resume: resume,
                                     )));
                           },
-                          child: Text(
-                            "See All",
-                            style: TextStyle(
-                              fontFamily: 'Questrial',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey[300],
-                              fontSize: 16.0,
-                              //fontWeight: FontWeight.w700,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: ColorManager.pinkPrimary,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorManager.pinkPrimary,
+                                    blurRadius: AppSize.s2,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(AppSize.s8)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(AppPadding.p8),
+                              child: Text(
+                                'See All',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
                             ),
                           ),
                         ),
@@ -520,7 +514,7 @@ class _HomeSearchState extends State<HomeSearch> {
                         )
                             : Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: favoriteJobs//Requests.updatefavoriteJobs,favoriteJobs
+                          children: favoriteJobs!//Requests.updatefavoriteJobs,favoriteJobs
                               .asMap()
                               .entries
                               .map(
@@ -567,9 +561,9 @@ class _HomeSearchState extends State<HomeSearch> {
       ),
     );
   }
-  List<New_Job_Details> jobDetailsList;
+  List<New_Job_Details>? jobDetailsList;
 
-  Future<List<New_Job_Details>> getalljobDetails()async{
+  Future<List<New_Job_Details>?> getalljobDetails()async{
     var request = http.Request('GET', Uri.parse('https://girlzwhosellcareerconextions.com/API/jobs_filtered.php?$user_Id'));
 
 

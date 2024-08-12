@@ -4,7 +4,7 @@ import 'package:girlzwhosell/model/login_model.dart';
 
 class PinkCard extends StatelessWidget {
   final  user_Id;
-  final SeekerDetails userDetails;
+  final SeekerDetails? userDetails;
   PinkCard({this.user_Id,this.userDetails});
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PinkCard extends StatelessWidget {
     //  padding: EdgeInsets.all(20),
 
             decoration: BoxDecoration(
-              color: Colors.pink[100].withOpacity(0.7),
+              color: Colors.pink[100]!.withOpacity(0.7),
               borderRadius: BorderRadius.circular(5.0),
             ),
       //      height: 150,
@@ -33,7 +33,7 @@ class PinkCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('${userDetails.firstname}',
+                Text('${userDetails!.firstname}',
                   style: TextStyle(
                     fontFamily: 'Questrial',
                     color: Colors.pinkAccent[200],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
@@ -6,16 +8,21 @@ import 'package:girlzwhosell/new_widgets/search_widget.dart';
 import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/views/job_detail.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../../dawood/presentation/resources/color_manager.dart';
+import '../../../dawood/presentation/resources/font_manager.dart';
+import '../../../dawood/presentation/resources/style_manager.dart';
 
 class JobSearchSecond extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
+  final String? firstName;
 //  final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
@@ -48,11 +55,11 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
+  final String? firstName;
 //  final cookiee;
-  final List<JobDetails> jobDetails;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final List<JobDetails>? jobDetails;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final jobId;
   final cv;
   final resume;
@@ -99,38 +106,26 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
-        elevation: 0.0,
-        backgroundColor: Colors.pinkAccent[200],
-        leading: InkWell(
-            splashColor: Colors.blue[800],
-            onTap: () {
-              // Requests.Login(context, u_Name, password,"", false);
-              SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
-              Navigator.of(context).pop();
-            },
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            )),
-        title: Text(
-          "Results",
-          style: TextStyle(
-              fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-      ),
+        title: Text(StringManager.search)),
       body: Column(
         children: [
           Container(
               decoration: BoxDecoration(
-                  color: Colors.pinkAccent[200],
+                  color: ColorManager.bluePrimary,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30))),
+                      bottomLeft: Radius.circular(AppSize.s14),
+                      bottomRight: Radius.circular(AppSize.s14))),
               child: Column(
                 children: [
-                  buildSearch(),
-                  buildSearch2(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: AppPadding.p8),
+                    child: buildSearch(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: AppPadding.p8),
+                    child: buildSearch2(),
+                  ),
+
                 ],
               )),
           Expanded(
@@ -138,26 +133,29 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
                 itemCount: joblist != null ? joblist.length : 0,
                 // itemCount: joblist.length == null ? 0 : joblist.length,
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () async {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => JobDetailOne(
-                                      uName: uName,
-                                      password: password,
-                                      joblist: joblist[index],
-                                      userDetails: userDetails,
-                                      user_Id: user_Id,
-                                      firstName: firstName,
-                                      appliedStatus:
-                                          jobAppliedDetailModel.applied,
-                                      jobid: joblist[index].id,//jobId
-                                      cv: cv,
-                                      resumee: resume,
-                                    )));
-                      },
-                      child: buildList(joblist[index]));
+                  return Padding(
+                    padding: const EdgeInsets.all(AppPadding.p8),
+                    child: GestureDetector(
+                        onTap: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => JobDetailOne(
+                                        uName: uName,
+                                        password: password,
+                                        joblist: joblist[index],
+                                        userDetails: userDetails,
+                                        user_Id: user_Id,
+                                        firstName: firstName,
+                                        appliedStatus:
+                                            jobAppliedDetailModel.applied,
+                                        jobid: joblist[index].id,//jobId
+                                        cv: cv,
+                                        resumee: resume,
+                                      )));
+                        },
+                        child: buildList(joblist[index])),
+                  );
                 }),
           ),
         ],
@@ -181,7 +179,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
     if (!mounted) return;
     setState(() {
       this.location = query;
-      this.joblist = search;
+      this.joblist = search!;
     });
   }
 
@@ -189,11 +187,23 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
         padding: const EdgeInsets.only(left: 12.0, right: 12.0),
         child: Card(
           child: ListTile(
-            leading: Image.network(
-              jobslist.companyLogo ?? Placeholder(),
-              fit: BoxFit.cover,
-              width: 50,
-              height: 50,
+
+            leading: jobslist.companyLogo==StringManager.noCompanyLogoErrorHandler ?SizedBox(
+              height: AppSize.s50,
+              child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),
+            ) :Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: ColorManager.pinkPrimary,
+                  width: 2
+                ),
+              ),
+              child: Image.network(
+                jobslist.companyLogo ?? Placeholder() as String,
+                fit: BoxFit.cover,
+                width: 50,
+                height: 50,
+              ),
             ),
             title: Align(
                 alignment: Alignment.center,
@@ -239,7 +249,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
                   height: 10,
                 ),
                 Text(
-                  '\$${jobslist.minSalary ?? " " + jobslist.maxSalary ?? " "}',
+                  '\$${jobslist.minSalary ?? " " + jobslist.maxSalary! ?? " "}',
                   style: TextStyle(
                     fontFamily: 'Questrial',
                     fontStyle: FontStyle.normal,

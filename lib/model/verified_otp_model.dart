@@ -1,7 +1,7 @@
 class verifyOtp {
-  String message;
-  String userId;
-  String status;
+  String? message;
+  String? userId;
+  String? status;
 
   verifyOtp({this.message, this.userId, this.status});
 

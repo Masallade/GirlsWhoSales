@@ -11,11 +11,11 @@ import 'package:http/http.dart'as http;
 
 // ignore: must_be_immutable
 class SuperPowerPage extends StatefulWidget {
-  String jobtypes;
-  String joblevel;
- final String Button;
- final String userId;
-  SuperPowerPage({Key key ,this.jobtypes ,this.joblevel, this.Button ,this.userId}) : super(key: key);
+  String? jobtypes;
+  String? joblevel;
+ final String? Button;
+ final String? userId;
+  SuperPowerPage({Key? key ,this.jobtypes ,this.joblevel, this.Button ,this.userId}) : super(key: key);
 
   @override
   _SuperPowerPageState createState() => _SuperPowerPageState( jobtypes: jobtypes,joblevel: joblevel, Button: Button , userId: userId);
@@ -24,16 +24,16 @@ class SuperPowerPage extends StatefulWidget {
 class _SuperPowerPageState extends State<SuperPowerPage> {
 
   List<superPowerModel> selecjobsTypes = [];
-  String jobtypes;
-  String joblevel;
-  String Button ='';
-  final String userId;
+  String? jobtypes;
+  String? joblevel;
+  String? Button ='';
+  final String? userId;
   _SuperPowerPageState({this.jobtypes, this.joblevel, this.Button ,this.userId});
 
-  static List<superPowerModel> _data = [];
+  static List<superPowerModel>? _data = [];
 
 
-  Future<List<superPowerModel>> getSalesList() async {
+  Future<List<superPowerModel>?> getSalesList() async {
 
     final response = await http.get(Uri.parse("https://girlzwhosellcareerconextions.com/API/categories.php"));
 
@@ -43,7 +43,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
     print('category response${response.body}');
     return parseSales(response.body);
   }
-  List<superPowerModel> parseSales(String responseBody) {
+  List<superPowerModel>? parseSales(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<superPowerModel>((json) => superPowerModel.fromJson(json)).toList();
   }
@@ -93,7 +93,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                     minHeight: 10.0,
                     backgroundColor: Colors.grey[300],
                     valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                    AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                     value: 0.4,
                   ),
                 ),
@@ -168,11 +168,11 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                          //fontWeight: FontWeight.w700,
                        ),),
 
-                       items: _data.map((item) => MultiSelectItem<superPowerModel>(item, item.name)).toList(),
+                       items: _data!.map((item) => MultiSelectItem<superPowerModel>(item, item.name!)).toList(),
                        searchable: true,
 
                       validator: (values) {
-                       print('values.length ${values.length}');
+                       print('values.length ${values!.length}');
                         if (values.length >=4) {
                           return "Select Only Three";
                         }
@@ -187,7 +187,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                            print("${item.id} ${item.name}");
                            Button = "${Button ?? " "} ${item.name}";
                          });
-                         _multiSelectKey.currentState.validate();
+                         _multiSelectKey.currentState!.validate();
                        },
                        chipDisplay: MultiSelectChipDisplay(
                          chipColor: Colors.pinkAccent[200],
@@ -206,7 +206,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                              selecjobsTypes.remove(item);
                            });
                             print('removed : ${selecjobsTypes}');
-                           _multiSelectKey.currentState.validate();
+                           _multiSelectKey.currentState!.validate();
                          },
                        ),
                      ),
@@ -220,7 +220,7 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     fixedSize:
-                    Size(SizeConfig.screenWidth, 60.0),
+                    Size(SizeConfig.screenWidth!, 60.0),
                     primary: Color.fromARGB(255, 255, 65, 129),
                     //onSurface:  Colors.pinkAccent[200],
                     shape: RoundedRectangleBorder(
@@ -235,13 +235,15 @@ class _SuperPowerPageState extends State<SuperPowerPage> {
                     fontWeight: FontWeight.w500,),
                 ),
                 onPressed:() {
-                  if( _multiSelectKey.currentState.validate()){
-                    _multiSelectKey.currentState.save();
+                  if( _multiSelectKey.currentState!.validate()){
+                    _multiSelectKey.currentState!.save();
 
                         Navigator.push(context, MaterialPageRoute(builder: (context) => industryLevel(jobtypes:jobtypes,joblevel: joblevel, Button: Button,)));
 
                   }else{
-                    return SnackBar(content: Text('Please Select Categories To Proceed Next'));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please Select Categories To Proceed Next')),
+                    );
                  }
                 },
               ),

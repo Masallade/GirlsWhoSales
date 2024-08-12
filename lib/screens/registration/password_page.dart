@@ -10,11 +10,11 @@ class PasswordPage extends StatefulWidget {
 
 class _PasswordPageState extends State<PasswordPage> {
 
-  bool passwordVisible;
-  bool passwordVisibleConfirm;
+  late bool passwordVisible;
+  late bool passwordVisibleConfirm;
 
   List<String> _selectOption = ['✉️'+Strings.appMail, '📱 '+Strings.userPhone];
-  int _defaultChoiceIndex;
+  int? _defaultChoiceIndex;
 
   @override
   void initState() {
@@ -82,7 +82,7 @@ class _PasswordPageState extends State<PasswordPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Container(
                   alignment: Alignment.center,
-                  height: SizeConfig.screenHeight*.9,
+                  height: SizeConfig.screenHeight!*.9,
                   width: SizeConfig.screenWidth,
                   child: Column(
                     children: <Widget>[
@@ -141,14 +141,14 @@ class _PasswordPageState extends State<PasswordPage> {
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.blue[800],
+                                      color: Colors.blue[800]!,
                                     ),
                                   ),
 
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.blue[900],
+                                      color: Colors.blue[900]!,
                                       width: 2.0,
                                     ),
                                   ),
@@ -180,14 +180,14 @@ class _PasswordPageState extends State<PasswordPage> {
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.blue[800],
+                                      color: Colors.blue[800]!,
                                     ),
                                   ),
 
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.blue[900],
+                                      color: Colors.blue[900]!,
                                       width: 2.0,
                                     ),
                                   ),

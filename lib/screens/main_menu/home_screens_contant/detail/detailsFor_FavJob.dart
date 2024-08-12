@@ -9,11 +9,11 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class DetailsForFavJob extends StatefulWidget {
-  final Job data;
-  final FavoriteJobs favoriteJobs;
-  final String userId;
+  final Job? data;
+  final FavoriteJobs? favoriteJobs;
+  final String? userId;
 
-  const DetailsForFavJob({Key key, this.data, this.favoriteJobs, this.userId}) : super(key: key);
+  const DetailsForFavJob({Key? key, this.data, this.favoriteJobs, this.userId}) : super(key: key);
   static final String uploadEndPoint =
       base_url+'apply_job.php';
   static final String uploadsavejob =
@@ -26,9 +26,9 @@ class DetailsForFavJob extends StatefulWidget {
 class _DetailsForFavJobState extends State<DetailsForFavJob> {
   String errMessage = 'Error Uploading Slip';
   String status = '';
-  final Job data;
-  final FavoriteJobs favoriteJobs;
-  final String userId;
+  final Job? data;
+  final FavoriteJobs? favoriteJobs;
+  final String? userId;
 
   _DetailsForFavJobState(this.data, this.favoriteJobs, this.userId);
 
@@ -61,7 +61,7 @@ class _DetailsForFavJobState extends State<DetailsForFavJob> {
                         ),
                       ),
                       Text(
-                        favoriteJobs.title,
+                        favoriteJobs!.title!,
                         style: kSubTitleTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -100,12 +100,12 @@ class _DetailsForFavJobState extends State<DetailsForFavJob> {
                                 // ),
                                 SizedBox(height: kSpacingUnit * 2),
                                 Text(
-                                  favoriteJobs.description,
+                                  favoriteJobs!.description!,
                                   style: kTitleTextStyle,
                                 ),
                                 SizedBox(height: kSpacingUnit),
                                 Text(
-                                  favoriteJobs.companyName,
+                                  favoriteJobs!.companyName!,
                                   style: kCaptionTextStyle,
                                 ),
                               ],
@@ -206,8 +206,8 @@ class _DetailsForFavJobState extends State<DetailsForFavJob> {
 
     http.post(Uri.parse(DetailsForFavJob.uploadEndPoint), body: {
       "user_id": userId,
-      "job_id": favoriteJobs.jobId,
-      "emp_id": favoriteJobs.id,
+      "job_id": favoriteJobs!.jobId,
+      "emp_id": favoriteJobs!.id,
       "cover_letter": "123456",
       "applied_date": getCurrentDate(),
 
@@ -228,7 +228,7 @@ class _DetailsForFavJobState extends State<DetailsForFavJob> {
 
     http.post(Uri.parse(DetailsForFavJob.uploadsavejob), body: {
       "user_id": userId,
-      "job_id": favoriteJobs.jobId,
+      "job_id": favoriteJobs!.jobId,
 
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);

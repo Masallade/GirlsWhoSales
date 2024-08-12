@@ -4,7 +4,7 @@ import 'package:girlzwhosell/model/login_model.dart';
 
 class BlueCard extends StatelessWidget {
   final  user_Id;
-  final SeekerDetails userDetails;
+  final SeekerDetails? userDetails;
   BlueCard({this.user_Id,this.userDetails});
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class BlueCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Text('${userDetails.firstname}',
+            Text('${userDetails!.firstname}',
               style: TextStyle(
                 fontFamily: 'Questrial',
                 color: Colors.blue[800],

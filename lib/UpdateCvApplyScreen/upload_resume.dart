@@ -18,7 +18,7 @@ class UploadResume extends StatefulWidget{
   final uName;
   final password;
   final user_id;
-  final SearchModel joblist;
+  final SearchModel? joblist;
   final firstName;
   UploadResume({this.uName,this.password ,this.user_id ,this.joblist ,this.firstName});
 
@@ -35,19 +35,19 @@ class _UploadResume extends State<UploadResume>{
   final uName;
   final password;
   final user_id;
-  bool isLiked;
-  final SearchModel joblist;
+  bool? isLiked;
+  final SearchModel? joblist;
   final firstName;
   _UploadResume({this.uName,this.password ,this.user_id,this.joblist, this.firstName});
 
 
-  FilePickerResult selectedfile;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
-  String base64Image;
-  File tmpFile;
+  Future<File>? file;
+  String? base64Image;
+  File? tmpFile;
   String uploadurl = base_url + "apply_job.php";
 
   Widget showImage() {
@@ -57,10 +57,10 @@ class _UploadResume extends State<UploadResume>{
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -91,13 +91,31 @@ class _UploadResume extends State<UploadResume>{
 
     FormData formdata = FormData.fromMap({
       "user_id": user_id,
-      "pdf_cv": await MultipartFile.fromFile(
-          selectedfile == null ? null : selectedfile.files.single.path,
-          filename: basename(selectedfile.files.single.path)
-        //show only filename from path
-      ),
-
+      "pdf_cv": selectedfile != null && selectedfile!.files.isNotEmpty
+          ? await MultipartFile.fromFile(
+          selectedfile!.files.single.path!,
+          filename: basename(selectedfile!.files.single.path!)
+      )
+          : null,
     });
+
+// Check if 'pdf_cv' is null and handle the case if necessary
+    if (formdata.fields.any((element) => element.key == 'pdf_cv' && element.value == null)) {
+      // Handle the error (e.g., notify the user to select a file)
+      print("No file selected for upload.");
+    } else {
+      // Proceed with the upload
+      response = await dio.post(uploadurl,
+        data: formdata,
+        onSendProgress: (int sent, int total) {
+          String percentage = (sent / total * 100).toStringAsFixed(2);
+          setState(() {
+            progress = "$sent Bytes of $total Bytes - $percentage % uploaded";
+          });
+        },
+      );
+    }
+
 
     response = await dio.post(uploadurl,
       data: formdata,
@@ -126,7 +144,7 @@ class _UploadResume extends State<UploadResume>{
       showToast('Your Resume/ CV Has Been Updated',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,
@@ -204,7 +222,7 @@ class _UploadResume extends State<UploadResume>{
                         padding: const EdgeInsets.all(20.0),
                         child: DottedBorder(
                           strokeWidth: 1.0,
-                          color: Colors.grey[300],
+                          color: Colors.grey[300]!,
                           // padding: EdgeInsets.all(4),
                           dashPattern: [9, 5],
                           child: Container(
@@ -231,7 +249,7 @@ class _UploadResume extends State<UploadResume>{
                                       color: Colors.blueGrey[400]
                                     /* letterSpacing: 0.0, */
                                   ),
-                                ) : Text(basename(selectedfile.files.single.path) ),
+                                ) : Text(basename(selectedfile!.files.single.path!) ),
                                 trailing: selectedfile != null
                                     ? Icon(
                                   Icons.check,
@@ -255,7 +273,7 @@ class _UploadResume extends State<UploadResume>{
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               fixedSize:
-              Size(SizeConfig.screenWidth, 60.0),
+              Size(SizeConfig.screenWidth!, 60.0),
               primary: Color.fromARGB(255, 255, 65, 129),
               //onSurface:  Colors.pinkAccent[200],
               shape: RoundedRectangleBorder(

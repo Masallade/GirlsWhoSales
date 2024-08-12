@@ -1,8 +1,8 @@
 class Total_Saved_Job {
-  String message;
-  String status;
-  String countOfJobsSaved;
-  String countOfJobsApplied;
+  String? message;
+  String? status;
+  String? countOfJobsSaved;
+  String? countOfJobsApplied;
 
   Total_Saved_Job(
       {this.message,

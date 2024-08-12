@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class FilterChipData {
-  String id;
-   String label;
-  String description;
-   Color color;
-   bool isSelected;
+  String? id;
+   String? label;
+  String? description;
+   Color? color;
+   bool? isSelected;
 
    FilterChipData({
-    @required this.label,
-    @required this.color,
+    required this.label,
+    required this.color,
     this.isSelected = false,
   });
 
   FilterChipData copy({
-    String label,
-    Color color,
-    bool isSelected,
+    String? label,
+    Color? color,
+    bool? isSelected,
   }) =>
       FilterChipData(
         label: label ?? this.label,

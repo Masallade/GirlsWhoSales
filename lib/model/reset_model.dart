@@ -14,8 +14,8 @@ class ResetPasswordModel {
     this.message,
   });
 
-  String status;
-  String message;
+  String? status;
+  String? message;
 
   factory ResetPasswordModel.fromJson(Map<String, dynamic> json) => ResetPasswordModel(
     status: json["status"],

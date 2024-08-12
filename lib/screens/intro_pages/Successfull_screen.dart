@@ -26,7 +26,7 @@ class _ResetSuccessfullScreen extends State<ResetSuccessfullScreen> {
   void initState() {
     super.initState();
   }
-  String password;
+  String? password;
   final key = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {

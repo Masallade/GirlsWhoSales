@@ -21,15 +21,15 @@ class ProfileMain extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  final String title;
+  final String? firstName;
+  final String? title;
   final profile;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   final city;
-  String nationality;
+  String? nationality;
 
  ProfileMain(
-      {Key key,
+      {Key? key,
       this.uName,
       this.password,
       this.user_Id,
@@ -58,13 +58,13 @@ class _ProfileMainState extends State<ProfileMain> {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  String nationality;
-  final String title;
-  final String profile;
-  final String city;
+  final String? firstName;
+  String? nationality;
+  final String? title;
+  final String? profile;
+  final String? city;
 
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
   _ProfileMainState(this.uName, this.password, this.user_Id, this.firstName, this.nationality,
       this.title, this.profile, this.userDetails, this.city);
@@ -118,8 +118,8 @@ class _ProfileMainState extends State<ProfileMain> {
             ],
           ),
           context: context,
-        ) ??
-        false;
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   Future logOutUser()async{
@@ -133,8 +133,8 @@ class _ProfileMainState extends State<ProfileMain> {
   }
 
 
-  SharedPreferences logindata;
-  String username;
+  late SharedPreferences logindata;
+  String? username;
 
 
   @override
@@ -246,7 +246,7 @@ class _ProfileMainState extends State<ProfileMain> {
                             placeholder: 'assets/images/loading.gif',
                             placeholderScale: 2.0,
                             fadeOutDuration: Duration(seconds: 2),
-                            image: profile ?? Placeholder(),
+                            image: profile ?? Placeholder() as String,
                           ),
                         ),
                       ),

@@ -20,13 +20,13 @@ class AllJobs extends StatefulWidget {
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  final List<JobDetails> jobDetails;
-  final JobDetails jobDetails2;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final String? firstName;
+  final List<JobDetails>? jobDetails;
+  final JobDetails? jobDetails2;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final jobId;
-  const AllJobs({Key key, this.jobDetails2, this.uName,this.password,this.user_Id, this.firstName, this.jobDetails,this.favoriteJobs,this.userDetails ,this.jobId}) : super(key: key);
+  const AllJobs({Key? key, this.jobDetails2, this.uName,this.password,this.user_Id, this.firstName, this.jobDetails,this.favoriteJobs,this.userDetails ,this.jobId}) : super(key: key);
   @override
   _AllJobsState createState() => _AllJobsState(jobDetails2 : jobDetails2, uName: uName,password: password,user_Id: user_Id, jobDetails: jobDetails ,favoriteJobs: favoriteJobs,userDetails: userDetails,firstName: firstName);
 }
@@ -34,13 +34,13 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
   final uName;
   final password;
   final user_Id;
-  final String firstName;
-  List<JobDetails> jobDetails;
-  final JobDetails jobDetails2;
-  final List<FavoriteJobs> favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final String? firstName;
+  List<JobDetails>? jobDetails;
+  final JobDetails? jobDetails2;
+  final List<FavoriteJobs>? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final jobId;
-  bool isLiked;
+  bool? isLiked;
   _AllJobsState({this.uName, this.jobDetails2, this.password,this.user_Id, this.firstName, this.jobDetails,this.favoriteJobs,this.userDetails,this.jobId});
   @override
 
@@ -56,10 +56,14 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
   bool isJobsAdded = false;
 
   void initState() {
+    if(jobDetails==null){
+      Requests.getJobDetails(int.tryParse(user_Id.toString()));
+      jobDetails = List.from(all_jobs_details!);
+    }
 
     setState(() {
-      Requests.getJobDetails(int.tryParse(user_Id.toString()));
-      jobDetails = List.from(all_jobs_details);
+      // Requests.getJobDetails(int.tryParse(user_Id.toString()));
+      // jobDetails = List.from(all_jobs_details!);
     });
 
 
@@ -69,7 +73,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
     print('ALLJob uName : $uName');
     print(' ALLJobpass : $password');
 
-    print("total job length ${jobDetails.length}");
+    print("total job length ${jobDetails!.length}");
 
 
 
@@ -79,33 +83,13 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
   bool isActive = false;
   @override
   Widget build(BuildContext context) {
-    CardController controller; //Use this to trigger swap.
+    CardController? controller; //Use this to trigger swap.
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Requests.getJobDetails(int.tryParse(user_Id.toString()));
-              jobDetails = List.from(all_jobs_details);
-              Requests.Login(context, u_Name, password,"", false);
-              // Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            )),
         title: Text(
-          'All Jobs',
-          style:TextStyle(
-              fontFamily: 'Poppins' ,
-              color: Colors.black,
-              fontSize: 20 ,
-              fontWeight: FontWeight.w500),
-        ),),
+          'All Jobs',),),
       body:isActive == false ? SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -121,8 +105,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 27.5 ,top: 15),
-                    child: Text('Tips',style: TextStyle(fontWeight: FontWeight.bold ,color: Colors.blueGrey,
-                    fontSize: 20),
+                    child: Text('Tips',style: Theme.of(context).textTheme.displayMedium
                     ),
                   )),
               SizedBox(height: 5.7,),
@@ -139,7 +122,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                   swipeUp: true,
                   swipeDown: false,
                   orientation: AmassOrientation.bottom,
-                  totalNum: jobDetails.length,
+                  totalNum: jobDetails!.length,
                   stackNum: 3,
                   swipeEdge: 3.0,
                   maxWidth: MediaQuery.of(context).size.width * 0.94,
@@ -147,26 +130,17 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                   minWidth: MediaQuery.of(context).size.width * 0.93,
                   minHeight: MediaQuery.of(context).size.width * 0.93,
 
-                  cardBuilder: (context, currentIndex) =>  currentIndex%2 == 0 ?
+                  cardBuilder: (context, currentIndex) =>
                   GestureDetector(
                       onTap: (){
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => JobDetail(uName:uName,password: password,jobDetails: jobDetails[currentIndex], userDetails: userDetails,user_Id:user_Id,  firstName: firstName,appliedStatus:jobAppliedDetailModel.applied,jobid: jobId,),
+                            builder: (context) => JobDetail(uName:uName,password: password,jobDetails: jobDetails![currentIndex], userDetails: userDetails,user_Id:user_Id,  firstName: firstName,appliedStatus:jobAppliedDetailModel.applied,jobid: jobId,),
                           ),);
                       },
-                      child: AllJobCard(jobDetails: jobDetails[currentIndex], userId:user_Id))
-                      :
-                  GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => JobDetail(uName:uName,password: password, jobDetails: jobDetails[currentIndex], userDetails: userDetails,user_Id:user_Id, firstName: firstName,appliedStatus:jobAppliedDetailModel.applied,jobid: jobId,),
-                          ),);
-                      },
-                      child : AllJobCard2(jobDetails: jobDetails[currentIndex], userId:user_Id)),
+                      child: AllJobCard(jobDetails: jobDetails![currentIndex], userId:user_Id)),
+
                   cardController: controller,
                   swipeCompleteCallback:
                       (CardSwipeOrientation orientation, int index) {
@@ -226,7 +200,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
         onPressed: () {
           setState(() {
             isActive = false;
-            jobDetails = List.from(all_jobs_details);
+            jobDetails = List.from(all_jobs_details!);
 
           });
         },
@@ -308,8 +282,8 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
         ),
       ),
       context: context,
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   Future savejob() async {
@@ -317,7 +291,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
     var res = await http.post(
         Uri.parse(uploadsavejob)  , body: {
       "user_id": user_Id,
-      "job_id": jobDetails2.id,
+      "job_id": jobDetails2!.id,
     });
     if(res.statusCode == 200 ) {
       print("==================Response values==================");
@@ -333,9 +307,9 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
 
   void likeJob(int index){
 
-    print("hello current index $index and the total length ${jobDetails.length} ");
+    print("hello current index $index and the total length ${jobDetails!.length} ");
 
-    if(index == jobDetails.length-1){
+    if(index == jobDetails!.length-1){
       setState(() {
         Requests.getJobDetails(int.tryParse(user_Id.toString()));
         isActive = true;
@@ -349,14 +323,14 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
     var res = await http.post(
         Uri.parse(dislikeJob)  , body: {
       "seeker_id": user_Id,
-      "job_id": jobDetails[index].id,
+      "job_id": jobDetails![index].id,
     });
     if(res.statusCode == 200 ) {
       print("==================Response values==================");
 
-      print("Index value ${index} leangth ${jobDetails.length}");
+      print("Index value ${index} leangth ${jobDetails!.length}");
 
-      if(index == jobDetails.length-1){
+      if(index == jobDetails!.length-1){
         setState(() {
           Requests.getJobDetails(int.tryParse(user_Id.toString()));
           isActive = true;

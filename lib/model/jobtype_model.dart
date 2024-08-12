@@ -1,7 +1,7 @@
 
 class jobCatagories {
-  String id;
-  String title;
+  String? id;
+  String? title;
 
   jobCatagories({this.id, this.title});
 

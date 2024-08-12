@@ -1,6 +1,6 @@
 class SignUpModel {
-  String status;
-  String message;
+  String? status;
+  String? message;
 
   SignUpModel({this.status, this.message});
 

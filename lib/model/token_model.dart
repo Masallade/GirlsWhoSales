@@ -1,7 +1,7 @@
 class TokenModel {
-  String message;
-  String status;
-  String token;
+  String? message;
+  String? status;
+  String? token;
 
   TokenModel({this.message, this.status, this.token});
 

@@ -7,7 +7,7 @@ import 'package:girlzwhosell/utils/constants2.dart';
 
 
 
-AppBar header(context, {String titleText}) {
+AppBar header(context, {required String titleText}) {
   // ignore: deprecated_member_use
   Icon customIcon = Icon(FontAwesomeIcons.search , color: kAccentColor);
   Widget customSearchBar = Text(
@@ -51,12 +51,12 @@ AppBar header(context, {String titleText}) {
   );
 }
 
-AppBar header2(context, {bool isAppTitle=false, String titleText,  actions}) {
+AppBar header2(context, {bool isAppTitle=false, String? titleText,  actions}) {
 
   return AppBar(
     leading: BackButtonPop2(),
     backgroundColor: Colors.red[100],
-    title:Text(isAppTitle? 'Job Portal': titleText,
+    title:Text(isAppTitle? 'Job Portal': titleText!,
       style:HeadingStyle,
       overflow: TextOverflow.ellipsis,
     ),
@@ -67,7 +67,7 @@ AppBar header2(context, {bool isAppTitle=false, String titleText,  actions}) {
 
 
 
-class DataSearch extends SearchDelegate<String> {
+class DataSearch extends SearchDelegate<String?> {
   final jobs = [
     'Accounting/Finance',
     'Bank/ Non-Bank Fin. Institution',

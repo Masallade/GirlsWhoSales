@@ -7,15 +7,15 @@ import '../views/RequirementTab.dart';
 import '../views/company_tab.dart';
 import 'package:http/http.dart' as http;
 class TrackDetail extends StatefulWidget {
-  final NotificationsDetails notificationsDetail;
-  TrackDetail ({Key key , this.notificationsDetail}) : super(key: key);
+  final NotificationsDetails? notificationsDetail;
+  TrackDetail ({Key? key , this.notificationsDetail}) : super(key: key);
 
   @override
   _TrackDetailState createState() => _TrackDetailState(notificationsDetail: notificationsDetail);
 }
 
 class _TrackDetailState extends State<TrackDetail> {
-  final NotificationsDetails notificationsDetail;
+  final NotificationsDetails? notificationsDetail;
   _TrackDetailState({this.notificationsDetail});
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _TrackDetailState extends State<TrackDetail> {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: FittedBox(
-                  child: Text('${notificationsDetail.msg}' ,
+                  child: Text('${notificationsDetail!.msg}' ,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -95,10 +95,10 @@ class _TrackDetailState extends State<TrackDetail> {
                         width: 70.0,
                         height: 70.0,
                         child: Image.network(
-                            '${notificationsDetail.companyLogo ?? Placeholder()}')),
+                            '${notificationsDetail!.companyLogo ?? Placeholder()}')),
                     SizedBox(height: 8.0),
                     Text(
-                      '${notificationsDetail.title ?? " "}',
+                      '${notificationsDetail!.title ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontStyle: FontStyle.normal,
@@ -112,8 +112,8 @@ class _TrackDetailState extends State<TrackDetail> {
                       height: 5,
                     ),
                     Text(
-                      '${notificationsDetail.companyName ?? " "} ' +
-                          '\- ${notificationsDetail.city ?? " "}',
+                      '${notificationsDetail!.companyName ?? " "} ' +
+                          '\- ${notificationsDetail!.city ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Questrial',
                         fontStyle: FontStyle.normal,
@@ -138,7 +138,7 @@ class _TrackDetailState extends State<TrackDetail> {
                             padding:
                             const EdgeInsets.only(top: 15, left: 10.0),
                             child: Text(
-                              '${notificationsDetail.jobType ?? " "}',style: TextStyle(
+                              '${notificationsDetail!.jobType ?? " "}',style: TextStyle(
                               fontFamily: 'Questrial',
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w400,
@@ -158,8 +158,8 @@ class _TrackDetailState extends State<TrackDetail> {
                       height: 8,
                     ),
                     Text(
-                      '\$ ${notificationsDetail.minSalary ?? " "} ' +
-                          '\- ${notificationsDetail.maxSalary ?? " "}',
+                      '\$ ${notificationsDetail!.minSalary ?? " "} ' +
+                          '\- ${notificationsDetail!.maxSalary ?? " "}',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontStyle: FontStyle.normal,
@@ -220,12 +220,12 @@ class _TrackDetailState extends State<TrackDetail> {
     );
   }
   Future  UpdateNotifictionColor() async {
-    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationsDetail.id}";
+    final url = "https://girlzwhosellcareerconextions.com/API/update_notification.php?id=${notificationsDetail!.id}";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){
         print('Color response is : ${response.body}');
-        print('Color response is : ${notificationsDetail.id}');
+        print('Color response is : ${notificationsDetail!.id}');
       }
     } catch (e){
       print(e.toString());

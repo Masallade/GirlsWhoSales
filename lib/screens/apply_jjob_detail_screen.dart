@@ -18,8 +18,8 @@ import 'package:http/http.dart' as http;
 import '../views/RequirementTab.dart';
 
 class JobApply extends StatefulWidget {
-  final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  final JobDetails? jobDetails;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
   final user_Id;
@@ -29,7 +29,7 @@ class JobApply extends StatefulWidget {
   final cv;
   final resumee;
   const JobApply(
-      {Key key,
+      {Key? key,
       this.jobDetails,
       this.uName,
       this.password,
@@ -65,14 +65,14 @@ class _JobApplyState extends State<JobApply> {
   final firstName;
   final total_applied;
   final total_saved;
-  bool isLiked;
-  final JobDetails jobDetails;
-  final List<SeekerDetails> userDetails;
+  bool? isLiked;
+  final JobDetails? jobDetails;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
-  String cv;
-  String resumee;
+  String? cv;
+  String? resumee;
 
   _JobApplyState(
       {this.uName,
@@ -86,15 +86,15 @@ class _JobApplyState extends State<JobApply> {
       this.cv,
       this.resumee});
 
-  FilePickerResult selectedfile;
-  File selectedfile2;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  File? selectedfile2;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
+  Future<File>? file;
   String status = '';
-  String base64Image;
-  File tmpFile;
+  String? base64Image;
+  File? tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
  // File _image;
@@ -193,10 +193,10 @@ class _JobApplyState extends State<JobApply> {
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -229,8 +229,8 @@ class _JobApplyState extends State<JobApply> {
     // String fileName2 = _image.path.split('/').last;
     FormData formdata = FormData.fromMap({
       "user_id": user_Id,
-      "job_id": jobDetails.id,
-      "emp_id": jobDetails.employerId,
+      "job_id": jobDetails!.id,
+      "emp_id": jobDetails!.employerId,
       "pdf_cv": '',
       // await MultipartFile.fromFile(selectedfile.files.single.path,
       //     filename: fileName
@@ -278,7 +278,7 @@ class _JobApplyState extends State<JobApply> {
           "Upload Failed !",
           response.statusCode == 100
               ? " Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
-              : response.statusCode,
+              : response.statusCode as String?,
           "OK");
     }
   }
@@ -321,7 +321,7 @@ class _JobApplyState extends State<JobApply> {
               Container(
                   width: 90.0,
                   height: 90.0,
-                  child: Image.network('${jobDetails.companyLogo}')),
+                  child: Image.network('${jobDetails!.companyLogo}')),
               SizedBox(
                 height: 24,
               ),
@@ -341,7 +341,7 @@ class _JobApplyState extends State<JobApply> {
                             color: Color.fromARGB(255, 112, 126, 148),
                           )),
                     ),
-                    Text('${jobDetails.companyName ?? ""}',
+                    Text('${jobDetails!.companyName ?? ""}',
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 18.0,
@@ -378,7 +378,7 @@ class _JobApplyState extends State<JobApply> {
               ),
               SizedBox(height: 20,),
               Text(
-                '${jobDetails.title ?? " "}',
+                '${jobDetails!.title ?? " "}',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontStyle: FontStyle.normal,
@@ -392,8 +392,8 @@ class _JobApplyState extends State<JobApply> {
                 height: 5,
               ),
               Text(
-                '${jobDetails.companyName ?? " "} ' +
-                    '\- ${jobDetails.location ?? " "}',
+                '${jobDetails!.companyName ?? " "} ' +
+                    '\- ${jobDetails!.location ?? " "}',
                 style: TextStyle(
                   fontFamily: 'Questrial',
                   fontStyle: FontStyle.normal,
@@ -528,7 +528,7 @@ class _JobApplyState extends State<JobApply> {
                     width: 10,
                   ),
                   progress != null
-                      ? Text(progress,
+                      ? Text(progress!,
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17.0,
@@ -548,8 +548,8 @@ class _JobApplyState extends State<JobApply> {
   applynow() {
     http.post(Uri.parse(JobApply.uploadEndPoint), body: {
       "user_id": user_Id,
-      "job_id": jobDetails.id,
-      "emp_id": jobDetails.employerId,
+      "job_id": jobDetails!.id,
+      "emp_id": jobDetails!.employerId,
       "cover_letter": "123456",
       // "pdf_cv":cv,
       // "video_cv": resumee,
@@ -584,8 +584,8 @@ class _JobApplyState extends State<JobApply> {
 }
 
 class SearchApply extends StatefulWidget {
-  final SearchModel joblist;
-  final List<SeekerDetails> userDetails;
+  final SearchModel? joblist;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
   final user_Id;
@@ -595,7 +595,7 @@ class SearchApply extends StatefulWidget {
   final cv;
   final resumee;
   const SearchApply(
-      {Key key,
+      {Key? key,
       this.joblist,
       this.uName,
       this.password,
@@ -631,14 +631,14 @@ class _SearchApplyState extends State<SearchApply> {
   final firstName;
   final total_applied;
   final total_saved;
-  bool isLiked;
-  final SearchModel joblist;
-  final List<SeekerDetails> userDetails;
+  bool? isLiked;
+  final SearchModel? joblist;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
-  String cv;
-  String resumee;
+  String? cv;
+  String? resumee;
 
   _SearchApplyState(
       {this.uName,
@@ -652,15 +652,15 @@ class _SearchApplyState extends State<SearchApply> {
       this.cv,
       this.resumee});
 
-  FilePickerResult selectedfile;
-  File selectedfile2;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  File? selectedfile2;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
+  Future<File>? file;
   String status = '';
-  String base64Image;
-  File tmpFile;
+  String? base64Image;
+  File? tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
 
@@ -712,10 +712,10 @@ class _SearchApplyState extends State<SearchApply> {
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -748,8 +748,8 @@ class _SearchApplyState extends State<SearchApply> {
     //String fileName2 = _image.path.split('/').last;
     FormData formdata = FormData.fromMap({
       "user_id": user_Id,
-      "job_id": joblist.id,
-      "emp_id": joblist.employerId,
+      "job_id": joblist!.id,
+      "emp_id": joblist!.employerId,
       "pdf_cv": '',
       // await MultipartFile.fromFile(selectedfile.files.single.path,
       //     filename: fileName
@@ -797,7 +797,7 @@ class _SearchApplyState extends State<SearchApply> {
           "Upload Failed !",
           response.statusCode == 100
               ? " Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
-              : response.statusCode,
+              : response.statusCode as String?,
           "OK");
     }
   }
@@ -840,7 +840,7 @@ class _SearchApplyState extends State<SearchApply> {
               Container(
                   width: 90.0,
                   height: 90.0,
-                  child: Image.network('${joblist.companyLogo}')),
+                  child: Image.network('${joblist!.companyLogo}')),
               SizedBox(
                 height: 24,
               ),
@@ -860,7 +860,7 @@ class _SearchApplyState extends State<SearchApply> {
                             color: Color.fromARGB(255, 112, 126, 148),
                           )),
                     ),
-                    Text('${joblist.companyName ?? ""}',
+                    Text('${joblist!.companyName ?? ""}',
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 18.0,
@@ -884,7 +884,7 @@ class _SearchApplyState extends State<SearchApply> {
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 112, 126, 148),
                         )),
-                    Text('${joblist.title != null ? joblist.title : ''}',
+                    Text('${joblist!.title != null ? joblist!.title : ''}',
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 18.0,
@@ -1010,7 +1010,7 @@ class _SearchApplyState extends State<SearchApply> {
                               width: SizeConfig.screenWidth,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.grey[300]),
+                                border: Border.all(color: Colors.grey[300]!),
                               ),
                               child: ListTile(
                                 leading: Container(
@@ -1128,7 +1128,7 @@ class _SearchApplyState extends State<SearchApply> {
                             margin: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey[300]),
+                              border: Border.all(color: Colors.grey[300]!),
                             ),
                             child: Column(
                               children: [
@@ -1284,7 +1284,7 @@ class _SearchApplyState extends State<SearchApply> {
                     width: 10,
                   ),
                   progress != null
-                      ? Text(progress,
+                      ? Text(progress!,
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17.0,
@@ -1304,8 +1304,8 @@ class _SearchApplyState extends State<SearchApply> {
   applynow() {
     http.post(Uri.parse(JobApply.uploadEndPoint), body: {
       "user_id": user_Id,
-      "job_id": joblist.id,
-      "emp_id": joblist.employerId,
+      "job_id": joblist!.id,
+      "emp_id": joblist!.employerId,
       "cover_letter": "123456",
       // "pdf_cv":cv,
       // "video_cv": resumee,
@@ -1340,8 +1340,8 @@ class _SearchApplyState extends State<SearchApply> {
 }
 
 class SavedJobApply extends StatefulWidget {
-  final FavoriteJobs favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final FavoriteJobs? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
   final user_Id;
@@ -1351,7 +1351,7 @@ class SavedJobApply extends StatefulWidget {
   final cv;
   final resumee;
   const SavedJobApply(
-      {Key key,
+      {Key? key,
       this.favoriteJobs,
       this.uName,
       this.password,
@@ -1391,9 +1391,9 @@ class _SavedJobApplyState extends State<SavedJobApply> {
   final firstName;
   final total_applied;
   final total_saved;
-  bool isLiked;
-  final FavoriteJobs favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  bool? isLiked;
+  final FavoriteJobs? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
@@ -1414,14 +1414,14 @@ class _SavedJobApplyState extends State<SavedJobApply> {
 
   //File _image;
   final picker = ImagePicker();
-  FilePickerResult selectedfile;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
+  Future<File>? file;
   String status = '';
-  String base64Image;
-  File tmpFile;
+  String? base64Image;
+  File? tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
   @override
@@ -1429,8 +1429,8 @@ class _SavedJobApplyState extends State<SavedJobApply> {
     super.initState();
     print("name: $uName");
     setState(() {
-      print('jobid : ${favoriteJobs.jobId}');
-      print('empid : ${favoriteJobs.employerId}');
+      print('jobid : ${favoriteJobs!.jobId}');
+      print('empid : ${favoriteJobs!.employerId}');
     });
 
     print("pass: $password");
@@ -1473,10 +1473,10 @@ class _SavedJobApplyState extends State<SavedJobApply> {
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -1506,8 +1506,8 @@ class _SavedJobApplyState extends State<SavedJobApply> {
   uploadResume(context) async {
     FormData formdata = FormData.fromMap({
       "user_id": user_Id,
-      "job_id": favoriteJobs.jobId,
-      "emp_id": favoriteJobs.employerId,
+      "job_id": favoriteJobs!.jobId,
+      "emp_id": favoriteJobs!.employerId,
       "cover_letter": "123456",
       "video_cv": '',
       // await MultipartFile.fromFile(_image.path,
@@ -1539,7 +1539,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
       print("response of Registration");
       print(response.toString());
       print("jobid");
-      print('${favoriteJobs.jobId}');
+      print('${favoriteJobs!.jobId}');
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -1559,7 +1559,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
           "Upload Failed !",
           response.statusCode == 100
               ? " Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
-              : response.statusCode,
+              : response.statusCode as String?,
           "OK");
     }
   }
@@ -1602,7 +1602,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
               Container(
                   width: 90.0,
                   height: 90.0,
-                  child: Image.network('${favoriteJobs.companyLogo ?? ""}')),
+                  child: Image.network('${favoriteJobs!.companyLogo ?? ""}')),
               SizedBox(
                 height: 24,
               ),
@@ -1622,7 +1622,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                           )),
                     ),
                     Text(
-                        '${favoriteJobs.companyName != null ? favoriteJobs.companyName : ''}',
+                        '${favoriteJobs!.companyName != null ? favoriteJobs!.companyName : ''}',
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 18.0,
@@ -1645,7 +1645,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                         color: Color.fromARGB(255, 112, 126, 148),
                       )),
                   Text(
-                      '${favoriteJobs.title != null ? favoriteJobs.title : ''}',
+                      '${favoriteJobs!.title != null ? favoriteJobs!.title : ''}',
                       style: TextStyle(
                         height: 1.5,
                         fontSize: 18.0,
@@ -1691,7 +1691,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                               width: SizeConfig.screenWidth,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.grey[300]),
+                                border: Border.all(color: Colors.grey[300]!),
                               ),
                               child: ListTile(
                                 leading: Container(
@@ -1721,7 +1721,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                             margin: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey[300]),
+                              border: Border.all(color: Colors.grey[300]!),
                             ),
                             child: Column(
                               children: [
@@ -1875,7 +1875,7 @@ class _SavedJobApplyState extends State<SavedJobApply> {
                     width: 10,
                   ),
                   progress != null
-                      ? Text(progress,
+                      ? Text(progress!,
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17.0,
@@ -1909,8 +1909,8 @@ class _SavedJobApplyState extends State<SavedJobApply> {
 
 ////for See All Jobs Details For the job
 class SavedJobApply1 extends StatefulWidget {
-  final SavedJobs favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  final SavedJobs? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
   final user_Id;
@@ -1920,7 +1920,7 @@ class SavedJobApply1 extends StatefulWidget {
   final cv;
   final resumee;
   const SavedJobApply1(
-      {Key key,
+      {Key? key,
       this.favoriteJobs,
       this.uName,
       this.password,
@@ -1960,14 +1960,14 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
   final firstName;
   final total_applied;
   final total_saved;
-  bool isLiked;
-  final SavedJobs favoriteJobs;
-  final List<SeekerDetails> userDetails;
+  bool? isLiked;
+  final SavedJobs? favoriteJobs;
+  final List<SeekerDetails>? userDetails;
 
   var result;
   var Result;
-  String cv;
-  String resumee;
+  String? cv;
+  String? resumee;
 
   _SavedJobApply1State(
       {this.uName,
@@ -1983,15 +1983,15 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
 
  // File _image;
   final picker = ImagePicker();
-  FilePickerResult selectedfile;
-  File selectedfile2;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  File? selectedfile2;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
+  Future<File>? file;
   String status = '';
-  String base64Image;
-  File tmpFile;
+  String? base64Image;
+  File? tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url + "apply_job.php";
 
@@ -2000,8 +2000,8 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
     super.initState();
     print("name: $uName");
     setState(() {
-      print('jobid : ${favoriteJobs.jobId}');
-      print('empid : ${favoriteJobs.employerId}');
+      print('jobid : ${favoriteJobs!.jobId}');
+      print('empid : ${favoriteJobs!.employerId}');
     });
 
     print("pass: $password");
@@ -2042,10 +2042,10 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -2077,8 +2077,8 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
     //String fileName2 = _image.path.split('/').last;
     FormData formdata = FormData.fromMap({
       "user_id": user_Id,
-      "job_id": favoriteJobs.jobId,
-      "emp_id": favoriteJobs.employerId,
+      "job_id": favoriteJobs!.jobId,
+      "emp_id": favoriteJobs!.employerId,
       "cover_letter": "123456",
       "video_cv":'',
       // await MultipartFile.fromFile(_image.path, filename: fileName
@@ -2109,7 +2109,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
       print("response of Registration");
       print(response.toString());
       print("jobid");
-      print('${favoriteJobs.jobId}');
+      print('${favoriteJobs!.jobId}');
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -2129,7 +2129,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
           "Upload Failed !",
           response.statusCode == 100
               ? " Please Connect Your Internet Connection  Or \n Server returned failure. Please try to restart the application."
-              : response.statusCode,
+              : response.statusCode as String?,
           "OK");
     }
   }
@@ -2172,7 +2172,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
               Container(
                   width: 90.0,
                   height: 90.0,
-                  child: Image.network('${favoriteJobs.companyLogo ?? ""}')),
+                  child: Image.network('${favoriteJobs!.companyLogo ?? ""}')),
               SizedBox(
                 height: 24,
               ),
@@ -2192,7 +2192,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                           )),
                     ),
                     Text(
-                        '${favoriteJobs.companyName != null ? favoriteJobs.companyName : ''}',
+                        '${favoriteJobs!.companyName != null ? favoriteJobs!.companyName : ''}',
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 18.0,
@@ -2215,7 +2215,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                         color: Color.fromARGB(255, 112, 126, 148),
                       )),
                   Text(
-                      '${favoriteJobs.title != null ? favoriteJobs.title : ''}',
+                      '${favoriteJobs!.title != null ? favoriteJobs!.title : ''}',
                       style: TextStyle(
                         height: 1.5,
                         fontSize: 18.0,
@@ -2261,7 +2261,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                               width: SizeConfig.screenWidth,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.grey[300]),
+                                border: Border.all(color: Colors.grey[300]!),
                               ),
                               child: ListTile(
                                 leading: Container(
@@ -2291,7 +2291,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                             margin: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey[300]),
+                              border: Border.all(color: Colors.grey[300]!),
                             ),
                             child: Column(
                               children: [
@@ -2443,7 +2443,7 @@ class _SavedJobApply1State extends State<SavedJobApply1> {
                     width: 10,
                   ),
                   progress != null
-                      ? Text(progress,
+                      ? Text(progress!,
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17.0,

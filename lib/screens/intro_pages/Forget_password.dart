@@ -21,7 +21,7 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
 
-  String userName;
+  String? userName;
   final key = GlobalKey<FormFieldState>();
   bool isEmail(String input) => EmailValidator.validate(input);
 
@@ -29,7 +29,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
           .hasMatch(input);
 
-  LoginModel loginModel;
+  LoginModel? loginModel;
 
 
   @override
@@ -115,7 +115,7 @@ Don\'t worry, we\'ve got you!''',
                 key: key,
                 keyboardType: TextInputType.emailAddress,
                 validator: (userName) {
-                  if (!isEmail(userName) && !isPhone(userName)) {
+                  if (!isEmail(userName!) && !isPhone(userName)) {
                     return  'Please enter a valid email.';
                   } else
                     return null;
@@ -123,7 +123,7 @@ Don\'t worry, we\'ve got you!''',
                 onChanged: (email){
                   userName = email;
                 },
-                onSaved: (String email){},
+                onSaved: (String? email){},
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
@@ -132,14 +132,14 @@ Don\'t worry, we\'ve got you!''',
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                     borderSide: BorderSide(
-                      color: Colors.grey[300],
+                      color: Colors.grey[300]!,
                     ),
                   ),
 
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                     borderSide: BorderSide(
-                      color:Colors.grey[300],
+                      color:Colors.grey[300]!,
                       width: 1.0,
                     ),
                   ),
@@ -177,7 +177,7 @@ SizedBox(height: 28,),
                 ),
                 child: GestureDetector(
                   onTap: () async{
-                    if(key.currentState.validate()){
+                    if(key.currentState!.validate()){
                       forgotPassword().then((value) async{
                         // if(value.message == null) {
                         //   final snackBar = SnackBar(
@@ -185,7 +185,7 @@ SizedBox(height: 28,),
                         //       content: Text('Cannot Send email!'));
                         //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         // }
-                        if(value.status == "200"){
+                        if(value!.status == "200"){
                           await  Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneVerification( user_Id: verifyotp.userId,Msg: forgetPasswordModel.message,)));
                         }
                         else {
@@ -257,7 +257,7 @@ SizedBox(height: 28,),
   }
 
 // ignore: missing_return
-Future<ForgetPasswordModel> forgotPassword() async{
+Future<ForgetPasswordModel?> forgotPassword() async{
     final url = "https://girlzwhosellcareerconextions.com/API//otp.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {

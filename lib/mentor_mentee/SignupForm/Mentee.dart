@@ -14,7 +14,7 @@ import 'package:girlzwhosell/utils/constants.dart';
 
 
 class SignUPScreen extends StatefulWidget {
-  SignUPScreen({Key key}) : super(key: key);
+  SignUPScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUPScreen> createState() => _SignUPScreenState();
@@ -44,8 +44,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
 
   List data = ["1 month", "2 months" ,"3 months" ,"4 months" ,"5 months" ,"6 months" ,"7 months", "8 months", "9 months" , "10 months", "11 months"];
-  String Experience;
-  String Month;
+  String? Experience;
+  String? Month;
 
 
   @override
@@ -62,9 +62,9 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
   final url = "https://girlzwhosellcareerconextions.com/API/experience.php";
   // ignore: deprecated_member_use
-  List yeardata = List(); //List of Responsebody
+  List<dynamic>? yeardata = List.empty(growable: true); //List of Responsebody
   // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -225,7 +225,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                   "Enter your information below to get Registered with GirlzWhoSell\nCareer Conextions",
                                   style: TextStyle(
                                     fontSize: 16,
-                                     color: Colors.blueGrey[300].withOpacity(0.6),
+                                     color: Colors.blueGrey[300]!.withOpacity(0.6),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -262,7 +262,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                             // validate after each user interaction
                                             autovalidateMode: AutovalidateMode.onUserInteraction,
                                             validator: (value) {
-                                              if (value.length == fname.text) {
+                                              if (value!.length == fname.text) {
                                                 return 'Please Provide Your First Name';
                                               } else
                                                 return null;
@@ -276,13 +276,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(5.0),
                                                 borderSide: BorderSide(
-                                                  color: Colors.blueGrey[300].withOpacity(0.6),
+                                                  color: Colors.blueGrey[300]!.withOpacity(0.6),
                                                 ),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(5.0),
                                                 borderSide: BorderSide(
-                                                  color: Colors.blueGrey[300].withOpacity(0.6),
+                                                  color: Colors.blueGrey[300]!.withOpacity(0.6),
                                                   width: 1.0,
                                                 ),
                                               ),
@@ -312,7 +312,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                         keyboardType: TextInputType.text,
                                         autovalidateMode: AutovalidateMode.onUserInteraction,
                                         validator: (value) {
-                                          if (value.length == Lname.text) {
+                                          if (value!.length == Lname.text) {
                                             return 'Please Provide Your Last Name';
                                           } else
                                             return null;
@@ -326,13 +326,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                               width: 1.0,
                                             ),
                                           ),
@@ -375,13 +375,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                               width: 1.0,
                                             ),
                                           ),
@@ -426,13 +426,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                               width: 1.0,
                                             ),
                                           ),
@@ -463,7 +463,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                         // validate after each user interaction
                                         autovalidateMode: AutovalidateMode.onUserInteraction,
                                         validator: (userName) {
-                                          if (!isEmail(userName) && !isPhone(userName)) {
+                                          if (!isEmail(userName!) && !isPhone(userName)) {
                                             return 'Please enter a valid email.';
                                           } else
                                             return null;
@@ -477,13 +477,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                               width: 1.0,
                                             ),
                                           ),
@@ -519,7 +519,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                         // validate after each user interaction
                                         autovalidateMode: AutovalidateMode.onUserInteraction,
                                         validator: (userName) {
-                                          if (!isPhone(userName)) {
+                                          if (!isPhone(userName!)) {
                                             return 'Please enter a valid Phone No.';
                                           } else
                                             return null;
@@ -533,13 +533,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(5.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blueGrey[300].withOpacity(0.6),
+                                              color: Colors.blueGrey[300]!.withOpacity(0.6),
                                               width: 1.0,
                                             ),
                                           ),
@@ -623,7 +623,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                               height: 50,
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(5.0),
-                                                  border: Border.all(color: Colors.grey[300])),
+                                                  border: Border.all(color: Colors.grey[300]!)),
                                               child: DropdownButtonHideUnderline(
                                                 child:  ButtonTheme(
                                                     alignedDropdown: true,
@@ -641,14 +641,14 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                                             )),
                                                           ),
                                                           value: Experience,
-                                                          onChanged: (String newvalue) {
+                                                          onChanged: (String? newvalue) {
                                                             setState(() {
                                                               Experience = newvalue;
                                                               //    _dropdownError = null;
                                                             });
                                                             print('Selected Year ${Experience}');
                                                           },
-                                                          items: yeardata.map((item) {
+                                                          items: yeardata!.map((item) {
                                                             return DropdownMenuItem(
                                                               child: Row(
                                                                 children: [
@@ -676,7 +676,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                               height: 50,
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(5.0),
-                                                  border: Border.all(color: Colors.grey[300])),
+                                                  border: Border.all(color: Colors.grey[300]!)),
                                               child: DropdownButtonHideUnderline(
                                                 child:  ButtonTheme(
                                                     alignedDropdown: true,
@@ -694,7 +694,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                                             )),
                                                           ),
                                                           value: Month,
-                                                          onChanged: (String newvalue) {
+                                                          onChanged: (String? newvalue) {
                                                             setState(() {
                                                               Month = newvalue;
                                                               //    _dropdownError = null;
@@ -760,15 +760,15 @@ class _SignUPScreenState extends State<SignUPScreen> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          if (formKey.currentState.validate()) {
+                          if (formKey.currentState!.validate()) {
                             Registration().then((value) async{
-                              if(value.status == 100) {
+                              if(value!.status == 100) {
                                 final snackBar = SnackBar(
                                     behavior: SnackBarBehavior.floating,
                                     content: Text('Email Already Exist'));
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
-                              if(value.status == 200){
+                              if(value!.status == 200){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> successScreen()));
                               }
                             });
@@ -818,7 +818,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
     );
   }
   // ignore: missing_return
-  Future<mentorModel> Registration() async{
+  Future<mentorModel?> Registration() async{
     final url = "https://girlzwhosellcareerconextions.com/API/mentee.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
@@ -828,7 +828,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
         "email": emailcontroller.text,
         "current_role": c_RoleController.text,
         "phone": phoneController.text,
-        "experience": Experience + "Years" + Month,
+        "experience": Experience! + "Years" + Month!,
       });
       if(response.statusCode == 200){
         print("Response is: ${response.body}");
@@ -840,5 +840,6 @@ class _SignUPScreenState extends State<SignUPScreen> {
     catch(e){
       print("Error in exception::: ${e.toString()}");
     }
+    return null;
   }
 }

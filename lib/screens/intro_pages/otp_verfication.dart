@@ -10,8 +10,8 @@ import 'package:http/http.dart'as http;
 
 
 class PhoneVerification extends StatefulWidget {
-  final String user_Id;
-  final String Msg;
+  final String? user_Id;
+  final String? Msg;
 PhoneVerification({this.user_Id, this.Msg});
   @override
   _PhoneVerification createState() {
@@ -20,7 +20,7 @@ PhoneVerification({this.user_Id, this.Msg});
 }
 
 class _PhoneVerification extends State<PhoneVerification> {
-  String user_Id;
+  String? user_Id;
   _PhoneVerification({this.user_Id});
  // VerifyPassword verifyPassword;
 
@@ -35,7 +35,7 @@ class _PhoneVerification extends State<PhoneVerification> {
   TextEditingController _pinEditingController =
   TextEditingController(text: '');
   bool _enable = true;
-   String Pin;
+   String? Pin;
 
 
   @override
@@ -132,23 +132,23 @@ class _PhoneVerification extends State<PhoneVerification> {
                     textCapitalization: TextCapitalization.characters,
                     onSubmit: (pin) {
                       print("gtepin===$pin");
-                      pin=Pin;
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
+                      pin=Pin!;
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
                       }
                     },
                     onChanged: (pin) {
                       setState(() {
                         debugPrint('onChanged execute. pin:$pin');
                       });
-                      pin =Pin;
+                      pin =Pin!;
                     },
                     onSaved: (pin) {
                       debugPrint('onSaved pin:$pin');
                       pin =Pin;
                     },
                     validator: (pin) {
-                      if (pin.isEmpty) {
+                      if (pin!.isEmpty) {
                         setState(() {
                           // _hasError = true;
                         });
@@ -181,15 +181,15 @@ class _PhoneVerification extends State<PhoneVerification> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if(_formKey.currentState.validate()){
+                      if(_formKey.currentState!.validate()){
                         verifyOTP().then((value) async{
-                          if(value.status == "100") {
+                          if(value!.status == "100") {
                             final snackBar = SnackBar(
                                 behavior: SnackBarBehavior.floating,
                                 content: Text('Invalid OTP!'));
                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
-                          if(value.status == "200"){
+                          if(value!.status == "200"){
                             // final snackBar = SnackBar(content: Text('OTP Verified!'));
                             // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                             await  Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPasswordPage(user_Id: verifyotp.userId,)));
@@ -224,7 +224,7 @@ class _PhoneVerification extends State<PhoneVerification> {
   }
 
   // ignore: missing_return
-  Future <verifyOtp> verifyOTP() async{
+  Future <verifyOtp?> verifyOTP() async{
     final url = "https://girlzwhosellcareerconextions.com/API//verify_otp.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {

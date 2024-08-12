@@ -10,9 +10,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class CompanyTab extends StatefulWidget {
-  final Job data;
-  final JobDetails jobDetails;
-  final String userId;
+  final Job? data;
+  final JobDetails? jobDetails;
+  final String? userId;
   CompanyTab({this.jobDetails,this.data,this.userId});
 
   @override
@@ -20,7 +20,7 @@ class CompanyTab extends StatefulWidget {
 }
 class _CompanyTabState extends State<CompanyTab> {
   //bool _hasCallSupport = false;
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -37,20 +37,20 @@ class _CompanyTabState extends State<CompanyTab> {
 
   @override
   Widget build(BuildContext context) {
-    String url = widget.jobDetails.url;
+    String? url = widget.jobDetails!.url;
     return  SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300].withOpacity(0.6),
+                color: Colors.blueGrey[300]!.withOpacity(0.6),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -60,9 +60,9 @@ class _CompanyTabState extends State<CompanyTab> {
               Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.jobDetails.companyLogo == null ? Placeholder() : widget.jobDetails.companyLogo }')
+                  child: Image.network('${widget.jobDetails!.companyLogo == null ? Placeholder() : widget.jobDetails!.companyLogo }')
               ),
-              title: Text('${widget.jobDetails.title ?? " "}' ,style:  TextStyle(
+              title: Text('${widget.jobDetails!.title ?? " "}' ,style:  TextStyle(
                 fontFamily: 'Poppins',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -76,7 +76,7 @@ class _CompanyTabState extends State<CompanyTab> {
                   children: [
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
-                    Text('${widget.jobDetails.location ?? " "}', style: TextStyle(
+                    Text('${widget.jobDetails!.location ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,
@@ -105,7 +105,7 @@ class _CompanyTabState extends State<CompanyTab> {
 
 
 class CompanyTabtwo extends StatefulWidget {
-  final FavoriteJobs favoriteJobs;
+  final FavoriteJobs? favoriteJobs;
   final  user_Id;
 
 //  final Company company;
@@ -117,7 +117,7 @@ class CompanyTabtwo extends StatefulWidget {
 
 class _CompanyTabtwoState extends State<CompanyTabtwo> {
 
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -132,19 +132,19 @@ class _CompanyTabtwoState extends State<CompanyTabtwo> {
   }
   @override
   Widget build(BuildContext context) {
-    String url = widget.favoriteJobs.url;
+    String? url = widget.favoriteJobs!.url;
     return SingleChildScrollView(
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300].withOpacity(0.6),
+                color: Colors.blueGrey[300]!.withOpacity(0.6),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -153,9 +153,9 @@ class _CompanyTabtwoState extends State<CompanyTabtwo> {
              leading: Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.favoriteJobs.companyLogo ?? " "}')
+                  child: Image.network('${widget.favoriteJobs!.companyLogo ?? " "}')
               ),
-              title: Text(widget.favoriteJobs.title ?? " " ,
+              title: Text(widget.favoriteJobs!.title ?? " " ,
                 style:TextStyle(
                 fontFamily: 'Poppins',
                 fontStyle: FontStyle.normal,
@@ -168,7 +168,7 @@ class _CompanyTabtwoState extends State<CompanyTabtwo> {
                 children: [
                   Image.asset('assets/images/location.png'),
                   SizedBox(width: 10,),
-                  Text('${widget.favoriteJobs.name ?? " "}' , style: TextStyle(
+                  Text('${widget.favoriteJobs!.name ?? " "}' , style: TextStyle(
                     fontFamily: 'Questrial',
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w400,
@@ -196,7 +196,7 @@ class _CompanyTabtwoState extends State<CompanyTabtwo> {
 
 
 class CompanyTabthree extends StatefulWidget {
-  final SavedJobs savedJobs;
+  final SavedJobs? savedJobs;
   final  user_Id;
 
 
@@ -208,7 +208,7 @@ class CompanyTabthree extends StatefulWidget {
 }
 
 class _CompanyTabthreeState extends State<CompanyTabthree> {
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -223,19 +223,19 @@ class _CompanyTabthreeState extends State<CompanyTabthree> {
   }
   @override
   Widget build(BuildContext context) {
-    String url = widget.savedJobs.url;
+    String? url = widget.savedJobs!.url;
     return SingleChildScrollView(
       child : Padding(
         padding: const EdgeInsets.only(top: 20.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300],
+                color: Colors.blueGrey[300]!,
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -244,14 +244,14 @@ class _CompanyTabthreeState extends State<CompanyTabthree> {
               leading: Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.savedJobs.companyLogo ?? " "}')
+                  child: Image.network('${widget.savedJobs!.companyLogo ?? " "}')
               ),
-              title: Text(widget.savedJobs.title ?? " "),
+              title: Text(widget.savedJobs!.title ?? " "),
               subtitle: Row(
                 children: [
                   Image.asset('assets/images/location.png'),
                   SizedBox(width: 5,),
-                  Text('${widget.savedJobs.name   ?? " "}')
+                  Text('${widget.savedJobs!.name   ?? " "}')
                 ],
 
               ),
@@ -272,9 +272,9 @@ class _CompanyTabthreeState extends State<CompanyTabthree> {
 
 
 class CompanyTabFour extends StatefulWidget {
-  final Job data;
-  final SearchModel jobList;
-  final String userId;
+  final Job? data;
+  final SearchModel? jobList;
+  final String? userId;
 //  final Company company;
   CompanyTabFour({this.jobList,this.data,this.userId});
 
@@ -283,7 +283,7 @@ class CompanyTabFour extends StatefulWidget {
 }
 
 class _CompanyTabFourState extends State<CompanyTabFour> {
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -299,20 +299,20 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
 
   @override
   Widget build(BuildContext context) {
-    String url = widget.jobList.url;
+    String? url = widget.jobList!.url;
     return  SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300].withOpacity(0.6),
+                color: Colors.blueGrey[300]!.withOpacity(0.6),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -322,9 +322,9 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
               Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.jobList.companyLogo == null ? null : widget.jobList.companyLogo }')
+                  child: Image.network('${widget.jobList!.companyLogo == null ? null : widget.jobList!.companyLogo }')
               ),
-              title: Text('${widget.jobList.title ?? " "}' ,style:  TextStyle(
+              title: Text('${widget.jobList!.title ?? " "}' ,style:  TextStyle(
                 fontFamily: 'Poppins',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -338,7 +338,7 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
                   children: [
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
-                    Text('${widget.jobList.location ?? " "}', style: TextStyle(
+                    Text('${widget.jobList!.location ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,
@@ -367,8 +367,8 @@ class _CompanyTabFourState extends State<CompanyTabFour> {
 
 
 class CompanyTabFive extends StatefulWidget {
-  final AppliedJobDetails appliedJobDetails;
-  final String userId;
+  final AppliedJobDetails? appliedJobDetails;
+  final String? userId;
 //  final Company company;
   CompanyTabFive({this.appliedJobDetails,this.userId});
 
@@ -377,7 +377,7 @@ class CompanyTabFive extends StatefulWidget {
 }
 
 class _CompanyTabFiveState extends State<CompanyTabFive> {
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -393,20 +393,20 @@ class _CompanyTabFiveState extends State<CompanyTabFive> {
 
   @override
   Widget build(BuildContext context) {
-    String url = widget.appliedJobDetails.url;
+    String? url = widget.appliedJobDetails!.url;
     return  SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300].withOpacity(0.6),
+                color: Colors.blueGrey[300]!.withOpacity(0.6),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -416,9 +416,9 @@ class _CompanyTabFiveState extends State<CompanyTabFive> {
               Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.appliedJobDetails.companyLogo == null ? null : widget.appliedJobDetails.companyLogo }')
+                  child: Image.network('${widget.appliedJobDetails!.companyLogo == null ? null : widget.appliedJobDetails!.companyLogo }')
               ),
-              title: Text('${widget.appliedJobDetails.title ?? " "}' ,style:  TextStyle(
+              title: Text('${widget.appliedJobDetails!.title ?? " "}' ,style:  TextStyle(
                 fontFamily: 'Poppins',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -432,7 +432,7 @@ class _CompanyTabFiveState extends State<CompanyTabFive> {
                   children: [
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
-                    Text('${widget.appliedJobDetails.location ?? " "}', style: TextStyle(
+                    Text('${widget.appliedJobDetails!.location ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,
@@ -462,8 +462,8 @@ class _CompanyTabFiveState extends State<CompanyTabFive> {
 
 
 class NotificationUrl extends StatefulWidget {
-  final NotificationsDetails notificationsDetail;
-  final String userId;
+  final NotificationsDetails? notificationsDetail;
+  final String? userId;
 //  final Company company;
   NotificationUrl({this.notificationsDetail,this.userId});
 
@@ -472,7 +472,7 @@ class NotificationUrl extends StatefulWidget {
 }
 
 class _NotificationUrlState extends State<NotificationUrl> {
-  Future<void> launched;
+  Future<void>? launched;
 
 
   Future<void> _launchInBrowser(String url) async {
@@ -488,20 +488,20 @@ class _NotificationUrlState extends State<NotificationUrl> {
 
   @override
   Widget build(BuildContext context) {
-    String url = widget.notificationsDetail.url;
+    String? url = widget.notificationsDetail!.url;
     return  SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child : Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
           onTap:() => setState(() {
-            launched = _launchInBrowser(url);
+            launched = _launchInBrowser(url!);
           }),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: Colors.blueGrey[300].withOpacity(0.6),
+                color: Colors.blueGrey[300]!.withOpacity(0.6),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(5.0),
@@ -511,9 +511,9 @@ class _NotificationUrlState extends State<NotificationUrl> {
               Container(
                   width: 50.0,
                   height: 50.0,
-                  child: Image.network('${widget.notificationsDetail.companyLogo ?? Placeholder() }')
+                  child: Image.network('${widget.notificationsDetail!.companyLogo ?? Placeholder() }')
               ),
-              title: Text('${widget.notificationsDetail.title ?? " "}' ,style:  TextStyle(
+              title: Text('${widget.notificationsDetail!.title ?? " "}' ,style:  TextStyle(
                 fontFamily: 'Poppins',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -527,7 +527,7 @@ class _NotificationUrlState extends State<NotificationUrl> {
                   children: [
                     Image.asset('assets/images/location.png'),
                     SizedBox(width: 10,),
-                    Text('${widget.notificationsDetail.city ?? " "}', style: TextStyle(
+                    Text('${widget.notificationsDetail!.city ?? " "}', style: TextStyle(
                       fontFamily: 'Questrial',
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,

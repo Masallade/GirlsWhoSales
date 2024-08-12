@@ -8,15 +8,15 @@ import 'package:http/http.dart' as http;
 
 class AllSavedJobs extends StatefulWidget {
   final user_Id;
-  final String firstName;
+  final String? firstName;
   final uName;
   final password;
-  final List<SavedJobs> savedJobs;
+  final List<SavedJobs>? savedJobs;
   final cv;
   final resume;
 
   const AllSavedJobs(
-      {Key key,
+      {Key? key,
       this.user_Id,
       this.firstName,
       this.uName,
@@ -41,8 +41,8 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
   final user_Id;
   final uName;
   final password;
-  final String firstName;
-  List<SavedJobs> savedJobs;
+  final String? firstName;
+  List<SavedJobs>? savedJobs;
   final cv;
   final resume;
   bool isloading = false;
@@ -106,7 +106,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                   SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      height: SizeConfig.screenHeight *0.9,
+                      height: SizeConfig.screenHeight! *0.9,
                       child: savedJobs == null
                           ? Container(
                               child: Center(
@@ -119,7 +119,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: savedJobs.length,
+                              itemCount: savedJobs!.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -130,7 +130,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               SavedScreenDetailTwo(
-                                            savedJobs: savedJobs[index],
+                                            savedJobs: savedJobs![index],
                                             user_Id: user_Id,
                                             uName: uName,
                                             password: password,
@@ -155,13 +155,13 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                             height: 50,
                                             width: 50,
                                             child: Image.network(
-                                                savedJobs[index].companyLogo),
+                                                savedJobs![index].companyLogo!),
                                           ),
                                           title: Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 30.0),
                                             child: Text(
-                                              '${savedJobs[index].title}',
+                                              '${savedJobs![index].title}',
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontSize: 20,
@@ -181,7 +181,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                                       const EdgeInsets.only(
                                                           left: 30.0),
                                                   child: Text(
-                                                    '${savedJobs[index].companyName}',
+                                                    '${savedJobs![index].companyName}',
                                                     style: TextStyle(
                                                       fontFamily: 'Questrial',
                                                       fontStyle:
@@ -205,8 +205,8 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                                   alignment:
                                                       Alignment.topLeft,
                                                   child: Text(
-                                                    ' \$ ${savedJobs[index].minSalary + '-'}' +
-                                                        '\$${savedJobs[index].maxSalary + '/month'}',
+                                                    ' \$ ${savedJobs![index].minSalary! + '-'}' +
+                                                        '\$${savedJobs![index].maxSalary! + '/month'}',
                                                     style: TextStyle(
                                                       fontFamily: 'Questrial',
                                                       fontStyle:
@@ -261,7 +261,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
   }
 
   // ignore: missing_return
-  Future<List<SavedJobs>> request(
+  Future<List<SavedJobs>?> request(
       BuildContext context, bool showLoading) async {
     String get_key_url =
         "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
@@ -275,7 +275,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
       final http.Response response = await http.get(Uri.parse(get_key_url));
       print("email,${get_key_url}");
       if (showLoading)
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
 
       if (response.statusCode == 200) {
         AllSavedJobss resp = AllSavedJobss.fromJson(json.decode(response.body));
@@ -286,7 +286,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
           showDialogCustom(
               context,
               "Failed",
-              resp.message.length == 0 ? "record not found" : resp.message,
+              resp.message!.length == 0 ? "record not found" : resp.message,
               "OK");
           return [];
         }

@@ -1,6 +1,6 @@
 class mentorModel {
-  int status;
-  String message;
+  int? status;
+  String? message;
 
   mentorModel({this.status, this.message});
 

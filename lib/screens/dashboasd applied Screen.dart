@@ -10,8 +10,8 @@ import 'package:http/http.dart'as http;
 // ignore: must_be_immutable
 class DashbordAppliedJobs extends StatefulWidget {
   final user_Id;
-   fetchAppliedJobsModel fetchJobs;
-   List<AppliedJobDetails> appliedJobDetails;
+   fetchAppliedJobsModel? fetchJobs;
+   List<AppliedJobDetails>? appliedJobDetails;
   DashbordAppliedJobs({this.user_Id,this.fetchJobs,this.appliedJobDetails});
   @override
   _DashbordAppliedJobsState createState() => _DashbordAppliedJobsState(user_Id: user_Id ,appliedJobDetails: appliedJobDetails);
@@ -22,8 +22,8 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
    final user_Id;
   _DashbordAppliedJobsState({this.user_Id,this.fetchJobs, this.appliedJobDetails});
 
-    fetchAppliedJobsModel fetchJobs;
-    List<AppliedJobDetails> appliedJobDetails;
+    fetchAppliedJobsModel? fetchJobs;
+    List<AppliedJobDetails>? appliedJobDetails;
 
    bool changeColor = false;
 
@@ -81,21 +81,21 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                height: SizeConfig.screenHeight *0.9,
+                height: SizeConfig.screenHeight! *0.9,
                 child:appliedJobDetails ==null ? Container(
                   child: Center(
                     child: Text('No Applied Jobs' ,
                       style: TextStyle(fontFamily: 'Questrial' ,fontWeight: FontWeight.w400),
                     )))
                     : ListView.builder(
-                    itemCount: appliedJobDetails.length == null ? 0 : appliedJobDetails.length,
+                    itemCount: appliedJobDetails!.length == null ? 0 : appliedJobDetails!.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           InkWell(
                             onTap:(){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> TrackApplication(
-                                  appliedJobDetails:appliedJobDetails[index])));
+                                  appliedJobDetails:appliedJobDetails![index])));
                             },
                             child: Container(
                               height: 200,
@@ -112,11 +112,11 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                   leading: Container(
                                     height: 50,
                                     width: 50,
-                                    child:Image.network('${appliedJobDetails[index].companyLogo ?? Placeholder()}'),
+                                    child:Image.network('${appliedJobDetails![index].companyLogo ?? Placeholder()}'),
                                   ),
                                   title: FittedBox(
                                     child: Text(
-                                      '${appliedJobDetails[index].title ?? " "}',
+                                      '${appliedJobDetails![index].title ?? " "}',
                                        style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontStyle: FontStyle.normal,
@@ -135,7 +135,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                         Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            'Experince: ${appliedJobDetails[index].experience ?? ""}',
+                                            'Experince: ${appliedJobDetails![index].experience ?? ""}',
                                             style: TextStyle(
                                               fontFamily: 'Questrial',
                                               fontStyle: FontStyle.normal,
@@ -151,7 +151,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              '\$${appliedJobDetails[index].minSalary  ?? " "}' '-\$${appliedJobDetails[index].maxSalary ?? " "}',
+                                              '\$${appliedJobDetails![index].minSalary  ?? " "}' '-\$${appliedJobDetails![index].maxSalary ?? " "}',
                                               style: TextStyle(
                                                 fontFamily: 'Questrial',
                                                 fontStyle: FontStyle.normal,
@@ -172,7 +172,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 10.0),
                                                 child: Text(
-                                                   '${appliedJobDetails[index].msg ?? " "}', style: TextStyle(
+                                                   '${appliedJobDetails![index].msg ?? " "}', style: TextStyle(
                                                     color:color), textAlign: TextAlign.center,
                                                 //   'Applied'
                                                 ),
@@ -222,7 +222,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
         });
   }
    // ignore: missing_return
-   Future<List<AppliedJobDetails>> request(BuildContext context, bool showLoading) async {
+   Future<List<AppliedJobDetails>?> request(BuildContext context, bool showLoading) async {
     String get_key_url =  "https://girlzwhosellcareerconextions.com/API/fetch_applied_jobs.php?user_id=${user_Id}";
 
     // http.Response response;
@@ -234,7 +234,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
       final http.Response response = await http.get(Uri.parse(get_key_url));
       print("Url,${get_key_url}");
       if (showLoading)
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
 
 
       if (response.statusCode == 200) {
@@ -247,7 +247,7 @@ class _DashbordAppliedJobsState extends State<DashbordAppliedJobs> {
           showDialogCustom(
               context,
               "Failed",
-              resp.message.length == 0 ? "record not found" : resp.message,
+              resp.message!.length == 0 ? "record not found" : resp.message,
               "OK");
           return [];
         }

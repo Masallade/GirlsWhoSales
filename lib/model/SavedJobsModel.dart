@@ -1,9 +1,9 @@
 import 'package:girlzwhosell/model/login_model.dart';
 
 class AllSavedJobss {
-  String message;
-  String status;
-  List<SavedJobs> savedJobs;
+  String? message;
+  String? status;
+  List<SavedJobs>? savedJobs;
 
   AllSavedJobss({this.message, this.status, this.savedJobs});
 
@@ -12,9 +12,9 @@ class AllSavedJobss {
     status = json['status'];
     if (json['Saved_Jobs'] != null) {
       // ignore: deprecated_member_use
-      savedJobs = new List<SavedJobs>();
+      savedJobs = List<SavedJobs>.empty(growable: true);
       json['Saved_Jobs'].forEach((v) {
-        savedJobs.add(new SavedJobs.fromJson(v));
+        savedJobs!.add(new SavedJobs.fromJson(v));
       });
     }
   }
@@ -24,29 +24,29 @@ class AllSavedJobss {
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.savedJobs != null) {
-      data['Saved_Jobs'] = this.savedJobs.map((v) => v.toJson()).toList();
+      data['Saved_Jobs'] = this.savedJobs!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SavedJobs {
-  String jobId;
-  String id;
-  String title;
-  String jobType;
-  String description;
-  String name;
-  String createdDate;
-  String companyName;
-  String companyLogo;
-  String minSalary;
-  String maxSalary;
-  String skills;
-  String employerId;
-  String experience;
-  String type;
-  String url;
+  String? jobId;
+  String? id;
+  String? title;
+  String? jobType;
+  String? description;
+  String? name;
+  String? createdDate;
+  String? companyName;
+  String? companyLogo;
+  String? minSalary;
+  String? maxSalary;
+  String? skills;
+  String? employerId;
+  String? experience;
+  String? type;
+  String? url;
 
   SavedJobs(
       {this.jobId,

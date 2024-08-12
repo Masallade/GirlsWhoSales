@@ -30,27 +30,27 @@ import '../verifyEmailScreen/verifyOtp.dart';
 
 // ignore: must_be_immutable
 class RegistrationPage extends StatefulWidget {
-  String city;
-  String firstName;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String ExperiencenDetail;
-  String nationality;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
-  final String userId;
+  String? city;
+  String? firstName;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? ExperiencenDetail;
+  String? nationality;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
+  final String? userId;
 
   RegistrationPage(
       {this.firstName,
@@ -88,31 +88,31 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  String city;
-  String firstName;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String nationality;
+  String? city;
+  String? firstName;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? nationality;
   List<superPowerModel> selecjobsTypes = [];
   List<jobCatagories> selectedJobTitles = [];
-  String ExperiencenDetail;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
-  final String userId;
+  String? ExperiencenDetail;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
+  final String? userId;
 
-  String userName;
+  String? userName;
   final key = GlobalKey<FormFieldState>();
 
   bool isEmail(String input) => EmailValidator.validate(input);
@@ -121,15 +121,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
       RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
           .hasMatch(input);
 
-  LoginModel loginModel;
+  LoginModel? loginModel;
 
 
 
   final url = "https://girlzwhosellcareerconextions.com/API/job_title.php";
   // ignore: deprecated_member_use
-  List data = List(); //List of Responsebody
+  List? data = List.empty(growable: true); //List of Responsebody
   // ignore: missing_return
-  Future<String> getData() async{
+  Future<String?> getData() async{
     var res = await http.get(Uri.parse(url));
     var resbody = json.decode(res.body);
     setState(() {
@@ -195,7 +195,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     });
   }
 
-  Future<DateTime> getDate() {
+  Future<DateTime?> getDate() {
     // Imagine that this function is
     // more complex and slow.
     return showDatePicker(
@@ -203,15 +203,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2030),
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light(),
-          child: child,
+          child: child!,
         );
       },
     );
   }
-  Future<VerifyEmailsignup> forgotPassword() async{
+  Future<VerifyEmailsignup?> forgotPassword() async{
     final url = "https://girlzwhosellcareerconextions.com/API/email_register.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {
@@ -229,7 +229,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       print("Error in exception::: ${e.toString()}");
     }
   }
-  Future<VerifyEmailsignup> submitForm() async {
+  Future<VerifyEmailsignup?> submitForm() async {
 
     print("password is =====  >>>>>>>>>${passwordcontroller.text.toString()}");
     print("password new is =====  >>>>>>>>>${passwordcontroller.text}");
@@ -301,7 +301,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: LinearProgressIndicator(
                   minHeight: 10.0,
                   backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                  valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                   value: 0.8,
                 ),
               ),
@@ -359,13 +359,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -421,13 +421,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -459,7 +459,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   controller: emailcontroller,
                   keyboardType: TextInputType.emailAddress,
                   validator: (userName) {
-                    if (!isEmail(userName) && !isPhone(userName)) {
+                    if (!isEmail(userName!) && !isPhone(userName)) {
                       return  'Please enter a valid email.';
                     } else
                       return null;
@@ -467,7 +467,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   onChanged: (email){
                     userName = email;
                   },
-                  onSaved: (String email){},
+                  onSaved: (String? email){},
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 18, top: 17.0 ,bottom: 17 ,right: 18),
@@ -477,13 +477,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -519,7 +519,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   validator: (userName) {
-                    if (!isPhone(userName)) {
+                    if (!isPhone(userName!)) {
                       return 'Please enter a valid Phone No.';
                     } else
                       return null;
@@ -543,13 +543,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -580,7 +580,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   controller: passwordcontroller,
                   obscureText: !_passwordVisible,
                   validator: (v) {
-                    if (v.isValidPassword) {
+                    if (v!.isValidPassword) {
                       return null;
                     } else {
                       return 'Password must contain an uppercase, \n lowercase, numeric digit and special character, \n must be 8 character';
@@ -594,14 +594,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -660,11 +660,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   cursorColor: Colors.pinkAccent[200],
                   controller: confirmPass,
                   obscureText: !_passwordVisible1,
-                  validator: (String value) {
+                  validator: (String? value) {
                     //   confirmPassword = value;
                     value = value;
                     print('confirm password is: $value');
-                    if (value.isValidPassword == null) {
+                    if (value!.isValidPassword == null) {
                       return "Please Enter Confrim Password";
                     } else if (value.isValidPassword == passwordcontroller.text) {
 
@@ -683,14 +683,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -746,7 +746,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if (formKey.currentState.validate()) {
+                      if (formKey.currentState!.validate()) {
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
@@ -774,7 +774,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         //         builder: (context) => VerifyEmail())
                         // );
 
-                        if(key.currentState.validate()){
+                        if(key.currentState!.validate()){
 
                           submitForm().then((value) async{//forgotPassword
                             if(value != null) {

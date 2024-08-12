@@ -1,6 +1,6 @@
 class ProfileUpdate {
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   ProfileUpdate({this.message, this.status});
 

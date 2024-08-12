@@ -1,7 +1,7 @@
 class GetUserDataLink {
-  String message;
-  String status;
-  List<SeekerDetails1> seekerDetails;
+  String? message;
+  String? status;
+  List<SeekerDetails1>? seekerDetails;
 
   GetUserDataLink({this.message, this.status, this.seekerDetails});
 
@@ -11,7 +11,7 @@ class GetUserDataLink {
     if (json['Seeker_details'] != null) {
       seekerDetails = <SeekerDetails1>[];
       json['Seeker_details'].forEach((v) {
-        seekerDetails.add(new SeekerDetails1.fromJson(v));
+        seekerDetails!.add(new SeekerDetails1.fromJson(v));
       });
     }
   }
@@ -22,15 +22,15 @@ class GetUserDataLink {
     data['status'] = this.status;
     if (this.seekerDetails != null) {
       data['Seeker_details'] =
-          this.seekerDetails.map((v) => v.toJson()).toList();
+          this.seekerDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SeekerDetails1 {
-  String resume;
-  String cV;
+  String? resume;
+  String? cV;
 
   SeekerDetails1({this.resume, this.cV});
 

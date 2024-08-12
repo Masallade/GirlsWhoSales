@@ -1,7 +1,7 @@
 class JobSearchModel {
-  String status;
-  String message;
-  List<JobsList> jobsList;
+  String? status;
+  String? message;
+  List<JobsList>? jobsList;
 
   JobSearchModel({this.status, this.message, this.jobsList});
 
@@ -10,9 +10,9 @@ class JobSearchModel {
     message = json['message'];
     if (json['Jobs List'] != null) {
       // ignore: deprecated_member_use
-      jobsList = new List<JobsList>();
+      jobsList = List<JobsList>.empty(growable: true);
       json['Jobs List'].forEach((v) {
-        jobsList.add(new JobsList.fromJson(v));
+        jobsList!.add(new JobsList.fromJson(v));
       });
     }
   }
@@ -22,23 +22,23 @@ class JobSearchModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.jobsList != null) {
-      data['Jobs List'] = this.jobsList.map((v) => v.toJson()).toList();
+      data['Jobs List'] = this.jobsList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class JobsList {
-  String id;
-  String employerId;
-  String title;
-  String description;
-  String minSalary;
-  String maxSalary;
-  String experience;
-  String skills;
-  String location;
-  String totalPositions;
+  String? id;
+  String? employerId;
+  String? title;
+  String? description;
+  String? minSalary;
+  String? maxSalary;
+  String? experience;
+  String? skills;
+  String? location;
+  String? totalPositions;
 
   JobsList(
       {this.id,

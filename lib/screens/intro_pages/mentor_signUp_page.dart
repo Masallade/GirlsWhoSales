@@ -10,7 +10,7 @@ import 'package:girlzwhosell/utils/constants2.dart';
 import 'package:http/http.dart' as http;
 
 class MentorSignUp extends StatefulWidget {
-  const MentorSignUp({Key key}) : super(key: key);
+  const MentorSignUp({Key? key}) : super(key: key);
 
   @override
   _MentorSignUpState createState() => _MentorSignUpState();
@@ -84,7 +84,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
                       // validate after each user interaction
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                        if (value.length == fname.text) {
+                        if (value!.length == fname.text) {
                           return 'Please Provide Your First Name';
                         } else
                           return null;
@@ -98,13 +98,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[300].withOpacity(0.6),
+                            color: Colors.blueGrey[300]!.withOpacity(0.6),
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[300].withOpacity(0.6),
+                            color: Colors.blueGrey[300]!.withOpacity(0.6),
                             width: 1.0,
                           ),
                         ),
@@ -137,7 +137,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
                   keyboardType: TextInputType.text,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
-                    if (value.length == Lname.text) {
+                    if (value!.length == Lname.text) {
                       return 'Please Provide Your Last Name';
                     } else
                       return null;
@@ -151,13 +151,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -203,13 +203,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -257,13 +257,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -297,7 +297,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
                   // validate after each user interaction
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (userName) {
-                    if (!isEmail(userName) && !isPhone(userName)) {
+                    if (!isEmail(userName!) && !isPhone(userName)) {
                       return 'Please enter a valid email.';
                     } else
                       return null;
@@ -311,13 +311,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -356,7 +356,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
                   // validate after each user interaction
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (userName) {
-                    if (!isPhone(userName)) {
+                    if (!isPhone(userName!)) {
                       return 'Please enter a valid Phone No.';
                     } else
                       return null;
@@ -370,13 +370,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -420,13 +420,13 @@ class _MentorSignUpState extends State<MentorSignUp> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey[300].withOpacity(0.6),
+                        color: Colors.blueGrey[300]!.withOpacity(0.6),
                         width: 1.0,
                       ),
                     ),
@@ -466,15 +466,15 @@ class _MentorSignUpState extends State<MentorSignUp> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if (formKey.currentState.validate()) {
+                      if (formKey.currentState!.validate()) {
                         Registration().then((value) async{
-                          if(value.status == 100) {
+                          if(value!.status == 100) {
                             final snackBar = SnackBar(
                               behavior: SnackBarBehavior.floating,
                                 content: Text('Email Already Exist'));
                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
-                          if(value.status == 200){
+                          if(value!.status == 200){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> successScreen()));
                           }
                         });
@@ -519,7 +519,7 @@ class _MentorSignUpState extends State<MentorSignUp> {
   }
 
   // ignore: missing_return
-  Future<mentorModel> Registration() async{
+  Future<mentorModel?> Registration() async{
     final url = "https://girlzwhosellcareerconextions.com/API/mentor_signup.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {

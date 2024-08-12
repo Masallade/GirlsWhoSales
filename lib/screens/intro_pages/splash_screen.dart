@@ -23,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  int userTypeValue = 1;
+  int? userTypeValue = 1;
   @override
   void initState() {
 
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
 
-  Future<int> userType() async {
+  Future<int?> userType() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if(prefs.getBool(KeyisUserAlreadyLogin) ?? false){
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (userTypeValue == null || (userTypeValue != 0 && userTypeValue != 1 && userTypeValue != 2)) {
       userTypeValue = -1;
-      prefs.setInt('usertype', userTypeValue);
+      prefs.setInt('usertype', userTypeValue!);
     }
 
     print('User type: $userTypeValue');
@@ -72,9 +72,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Map<int, Widget> output2= {1 : WebViewClass()};//UserType, SignInPage,WebViewClass
   Map<int, Widget> output3= {1 : SecondSplash()};
 
-  String email;
+  String? email;
 
-  String password;
+  String? password;
 
   bool isLoggedIn = false;
 
@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return FutureBuilder<int>(
+    return FutureBuilder<int?>(
       future: userType(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,20 +101,18 @@ class _SplashScreenState extends State<SplashScreen> {
           return Text('Error: ${snapshot.error}');
         } else {
           // userTypeValue is retrieved successfully
-          int userTypeValue = snapshot.data;
+          int? userTypeValue = snapshot.data;
 
           if (userTypeValue == -1) {
             return AnimatedSplash(
               imagePath: 'assets/images/finalsplashlogo.gif',
-              onReadyToGoNextScreen: ()=>UserType(), // SignInPage, UserType, WebViewClass
-
-
-              onAnimationCompleted: ()=> output0,
+              onAnimationCompleted: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));}, // SignInPage, UserType, WebViewClass
+              onReadyToGoNextScreen: ()=> output0,
             );
           } else if (userTypeValue == 0 || userTypeValue == 1) {
             return AnimatedSplash(
               imagePath: 'assets/images/finalsplashlogo.gif',
-              onReadyToGoNextScreen: ()=>SignInPage(), // SignInPage, UserType, WebViewClass
+              onReadyToGoNextScreen: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));}, // SignInPage, UserType, WebViewClass
               duration: Duration(milliseconds: 2000),
               onAnimationCompleted: ()=>output1,
             );
@@ -129,10 +127,12 @@ class _SplashScreenState extends State<SplashScreen> {
           }else if (userTypeValue == 3){
             return AnimatedSplash(
               imagePath: 'assets/images/finalsplashlogo.gif',
-              onReadyToGoNextScreen: ()=>SecondSplash(), // SignInPage, UserType, WebViewClass
+              // onAnimationCompleted: ()=>SecondSplash(), // SignInPage, UserType, WebViewClass
+                onAnimationCompleted: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SecondSplash()));},// SignInPage, UserType, WebViewClass
 
-              duration: Duration(milliseconds: 2000),
-              onAnimationCompleted: ()=>output3,
+
+                duration: Duration(milliseconds: 2000),
+              onReadyToGoNextScreen: ()=>output3,
             );
           } else {
             // Handle unexpected userTypeValue
@@ -148,11 +148,11 @@ class _SplashScreenState extends State<SplashScreen> {
   autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(!prefs.getBool(KeyisUserAlreadyLogin))
+    if(!prefs.getBool(KeyisUserAlreadyLogin)!)
       return;
 
-    final String userName = prefs.getString(keyUserName);
-    final String userPass = prefs.getString(KeyUserPassword);
+    final String? userName = prefs.getString(keyUserName);
+    final String? userPass = prefs.getString(KeyUserPassword);
 
     if (userName != null || userPass != null) {
       setState(() {

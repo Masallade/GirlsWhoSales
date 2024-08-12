@@ -12,9 +12,9 @@ class VerifyPassword {
     this.status,
   });
 
-  String message;
-  UserId userId;
-  String status;
+  String? message;
+  UserId? userId;
+  String? status;
 
   factory VerifyPassword.fromJson(Map<String, dynamic> json) => VerifyPassword(
     message: json["message"],
@@ -24,7 +24,7 @@ class VerifyPassword {
 
   Map<String, dynamic> toJson() => {
     "message": message,
-    "user_id": userId.toJson(),
+    "user_id": userId!.toJson(),
     "status": status,
   };
 }
@@ -34,14 +34,14 @@ class UserId {
     this.empty,
   });
 
-  Empty empty;
+  Empty? empty;
 
   factory UserId.fromJson(Map<String, dynamic> json) => UserId(
     empty: Empty.fromJson(json[""]),
   );
 
   Map<String, dynamic> toJson() => {
-    "": empty.toJson(),
+    "": empty!.toJson(),
   };
 }
 
@@ -50,7 +50,7 @@ class Empty {
     this.id,
   });
 
-  String id;
+  String? id;
 
   factory Empty.fromJson(Map<String, dynamic> json) => Empty(
     id: json["id"],

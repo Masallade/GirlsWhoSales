@@ -7,7 +7,7 @@ class Shortlisted extends StatefulWidget {
 }
 
 class _ShortlistedState extends State<Shortlisted> {
-  Future<void> launched;
+  Future<void>? launched;
 
   Future<void> _launchInBrowser(String url) async {
     if (!await launch(

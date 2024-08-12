@@ -8,13 +8,13 @@ import 'package:girlzwhosell/utils/size_config.dart';
 class JobApplied extends StatefulWidget {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final FavoriteJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final FavoriteJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   JobApplied({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs, this.userDetails});
   @override
   _JobAppliedState createState() => _JobAppliedState(uName:uName,password: password, jobDetails: jobDetails,user_Id: user_Id,firstName: firstName,total_applied: total_applied,favoriteJobs: favoriteJobs ,userDetails: userDetails);
@@ -23,13 +23,13 @@ class JobApplied extends StatefulWidget {
 class _JobAppliedState extends State<JobApplied> {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
-  final String total_applied;
-  final String total_saved;
-  final FavoriteJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final String? total_applied;
+  final String? total_saved;
+  final FavoriteJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   _JobAppliedState({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs , this.userDetails});
   bool resync=false;
 @override
@@ -159,13 +159,13 @@ void initState(){
 class SavedJobApplied extends StatefulWidget {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final FavoriteJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final FavoriteJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   SavedJobApplied({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs, this.userDetails});
   @override
   _SavedJobAppliedState createState() => _SavedJobAppliedState(uName:uName,password: password, jobDetails: jobDetails,user_Id: user_Id,firstName: firstName,total_applied: total_applied,favoriteJobs: favoriteJobs ,userDetails: userDetails);
@@ -174,13 +174,13 @@ class SavedJobApplied extends StatefulWidget {
 class _SavedJobAppliedState extends State<SavedJobApplied> {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
-  final String total_applied;
-  final String total_saved;
-  final FavoriteJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final String? total_applied;
+  final String? total_saved;
+  final FavoriteJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   _SavedJobAppliedState({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs , this.userDetails});
   bool resync=false;
   @override
@@ -313,13 +313,13 @@ class _SavedJobAppliedState extends State<SavedJobApplied> {
 class SavedJobApplied1 extends StatefulWidget {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
   final total_applied;
   final total_saved;
-  final SavedJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final SavedJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   SavedJobApplied1({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs, this.userDetails});
   @override
   _SavedJobApplied1State createState() => _SavedJobApplied1State(uName:uName,password: password, jobDetails: jobDetails,user_Id: user_Id,firstName: firstName,total_applied: total_applied,favoriteJobs: favoriteJobs ,userDetails: userDetails);
@@ -328,13 +328,13 @@ class SavedJobApplied1 extends StatefulWidget {
 class _SavedJobApplied1State extends State<SavedJobApplied1> {
   final uName;
   final password;
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
   final user_Id;
   final firstName;
-  final String total_applied;
-  final String total_saved;
-  final SavedJobs favoriteJobs;
-  final SeekerDetails userDetails;
+  final String? total_applied;
+  final String? total_saved;
+  final SavedJobs? favoriteJobs;
+  final SeekerDetails? userDetails;
   _SavedJobApplied1State({this.uName,this.password, this.jobDetails,this.user_Id,this.firstName,this.total_applied,this.total_saved,this.favoriteJobs , this.userDetails});
   bool resync=false;
   @override

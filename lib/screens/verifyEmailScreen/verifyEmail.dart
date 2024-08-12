@@ -21,7 +21,7 @@ class VerifyEmail extends StatefulWidget {
 
 class _VerifyEmailState extends State<VerifyEmail> {
 
-  String userName;
+  String? userName;
   final key = GlobalKey<FormFieldState>();
   bool isEmail(String input) => EmailValidator.validate(input);
 
@@ -29,7 +29,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
           .hasMatch(input);
 
-  LoginModel loginModel;
+  LoginModel? loginModel;
 
 
   @override
@@ -115,7 +115,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 cursorColor: Colors.pinkAccent[200],
                 keyboardType: TextInputType.emailAddress,
                 validator: (userName) {
-                  if (!isEmail(userName) && !isPhone(userName)) {
+                  if (!isEmail(userName!) && !isPhone(userName)) {
                     return  'Please enter a valid email.';
                   } else
                     return null;
@@ -123,7 +123,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 onChanged: (email){
                   userName = email;
                 },
-                onSaved: (String email){},
+                onSaved: (String? email){},
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
@@ -132,14 +132,14 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                     borderSide: BorderSide(
-                      color: Colors.grey[300],
+                      color: Colors.grey[300]!,
                     ),
                   ),
 
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                     borderSide: BorderSide(
-                      color:Colors.grey[300],
+                      color:Colors.grey[300]!,
                       width: 1.0,
                     ),
                   ),
@@ -177,15 +177,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 ),
                 child: GestureDetector(
                   onTap: () async{
-                    if(key.currentState.validate()){
+                    if(key.currentState!.validate()){
                       forgotPassword().then((value) async{
-                        if(value.status == "100") {
+                        if(value!.status == "100") {
                           final snackBar = SnackBar(
                               behavior: SnackBarBehavior.floating,
                               content: Text('Email Already Exist /Try another valid email'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                        if(value.status == "200"){
+                        if(value!.status == "200"){
                           await  Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpVerification( user_Id: verifyotp.userId,Msg: verifyEmail.message,)));
                         }
                       });
@@ -250,7 +250,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
 // ignore: missing_return
-  Future<VerifyEmailsignup> forgotPassword() async{
+  Future<VerifyEmailsignup?> forgotPassword() async{
     final url = "https://girlzwhosellcareerconextions.com/API/email_register.php";
     try{
       final response = await http.post(Uri.parse(url) , body: {

@@ -1,6 +1,6 @@
 class CurrentPasswordModel {
-  String status;
-  String message;
+  String? status;
+  String? message;
 
   CurrentPasswordModel({this.status, this.message});
 

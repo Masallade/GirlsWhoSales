@@ -20,7 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:girlzwhosell/utils/willscope.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sn_progress_dialog/sn_progress_dialog.dart';
+// import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 import '../../model/files_upload_model.dart';
 import '../../model/get_user_data_link.dart';
@@ -29,27 +29,27 @@ import '../../model/get_user_data_link.dart';
 
 // ignore: must_be_immutable
 class CustomFilePicker extends StatefulWidget{
-  String city;
-  String firstName;
-  String nationality;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String ExperiencenDetail;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
-  final String userId;
+  String? city;
+  String? firstName;
+  String? nationality;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? ExperiencenDetail;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
+  final String? userId;
 
   CustomFilePicker({this.jobtype,this.ExperiencenDetail,this.firstName, this.nationality, this.firstName2,this.email, this.city, this.email2 ,this.phonenno ,this.Button , this.jobtypes,this.joblevel,this.industry ,this.Month,this.userId});
 
@@ -64,41 +64,41 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   int currentStep = 1;
   int totalStep = 2;
 
-  String firstName;
-  String nationality;
-  String firstName2;
-  String email;
-  String phonenno;
-  String email2;
-  String Password;
-  String cv;
-  String ExperiencenDetail;
-  String resume;
-  String title;
-  String phone;
-  String location;
-  String jobtype;
-  String Button;
-  String industry;
-  String jobtypes;
-  String joblevel;
-  String Month;
-  String city;
-  final String userId;
+  String? firstName;
+  String? nationality;
+  String? firstName2;
+  String? email;
+  String? phonenno;
+  String? email2;
+  String? Password;
+  String? cv;
+  String? ExperiencenDetail;
+  String? resume;
+  String? title;
+  String? phone;
+  String? location;
+  String? jobtype;
+  String? Button;
+  String? industry;
+  String? jobtypes;
+  String? joblevel;
+  String? Month;
+  String? city;
+  final String? userId;
 
   _CustomFilePicker({this.jobtype, this.city, this.ExperiencenDetail,this.firstName,this.nationality, this.firstName2,this.email,this.email2 ,this.phonenno ,this.Button,this.jobtypes ,this.joblevel,this.industry, this.Month, this.userId});
 
-  ProgressDialog progressD;
+  // late ProgressDialog progressD;
 
-  FilePickerResult selectedfile;
-  File selectedfile2;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  File? selectedfile2;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
+  Future<File>? file;
   String status = '';
-  String base64Image;
-  File tmpFile;
+  String? base64Image;
+  File? tmpFile;
   String errMessage = 'Error Uploading Slip';
   String uploadurl = base_url +"signup.php";
   GlobalKey<FormState> formKey = GlobalKey();
@@ -114,17 +114,18 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       // isSelected = true;
     });
   }
-  File _image;
+  late File _image;
   final picker = ImagePicker();
 
 
-  Future _imgFromCamera() async {
+  Future<String?> _imgFromCamera() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    setState(() {
+
       if (pickedFile == null) {
         print("File not uploaded");
        return 'video.mp4';
       }
+    setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
@@ -132,13 +133,14 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       }
     });
   }
-  Future _imgFromGallery() async {
+  Future<String?> _imgFromGallery() async {
     final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    setState(() {
+
       if (pickedFile == null) {
         print("File not uploaded  ========>>>>>>>>>");
         return 'video.mp4';
       }
+    setState(() {
       if (pickedFile != null) {
         print("File  uploaded  ========>>>>>>>>>+++++++++++++++++++");
         _image = File(pickedFile.path);
@@ -208,10 +210,10 @@ class _CustomFilePicker extends State<CustomFilePicker>{
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -234,7 +236,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
 
 
   // ignore: missing_return
-  Future  <RegistrationModel> uploadResume(context) async {
+  Future  <RegistrationModel?> uploadResume(context) async {
     FormData formdata = FormData.fromMap({
       "user_id": userId,
       "firstname": firstName,
@@ -258,8 +260,8 @@ class _CustomFilePicker extends State<CustomFilePicker>{
         //show only filename from path
       ),
        "resume": await MultipartFile.fromFile(//selectedfile != null && selectedfile.files.isNotEmpty ?
-          selectedfile.files.single.path,
-          filename: basename(selectedfile.files.single.path)
+          selectedfile!.files.single.path!,
+          filename: basename(selectedfile!.files.single.path!)
         //show only filename from path
       ),// ): null
       // "nationality" : basename(selectedfile.files.single.path),
@@ -351,13 +353,13 @@ class _CustomFilePicker extends State<CustomFilePicker>{
         ],
       ),
       context: context,
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
   Widget build(BuildContext context) {
-    progressD = ProgressDialog(context: context);
+    // progressD = ProgressDialog(context: context);
 
     return WillPopScope(
       onWillPop: ()=>_exitApp(context),
@@ -390,7 +392,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                   child: LinearProgressIndicator(
                     minHeight: 10.0,
                     backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800]),
+                    valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[800]),
                     value: 1.0,
                   ),
                 ),
@@ -464,7 +466,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                               padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
                               child: selectedcvFile == null ? DottedBorder(
                                 strokeWidth: 1.0,
-                                color: Colors.blueGrey[300].withOpacity(0.6),
+                                color: Colors.blueGrey[300]!.withOpacity(0.6),
                                 // padding: EdgeInsets.all(4),
                                 dashPattern: [9, 5],
                                 child: Container(
@@ -494,7 +496,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                             color: Colors.blueGrey[400]
                                           /* letterSpacing: 0.0, */
                                         ),
-                                      ):Text(basename(selectedcvFile.files.single.path) ),
+                                      ):Text(basename(selectedcvFile!.files.single.path!) ),
                                       trailing: selectedcvFile != null ? Icon(
                                         Icons.check,
                                         color: Colors.green,
@@ -509,7 +511,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                 color:Color.fromRGBO(238, 242, 248, 1),
                                 child:ListTile(
                                     leading: Image.asset('assets/images/pdfbg.png' ,width: 40,height: 40,),
-                                    title: Text(basename(selectedcvFile.files.single.path) ),
+                                    title: Text(basename(selectedcvFile!.files.single.path!) ),
                                   trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                                 ),
                               ),
@@ -521,7 +523,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                               padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
                               child:selectedVisumefile == null ? DottedBorder( //_image
                                 strokeWidth: 1.0,
-                                color: Colors.blueGrey[300].withOpacity(0.6),
+                                color: Colors.blueGrey[300]!.withOpacity(0.6),
                                 // padding: EdgeInsets.all(4),
                                 dashPattern: [9, 5],
                                 child: Container(
@@ -550,7 +552,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                               color: Colors.blueGrey[300]
                                             /* letterSpacing: 0.0, */
                                           ),
-                                        ):Text(basename(selectedVisumefile.files.single.path) ),
+                                        ):Text(basename(selectedVisumefile!.files.single.path!) ),
                                         trailing:selectedVisumefile != null ? Icon(
                                           Icons.check,
                                           color: Colors.green,
@@ -565,7 +567,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                                 color:Color.fromRGBO(238, 242, 248, 1),
                                 child:ListTile(
                                   leading: Image.asset('assets/images/camera.png' ,width: 40,height: 40,),
-                                  title: Text(basename(selectedVisumefile.files.single.path) ),
+                                  title: Text(basename(selectedVisumefile!.files.single.path!) ),
                                   trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                                 ),
                               ),
@@ -579,7 +581,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               fixedSize:
-                              Size(SizeConfig.screenWidth, 60.0),
+                              Size(SizeConfig.screenWidth!, 60.0),
                               primary: Color.fromARGB(255, 255, 65, 129),
                               //onSurface:  Colors.pinkAccent[200],
                               shape: RoundedRectangleBorder(
@@ -594,17 +596,17 @@ class _CustomFilePicker extends State<CustomFilePicker>{
                               fontWeight: FontWeight.w500,),
                           ),
                           onPressed:() async{
-                            progressD.show(
-                                max: 100,
-                                msg: 'Uploading Files...',
-                                progressType: ProgressType.valuable,
-                                backgroundColor: Colors.blueGrey[300],//Color(0xff212121)
-                                progressValueColor: Color(0xff3550B4),
-                                progressBgColor: Colors.white70,
-                                msgColor: Colors.white,
-                                valueColor: Colors.white);
+                            // progressD.show(
+                            //     max: 100,
+                            //     msg: 'Uploading Files...',
+                            //     progressType: ProgressType.valuable,
+                            //     backgroundColor: Colors.blueGrey[300]!,//Color(0xff212121)
+                            //     progressValueColor: Color(0xff3550B4),
+                            //     progressBgColor: Colors.white70,
+                            //     msgColor: Colors.white,
+                            //     valueColor: Colors.white);
                             uploadUserData(selectedCVFilePath,selectedVisumeFilePath,context);
-                            // uploadResume(context);//tariq you comment this
+                            uploadResume(context);//tariq you comment this
                             },
                         ),
                       ),
@@ -622,20 +624,20 @@ class _CustomFilePicker extends State<CustomFilePicker>{
   //======================== tariq new code of file upload is here ========================//
   final cvpicker = FilePicker.platform;
   final visumepicker = FilePicker.platform;
-  String selectedCVFilePath;
-  String selectedVisumeFilePath;
-  FilePickerResult selectedcvFile;
-  FilePickerResult selectedVisumefile;
-  Files_Upload_Model files_upload_model;
+  String? selectedCVFilePath;
+  String? selectedVisumeFilePath;
+  FilePickerResult? selectedcvFile;
+  FilePickerResult? selectedVisumefile;
+  late Files_Upload_Model files_upload_model;
 
-  Future<String> pickUserVisume() async {
+  Future<String?> pickUserVisume() async {
     selectedVisumefile = await visumepicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['mp4', 'avi', 'mov']// Add more video file extensions if needed
     );//FilePicker.platform.pickFiles()
 
-    if (selectedVisumefile != null && selectedVisumefile.files.isNotEmpty) {
-      final file = selectedVisumefile.files.single;
+    if (selectedVisumefile != null && selectedVisumefile!.files.isNotEmpty) {
+      final file = selectedVisumefile!.files.single;
       selectedVisumeFilePath = file.path;
       setState(() {});
       return selectedVisumeFilePath;
@@ -644,11 +646,11 @@ class _CustomFilePicker extends State<CustomFilePicker>{
     return null;
   }
 
-  Future<String> pickUserCV() async {
+  Future<String?> pickUserCV() async {
     selectedcvFile = await cvpicker.pickFiles();//FilePicker.platform.pickFiles()
 
-    if (selectedcvFile != null && selectedcvFile.files.isNotEmpty) {
-      final file = selectedcvFile.files.single;
+    if (selectedcvFile != null && selectedcvFile!.files.isNotEmpty) {
+      final file = selectedcvFile!.files.single;
       selectedCVFilePath = file.path;
       setState(() {});
       return selectedCVFilePath;
@@ -657,7 +659,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
     return null;
   }
 
-  Future<void> uploadUserData(String cvPath, String resumePath,context) async {
+  Future<void> uploadUserData(String? cvPath, String? resumePath,context) async {
     // if (cvPath != null) {
       var headers = {'Cookie': 'session=da9df2f965aaa1d3c0dc17232c36844faff5c830'};
       var request = http.MultipartRequest(
@@ -665,7 +667,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
         Uri.parse('https://girlzwhosellcareerconextions.com/API/upload_cvs.php'),
       );
 
-      request.fields['user_id'] = userId;
+      request.fields['user_id'] = userId!;
 
       if(cvPath != null){
         request.files.add(
@@ -691,7 +693,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
           print("message isssssssss  ${files_upload_model.message}");
 
           if (files_upload_model.message == "Successful Upload"){
-            progressD.close();
+            // progressD.close();
             getUserDataLink();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => RegisterSuccessScreen()));
@@ -709,7 +711,7 @@ class _CustomFilePicker extends State<CustomFilePicker>{
           //   print("you have to pick Resume File");
           // }else
           {
-            progressD.close();
+            // progressD.close();
             Fluttertoast.showToast(
                 msg: "File is not uploaded. Please Try Again!",
                 toastLength: Toast.LENGTH_SHORT,
@@ -748,11 +750,11 @@ class _CustomFilePicker extends State<CustomFilePicker>{
       GetUserDataLink userDataLink = GetUserDataLink.fromJson(jsonMap);
 
       // Access resume and cV strings
-      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails.isNotEmpty) {
+      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails!.isNotEmpty) {
 
         setState(() {
-          VisumeUrl = userDataLink.seekerDetails[0].resume;
-          CVurl = userDataLink.seekerDetails[0].cV;
+          VisumeUrl = userDataLink.seekerDetails![0].resume;
+          CVurl = userDataLink.seekerDetails![0].cV;
           // isSelected = true;
         });
 
@@ -776,7 +778,7 @@ class CustomFilePicker2 extends StatefulWidget{
   final uName;
   final password;
  final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
   CustomFilePicker2({this.uName,this.password ,this.user_id ,this.userDetails});
 
@@ -793,29 +795,29 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
   final uName;
   final password;
   final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
 
   _CustomFilePicker2({this.uName,this.password ,this.user_id ,this.userDetails});
 
 
-  FilePickerResult selectedfile;
-  Response response;
-  String progress;
+  FilePickerResult? selectedfile;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
-  String base64Image;
-  File tmpFile;
+  Future<File>? file;
+  String? base64Image;
+  File? tmpFile;
   String uploadurl = base_url + "user_update.php";
 
-  FilePickerResult selectedcvFile;
+  FilePickerResult? selectedcvFile;
   final cvpicker = FilePicker.platform;
-  String selectedCVFilePath;
-  ProgressDialog progressD;
-  Files_Upload_Model files_upload_model;
-  String selectedVisumeFilePath;
+  String? selectedCVFilePath;
+  // late ProgressDialog progressD;
+  late Files_Upload_Model files_upload_model;
+  String? selectedVisumeFilePath;
 
-  String userId;
+  String? userId;
 
   @override
   void initState() {
@@ -839,10 +841,10 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
         if (snapshot.connectionState == ConnectionState.done &&
             null != snapshot.data) {
           tmpFile = snapshot.data;
-          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          base64Image = base64Encode(snapshot.data!.readAsBytesSync());
           return Flexible(
             child: Image.file(
-              snapshot.data,
+              snapshot.data!,
               fit: BoxFit.cover,
             ),
           );
@@ -867,8 +869,8 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
     FormData formdata = FormData.fromMap({
       "id": user_id,
       "resume": await MultipartFile.fromFile(
-          selectedfile.files.single.path,
-          filename: basename(selectedfile.files.single.path)
+          selectedfile!.files.single.path!,
+          filename: basename(selectedfile!.files.single.path!)
         //show only filename from path
       ),
     });
@@ -894,7 +896,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
       showToast('Your Resume/ CV Has Been Updated',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,
@@ -908,11 +910,11 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
       print("Error during connection to server.");
     }
   }
-  Future<String> pickUserCV() async {
+  Future<String?> pickUserCV() async {
     selectedcvFile = await cvpicker.pickFiles();//FilePicker.platform.pickFiles()
 
-    if (selectedcvFile != null && selectedcvFile.files.isNotEmpty) {
-      final file = selectedcvFile.files.single;
+    if (selectedcvFile != null && selectedcvFile!.files.isNotEmpty) {
+      final file = selectedcvFile!.files.single;
       selectedCVFilePath = file.path;
       setState(() {});
       return selectedCVFilePath;
@@ -924,7 +926,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
 
   @override
   Widget build(BuildContext context) {
-    progressD = ProgressDialog(context: context);
+    // progressD = ProgressDialog(context: context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -987,7 +989,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
                         child: selectedcvFile == null ? DottedBorder(
                           strokeWidth: 1.0,
-                          color: Colors.blueGrey[300].withOpacity(0.6),
+                          color: Colors.blueGrey[300]!.withOpacity(0.6),
                           // padding: EdgeInsets.all(4),
                           dashPattern: [9, 5],
                           child: Container(
@@ -1017,7 +1019,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
                                       color: Colors.blueGrey[400]
                                     /* letterSpacing: 0.0, */
                                   ),
-                                ):Text(basename(selectedcvFile.files.single.path) ),
+                                ):Text(basename(selectedcvFile!.files.single.path!) ),
                                 trailing: selectedcvFile != null ? Icon(
                                   Icons.check,
                                   color: Colors.green,
@@ -1032,7 +1034,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
                           color:Color.fromRGBO(238, 242, 248, 1),
                           child:ListTile(
                             leading: Image.asset('assets/images/pdfbg.png' ,width: 40,height: 40,),
-                            title: Text(basename(selectedcvFile.files.single.path) ),
+                            title: Text(basename(selectedcvFile!.files.single.path!) ),
                             trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                           ),
                         ),
@@ -1093,7 +1095,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               fixedSize:
-              Size(SizeConfig.screenWidth, 60.0),
+              Size(SizeConfig.screenWidth!, 60.0),
               primary: Color.fromARGB(255, 255, 65, 129),
               //onSurface:  Colors.pinkAccent[200],
               shape: RoundedRectangleBorder(
@@ -1108,15 +1110,15 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
               fontWeight: FontWeight.w500,),
           ),
           onPressed:() async{
-              progressD.show(
-                  max: 100,
-                  msg: 'Uploading Files...',
-                  progressType: ProgressType.valuable,
-                  backgroundColor: Colors.blueGrey[300],//Color(0xff212121)
-                  progressValueColor: Color(0xff3550B4),
-                  progressBgColor: Colors.white70,
-                  msgColor: Colors.white,
-                  valueColor: Colors.white);
+              // progressD.show(
+              //     max: 100,
+              //     msg: 'Uploading Files...',
+              //     progressType: ProgressType.valuable,
+              //     backgroundColor: Colors.blueGrey[300]!,//Color(0xff212121)
+              //     progressValueColor: Color(0xff3550B4),
+              //     progressBgColor: Colors.white70,
+              //     msgColor: Colors.white,
+              //     valueColor: Colors.white);
               selectedVisumeFilePath ==  null;
               uploadUserCVData(selectedCVFilePath,selectedVisumeFilePath,context);
               // uploadResume(context);//tariq you comment this
@@ -1126,7 +1128,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
       ),
     );
   }
-  Future<void> uploadUserCVData(String cvPath, String resumePath,context) async {
+  Future<void> uploadUserCVData(String? cvPath, String? resumePath,context) async {
     // if (cvPath != null) {
       var headers = {'Cookie': 'session=da9df2f965aaa1d3c0dc17232c36844faff5c830'};
       var request = http.MultipartRequest(
@@ -1134,7 +1136,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
         Uri.parse('https://girlzwhosellcareerconextions.com/API/upload_cvs.php'),
       );
 
-      request.fields['user_id'] = userId;
+      request.fields['user_id'] = userId!;
       if(cvPath != null){
         request.files.add(
           await http.MultipartFile.fromPath('cv', cvPath),
@@ -1159,7 +1161,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
           print("message isssssssss  ${files_upload_model.message}");
 
           if (files_upload_model.message == "Successful Upload"){
-            progressD.close();
+            // progressD.close();
             getUserDataLink();
             Fluttertoast.showToast(
                 msg: "File uploaded Successfully!",
@@ -1178,7 +1180,7 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
           //   print("you have to pick Resume File");
           // } else
           {
-            progressD.close();
+            // progressD.close();
             Fluttertoast.showToast(
                 msg: "File is not uploaded. Please Try Again!",
                 toastLength: Toast.LENGTH_SHORT,
@@ -1216,11 +1218,11 @@ class _CustomFilePicker2 extends State<CustomFilePicker2>{
       GetUserDataLink userDataLink = GetUserDataLink.fromJson(jsonMap);
 
       // Access resume and cV strings
-      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails.isNotEmpty) {
+      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails!.isNotEmpty) {
 
         setState(() {
-          VisumeUrl = userDataLink.seekerDetails[0].resume;
-          CVurl = userDataLink.seekerDetails[0].cV;
+          VisumeUrl = userDataLink.seekerDetails![0].resume;
+          CVurl = userDataLink.seekerDetails![0].cV;
           // isSelected = true;
         });
 
@@ -1244,7 +1246,7 @@ class uploadVideoCv extends StatefulWidget{
   final uName;
   final password;
   final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
   uploadVideoCv({this.uName,this.password ,this.user_id ,this.userDetails});
 
@@ -1261,32 +1263,32 @@ class _uploadVideoCv extends State<uploadVideoCv>{
   final uName;
   final password;
   final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
 
   _uploadVideoCv({this.uName,this.password ,this.user_id ,this.userDetails});
 
-  Response response;
-  String progress;
+  late Response response;
+  String? progress;
   Dio dio = new Dio();
-  Future<File> file;
-  String base64Image;
-  File tmpFile;
+  Future<File>? file;
+  String? base64Image;
+  File? tmpFile;
 
   String uploadurl = base_url + "user_update.php";
 
-  File _image;
+  File? _image;
   final picker = ImagePicker();
 
-  FilePickerResult selectedcvFile;
+  FilePickerResult? selectedcvFile;
   final cvpicker = FilePicker.platform;
-  String selectedCVFilePath;
-  ProgressDialog progressD;
-  Files_Upload_Model files_upload_model;
-  String selectedVisumeFilePath;
-  FilePickerResult selectedVisumefile;
+  String? selectedCVFilePath;
+  // late ProgressDialog progressD;
+  late Files_Upload_Model files_upload_model;
+  String? selectedVisumeFilePath;
+  FilePickerResult? selectedVisumefile;
   final visumepicker = FilePicker.platform;
 
-  String userId;
+  String? userId;
 
   @override
   void initState() {
@@ -1357,8 +1359,8 @@ class _uploadVideoCv extends State<uploadVideoCv>{
     FormData formdata = FormData.fromMap({
       "id": user_id,
       "cv": await MultipartFile.fromFile(
-          _image.path,
-          filename: basename(_image.path)
+          _image!.path,
+          filename: basename(_image!.path)
         //show only filename from path
       ),
     });
@@ -1384,7 +1386,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
       showToast('Your Video Cv Has Been Updated',
         context: context,
         fullWidth: true,
-        backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+        backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
         animation: StyledToastAnimation.slideFromBottomFade,
         reverseAnimation: StyledToastAnimation.fade,
         position: StyledToastPosition.center,
@@ -1401,7 +1403,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
 
   @override
   Widget build(BuildContext context) {
-    progressD = ProgressDialog(context: context);
+    // progressD = ProgressDialog(context: context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -1463,7 +1465,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 16),
                         child:selectedVisumefile == null ? DottedBorder( //_image
                           strokeWidth: 1.0,
-                          color: Colors.blueGrey[300].withOpacity(0.6),
+                          color: Colors.blueGrey[300]!.withOpacity(0.6),
                           // padding: EdgeInsets.all(4),
                           dashPattern: [9, 5],
                           child: Container(
@@ -1492,7 +1494,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
                                         color: Colors.blueGrey[300]
                                       /* letterSpacing: 0.0, */
                                     ),
-                                  ):Text(basename(selectedVisumefile.files.single.path) ),
+                                  ):Text(basename(selectedVisumefile!.files.single.path!) ),
                                   trailing:selectedVisumefile != null ? Icon(
                                     Icons.check,
                                     color: Colors.green,
@@ -1507,7 +1509,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
                           color:Color.fromRGBO(238, 242, 248, 1),
                           child:ListTile(
                             leading: Image.asset('assets/images/camera.png' ,width: 40,height: 40,),
-                            title: Text(basename(selectedVisumefile.files.single.path) ),
+                            title: Text(basename(selectedVisumefile!.files.single.path!) ),
                             trailing: Icon(Icons.check ,  color: Color.fromRGBO(117, 162, 66, 1)),
                           ),
                         ),
@@ -1566,7 +1568,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               fixedSize:
-              Size(SizeConfig.screenWidth, 60.0),
+              Size(SizeConfig.screenWidth!, 60.0),
               primary: Color.fromARGB(255, 255, 65, 129),
               //onSurface:  Colors.pinkAccent[200],
               shape: RoundedRectangleBorder(
@@ -1581,15 +1583,15 @@ class _uploadVideoCv extends State<uploadVideoCv>{
               fontWeight: FontWeight.w500,),
           ),
           onPressed:() async{
-            progressD.show(
-                max: 100,
-                msg: 'Uploading Files...',
-                progressType: ProgressType.valuable,
-                backgroundColor: Colors.blueGrey[300],//Color(0xff212121)
-                progressValueColor: Color(0xff3550B4),
-                progressBgColor: Colors.white70,
-                msgColor: Colors.white,
-                valueColor: Colors.white);
+            // progressD.show(
+            //     max: 100,
+            //     msg: 'Uploading Files...',
+            //     progressType: ProgressType.valuable,
+            //     backgroundColor: Colors.blueGrey[300]!,//Color(0xff212121)
+            //     progressValueColor: Color(0xff3550B4),
+            //     progressBgColor: Colors.white70,
+            //     msgColor: Colors.white,
+            //     valueColor: Colors.white);
             selectedCVFilePath == null;
             uploadUserVisumeData(selectedCVFilePath,selectedVisumeFilePath,context);
             // uploadResume(context);//tariq you comment this
@@ -1600,14 +1602,14 @@ class _uploadVideoCv extends State<uploadVideoCv>{
     );
   }
 
-  Future<String> pickUserVisume() async {
+  Future<String?> pickUserVisume() async {
     selectedVisumefile = await visumepicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['mp4', 'avi', 'mov']// Add more video file extensions if needed
     );//FilePicker.platform.pickFiles()
 
-    if (selectedVisumefile != null && selectedVisumefile.files.isNotEmpty) {
-      final file = selectedVisumefile.files.single;
+    if (selectedVisumefile != null && selectedVisumefile!.files.isNotEmpty) {
+      final file = selectedVisumefile!.files.single;
       selectedVisumeFilePath = file.path;
       setState(() {});
       return selectedVisumeFilePath;
@@ -1615,7 +1617,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
 
     return null;
   }
-  Future<void> uploadUserVisumeData(String cvPath, String resumePath,context) async {
+  Future<void> uploadUserVisumeData(String? cvPath, String? resumePath,context) async {
     // if (cvPath != null) {
       var headers = {'Cookie': 'session=da9df2f965aaa1d3c0dc17232c36844faff5c830'};
       var request = http.MultipartRequest(
@@ -1623,7 +1625,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
         Uri.parse('https://girlzwhosellcareerconextions.com/API/upload_cvs.php'),
       );
 
-      request.fields['user_id'] = userId;
+      request.fields['user_id'] = userId!;
 
       if (cvPath != null){
         request.files.add(
@@ -1648,7 +1650,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
 
           if (files_upload_model.message == "Successful Upload"){
             getUserDataLink();
-            progressD.close();
+            // progressD.close();
             Fluttertoast.showToast(
                 msg: "File is Updated Successfully!",
                 toastLength: Toast.LENGTH_SHORT,
@@ -1666,7 +1668,7 @@ class _uploadVideoCv extends State<uploadVideoCv>{
           //   print("you have to pick Resume File");
           // }else
           {
-            progressD.close();
+            // progressD.close();
             Fluttertoast.showToast(
                 msg: "File is not uploaded. Please Try Again!",
                 toastLength: Toast.LENGTH_SHORT,
@@ -1705,11 +1707,11 @@ class _uploadVideoCv extends State<uploadVideoCv>{
       GetUserDataLink userDataLink = GetUserDataLink.fromJson(jsonMap);
 
       // Access resume and cV strings
-      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails.isNotEmpty) {
+      if (userDataLink.seekerDetails != null && userDataLink.seekerDetails!.isNotEmpty) {
 
         setState(() {
-          VisumeUrl = userDataLink.seekerDetails[0].resume;
-          CVurl = userDataLink.seekerDetails[0].cV;
+          VisumeUrl = userDataLink.seekerDetails![0].resume;
+          CVurl = userDataLink.seekerDetails![0].cV;
           // isSelected = true;
         });
 

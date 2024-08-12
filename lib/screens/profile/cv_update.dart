@@ -16,7 +16,7 @@ import 'package:permission_handler/permission_handler.dart';
 // import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:sn_progress_dialog/sn_progress_dialog.dart';
+// import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 // import 'package:dio/dio.dart';
 // import 'package:percent_indicator/percent_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,11 +25,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CVUpdate extends StatefulWidget {
   final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
 
-  const CVUpdate({Key key, this.user_id, this.userDetails , this.password,this.uName}) : super(key: key);
+  const CVUpdate({Key? key, this.user_id, this.userDetails , this.password,this.uName}) : super(key: key);
 
   @override
   State<CVUpdate> createState() =>
@@ -38,18 +38,18 @@ class CVUpdate extends StatefulWidget {
 
 class _CVUpdateState extends State<CVUpdate> {
   final user_id;
-  final List<SeekerDetails> userDetails;
+  final List<SeekerDetails>? userDetails;
   final uName;
   final password;
-  int progress;
+  int? progress;
   ReceivePort _receivePort = ReceivePort();
 
-  String savedDir;
+  String? savedDir;
 
   _CVUpdateState({this.user_id, this.userDetails , this.password,this.uName});
 
   double prog =0;
-  ProgressDialog progressD;
+  // ProgressDialog? progressD;
 
   // final dio = Dio();
   // final String _downloadPath =
@@ -70,7 +70,7 @@ class _CVUpdateState extends State<CVUpdate> {
 
 
   bool isExpanded = false;
-   int numLines;
+   int? numLines;
   @override
   void initState() {
 
@@ -92,7 +92,7 @@ class _CVUpdateState extends State<CVUpdate> {
     });
   }
 
-  FilePickerResult selectedfile;
+  FilePickerResult? selectedfile;
 
   // selectFile() async {
   //   selectedfile =  await FilePicker.platform.pickFiles(
@@ -106,7 +106,7 @@ class _CVUpdateState extends State<CVUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    progressD = ProgressDialog(context: context);
+    // progressD = ProgressDialog(context: context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -143,9 +143,9 @@ class _CVUpdateState extends State<CVUpdate> {
                  // color: Colors.yellow,
                 height: SizeConfig.screenHeight,
                 child: ListView.builder(
-                    itemCount: userDetails.length,
+                    itemCount: userDetails!.length,
                     itemBuilder: (context, index) {
-                      return userDetails[index] != null
+                      return userDetails![index] != null
                           ? Column(
                               children: [
                                 SizedBox(
@@ -201,7 +201,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       border:
-                                          Border.all(color: Colors.grey[300]),
+                                          Border.all(color: Colors.grey[300]!),
                                     ),
                                     child: ListTile(
                                       leading: Container(
@@ -215,7 +215,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                       title:
                                       // Text(basename(selectedfile.files.single.path) ?? '${userDetails[index].firstname}.pdf' ),
                                       Text(
-                                           '${userDetails[index].firstname}.pdf',
+                                           '${userDetails![index].firstname}.pdf',
                                         softWrap: true,
                                         overflow: TextOverflow.fade,
                                       ),
@@ -238,7 +238,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                                 //   DownloadUserFile(CVurl);
                                                 // }else  if (Platform.isIOS || Platform.isMacOS){
 
-                                                  openUrl(CVurl);
+                                                  openUrl(CVurl!);
                                                 // }
 
                                               }else{
@@ -317,7 +317,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       border:
-                                      Border.all(color: Colors.grey[300]),
+                                      Border.all(color: Colors.grey[300]!),
                                     ),
                                     child: ListTile(
                                       leading: Container(
@@ -326,7 +326,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                           child: Image.asset(
                                               'assets/images/cvbg.png')),
                                       title: Text(
-                                          '${userDetails[index].firstname}.mp4' ,
+                                          '${userDetails![index].firstname}.mp4' ,
                                        // maxLines: isExpanded ? null : 2,
                                         softWrap: true,
                                         overflow: TextOverflow.fade,
@@ -350,7 +350,7 @@ class _CVUpdateState extends State<CVUpdate> {
                                                 //   DownloadUserFile(VisumeUrl);
                                                 // }else if (Platform.isIOS ||  Platform.isMacOS){
 
-                                                  openUrl(VisumeUrl);
+                                                  openUrl(VisumeUrl!);
                                                 // }
 
 
@@ -438,7 +438,7 @@ class _CVUpdateState extends State<CVUpdate> {
   //     openFileFromNotification: true, // click on notification to open downloaded file (for Android)
   //   );
   // }
-  double _progress;
+  double? _progress;
 
   void DownloadUserFile(String url){
 

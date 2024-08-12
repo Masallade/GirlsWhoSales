@@ -2,10 +2,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/intro_pages/splash_screen.dart';
 import 'package:new_version/new_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dawood/presentation/resources/theme_manager.dart';
 import 'helpers/scroll_behaviour.dart';
 // import 'package:flutter_downloader/flutter_downloader.dart';
 
@@ -90,8 +92,8 @@ class _MyAppState extends State<MyApp> {
 //   }
 
 
-  String email;
-  String password;
+  String? email;
+  String? password;
   bool isLoggedIn = false;
 
  @override
@@ -124,7 +126,7 @@ class _MyAppState extends State<MyApp> {
     final newVersion = NewVersion(
       androidId: "com.girlzwhosell",
     );
-    final status = await newVersion.getVersionStatus();
+    final status = (await newVersion.getVersionStatus())!;
     newVersion.showUpdateDialog(
       context: context,
       versionStatus: status,
@@ -188,19 +190,15 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        title: 'GirlzWhoSell',
-        theme: ThemeData(
-          primaryColor: Color(0xFF122F51),
-          fontFamily: 'Poppins',
-          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(0xFF122F51)) ,
-        ),
+        title: 'Girlz Who Sell',
+        theme: getApplicationTheme(),
          home: SplashScreen(),
       );
   }
   autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userName = prefs.getString('username');
-    final String userPass = prefs.getString('userpass');
+    final String? userName = prefs.getString('username');
+    final String? userPass = prefs.getString('userpass');
 
     if (userName != null || userPass != null) {
       setState(() {

@@ -8,8 +8,8 @@ class VerifyEmailsignup {
     this.status,
   });
 
-  String message;
-  String status;
+  String? message;
+  String? status;
 
   factory VerifyEmailsignup.fromJson(Map<String, dynamic> json) => VerifyEmailsignup(
     message: json["message"],

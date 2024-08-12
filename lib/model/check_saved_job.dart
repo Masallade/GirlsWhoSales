@@ -1,7 +1,7 @@
 class CheckSaved {
-  String message;
-  int applied;
-  int status;
+  String? message;
+  int? applied;
+  int? status;
 
   CheckSaved({this.message, this.applied, this.status});
 

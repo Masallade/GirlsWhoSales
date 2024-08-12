@@ -17,15 +17,15 @@ import '../model/profileUpdate.dart';
 
 class EditProfilePage1 extends StatefulWidget {
   final country;
-  String nationality;
+  String? nationality;
   final uName;
   final password;
   final user_Id;
   final profile;
   final city;
-  final List<SeekerDetails> userDetails;
-  final List<JobDetails> jobDetails;
-  final String firstName;
+  final List<SeekerDetails>? userDetails;
+  final List<JobDetails>? jobDetails;
+  final String? firstName;
 
   EditProfilePage1(
       {this.uName,
@@ -54,16 +54,16 @@ class EditProfilePage1 extends StatefulWidget {
 }
 
 class _EditProfilePage1State extends State<EditProfilePage1> {
-  String country;
+  String? country;
   final uName;
-  String nationality;
+  String? nationality;
   final password;
   final user_Id;
-  final String profile;
-  final String city;
-  final List<SeekerDetails> userDetails;
-  final List<JobDetails> jobDetails;
-  final String firstName;
+  final String? profile;
+  final String? city;
+  final List<SeekerDetails>? userDetails;
+  final List<JobDetails>? jobDetails;
+  final String? firstName;
   bool showPassword = false;
 
   _EditProfilePage1State(
@@ -78,26 +78,26 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
       this.country,
       this.jobDetails});
 
-  BuildContext context;
+  late BuildContext context;
 
   GlobalKey<FormState> formKey = GlobalKey();
 
-  String name;
-  String nation;
-  String Phone;
-  String email;
-  String cityN;
-  File _image;
+  String? name;
+  String? nation;
+  String? Phone;
+  String? email;
+  String? cityN;
+  File? _image;
 
 
   List cityUsa = ['Baltimore', 'NewYork', 'Virginia'];
-  String cityNamex;
+  String? cityNamex;
 
   String uploadurl =
       'https://girlzwhosellcareerconextions.com/API/' + "user_update.php";
 
-  Response response;
-  String progress;
+  late Response response;
+  String? progress;
   Dio dio = Dio();
 
   void initState() {
@@ -194,7 +194,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
 
       utils.showLoadingDialog(context, _keyLoader);
 
-        formKey.currentState.save();
+        formKey.currentState!.save();
         var dio = new Dio();
         var formData = FormData.fromMap({
           "id": user_Id,
@@ -204,7 +204,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
           _image==null ? profile :
               await
 
-          MultipartFile.fromFile(_image.path, filename: basename(_image.path)),
+          MultipartFile.fromFile(_image!.path, filename: basename(_image!.path)),
           "city": cityN,
           "mobile_no": Phone,
         });
@@ -240,7 +240,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
             'Failed to Update',
             context: context,
             fullWidth: true,
-            backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+            backgroundColor: Colors.pinkAccent[200]!.withOpacity(0.6),
             animation: StyledToastAnimation.slideFromBottomFade,
             reverseAnimation: StyledToastAnimation.fade,
             position: StyledToastPosition.center,
@@ -292,7 +292,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
               Container(
                   height: SizeConfig.screenHeight,
                   child: ListView.builder(
-                      itemCount: userDetails.length,
+                      itemCount: userDetails!.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding:
@@ -308,7 +308,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                                     ClipOval(
                                       child: _image != null
                                           ? Image.file(
-                                              _image,
+                                              _image!,
                                               width: 160,
                                               height: 160,
                                               fit: BoxFit.cover,
@@ -333,9 +333,9 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                                                   image: DecorationImage(
                                                       fit: BoxFit.cover,
                                                       image: NetworkImage(
-                                                        userDetails[index]
+                                                        userDetails![index]
                                                                 .profilePicture ??
-                                                            Placeholder(),
+                                                            Placeholder() as String,
                                                       ))),
                                             ),
                                     ),
@@ -372,7 +372,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               ),
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
-                                initialValue: userDetails[index].firstname,
+                                initialValue: userDetails![index].firstname,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.only(bottom: 3),
                                   hintText: 'Name',
@@ -383,7 +383,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                                   });
                                   print('fisrtname is :$name');
                                 },
-                                validator: (String value) {
+                                validator: (String? value) {
                                   return (value != null && value.contains('@'))
                                       ? 'Do not use the @ char.'
                                       : null;
@@ -395,7 +395,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
                                 initialValue:
-                                    '${userDetails[index].mobileNumber}',
+                                    '${userDetails![index].mobileNumber}',
                                 keyboardType: TextInputType.phone,
                                 onChanged: (String value) {
                                   setState(() {
@@ -421,7 +421,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               ),
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
-                                initialValue: '${userDetails[index].city}',
+                                initialValue: '${userDetails![index].city}',
                                 keyboardType: TextInputType.text,
                                 onChanged: (String value) {
                                   setState(() {

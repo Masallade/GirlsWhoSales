@@ -16,7 +16,7 @@ import '../../model/check_saved_job.dart';
 import 'new_job_details_model.dart';
 
 class NewJobDetailss extends StatefulWidget {
-  const NewJobDetailss({Key key}) : super(key: key);
+  const NewJobDetailss({Key? key}) : super(key: key);
 
   @override
   State<NewJobDetailss> createState() => _NewJobDetailssState();
@@ -29,14 +29,14 @@ class _NewJobDetailssState extends State<NewJobDetailss> {
   // static final String uploadsavejob = base_url + 'saved_jobs.php';
   static final String dislikeJob = base_url + 'dislike_jobs.php';
 
-  String uName  = "";
-  String password = "";
-  String user_Id = "";
-  String firstName = "";
-  String jobId = "";
+  String? uName  = "";
+  String? password = "";
+  String? user_Id = "";
+  String? firstName = "";
+  String? jobId = "";
 
-  List<New_Job_Details> jobDetailsList;
-  List<JobDetails> jobDetails;
+  List<New_Job_Details>? jobDetailsList;
+  late List<JobDetails> jobDetails;
 
   void initState() {
     uName =  u_Name;
@@ -57,7 +57,7 @@ class _NewJobDetailssState extends State<NewJobDetailss> {
   bool isActive = false;
   @override
   Widget build(BuildContext context) {
-    CardController controller; //Use this to trigger swap.
+    CardController? controller; //Use this to trigger swap.
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -279,8 +279,8 @@ class _NewJobDetailssState extends State<NewJobDetailss> {
         ),
       ),
       context: context,
-    ) ??
-        false;
+    ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
 
@@ -319,7 +319,7 @@ class _NewJobDetailssState extends State<NewJobDetailss> {
 
 
 
-  Future<List<New_Job_Details>> getalljobDetails()async{
+  Future<List<New_Job_Details>?> getalljobDetails()async{
     var request = http.Request('GET', Uri.parse('https://girlzwhosellcareerconextions.com/API/jobs_filtered.php?$user_Id'));
 
 
@@ -335,7 +335,7 @@ class _NewJobDetailssState extends State<NewJobDetailss> {
           .map((json) => New_Job_Details.fromJson(json))
           .toList();
 
-      print("total jobs are ${jobDetailsList.length}");
+      print("total jobs are ${jobDetailsList!.length}");
 
       return jobDetailsList;
 

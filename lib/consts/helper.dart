@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-Color myfieldColor  = Colors.blueGrey[300];
+Color? myfieldColor  = Colors.blueGrey[300];
 double borderRadious  = 5.0;
 
 
 
 InputDecoration getInputDecoration(
-    {String hint,bool darkMode,Color errorColor}) {
+    {required String hint,bool? darkMode,required Color errorColor}) {
   return InputDecoration(
     // filled: true,
     contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 25),
@@ -18,7 +18,7 @@ InputDecoration getInputDecoration(
     ),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadious),
-        borderSide: BorderSide(color: myfieldColor, width: 2.0)),
+        borderSide: BorderSide(color: myfieldColor!, width: 2.0)),
     errorBorder: OutlineInputBorder(
       borderSide: BorderSide(color: errorColor),
       borderRadius: BorderRadius.circular(borderRadious),
@@ -29,7 +29,7 @@ InputDecoration getInputDecoration(
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(borderRadious),
-      borderSide: BorderSide(color: myfieldColor),
+      borderSide: BorderSide(color: myfieldColor!),
     ),
   );
 }
