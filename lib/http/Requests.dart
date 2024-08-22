@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/model/utils.dart';
-import 'package:girlzwhosell/screens/main_menu/navbar_builder_copy.dart';
-import 'package:girlzwhosell/screens/profile/profile_main.dart';
+import 'package:girlzwhosell/dawood/presentation/bottom_navigation/bottom_navigation.dart';
+import 'package:girlzwhosell/dawood/presentation/profile/view/profile.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,28 +83,31 @@ class Requests {
           VisumeUrl = loginModel.seekerDetails![0].resume;
 
           if(!resync){
+            CurrentUserDetails currentUserDetails=CurrentUserDetails(
+              uName: uName,
+              password: pass,
+              user_Id: loginModel.seekerDetails![0].id,
+              cookiee: loginModel.message,
+              jobDetails: loginModel.jobDetails,
+              favoriteJobs: loginModel.favoriteJobs,
+              userDetails: loginModel.seekerDetails,
+              firstName: loginModel.seekerDetails![0].firstname,
+              title: loginModel.seekerDetails![0].jobTitle,
+              profile: loginModel.seekerDetails![0].profilePicture,
+              // city : loginModel.seekerDetails[0].city,
+              nationality: loginModel.seekerDetails![0].city,
+              cv: loginModel.seekerDetails![0].cV,
+              resumee: loginModel.seekerDetails![0].resume,
+              total_applied: loginModel.countOfJobsApplied,
+              total_saved: loginModel.countOfJobsSaved,
+              token1: token1,
+            );
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return HomePage(
-                    uName: uName,
-                    password: pass,
-                    user_Id: loginModel.seekerDetails![0].id,
-                    cookiee: loginModel.message,
-                    jobDetails: loginModel.jobDetails,
-                    favoriteJobs: loginModel.favoriteJobs,
-                    userDetails: loginModel.seekerDetails,
-                    firstName: loginModel.seekerDetails![0].firstname,
-                    title: loginModel.seekerDetails![0].jobTitle,
-                    profile: loginModel.seekerDetails![0].profilePicture,
-                    // city : loginModel.seekerDetails[0].city,
-                    nationality: loginModel.seekerDetails![0].city,
-                    cv: loginModel.seekerDetails![0].cV,
-                    resumee: loginModel.seekerDetails![0].resume,
-                    total_applied: loginModel.countOfJobsApplied,
-                    total_saved: loginModel.countOfJobsSaved,
-                    token1: token1,
+                  return BottomNavigationView(
+                    currentUserDetails: currentUserDetails,
                   );
                 },
               ),
@@ -249,23 +253,26 @@ class Requests {
             curve: Curves.elasticOut,
             reverseCurve: Curves.linear,
           );
+          CurrentUserDetails currentUserDetails=CurrentUserDetails(
+              uName:uName,
+              password:pass,
+              user_Id:loginModel.seekerDetails![0].id,
+              nationality:loginModel.seekerDetails![0].city,
+              userDetails:loginModel.seekerDetails,
+              firstName:loginModel.seekerDetails![0].firstname,
+              title:loginModel.seekerDetails![0].jobTitle,
+              profile:loginModel.seekerDetails![0].profilePicture,
+              city:loginModel.seekerDetails![0].city,
+
+
+          );
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
                 print('nationality in request : $seekerDetails.state');
-                return ProfileMain(
-                  uName: uName,
-                  password: pass,
-                  user_Id: loginModel.seekerDetails![0].id,
-                  userDetails: loginModel.seekerDetails,
-                  firstName: loginModel.seekerDetails![0].firstname,
-                  title: loginModel.seekerDetails![0].jobTitle,
-                  profile: loginModel.seekerDetails![0].profilePicture,
-                  city: loginModel.seekerDetails![0].city,
-                  nationality: loginModel.seekerDetails![0].city,
-                  //token1: token1,
-                );
+
+                return ProfileView(currentUserDetails: currentUserDetails);
               },
             ),
           );

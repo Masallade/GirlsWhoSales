@@ -8,6 +8,7 @@ class ColorManager{
   static final Color error=HexColor.fromHex('#e61f34');
   static final Color darkGrey=HexColor.fromHex('#525252');
   static final Color lightGrey=HexColor.fromHex('#A0A1A3');
+  static final Color black=HexColor.fromHex('#000000');
 }
 
 extension HexColor on Color{

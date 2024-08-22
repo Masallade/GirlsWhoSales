@@ -230,15 +230,15 @@ class utils {
                     button, style: TextStyle(color: Colors.black),)
               ),
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) {
-                //       return SignInPage();
-                //     },
-                //   ),
-                // );
-                //   Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignInPage();
+                    },
+                  ),
+                );
+                  //Navigator.of(context).pop();
               },
             ),
           ],

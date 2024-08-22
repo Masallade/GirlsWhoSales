@@ -1,6 +1,6 @@
 // import 'package:qjobs/model/login_model.dart';
-// import 'package:qjobs/screens/main_menu/more/home_search_copy.dart';
-// import 'package:qjobs/screens/profile/profile_main.dart';
+// import 'package:qjobs/screens/main_menu/more/home.dart';
+// import 'package:qjobs/screens/profile/dashboard.dart';
 // import 'package:qjobs/utils/constants.dart';
 // import 'package:qjobs/widgets/bottom_nav_bar.dart';
 // import 'package:flutter/cupertino.dart';
@@ -8,8 +8,8 @@
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:qjobs/screens/main_menu/home_search.dart';
 // import 'package:qjobs/screens/main_menu/more_settings.dart';
-// import 'package:qjobs/screens/main_menu/profile.dart';
-// import 'package:qjobs/screens/main_menu/shortlisted.dart';
+// import 'package:qjobs/screens/main_menu/dashboard.dart';
+// import 'package:qjobs/screens/main_menu/about_us.dart';
 //
 //
 // class HomePage extends StatefulWidget {

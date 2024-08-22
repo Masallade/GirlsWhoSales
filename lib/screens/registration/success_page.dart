@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:qjobs/screens/main_menu/navbar_builder.dart';
-// import 'package:qjobs/screens/main_menu/navbar_builder_copy.dart';
+// import 'package:qjobs/screens/main_menu/bottom_navigation.dart';
 // import 'package:qjobs/utils/constants.dart';
 // class SuccessPage extends StatefulWidget {
 //   @override

@@ -5,6 +5,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
@@ -19,117 +20,43 @@ import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
 import 'package:http/http.dart' as http;
-import '../../model/total_saved_jobs.dart';
-import '../../utils/constants.dart';
+import '../../../model/total_saved_jobs.dart';
+import '../../../utils/constants.dart';
 
-class Profile extends StatefulWidget {
-  final user_Id;
-  final firstName;
-  final title;
-  final city;
-  String? nationality;
-  final String? total_applied;
-  final String? total_saved;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  final List<AppliedJobDetails>? appliedJobDetails;
-  final List<JobDetails>? jobDetails;
-  final uName;
-  final password;
-  final cv;
-  final resume;
+class DashBoard extends StatefulWidget {
+  final CurrentUserDetails currentUserDetails;
 
-  Profile(
-      {
-        this.city,
-        this.nationality,
-      this.user_Id,
-      this.userDetails,
-      this.title,
-      this.firstName,
-      this.total_saved,
-      this.total_applied,
-      this.favoriteJobs,
-      this.appliedJobDetails,
-      this.jobDetails,
-      this.uName,
-      this.password,
-      this.cv,
-      this.resume});
+  DashBoard({ required this.currentUserDetails});
 
   @override
-  _ProfileState createState() => _ProfileState(
-      user_Id: user_Id,
-      firstName: firstName,
-      total_applied: total_applied,
-      total_saved: total_saved,
-      favoriteJobs: favoriteJobs,
-      userDetails: userDetails,
-      appliedJobDetails: appliedJobDetails,
-      jobDetails: jobDetails,
-      uName: uName,
-      password: password,
-      city : city,
-      nationality: nationality,
-      cv: cv,
-      resume: resume);
+  _DashBoardState createState() => _DashBoardState(currentUserDetails: currentUserDetails);
 }
 
-class _ProfileState extends State<Profile> with TickerProviderStateMixin {
+class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
   // TabController _tabController;
-  final user_Id;
-  final firstName;
-  final title;
-  String? nationality;
-  final String? total_applied;
-  final String? total_saved;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  List<AppliedJobDetails>? appliedJobDetails;
-  final List<JobDetails>? jobDetails;
-  final uName;
-  final password;
-  final cv;
-  final resume;
-  final city;
-
   // Total_Saved_Job total_saved_job;
   // String saved_job_counter = "0";
+  final CurrentUserDetails currentUserDetails;
 
   String? newsavedjob;
 
 
-  _ProfileState(
-      {this.user_Id,
-      this.firstName,
-      this.title,
-        this.city,
-        this.nationality,
-      this.total_applied,
-      this.total_saved,
-      this.favoriteJobs,
-      this.userDetails,
-      this.appliedJobDetails,
-      this.jobDetails,
-      this.uName,
-      this.password,
-      this.cv,
-      this.resume});
+  _DashBoardState({required this.currentUserDetails});
 
 
 
   void initState() {
     super.initState();
-    print('$user_Id');
+    print('${currentUserDetails.user_Id}');
     // getTotalSavedJobs(int.tryParse(user_Id.toString()));
-    print('$firstName');
-    print('$cv');
-    print('$resume');
+    print('${currentUserDetails.firstName}');
+    print('${currentUserDetails.cv}');
+    print('${currentUserDetails.resumee}');
     setState(() {
       if(totalSavedJobs != null){
         newsavedjob = totalSavedJobs;
       }else{
-        newsavedjob = total_saved;
+        newsavedjob = currentUserDetails.total_saved;
       }
 
     });
@@ -152,7 +79,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0, top: 32),
                       child: Text(
-                        StringManager.welcome,
+                        AppString.welcome,
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
@@ -167,7 +94,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     MaterialPageRoute(
                                         builder: ((context) =>
                                             NotificationScreen(
-                                              user_Id: user_Id,
+                                              user_Id: currentUserDetails.user_Id,
                                             ))));
                               },
                               child:
@@ -186,7 +113,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     Padding(
                         padding: const EdgeInsets.only(left: 12.0, top: 60),
                         child: Text(
-                          '$firstName',
+                          '${currentUserDetails.firstName}',
                           style: Theme.of(context).textTheme.displayLarge,
                         )),
                   ],
@@ -201,14 +128,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AllSavedJobs(
-                                  user_Id: user_Id,
-                                  uName: uName,
-                                  password: password,
-                                  firstName: firstName,
-                              cv: cv,
-                              resume: resume,
-                                )));
+                            builder: (context) => AllSavedJobs(currentUserDetails: currentUserDetails,)));
                   },
                   child: Container(
                     height: 150,
@@ -220,7 +140,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          '${StringManager.saved} \n ${StringManager.jobs} ',
+                          '${AppString.saved} \n ${AppString.jobs} ',
                           style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s20),
                         ),
                         Padding(
@@ -244,7 +164,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DashbordAppliedJobs(user_Id: user_Id)));
+                                DashbordAppliedJobs(user_Id: currentUserDetails.user_Id)));
                   },
                   child: Container(
                     height: 150,
@@ -256,13 +176,13 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          '${StringManager.applied} \n ${StringManager.jobs}',
+                          '${AppString.applied} \n ${AppString.jobs}',
                           style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s20),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 60.0),
                           child: Text(
-                            '$total_applied',
+                            '${currentUserDetails.total_applied}',
                             style: getSfRoundedHeavyStyle(color: ColorManager.white,fontSize: FontSize.s35)
                           ),
                         ),
@@ -299,7 +219,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  AllSavedJobs(user_Id: user_Id)));
+                                  AllSavedJobs(currentUserDetails: currentUserDetails)));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -315,7 +235,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       child: Padding(
                         padding: const EdgeInsets.all(AppPadding.p8),
                         child: Text(
-                          StringManager.seeAll,
+                          AppString.seeAll,
                           style: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s16),
                         ),
                       ),
@@ -330,7 +250,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: favoriteJobs == null
+                  child: currentUserDetails.favoriteJobs == null
                       ? Container(
                           child: Center(
                             child: Align(
@@ -347,7 +267,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         )
                       : Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: favoriteJobs!
+                          children: currentUserDetails.favoriteJobs!
                               .asMap()
                               .entries
                               .map(
@@ -355,14 +275,14 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   padding: EdgeInsets.only(right: 12),
                                   child: JobCard2(
                                     favoriteJobs: item.value,
-                                    user_Id: user_Id,
-                                    uName: uName,
-                                    password: password,
-                                    firstName: firstName,
-                                    jobDetails: jobDetails,
-                                    userDetails: userDetails,
-                                    cv: cv,
-                                    resume: resume,
+                                    user_Id: currentUserDetails.user_Id,
+                                    uName: currentUserDetails.uName,
+                                    password: currentUserDetails.password,
+                                    firstName: currentUserDetails.firstName,
+                                    jobDetails: currentUserDetails.jobDetails,
+                                    userDetails: currentUserDetails.userDetails,
+                                    cv: currentUserDetails.cv,
+                                    resume: currentUserDetails.resumee,
                                   ),
                                 ),
                               )

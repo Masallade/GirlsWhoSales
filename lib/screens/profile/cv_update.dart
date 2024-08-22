@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 // import 'package:path/path.dart';
 import 'package:flutter/material.dart';
@@ -24,29 +25,22 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class CVUpdate extends StatefulWidget {
-  final user_id;
-  final List<SeekerDetails>? userDetails;
-  final uName;
-  final password;
+  final CurrentUserDetails currentUserDetails;
 
-  const CVUpdate({Key? key, this.user_id, this.userDetails , this.password,this.uName}) : super(key: key);
+  const CVUpdate({Key? key, required this.currentUserDetails}) : super(key: key);
 
   @override
   State<CVUpdate> createState() =>
-      _CVUpdateState(user_id: user_id, userDetails: userDetails ,password: password,uName: uName);
+      _CVUpdateState(currentUserDetails: currentUserDetails);
 }
 
 class _CVUpdateState extends State<CVUpdate> {
-  final user_id;
-  final List<SeekerDetails>? userDetails;
-  final uName;
-  final password;
-  int? progress;
+  final CurrentUserDetails currentUserDetails;
   ReceivePort _receivePort = ReceivePort();
 
   String? savedDir;
-
-  _CVUpdateState({this.user_id, this.userDetails , this.password,this.uName});
+  int? progress;
+  _CVUpdateState({required this.currentUserDetails});
 
   double prog =0;
   // ProgressDialog? progressD;
@@ -70,7 +64,7 @@ class _CVUpdateState extends State<CVUpdate> {
 
 
   bool isExpanded = false;
-   int? numLines;
+  int? numLines;
   @override
   void initState() {
 
@@ -140,273 +134,273 @@ class _CVUpdateState extends State<CVUpdate> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                 // color: Colors.yellow,
+                // color: Colors.yellow,
                 height: SizeConfig.screenHeight,
                 child: ListView.builder(
-                    itemCount: userDetails!.length,
+                    itemCount: currentUserDetails.userDetails!.length,
                     itemBuilder: (context, index) {
-                      return userDetails![index] != null
+                      return currentUserDetails.userDetails![index] != null
                           ? Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 27.5,right: 27.5),
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 27.5,right: 27.5),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              scale: 2.7,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 33.5,
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20, right: 20.0),
+                                child: Text('Resume',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                      fontSize: 20.0,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CustomFilePicker2(uName: currentUserDetails.uName,password: currentUserDetails.password,user_id: currentUserDetails.user_Id, userDetails:currentUserDetails.userDetails)));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 40.0),
                                   child: Image.asset(
-                                    'assets/images/logo.png',
-                                    scale: 2.7,
-                                  ),
+                                      'assets/images/edit.png'),
                                 ),
-                                SizedBox(
-                                  height: 33.5,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            height: 100,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(20),
+                            width: SizeConfig.screenWidth,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border:
+                              Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                height: 50,
+                                width: 50,
+                                child: Center(
+                                  child: Image.asset(
+                                      'assets/images/pdfbg.png'),
                                 ),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20, right: 20.0),
-                                        child: Text('Resume',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              height: 1.5,
-                                              fontSize: 20.0,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CustomFilePicker2(uName: uName,password: password,user_id: user_id, userDetails:userDetails)));
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: 40.0),
-                                            child: Image.asset(
-                                                'assets/images/edit.png'),
-                                          ),
-                                      ),
-                                    ],
+                              ),
+                              title:
+                              // Text(basename(selectedfile.files.single.path) ?? '${userDetails[index].firstname}.pdf' ),
+                              Text(
+                                '${currentUserDetails.userDetails![index].firstname}.pdf',
+                                softWrap: true,
+                                overflow: TextOverflow.fade,
+                              ),
+
+                              trailing: InkWell(
+                                  onTap: () async {
+                                    final status = await Permission.storage.request();
+                                    if (status.isGranted) {
+                                      if (CVurl != null && CVurl !=  ""
+                                          && CVurl != "https://girlzwhosellcareerconextions.com/API/"){
+
+                                        // if(Platform.isAndroid){
+                                        //   Fluttertoast.showToast(
+                                        //       msg: "Your File is Downloading...",
+                                        //       toastLength: Toast.LENGTH_SHORT,
+                                        //       gravity: ToastGravity.CENTER,
+                                        //       backgroundColor: Colors.blueGrey[300],
+                                        //       timeInSecForIosWeb: 3);
+                                        //
+                                        //   DownloadUserFile(CVurl);
+                                        // }else  if (Platform.isIOS || Platform.isMacOS){
+
+                                        openUrl(CVurl!);
+                                        // }
+
+                                      }else{
+                                        Fluttertoast.showToast(
+                                            msg: "Sorry You Didn't Upload CV/Resume. \n Please Upload Your CV/Resume First.\n Thank You.",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            backgroundColor: Colors.blueGrey[300],
+                                            timeInSecForIosWeb: 3);
+                                      }
+
+                                    }
+                                    else {
+                                      print("Permission deined");
+                                    }
+                                    // showToast(
+                                    //   'DownLOad might be FAiled if you didn\'t upload video',
+                                    //   context: context,
+                                    //   fullWidth: true,
+                                    //   backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                                    //   animation: StyledToastAnimation.slideFromBottomFade,
+                                    //   reverseAnimation: StyledToastAnimation.fade,
+                                    //   position: StyledToastPosition.bottom,
+                                    //   animDuration: Duration(seconds: 1),
+                                    //   duration: Duration(seconds: 3),
+                                    //   curve: Curves.elasticOut,
+                                    //   reverseCurve: Curves.linear,
+                                    // );
+                                  },
+                                  child: Icon(
+                                    Icons.download_outlined,
+                                    size: 30,
+                                    color: Colors.pinkAccent[200],
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text('Video Cv',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        height: 1.5,
+                                        fontSize: 20.0,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                      )),
                                 ),
-                                SizedBox(height: 20),
-                                Container(
-                                    height: 100,
-                                    padding: EdgeInsets.all(10),
-                                    margin: EdgeInsets.all(20),
-                                    width: SizeConfig.screenWidth,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border:
-                                          Border.all(color: Colors.grey[300]!),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                          height: 50,
-                                          width: 50,
-                                          child: Center(
-                                            child: Image.asset(
-                                                'assets/images/pdfbg.png'),
-                                          ),
-                                      ),
-                                      title:
-                                      // Text(basename(selectedfile.files.single.path) ?? '${userDetails[index].firstname}.pdf' ),
-                                      Text(
-                                           '${userDetails![index].firstname}.pdf',
-                                        softWrap: true,
-                                        overflow: TextOverflow.fade,
-                                      ),
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  uploadVideoCv(uName: currentUserDetails.uName,password: currentUserDetails.password,user_id: currentUserDetails.user_Id, userDetails:currentUserDetails.userDetails)));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 40.0),
+                                      child: Image.asset(
+                                          'assets/images/edit.png'),
+                                    )),
+                              ]),
+                          SizedBox(height: 20),
+                          Container(
+                            height: 100,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(20),
+                            // margin: EdgeInsets.only(bottom: 70,),
+                            width: SizeConfig.screenWidth,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border:
+                              Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                  height: 80,
+                                  width: 80,
+                                  child: Image.asset(
+                                      'assets/images/cvbg.png')),
+                              title: Text(
+                                '${currentUserDetails.userDetails![index].firstname}.mp4' ,
+                                // maxLines: isExpanded ? null : 2,
+                                softWrap: true,
+                                overflow: TextOverflow.fade,
+                              ),
+                              //------------------------video
+                              trailing: InkWell(
+                                onTap: () async {
+                                  final status = await Permission.storage.request();
+                                  if (status.isGranted) {
+                                    if (VisumeUrl != null && VisumeUrl !=  ""
+                                        && VisumeUrl != "https://girlzwhosellcareerconextions.com/API/"){
 
-                                      trailing: InkWell(
-                                          onTap: () async {
-                                            final status = await Permission.storage.request();
-                                            if (status.isGranted) {
-                                              if (CVurl != null && CVurl !=  ""
-                                              && CVurl != "https://girlzwhosellcareerconextions.com/API/"){
+                                      // if(Platform.isAndroid){
+                                      //   Fluttertoast.showToast(
+                                      //       msg: "Your File is Downloading...",
+                                      //       toastLength: Toast.LENGTH_SHORT,
+                                      //       gravity: ToastGravity.CENTER,
+                                      //       backgroundColor: Colors.blueGrey[300],
+                                      //       timeInSecForIosWeb: 3);
+                                      //
+                                      //   DownloadUserFile(VisumeUrl);
+                                      // }else if (Platform.isIOS ||  Platform.isMacOS){
 
-                                                // if(Platform.isAndroid){
-                                                //   Fluttertoast.showToast(
-                                                //       msg: "Your File is Downloading...",
-                                                //       toastLength: Toast.LENGTH_SHORT,
-                                                //       gravity: ToastGravity.CENTER,
-                                                //       backgroundColor: Colors.blueGrey[300],
-                                                //       timeInSecForIosWeb: 3);
-                                                //
-                                                //   DownloadUserFile(CVurl);
-                                                // }else  if (Platform.isIOS || Platform.isMacOS){
+                                      openUrl(VisumeUrl!);
+                                      // }
 
-                                                  openUrl(CVurl!);
-                                                // }
 
-                                              }else{
-                                                Fluttertoast.showToast(
-                                                    msg: "Sorry You Didn't Upload CV/Resume. \n Please Upload Your CV/Resume First.\n Thank You.",
-                                                    toastLength: Toast.LENGTH_SHORT,
-                                                    gravity: ToastGravity.CENTER,
-                                                    backgroundColor: Colors.blueGrey[300],
-                                                    timeInSecForIosWeb: 3);
-                                              }
+                                    }else{
+                                      Fluttertoast.showToast(
+                                          msg: "Sorry You Didn't Upload Visume. \n Please Upload Your Visume First.\n Thank You.",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          backgroundColor: Colors.blueGrey[300],
+                                          timeInSecForIosWeb: 3);
+                                    }
 
-                                            }
-                                            else {
-                                              print("Permission deined");
-                                            }
-                                            // showToast(
-                                            //   'DownLOad might be FAiled if you didn\'t upload video',
-                                            //   context: context,
-                                            //   fullWidth: true,
-                                            //   backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-                                            //   animation: StyledToastAnimation.slideFromBottomFade,
-                                            //   reverseAnimation: StyledToastAnimation.fade,
-                                            //   position: StyledToastPosition.bottom,
-                                            //   animDuration: Duration(seconds: 1),
-                                            //   duration: Duration(seconds: 3),
-                                            //   curve: Curves.elasticOut,
-                                            //   reverseCurve: Curves.linear,
-                                            // );
-                                          },
-                                          child: Icon(
-                                            Icons.download_outlined,
-                                            size: 30,
-                                            color: Colors.pinkAccent[200],
-                                          )),
-                                    ),
+                                  }
+                                  else {
+                                    print("Permission deined");
+                                  }
+                                  // showToast(
+                                  //   'DownLOad might be FAiled if you didn\'t upload video',
+                                  //   context: context,
+                                  //   fullWidth: true,
+                                  //   backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
+                                  //   animation: StyledToastAnimation.slideFromBottomFade,
+                                  //   reverseAnimation: StyledToastAnimation.fade,
+                                  //   position: StyledToastPosition.bottom,
+                                  //   animDuration: Duration(seconds: 1),
+                                  //   duration: Duration(seconds: 3),
+                                  //   curve: Curves.elasticOut,
+                                  //   reverseCurve: Curves.linear,
+                                  // );
+                                },
+                                child: Icon(
+                                  Icons.download_outlined,
+                                  size: 30,
+                                  color: Colors.pinkAccent[200],
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20),
-                                        child: Text('Video Cv',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              height: 1.5,
-                                              fontSize: 20.0,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        uploadVideoCv(uName: uName,password: password,user_id: user_id, userDetails:userDetails)));
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: 40.0),
-                                            child: Image.asset(
-                                                'assets/images/edit.png'),
-                                          )),
-                                    ]),
-                                 SizedBox(height: 20),
-                                Container(
-                                    height: 100,
-                                    padding: EdgeInsets.all(10),
-                                    margin: EdgeInsets.all(20),
-                                  // margin: EdgeInsets.only(bottom: 70,),
-                                    width: SizeConfig.screenWidth,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border:
-                                      Border.all(color: Colors.grey[300]!),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                          height: 80,
-                                          width: 80,
-                                          child: Image.asset(
-                                              'assets/images/cvbg.png')),
-                                      title: Text(
-                                          '${userDetails![index].firstname}.mp4' ,
-                                       // maxLines: isExpanded ? null : 2,
-                                        softWrap: true,
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                      //------------------------video
-                                      trailing: InkWell(
-                                          onTap: () async {
-                                            final status = await Permission.storage.request();
-                                            if (status.isGranted) {
-                                              if (VisumeUrl != null && VisumeUrl !=  ""
-                                              && VisumeUrl != "https://girlzwhosellcareerconextions.com/API/"){
+                              ),
+                            ),
+                          ),
+                          SizedBox(
 
-                                                // if(Platform.isAndroid){
-                                                //   Fluttertoast.showToast(
-                                                //       msg: "Your File is Downloading...",
-                                                //       toastLength: Toast.LENGTH_SHORT,
-                                                //       gravity: ToastGravity.CENTER,
-                                                //       backgroundColor: Colors.blueGrey[300],
-                                                //       timeInSecForIosWeb: 3);
-                                                //
-                                                //   DownloadUserFile(VisumeUrl);
-                                                // }else if (Platform.isIOS ||  Platform.isMacOS){
-
-                                                  openUrl(VisumeUrl!);
-                                                // }
-
-
-                                              }else{
-                                                Fluttertoast.showToast(
-                                                    msg: "Sorry You Didn't Upload Visume. \n Please Upload Your Visume First.\n Thank You.",
-                                                    toastLength: Toast.LENGTH_SHORT,
-                                                    gravity: ToastGravity.CENTER,
-                                                    backgroundColor: Colors.blueGrey[300],
-                                                    timeInSecForIosWeb: 3);
-                                              }
-
-                                            }
-                                            else {
-                                              print("Permission deined");
-                                            }
-                                            // showToast(
-                                            //   'DownLOad might be FAiled if you didn\'t upload video',
-                                            //   context: context,
-                                            //   fullWidth: true,
-                                            //   backgroundColor: Colors.pinkAccent[200].withOpacity(0.6),
-                                            //   animation: StyledToastAnimation.slideFromBottomFade,
-                                            //   reverseAnimation: StyledToastAnimation.fade,
-                                            //   position: StyledToastPosition.bottom,
-                                            //   animDuration: Duration(seconds: 1),
-                                            //   duration: Duration(seconds: 3),
-                                            //   curve: Curves.elasticOut,
-                                            //   reverseCurve: Curves.linear,
-                                            // );
-                                          },
-                                          child: Icon(
-                                            Icons.download_outlined,
-                                            size: 30,
-                                            color: Colors.pinkAccent[200],
-                                          ),
-                                      ),
-                                    ),
-                                ),
-                                 SizedBox(
-
-                                 child: Container(
-                                   margin: EdgeInsets.only(top: 50),
-                                   // child: Text('bnjdks', style: TextStyle(
-                                   //   color: Colors.pink
-                                   // ),
-                                   // ),
-                                 ),
-                                 ),
-                              ],
-                            )
+                            child: Container(
+                              margin: EdgeInsets.only(top: 50),
+                              // child: Text('bnjdks', style: TextStyle(
+                              //   color: Colors.pink
+                              // ),
+                              // ),
+                            ),
+                          ),
+                        ],
+                      )
 
 
 
                           : Container();
                     }
-                    ),
+                ),
               ),
             )
           ],
@@ -451,13 +445,13 @@ class _CVUpdateState extends State<CVUpdate> {
           });
         },
         onDownloadCompleted: (value) {
-            print('path  $value ');
-            Fluttertoast.showToast(
-                msg: "Your File is Downloaded Successfully \n $value.",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                backgroundColor: Colors.blueGrey[300],
-                timeInSecForIosWeb: 3);
+          print('path  $value ');
+          Fluttertoast.showToast(
+              msg: "Your File is Downloaded Successfully \n $value.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.blueGrey[300],
+              timeInSecForIosWeb: 3);
         });
 
 
@@ -473,45 +467,45 @@ class _CVUpdateState extends State<CVUpdate> {
     }
   }
 
-  // void downloadFile(String url)async{
-  //   var dio  = Dio();
-  //   Directory directory = await getApplicationDocumentsDirectory();
-  //   var response = await dio.download(url,
-  //   "${directory.path}/file.png");
-  //   print(response.statusCode);
-  // }s
+// void downloadFile(String url)async{
+//   var dio  = Dio();
+//   Directory directory = await getApplicationDocumentsDirectory();
+//   var response = await dio.download(url,
+//   "${directory.path}/file.png");
+//   print(response.statusCode);
+// }s
 
-  //=======================  https://www.youtube.com/watch?v=C7KPX8sqlUU
+//=======================  https://www.youtube.com/watch?v=C7KPX8sqlUU
 
-  // _downloadFile(
-  //     String downloadPath,
-  //     String destPath)async{
-  //     _cancelToken  = CancelToken();
-  //     _downloading = true;
-  //     try{
-  //       await DioClient.dio.download(downloadPath,destPath,cancelToken:_cancelToken,
-  //       OnReceiveProgress:(int received, int total){
-  //         if (total != -1){
-  //           if(!_cancelToken.isCancelled){
-  //             setState(() {
-  //               _downloadRatio = (received/total);
-  //               if (_downloadRatio == 1){
-  //                 _downloading = false;
-  //               }
-  //               _downloadIndicator =
-  //               (_downloadRatio*100).toStringAsFixed(2)+ '%';
-  //             });
-  //           }
-  //         }
-  //       });
-  //     }on DioError  catch(e){
-  //       if(CancelToken.isCancel(e)){
-  //         debugPrint("Request canceled!"+e.message);
-  //       }
-  //     } on Exception catch (e){
-  //       debugPrint(e.toString());
-  //     }
-  // }
+// _downloadFile(
+//     String downloadPath,
+//     String destPath)async{
+//     _cancelToken  = CancelToken();
+//     _downloading = true;
+//     try{
+//       await DioClient.dio.download(downloadPath,destPath,cancelToken:_cancelToken,
+//       OnReceiveProgress:(int received, int total){
+//         if (total != -1){
+//           if(!_cancelToken.isCancelled){
+//             setState(() {
+//               _downloadRatio = (received/total);
+//               if (_downloadRatio == 1){
+//                 _downloading = false;
+//               }
+//               _downloadIndicator =
+//               (_downloadRatio*100).toStringAsFixed(2)+ '%';
+//             });
+//           }
+//         }
+//       });
+//     }on DioError  catch(e){
+//       if(CancelToken.isCancel(e)){
+//         debugPrint("Request canceled!"+e.message);
+//       }
+//     } on Exception catch (e){
+//       debugPrint(e.toString());
+//     }
+// }
 
 
 

@@ -11,7 +11,7 @@
 // import 'package:qjobs/screens/main_menu/home_screens_contant/home/home_popular_jobs.dart';
 // import 'package:qjobs/screens/main_menu/home_screens_contant/home/home_recent_jobs.dart';
 // import 'package:qjobs/screens/main_menu/home_screens_contant/home/home_sub_header.dart';
-// import 'package:qjobs/screens/profile/profile_main.dart';
+// import 'package:qjobs/screens/profile/dashboard.dart';
 // import 'package:qjobs/utils/constants.dart';
 // import 'package:qjobs/utils/size_config.dart';
 // import 'package:qjobs/widgets/job_card.dart';

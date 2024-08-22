@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/screens/SavedItem_detail.dart';
 import 'package:girlzwhosell/utils/constants.dart';
@@ -7,65 +8,31 @@ import 'package:girlzwhosell/utils/size_config.dart';
 import 'package:http/http.dart' as http;
 
 class AllSavedJobs extends StatefulWidget {
-  final user_Id;
-  final String? firstName;
-  final uName;
-  final password;
-  final List<SavedJobs>? savedJobs;
-  final cv;
-  final resume;
-
+  final CurrentUserDetails currentUserDetails;
   const AllSavedJobs(
-      {Key? key,
-      this.user_Id,
-      this.firstName,
-      this.uName,
-      this.password,
-      this.savedJobs,
-      this.cv,
-      this.resume})
+      {Key? key,required this.currentUserDetails})
       : super(key: key);
 
   @override
-  _AllSavedJobsState createState() => _AllSavedJobsState(
-      user_Id: user_Id,
-      uName: uName,
-      password: password,
-      firstName: firstName,
-      savedJobs: savedJobs,
-      cv: cv,
-      resume: resume);
+  _AllSavedJobsState createState() => _AllSavedJobsState(currentUserDetails: currentUserDetails);
 }
 
 class _AllSavedJobsState extends State<AllSavedJobs> {
-  final user_Id;
-  final uName;
-  final password;
-  final String? firstName;
-  List<SavedJobs>? savedJobs;
-  final cv;
-  final resume;
+  CurrentUserDetails currentUserDetails;
   bool isloading = false;
-  _AllSavedJobsState(
-      {this.user_Id,
-      this.uName,
-      this.password,
-      this.firstName,
-      this.savedJobs,
-      this.cv,
-      this.resume});
+  _AllSavedJobsState({required this.currentUserDetails});
 
   Future<String> loadViewData() async {
-    savedJobs = await request(context, false);
+    currentUserDetails.savedJobs = await request(context, false);
     return "OK";
   }
 
   void initState() {
     super.initState();
-    print('$user_Id');
-    print('uname: $uName');
-    print('Pass$password');
-    print('name $firstName');
+    print('${currentUserDetails.user_Id}');
+    print('uname: ${currentUserDetails.uName}');
+    print('Pass${currentUserDetails.password}');
+    print('name ${currentUserDetails.firstName}');
     //  appiedDashboadJobs();
   }
 
@@ -107,7 +74,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                     scrollDirection: Axis.vertical,
                     child: Container(
                       height: SizeConfig.screenHeight! *0.9,
-                      child: savedJobs == null
+                      child: currentUserDetails.savedJobs == null
                           ? Container(
                               child: Center(
                                 child: Text(
@@ -119,7 +86,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: savedJobs!.length,
+                              itemCount: currentUserDetails.savedJobs!.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -130,13 +97,13 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               SavedScreenDetailTwo(
-                                            savedJobs: savedJobs![index],
-                                            user_Id: user_Id,
-                                            uName: uName,
-                                            password: password,
-                                            firstName: firstName,
-                                            cv: cv,
-                                            resume: resume,
+                                            savedJobs: currentUserDetails.savedJobs![index],
+                                            user_Id: currentUserDetails.user_Id,
+                                            uName: currentUserDetails.uName,
+                                            password: currentUserDetails.password,
+                                            firstName: currentUserDetails.firstName,
+                                            cv: currentUserDetails.cv,
+                                            resume: currentUserDetails.resumee,
                                           ),
                                         ),
                                       );
@@ -155,13 +122,13 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                             height: 50,
                                             width: 50,
                                             child: Image.network(
-                                                savedJobs![index].companyLogo!),
+                                                currentUserDetails.savedJobs![index].companyLogo!),
                                           ),
                                           title: Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 30.0),
                                             child: Text(
-                                              '${savedJobs![index].title}',
+                                              '${currentUserDetails.savedJobs![index].title}',
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontSize: 20,
@@ -181,7 +148,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                                       const EdgeInsets.only(
                                                           left: 30.0),
                                                   child: Text(
-                                                    '${savedJobs![index].companyName}',
+                                                    '${currentUserDetails.savedJobs![index].companyName}',
                                                     style: TextStyle(
                                                       fontFamily: 'Questrial',
                                                       fontStyle:
@@ -205,8 +172,8 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
                                                   alignment:
                                                       Alignment.topLeft,
                                                   child: Text(
-                                                    ' \$ ${savedJobs![index].minSalary! + '-'}' +
-                                                        '\$${savedJobs![index].maxSalary! + '/month'}',
+                                                    ' \$ ${currentUserDetails.savedJobs![index].minSalary! + '-'}' +
+                                                        '\$${currentUserDetails.savedJobs![index].maxSalary! + '/month'}',
                                                     style: TextStyle(
                                                       fontFamily: 'Questrial',
                                                       fontStyle:
@@ -264,7 +231,7 @@ class _AllSavedJobsState extends State<AllSavedJobs> {
   Future<List<SavedJobs>?> request(
       BuildContext context, bool showLoading) async {
     String get_key_url =
-        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
+        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${currentUserDetails.user_Id}";
 
     // http.Response response;
     try {

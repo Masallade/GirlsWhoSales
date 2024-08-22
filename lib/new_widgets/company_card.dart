@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
-import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/path_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/style_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -43,7 +43,7 @@ class CompanyCard extends StatelessWidget {
                 leading: Container(
                     width: 40,
                     height: 40,
-                    child:jobDetails!.companyLogo==StringManager.noCompanyLogoErrorHandler?
+                    child:jobDetails!.companyLogo==PathManager.noCompanyLogoErrorHandler?
                     SizedBox(
                       height: AppSize.s50,
                       child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),
@@ -211,7 +211,7 @@ class AllJobCard extends StatelessWidget {
                 leading: Container(
                     width: 60,
                     height: 60,
-                    child:jobDetails!.companyLogo==StringManager.noCompanyLogoErrorHandler?SizedBox(height: AppSize.s50,child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),): Image.network(jobDetails!.companyLogo ?? Image.asset('assets/images/splashlogo.png') as String)),
+                    child:jobDetails!.companyLogo==PathManager.noCompanyLogoErrorHandler?SizedBox(height: AppSize.s50,child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),): Image.network(jobDetails!.companyLogo ?? Image.asset('assets/images/splashlogo.png') as String)),
                 title: Column(
                     children: [
                       SizedBox(height: 10,),

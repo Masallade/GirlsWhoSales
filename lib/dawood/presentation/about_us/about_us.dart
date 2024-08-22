@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Shortlisted extends StatefulWidget {
+class AboutUsView extends StatefulWidget {
   @override
-  _ShortlistedState createState() => _ShortlistedState();
+  _AboutUsViewState createState() => _AboutUsViewState();
 }
 
-class _ShortlistedState extends State<Shortlisted> {
+class _AboutUsViewState extends State<AboutUsView> {
   Future<void>? launched;
 
   Future<void> _launchInBrowser(String url) async {

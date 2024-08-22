@@ -97,12 +97,15 @@ ThemeData getApplicationTheme(){
     textTheme: TextTheme(
       displayLarge: getSfRoundedHeavyStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s32),
       displayMedium: getSfRoundedBold(color: ColorManager.pinkPrimary,fontSize: FontSize.s28),
-        displaySmall: getSfRoundedBold(color: ColorManager.bluePrimary,fontSize: FontSize.s16),
-      titleMedium: getQuestrialRegularStyle(color: ColorManager.pinkPrimary,fontSize:FontSize.s16 ),
+      displaySmall: getSfRoundedBold(color: ColorManager.bluePrimary,fontSize: FontSize.s16),
 
+      titleMedium: getQuestrialRegularStyle(color: ColorManager.pinkPrimary,fontSize:FontSize.s20 ),
       titleLarge: getSfTextSemiBoldStyle(color: ColorManager.white,fontSize: FontSize.s16),
+
       bodySmall: getQuestrialRegularStyle(color: ColorManager.white,fontSize: FontSize.s12),
-      bodyLarge: getSfTextMediumStyle(color: ColorManager.pinkPrimary,fontSize: FontSize.s14)
+      bodyLarge: getSfTextMediumStyle(color: ColorManager.pinkPrimary,fontSize: FontSize.s18),
+      bodyMedium: getQuestrialRegularStyle(color: ColorManager.black,fontSize: FontSize.s16)
+
     )
   );
      //************************Text theme***End***********************

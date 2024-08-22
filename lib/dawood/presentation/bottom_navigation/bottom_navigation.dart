@@ -1,146 +1,43 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/style_manager.dart';
 import 'package:girlzwhosell/model/PushNotificationMessage%20_model.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
-import 'package:girlzwhosell/screens/main_menu/more/home_search_copy.dart';
-import 'package:girlzwhosell/screens/main_menu/profile.dart';
-import 'package:girlzwhosell/screens/main_menu/shortlisted.dart';
-import 'package:girlzwhosell/screens/profile/profile_main.dart';
+import 'package:girlzwhosell/dawood/presentation/home/view/home.dart';
+import 'package:girlzwhosell/dawood/presentation/dashboard/dashboard.dart';
+import 'package:girlzwhosell/dawood/presentation/about_us/about_us.dart';
+import 'package:girlzwhosell/dawood/presentation/profile/view/profile.dart';
 import 'package:http/http.dart' as http;
 
-import '../../http/Requests.dart';
-import '../../model/SavedJobsModel.dart';
-import '../../model/total_notification.dart';
-import '../../user_preferences/user_pref_manager.dart';
-import '../../utils/constants.dart';
-import 'more/home_search_copy.dart';
+import '../../../http/Requests.dart';
+import '../../../model/SavedJobsModel.dart';
+import '../../../model/total_notification.dart';
+import '../../../user_preferences/user_pref_manager.dart';
+import '../../../utils/constants.dart';
+import '../home/view/home.dart';
 
 // ignore: must_be_immutable
-class HomePage extends StatefulWidget {
-  final uName;
-  final password;
-  final user_Id;
-  final cookiee;
-  final firstName;
-  final title;
-  final phoneno;
-  final profile;
-  final email;
-  final cv;
-  final resumee;
-  final String? total_applied;
-  final String? total_saved;
-  final jobId;
-  final city;
-  String? nationality;
+class BottomNavigationView extends StatefulWidget {
+  final CurrentUserDetails currentUserDetails;
 
-  final List<JobDetails>? jobDetails;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  final String? token1;
-  PushNotificationMessage? notificationInfo;
-
-  HomePage(
-      {Key? key,
-      this.uName,
-      this.password,
-        this.nationality,
-      this.user_Id,
-      this.cookiee,
-      this.jobDetails,
-      this.jobId,
-      this.favoriteJobs,
-      this.userDetails,
-      this.firstName,
-      this.title,
-      this.profile, this.city,
-      this.phoneno,
-      this.email,
-      this.resumee,
-      this.cv,
-      this.total_applied,
-      this.total_saved,
-      this.token1})
-      : super(key: key);
+  BottomNavigationView({Key? key, required this.currentUserDetails}): super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState(
-        uName: uName,
-        password: password,
-        user_Id: user_Id,
-        cookiee: cookiee,
-        jobDetails: jobDetails,
-        favoriteJobs: favoriteJobs,
-        userDetails: userDetails,
-        firstName: firstName,
-        title: title,
-        phoneno: phoneno,
-        nationality :nationality,
-        profile: profile,
-        email: email,
-        cv: cv,
-        city : city,
-        resumee: resumee,
-        total_applied: total_applied,
-        total_saved: total_saved,
-        token1: token1,
-      );
+  _BottomNavigationViewState createState() => _BottomNavigationViewState(
+    currentUserDetails: currentUserDetails
+  );
 }
 
-class _HomePageState extends State<HomePage> {
-  final uName;
-  final password;
-  final user_Id;
-  final cookiee;
-  final firstName;
-  String? nationality;
-  String? title;
-  String? phoneno;
-  String? profile;
-  String? email;
-  String? location;
-  String? Location;
-  String? cv;
-  String? resumee;
-  final String? total_applied;
-  final String? total_saved;
-  final jobId;
-  final city;
+class _BottomNavigationViewState extends State<BottomNavigationView> {
+  final CurrentUserDetails currentUserDetails;
 
-  List<JobDetails>? jobDetails;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  String? token1;
-  PushNotificationMessage? notificationInfo;
-
-   List<SavedJobs>? savedJobs;
-
-  _HomePageState(
-      {this.uName,
-      this.password,
-      this.user_Id,
-      this.cookiee,
-      this.jobId,
-      this.jobDetails,
-        this.nationality,
-      this.favoriteJobs,
-      this.userDetails,
-      this.firstName,
-      this.title,
-      this.phoneno,
-      this.profile,
-      this.email,
-      this.cv,
-      this.resumee,
-      this.total_applied,
-      this.total_saved,
-        this.city,
-      this.token1});
+  _BottomNavigationViewState({required this.currentUserDetails});
 
 
 
@@ -153,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   onItemSelected(int pageIndex) {
-    SharedPreferencesManager.getTotalSavedJobs(int.tryParse(user_Id));
+    SharedPreferencesManager.getTotalSavedJobs(int.tryParse(currentUserDetails.user_Id));
     pageController!.animateToPage(
       pageIndex,
       duration: Duration(milliseconds: 50),
@@ -162,7 +59,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> loadViewData() async {
-    savedJobs = await request(context, false);
+    currentUserDetails.savedJobs = await request(context, false);
     return "OK";
   }
 
@@ -171,23 +68,23 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     pageController = PageController();
-     u_Name = uName;
-     u_password= password;
-     u_Id = user_Id;
-     u_firstName = firstName;
-     u_jobId= jobId;
+     u_Name = currentUserDetails.uName;
+     u_password= currentUserDetails.password;
+     u_Id = currentUserDetails.user_Id;
+     u_firstName = currentUserDetails.firstName;
+     u_jobId= currentUserDetails.jobId;
 
-    print('uName is $uName');
-    print('name $firstName');
-    print('nationality meri: $nationality');
-    print('title $title');
-    print('pass is $password');
+    print('uName is ${currentUserDetails.uName}');
+    print('name ${currentUserDetails.firstName}');
+    print('nationality meri: ${currentUserDetails.nationality}');
+    print('title ${currentUserDetails.title}');
+    print('pass is ${currentUserDetails.password}');
     // print('token is $token1');
     // print('ProfilePic is $profile');
-    print('cv is $cv');
-    print ("cv url is $CVurl");
-    print('city is : $city');
-    print('resume is $resumee');
+    print('cv is ${currentUserDetails.cv}');
+    print ("cv url is CVurl");
+    print('city is : ${currentUserDetails.city}');
+    print('resume is ${currentUserDetails.resumee}');
     print("Resme  url is $VisumeUrl");
 
     loadViewData();
@@ -196,7 +93,7 @@ class _HomePageState extends State<HomePage> {
       TotalNotifiction();
     });
 
-    Requests.getJobDetails(int.tryParse(user_Id.toString()));
+    Requests.getJobDetails(int.tryParse(currentUserDetails.user_Id.toString()));
   }
 
   @override
@@ -207,28 +104,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool isSelected = false;
+
   Future<bool> _exitApp() {
     return showDialog(
+          context: context,
           builder: (context) => AlertDialog(
-            title: Text('Do you want to exit this application?'),
+            title: Text(AppString.exitAppMsgTitle,style: Theme.of(context).textTheme.displayMedium,),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  print("you choose no");
                   Navigator.of(context).pop(false);
                 },
                 child: Text(
-                  'No',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                  AppString.no,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                  ),
-                  primary: Colors.blue[800],
+                  ), backgroundColor: Colors.blue[800],
                 ),
               ),
               ElevatedButton(
@@ -237,22 +131,18 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(builder: (context) => SignInPage()));
                 },
                 child: Text(
-                  'Yes',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                  AppString.yes,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                  ),
-                  primary: Colors.blue[800],
+                  ), backgroundColor: Colors.blue[800],
                 ),
               )
             ],
           ),
-          context: context,
+
         ).then((value) => value as bool) ??
         false as Future<bool>;
   }
@@ -263,49 +153,15 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () => _exitApp(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(StringManager.home),
+          title: Text(AppString.home),
         ),
         backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
-            HomeSearch(
-              uName: uName,
-              password: password,
-              user_Id: user_Id,
-              firstName: firstName,
-              jobDetails: jobDetails,
-              favoriteJobs: favoriteJobs,
-              userDetails: userDetails,
-              jobId: jobId,
-              nationality : nationality,
-              cv: cv,
-              resume: resumee,
-              totalNotification: totalNotification.totalCountNotf,
-            ),
-            Profile(
-                user_Id: user_Id,
-                firstName: firstName,
-                total_applied: total_applied,
-                total_saved: total_saved,
-                favoriteJobs: favoriteJobs,
-                uName: uName,
-                city: city,
-                password: password,
-                nationality : nationality,
-                cv: cv,
-                resume: resumee),
-            ProfileMain(
-                uName: uName,
-                password: password,
-                user_Id: user_Id,
-                firstName: firstName,
-                title: title,
-                profile: profile,
-                city : city,
-                nationality : nationality,
-                userDetails: userDetails,
-            ),
-            Shortlisted(),
+            HomeView(currentUserDetails: currentUserDetails,),
+            DashBoard(currentUserDetails: currentUserDetails),
+            ProfileView(currentUserDetails: currentUserDetails,),
+            AboutUsView(),
           ],
           controller: pageController,
           physics: NeverScrollableScrollPhysics(),
@@ -361,7 +217,7 @@ class _HomePageState extends State<HomePage> {
 
   // ignore: missing_return
   Future <TotalNotification?> TotalNotifiction() async {
-    final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$user_Id";
+    final url = "https://girlzwhosellcareerconextions.com/API/total_notifications.php?seeker_id=$currentUserDetails.user_Id";
     try{
       final http.Response response = await http.get(Uri.parse(url));
       if(response.statusCode == 200 ){
@@ -381,7 +237,7 @@ class _HomePageState extends State<HomePage> {
   Future<List<SavedJobs>?> request(
       BuildContext context, bool showLoading) async {
     String get_key_url =
-        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${user_Id}";
+        "https://girlzwhosellcareerconextions.com/API/fetch_saved_jobs.php?user_id=${currentUserDetails.user_Id}";
 
     // http.Response response;
     try {

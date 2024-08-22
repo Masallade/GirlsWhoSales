@@ -1,55 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:girlzwhosell/screens/profile/profile_main.dart';
+import 'package:girlzwhosell/dawood/presentation/profile/view/profile.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/constants2.dart';
 
 
 
 
-AppBar header(context, {required String titleText}) {
-  // ignore: deprecated_member_use
-  Icon customIcon = Icon(FontAwesomeIcons.search , color: kAccentColor);
-  Widget customSearchBar = Text(
-    titleText,
-    style: TextStyle(
-      fontSize: 25.0,
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-    ),
-  );
-  return AppBar(
-    automaticallyImplyLeading: false,
-    title: customSearchBar,
-    backgroundColor: Colors.red[100],
-   // backgroundColor: kAccentColor,
-    actions: <Widget>[
-      IconButton(
-        onPressed: () {
-          showSearch(context: context, delegate: DataSearch());
-        },
-        icon: customIcon,
-      ),
-      IconButton(
-        onPressed: () {},
-        icon: Icon(FontAwesomeIcons.bell , color: kAccentColor),
-      ),
-      Hero(
-        tag: 'profileImage',
-        child: Padding(
-          padding: const EdgeInsets.only(left:10.0,right: 10.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileMain()));
-            },
-            child: Icon(FontAwesomeIcons.user , color: kAccentColor),
-          ),
-        ),
-      ),
-    ],
-    elevation: 3,
-  );
-}
+// AppBar header(context, {required String titleText}) {
+//   // ignore: deprecated_member_use
+//   Icon customIcon = Icon(FontAwesomeIcons.search , color: kAccentColor);
+//   Widget customSearchBar = Text(
+//     titleText,
+//     style: TextStyle(
+//       fontSize: 25.0,
+//       color: Colors.white,
+//       fontWeight: FontWeight.bold,
+//     ),
+//   );
+//   return AppBar(
+//     automaticallyImplyLeading: false,
+//     title: customSearchBar,
+//     backgroundColor: Colors.red[100],
+//    // backgroundColor: kAccentColor,
+//     actions: <Widget>[
+//       IconButton(
+//         onPressed: () {
+//           showSearch(context: context, delegate: DataSearch());
+//         },
+//         icon: customIcon,
+//       ),
+//       IconButton(
+//         onPressed: () {},
+//         icon: Icon(FontAwesomeIcons.bell , color: kAccentColor),
+//       ),
+//       Hero(
+//         tag: 'profileImage',
+//         child: Padding(
+//           padding: const EdgeInsets.only(left:10.0,right: 10.0),
+//           child: GestureDetector(
+//             onTap: () {
+//               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileMain()));
+//             },
+//             child: Icon(FontAwesomeIcons.user , color: kAccentColor),
+//           ),
+//         ),
+//       ),
+//     ],
+//     elevation: 3,
+//   );
+// }
 
 AppBar header2(context, {bool isAppTitle=false, String? titleText,  actions}) {
 

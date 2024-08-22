@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:girlzwhosell/User_profile/Edit_Profile.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/fullscreen.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -16,34 +17,16 @@ import 'package:flutter/material.dart';
 
 
 class EditProfilePage extends StatefulWidget {
-  final country;
-  final uName;
-  final password;
-  final user_Id;
-  final profile;
-  final city;
-  String? nationality;
-  final List<SeekerDetails>? userDetails;
-  final List<JobDetails>? jobDetails;
-  final String? firstName;
-  EditProfilePage({this.uName,this.password,this.user_Id,this.profile, this.city, this.userDetails,this.firstName, this.nationality, this.country, this.jobDetails});
+  final CurrentUserDetails currentUserDetails;
+
+  EditProfilePage({required this.currentUserDetails});
   @override
-  _EditProfilePageState createState() =>
-      _EditProfilePageState(uName:uName, nationality: nationality, password: password, city: city, user_Id: user_Id,profile: profile, userDetails: userDetails, country: country, jobDetails: jobDetails);
+  _EditProfilePageState createState() => _EditProfilePageState(currentUserDetails: currentUserDetails);
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final uName;
-  final password;
-  final user_Id;
-  final profile;
-  final country;
-  final city;
-  String? nationality;
-  final List<SeekerDetails>? userDetails;
-  final List<JobDetails>? jobDetails;
-  _EditProfilePageState({
-    this.uName,this.password, this.nationality, this.user_Id,this.profile, this.userDetails, this.country, this.jobDetails, this.city});
+  final CurrentUserDetails currentUserDetails;
+  _EditProfilePageState({required this.currentUserDetails});
 
 
   TextEditingController dateCtl = TextEditingController();
@@ -57,11 +40,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void initState(){
     super.initState();
-    print('$user_Id');
-    print('Profile :  $profile');
-    print('$uName');
-    print('$password');
-    print('City is my profile before edit: $nationality');
+    print('${currentUserDetails.user_Id}');
+    print('Profile :  ${currentUserDetails.profile}');
+    print('${currentUserDetails.uName}');
+    print('${currentUserDetails.password}');
+    print('City is my profile before edit: ${currentUserDetails.nationality}');
   }
 
   DateTime? _date = DateTime.now();
@@ -109,7 +92,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         actions: [
           GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage1(uName: uName,password: password,  user_Id: user_Id,profile: profile, userDetails: userDetails, country: country, jobDetails: jobDetails, city : city, nationality : nationality)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage1(uName: currentUserDetails.uName,password: currentUserDetails.password,  user_Id: currentUserDetails.user_Id,profile: currentUserDetails.profile, userDetails: currentUserDetails.userDetails, country: null, jobDetails: currentUserDetails.jobDetails, city : currentUserDetails.city, nationality :currentUserDetails.nationality)));
               },
               child: Image.asset('assets/images/edit.png' , color: Colors.black,))],
       ),
@@ -120,7 +103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: SizeConfig.screenHeight,
                 // width:SizeConfig.screenWidth,
                 child: ListView.builder(
-                    itemCount: userDetails!.length == null ? 0 : userDetails!.length,
+                    itemCount: currentUserDetails.userDetails!.length == null ? 0 : currentUserDetails.userDetails!.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
@@ -130,7 +113,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (_) {
                                     return FullScreenImage(
-                                      imageUrl: userDetails![index].profilePicture,
+                                      imageUrl: currentUserDetails.userDetails![index].profilePicture,
                                       tag: "generate_a_unique_tag",
                                     );
                                   }));
@@ -142,15 +125,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               child: ClipOval(
                                 child: CircleAvatar(
                                   backgroundColor: Colors.transparent,
-                                  child: Image.network(userDetails![index].profilePicture ?? Placeholder() as String, fit: BoxFit.cover ,width: 100,height: 100,),
+                                  child: Image.network(currentUserDetails.userDetails![index].profilePicture ?? Placeholder() as String, fit: BoxFit.cover ,width: 100,height: 100,),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(height: 16,),
-                          Text('${userDetails![index].firstname ?? ""}' , style: HeadingStyle,),
+                          Text('${currentUserDetails.userDetails![index].firstname ?? ""}' , style: HeadingStyle,),
                           SizedBox(height: 5,),
-                          Text('${userDetails![index].jobTitle ?? ""}' , style: subtitleStyle,),
+                          Text('${currentUserDetails.userDetails![index].jobTitle ?? ""}' , style: subtitleStyle,),
                           SizedBox(height: 40,),
                           Container(
                             child: ListTile(
@@ -165,14 +148,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       color: Color.fromRGBO(113, 126, 149, 1)
                                   ),),
                                   // Text('${userDetails[index].mobileNumber ?? ""}',
-                                  Text('${userDetails![index].mobileNumber ?? ""}' ,
+                                  Text('${currentUserDetails.userDetails![index].mobileNumber ?? ""}' ,
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Questrial',
-                                      color: Color.fromRGBO(34, 34, 34, 1)
-                                  ),),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontFamily: 'Questrial',
+                                        color: Color.fromRGBO(34, 34, 34, 1)
+                                    ),),
                                 ],
                               ),
                             ),
@@ -194,7 +177,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       fontFamily: 'Questrial',
                                       color: Color.fromRGBO(113, 126, 149, 1)
                                   ),),
-                                  Text('${userDetails![index].email ?? ""}' , style: TextStyle(
+                                  Text('${currentUserDetails.userDetails![index].email ?? ""}' , style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                       fontStyle: FontStyle.normal,
@@ -222,7 +205,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       color: Color.fromRGBO(113, 126, 149, 1)
                                   ),
                                   ),
-                                  Text('${userDetails![index].city ?? "Canada"}', style: TextStyle(
+                                  Text('${currentUserDetails.userDetails![index].city ?? "Canada"}', style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                       fontStyle: FontStyle.normal,

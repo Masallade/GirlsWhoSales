@@ -17,7 +17,7 @@ class NotificationScreen extends StatefulWidget {
   final user_Id;
   //  final token1;
   // PushNotificationMessage notificationInfo;
-  NotificationScreen({this.user_Id,
+  NotificationScreen({ required this.user_Id,
     //this.token1 ,
     //  this.notificationInfo
   });

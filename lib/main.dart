@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/routes_manager.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/intro_pages/splash_screen.dart';
 import 'package:new_version/new_version.dart';
@@ -192,7 +193,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Girlz Who Sell',
         theme: getApplicationTheme(),
-         home: SplashScreen(),
+         initialRoute: Routes.splashRoute,
+         onGenerateRoute: RouteGenerator.getRoute,
+         // home: SplashScreen(),
       );
   }
   autoLogIn() async {

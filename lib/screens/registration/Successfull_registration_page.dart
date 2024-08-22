@@ -88,9 +88,9 @@ class _introSuccessScreenState extends State<introSuccessScreen> {
               padding: const EdgeInsets.only(top: 20.0, left: 12 , right: 12),
               child: InkWell(
                 onTap: (){
-                  Requests.Login(context, uName, password, '', false).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return EditProfilePage(uName: uName,password: password,user_Id: user_Id,userDetails: userDetails,);
-                  })));
+                  // Requests.Login(context, uName, password, '', false).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context){
+                  //   return EditProfilePage(uName: uName,password: password,user_Id: user_Id,userDetails: userDetails,);
+                  // })));
                 },
                 child: Container(
                   // width:SizeConfig.screenWidth,

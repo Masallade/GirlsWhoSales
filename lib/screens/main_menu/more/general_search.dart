@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/assets_manager.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/path_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/http/Requests.dart';
@@ -15,65 +18,15 @@ import '../../../dawood/presentation/resources/font_manager.dart';
 import '../../../dawood/presentation/resources/style_manager.dart';
 
 class JobSearchSecond extends StatefulWidget {
-  final uName;
-  final password;
-  final user_Id;
-  final String? firstName;
-//  final cookiee;
-  final List<JobDetails>? jobDetails;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  final jobId;
-  final cv;
-  final resume;
-  JobSearchSecond(
-      {this.uName,
-      this.password,
-      this.user_Id,
-      this.firstName,
-      this.jobDetails,
-      this.favoriteJobs,
-      this.userDetails,
-      this.jobId,
-      this.cv,
-      this.resume});
+  CurrentUserDetails currentUserDetails;
+  JobSearchSecond({required this.currentUserDetails});
   @override
-  _JobSearchSecondState createState() => _JobSearchSecondState(
-      uName: uName,
-      password: password,
-      user_Id: user_Id,
-      firstName: firstName,
-      jobDetails: jobDetails,
-      favoriteJobs: favoriteJobs,
-      userDetails: userDetails,
-      jobId: jobId,
-      cv: cv,
-      resume: resume);
+  _JobSearchSecondState createState() => _JobSearchSecondState(currentUserDetails: currentUserDetails);
 }
 
 class _JobSearchSecondState extends State<JobSearchSecond> {
-  final uName;
-  final password;
-  final user_Id;
-  final String? firstName;
-//  final cookiee;
-  final List<JobDetails>? jobDetails;
-  final List<FavoriteJobs>? favoriteJobs;
-  final List<SeekerDetails>? userDetails;
-  final jobId;
-  final cv;
-  final resume;
-  _JobSearchSecondState(
-      {this.uName,
-      this.password,
-      this.user_Id,
-      this.firstName,
-      this.jobDetails,
-      this.favoriteJobs,
-      this.userDetails,
-      this.jobId,
-      this.cv,
-      this.resume});
+  CurrentUserDetails currentUserDetails;
+  _JobSearchSecondState({required this.currentUserDetails});
 
   String location = '';
   List<SearchModel> joblist = [];
@@ -82,8 +35,8 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
     super.initState();
 
     init();
-    print('searchdetailscreenCV : $cv');
-    print('searchdetailscreenresume : $resume');
+    print('searchdetailscreenCV : ${currentUserDetails.cv}');
+    print('searchdetailscreenresume : ${currentUserDetails.resumee}');
 
   }
 
@@ -106,7 +59,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(StringManager.search)),
+        title: Text(AppString.search)),
       body: Column(
         children: [
           Container(
@@ -141,17 +94,17 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => JobDetailOne(
-                                        uName: uName,
-                                        password: password,
+                                        uName: currentUserDetails.uName,
+                                        password: currentUserDetails.password,
                                         joblist: joblist[index],
-                                        userDetails: userDetails,
-                                        user_Id: user_Id,
-                                        firstName: firstName,
+                                        userDetails: currentUserDetails.userDetails,
+                                        user_Id: currentUserDetails.user_Id,
+                                        firstName: currentUserDetails.firstName,
                                         appliedStatus:
                                             jobAppliedDetailModel.applied,
                                         jobid: joblist[index].id,//jobId
-                                        cv: cv,
-                                        resumee: resume,
+                                        cv: currentUserDetails.cv,
+                                        resumee: currentUserDetails.resumee,
                                       )));
                         },
                         child: buildList(joblist[index])),
@@ -188,9 +141,9 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
         child: Card(
           child: ListTile(
 
-            leading: jobslist.companyLogo==StringManager.noCompanyLogoErrorHandler ?SizedBox(
+            leading: jobslist.companyLogo==PathManager.noCompanyLogoErrorHandler ?SizedBox(
               height: AppSize.s50,
-              child: LottieBuilder.asset('assets/lottie_animation/job_card_view.json'),
+              child: LottieBuilder.asset(lottieManager.jobCardViewAnimation),
             ) :Container(
               decoration: BoxDecoration(
                 border: Border.all(
