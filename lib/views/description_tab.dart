@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:girlzwhosell/model/SavedJobsModel.dart';
 import 'package:girlzwhosell/model/dashboad_applied_jobs.dart';
-import 'package:girlzwhosell/model/job.dart';
+import 'package:girlzwhosell/dawood/domain/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/model/search_model.dart';
 

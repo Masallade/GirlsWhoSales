@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:girlzwhosell/User_profile/Edit_Profile.dart';
 import 'package:girlzwhosell/User_profile/current_password.dart';
 import 'package:girlzwhosell/User_profile/user_personal_data.dart';
 import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
@@ -24,6 +25,8 @@ class Routes{
   static const String jobSearchPagePath="/jobSearchPage";
   static const String allSavedJobsPagePath="/allSavedJobs";
   static const String allJobsPagePath="/allJobs";
+  static const String viewProfilePicPath="/viewProfilePic";
+  static const String editProfilePage1Path="/EditProfilePage1";
 }
 
 class RouteGenerator{
@@ -64,6 +67,10 @@ class RouteGenerator{
       case Routes.allJobsPagePath:
         final args= routeSettings.arguments as CurrentUserDetails;
         return MaterialPageRoute(builder: (_)=>AllJobs(currentUserDetails: args));
+
+      case Routes.editProfilePage1Path:
+        final args =routeSettings.arguments as CurrentUserDetails;
+        return MaterialPageRoute(builder: (_)=>EditProfilePage1(currentUserDetails: args,));
 
       default:
         return MaterialPageRoute(builder:(_)=> unDefinedRoute());

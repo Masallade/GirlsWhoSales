@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
+import 'package:girlzwhosell/dawood/presentation/common/custom_container_button.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -16,67 +19,19 @@ import 'package:http/http.dart' as http;
 import '../model/profileUpdate.dart';
 
 class EditProfilePage1 extends StatefulWidget {
-  final country;
-  String? nationality;
-  final uName;
-  final password;
-  final user_Id;
-  final profile;
-  final city;
-  final List<SeekerDetails>? userDetails;
-  final List<JobDetails>? jobDetails;
-  final String? firstName;
+  CurrentUserDetails currentUserDetails;
 
   EditProfilePage1(
-      {this.uName,
-        this.city,
-        this.nationality,
-        this.jobDetails,
-      this.password,
-      this.user_Id,
-      this.profile,
-      this.userDetails,
-      this.firstName,
-      this.country});
+      {required this.currentUserDetails});
   @override
-  _EditProfilePage1State createState() => _EditProfilePage1State(
-      uName: uName,
-    nationality : nationality,
-      password: password,
-      user_Id: user_Id,
-      userDetails: userDetails,
-      jobDetails: jobDetails,
-      profile: profile,
-      firstName: firstName,
-      country: country,
-    city : city,
-  );
+  _EditProfilePage1State createState() => _EditProfilePage1State(currentUserDetails: currentUserDetails);
 }
 
 class _EditProfilePage1State extends State<EditProfilePage1> {
-  String? country;
-  final uName;
-  String? nationality;
-  final password;
-  final user_Id;
-  final String? profile;
-  final String? city;
-  final List<SeekerDetails>? userDetails;
-  final List<JobDetails>? jobDetails;
-  final String? firstName;
+  CurrentUserDetails currentUserDetails;
   bool showPassword = false;
 
-  _EditProfilePage1State(
-      {this.uName,
-      this.password,
-      this.user_Id,
-      this.profile,
-        this.city,
-        this.nationality,
-      this.userDetails,
-      this.firstName,
-      this.country,
-      this.jobDetails});
+  _EditProfilePage1State({required this.currentUserDetails});
 
   late BuildContext context;
 
@@ -102,10 +57,10 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
 
   void initState() {
     super.initState();
-    print('$user_Id');
-    print('$uName');
-    print('$password');
-    print('Cityyyyyyyyyyyyy: $nationality');
+    print('${currentUserDetails.user_Id}');
+    print('${currentUserDetails.uName}');
+    print('${currentUserDetails.password}');
+    print('Cityyyyyyyyyyyyy: ${currentUserDetails.nationality}');
   }
 
 
@@ -197,14 +152,10 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
         formKey.currentState!.save();
         var dio = new Dio();
         var formData = FormData.fromMap({
-          "id": user_Id,
+          "id": currentUserDetails.user_Id,
           "firstname": name,
-          "profile_picture": await
-
-          _image==null ? profile :
-              await
-
-          MultipartFile.fromFile(_image!.path, filename: basename(_image!.path)),
+          "profile_picture": await _image==null ? currentUserDetails.profile :
+              await MultipartFile.fromFile(_image!.path, filename: basename(_image!.path)),
           "city": cityN,
           "mobile_no": Phone,
         });
@@ -221,19 +172,33 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
             });
           },
         );
-
+        print("response.statusCode ${response.statusCode}");
         if (response.statusCode == 200) {
           print('cityzaitoon1 : $cityN');
           print('You press update status is 200');
           print('image  $_image');
-          print(response.data);
+          print('response.data: ${response.data}');
 
-          Requests.ProfileLogin(context, uName, password, 'token', false);
+          Requests.ProfileLogin(context, currentUserDetails.uName, currentUserDetails.password, 'token', false);
+          print('after Requests');
+          List<String> jsonStringList = response.data.split('}{');
+          print(jsonStringList);
+          List<ProfileUpdate> profileUpdates = jsonStringList.map((jsonString) {
+            // Re-add the missing braces
+            if (!jsonString.startsWith('{')) jsonString = '{' + jsonString;
+            if (!jsonString.endsWith('}')) jsonString = jsonString + '}';
 
+            // Parse each JSON string into a ProfileUpdate object
+            return ProfileUpdate.fromJson(json.decode(jsonString));
+          }).toList();
+          print(profileUpdates);
 
           // Requests.ProfileLogin(context, uName, password, 'token', false);
-           profileUpdate = ProfileUpdate.fromJson(json.decode(response.data));
-          return profileUpdate;
+          // List<ProfileUpdate> tempProfileUpdate= ProfileUpdate.fromJson(json.decode(response.data));
+
+           // profileUpdate = ProfileUpdate.fromJson(json.decode(response.data));
+          print('after profileUpdate');
+           return profileUpdates[0];
 
         } else {
           showToast(
@@ -262,28 +227,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            )),
-        title: Text(
-          'Edit Profile',
-          style: TextStyle(
-            color: Colors.black,
-            height: 1.5,
-            fontSize: 20.0,
-            fontFamily: 'Questrial',
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
+        title: Text(AppString.editProfile),),
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
@@ -292,7 +236,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
               Container(
                   height: SizeConfig.screenHeight,
                   child: ListView.builder(
-                      itemCount: userDetails!.length,
+                      itemCount: currentUserDetails.userDetails!.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding:
@@ -333,7 +277,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                                                   image: DecorationImage(
                                                       fit: BoxFit.cover,
                                                       image: NetworkImage(
-                                                        userDetails![index]
+                                                        currentUserDetails.userDetails![index]
                                                                 .profilePicture ??
                                                             Placeholder() as String,
                                                       ))),
@@ -372,7 +316,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               ),
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
-                                initialValue: userDetails![index].firstname,
+                                initialValue: currentUserDetails.userDetails![index].firstname,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.only(bottom: 3),
                                   hintText: 'Name',
@@ -395,7 +339,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
                                 initialValue:
-                                    '${userDetails![index].mobileNumber}',
+                                    '${currentUserDetails.userDetails![index].mobileNumber}',
                                 keyboardType: TextInputType.phone,
                                 onChanged: (String value) {
                                   setState(() {
@@ -421,7 +365,8 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               ),
                               TextFormField(
                                 cursorColor: Colors.pinkAccent[200],
-                                initialValue: '${userDetails![index].city}',
+                                initialValue: '${currentUserDetails.userDetails![index].city}',
+                                style: TextStyle(color: Colors.blue),
                                 keyboardType: TextInputType.text,
                                 onChanged: (String value) {
                                   setState(() {
@@ -445,38 +390,7 @@ class _EditProfilePage1State extends State<EditProfilePage1> {
                               SizedBox(
                                 height: 50,
                               ),
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                height: 55.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.pinkAccent[200],
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    uploadResume(context);
-                                  },
-                                  child: ListTile(
-                                    title: Center(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10.0),
-                                        child: Text(
-                                          'Update',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                            fontSize: 17.0,
-                                            //fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              customContainerButton(AppString.update,() => uploadResume(context)),
                             ],
                           ),
                         );

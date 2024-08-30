@@ -10,7 +10,7 @@ import 'package:girlzwhosell/new_widgets/company_card.dart';
 import 'package:girlzwhosell/new_widgets/company_card2.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:girlzwhosell/views/job_detail.dart';
+import 'package:girlzwhosell/dawood/presentation/job_details/view/job_detail.dart';
 import 'package:flutter_tindercard/main.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:lottie/lottie.dart';
@@ -129,7 +129,11 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => JobDetail(uName:currentUserDetails.uName,password: currentUserDetails.password,jobDetails: currentUserDetails.jobDetails![currentIndex], userDetails: currentUserDetails.userDetails,user_Id:currentUserDetails.user_Id,  firstName: currentUserDetails.firstName,appliedStatus:jobAppliedDetailModel.applied,jobid: currentUserDetails.jobId,),
+                                builder: (context) => JobDetail(
+                                  currentUserDetails: currentUserDetails,
+                                  appliedStatus:jobAppliedDetailModel.applied,
+                                  index: currentIndex,
+                                  ),
                               ),);
                           },
                           child: AllJobCard(jobDetails: currentUserDetails.jobDetails![currentIndex], userId:currentUserDetails.user_Id)),
@@ -179,7 +183,7 @@ class _AllJobsState extends State<AllJobs>  with TickerProviderStateMixin{
                     ImageManager.logoImage,scale:2.5,
                   ),
                   SizedBox(height: 20,),
-                  LottieBuilder.asset(lottieManager.noMoreJobAnimation),
+                  LottieBuilder.asset(LottieManager.noMoreJobAnimation),
                   Text(AppString.sadNoMoreJobs, style: Theme.of(context).textTheme.displayMedium),
                 ],
               ),

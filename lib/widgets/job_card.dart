@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:girlzwhosell/model/job.dart';
+import 'package:girlzwhosell/dawood/domain/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/screens/main_menu/home_screens_contant/detail/detailsFor_JobDetail.dart';
 import 'package:girlzwhosell/utils/constants.dart';

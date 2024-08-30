@@ -10,7 +10,7 @@ import 'package:girlzwhosell/model/search_model.dart';
 import 'package:girlzwhosell/new_widgets/search_widget.dart';
 import 'package:girlzwhosell/user_preferences/user_pref_manager.dart';
 import 'package:girlzwhosell/utils/constants.dart';
-import 'package:girlzwhosell/views/job_detail.dart';
+import 'package:girlzwhosell/dawood/presentation/job_details/view/job_detail.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../dawood/presentation/resources/color_manager.dart';
@@ -143,7 +143,7 @@ class _JobSearchSecondState extends State<JobSearchSecond> {
 
             leading: jobslist.companyLogo==PathManager.noCompanyLogoErrorHandler ?SizedBox(
               height: AppSize.s50,
-              child: LottieBuilder.asset(lottieManager.jobCardViewAnimation),
+              child: LottieBuilder.asset(LottieManager.jobCardViewAnimation),
             ) :Container(
               decoration: BoxDecoration(
                 border: Border.all(

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:girlzwhosell/User_profile/Edit_Profile.dart';
 import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/routes_manager.dart';
 import 'package:girlzwhosell/fullscreen.dart';
 import 'package:girlzwhosell/http/Requests.dart';
 import 'package:girlzwhosell/model/login_model.dart';
@@ -92,7 +93,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         actions: [
           GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage1(uName: currentUserDetails.uName,password: currentUserDetails.password,  user_Id: currentUserDetails.user_Id,profile: currentUserDetails.profile, userDetails: currentUserDetails.userDetails, country: null, jobDetails: currentUserDetails.jobDetails, city : currentUserDetails.city, nationality :currentUserDetails.nationality)));
+                Navigator.pushNamed(context, Routes.editProfilePage1Path,arguments: currentUserDetails);
               },
               child: Image.asset('assets/images/edit.png' , color: Colors.black,))],
       ),

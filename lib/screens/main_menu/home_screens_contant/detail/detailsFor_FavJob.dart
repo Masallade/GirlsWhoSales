@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:girlzwhosell/model/job.dart';
+import 'package:girlzwhosell/dawood/domain/job.dart';
 import 'package:girlzwhosell/model/login_model.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:http/http.dart' as http;

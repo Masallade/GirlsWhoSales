@@ -68,6 +68,9 @@ class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
     //  double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppString.dashboard),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(

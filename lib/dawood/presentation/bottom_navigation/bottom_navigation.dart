@@ -11,7 +11,7 @@ import 'package:girlzwhosell/screens/all_saved_jobs.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/dawood/presentation/home/view/home.dart';
 import 'package:girlzwhosell/dawood/presentation/dashboard/dashboard.dart';
-import 'package:girlzwhosell/dawood/presentation/about_us/about_us.dart';
+import 'package:girlzwhosell/dawood/presentation/about_us/view/about_us.dart';
 import 'package:girlzwhosell/dawood/presentation/profile/view/profile.dart';
 import 'package:http/http.dart' as http;
 
@@ -152,9 +152,6 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
     return WillPopScope(
       onWillPop: () => _exitApp(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppString.home),
-        ),
         backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[

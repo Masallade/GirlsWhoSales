@@ -1,5 +1,5 @@
 
-import 'package:girlzwhosell/model/job.dart';
+import 'package:girlzwhosell/dawood/domain/job.dart';
 
 final responsibilities = [
   'Work effectively as a member of self-organized agile team that builds, owns and runs the service',

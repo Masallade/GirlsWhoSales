@@ -6,7 +6,7 @@ import 'package:girlzwhosell/dawood/presentation/resources/style_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/value_manager.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
 
-Widget customContainerButton(String title, void Function() onTap){
+Widget customContainerButton(String title, Function() onTap){
   return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12),
       child: Container(
@@ -23,7 +23,16 @@ Widget customContainerButton(String title, void Function() onTap){
             ]
           ),
           child: GestureDetector(
-              onTap: onTap,
+              onTap: () async{
+                if(onTap is Future Function()) {
+                await onTap();
+                }
+                else if(onTap is Function()){
+                  onTap();
+                }
+                print("customContainerButto");
+                },
+
               child: ListTile(
                   title: Center(
                     child: Padding(

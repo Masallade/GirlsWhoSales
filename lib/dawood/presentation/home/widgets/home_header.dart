@@ -32,7 +32,7 @@ Widget homeHeader({required BuildContext context, required CurrentUserDetails cu
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(AppString.searchJob, style: getSfRoundedBold(color: ColorManager.white, fontSize: FontSize.s17)),
-          LottieBuilder.asset(lottieManager.searchJobAnimation)
+          LottieBuilder.asset(LottieManager.searchJobAnimation)
 
         ],
       ),

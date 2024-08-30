@@ -10,7 +10,8 @@ import 'package:girlzwhosell/dawood/presentation/resources/string_manger.dart';
 
 class ProfileViewModel implements BaseViewModel,ProfileViewModelInput,ProfileViewModelOutputs{
   CurrentUserDetails currentUserDetails;
-  StreamController<List<ProfileMenuModel>> _streamController=StreamController<List<ProfileMenuModel>>();
+  StreamController<List<ProfileMenuModel>> _streamController = StreamController<List<ProfileMenuModel>>();
+
   ProfileViewModel({required this.currentUserDetails});
 
 

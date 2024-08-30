@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:girlzwhosell/dawood/domain/bottom_navigation_model.dart';
 import 'package:girlzwhosell/dawood/presentation/home/widgets/home_header.dart';
 import 'package:girlzwhosell/dawood/presentation/home/widgets/see_all_button.dart';
+import 'package:girlzwhosell/dawood/presentation/resources/assets_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/font_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/routes_manager.dart';
@@ -14,8 +15,9 @@ import 'package:girlzwhosell/model/total_notification.dart';
 import 'package:girlzwhosell/new_widgets/company_card.dart';
 import 'package:girlzwhosell/utils/constants.dart';
 import 'package:girlzwhosell/utils/size_config.dart';
-import 'package:girlzwhosell/views/job_detail.dart';
+import 'package:girlzwhosell/dawood/presentation/job_details/view/job_detail.dart';
 import 'package:girlzwhosell/widgets/job_card1.dart';
+import 'package:lottie/lottie.dart';
 import '../../resources/style_manager.dart';
 import '../../../../user_preferences/user_pref_manager.dart';
 import '../../../../screens/main_menu/new_job_details_model.dart';
@@ -76,178 +78,78 @@ class _HomeViewState extends State<HomeView> {
         future:TotalNotifiction(),
         builder: (context , snapshot){
           if (snapshot.hasData) {
-            Container();
             return  Scaffold(
+              appBar: AppBar(
+                title: Text(AppString.home),
+              ),
               backgroundColor: Colors.white,
-              body: SingleChildScrollView(
+              body: ListView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(height: AppSize.s5),
+                    SizedBox(height: AppSize.s12),
                     homeHeader(context: context, currentUserDetails: currentUserDetails),
                     SizedBox(height: AppSize.s18),
-                    // InkWell(
-                    //   splashColor: Colors.pinkAccent[200],
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => JobSearchSecond(
-                    //               uName: uName,
-                    //               password: password,
-                    //               user_Id: user_Id,
-                    //               firstName: firstName,
-                    //               jobDetails: jobDetails,
-                    //               favoriteJobs: favoriteJobs,
-                    //               userDetails: userDetails,
-                    //               jobId: jobId,
-                    //               cv: cv,
-                    //               resume: resume,
-                    //             )));
-                    //   },
-                    //   child: Container(
-                    //     height: 52,
-                    //     margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(5),
-                    //       color: Colors.white,
-                    //       border: Border.all(color: Colors.black26),
-                    //     ),
-                    //     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.start,
-                    //       children: [
-                    //         Image.asset(
-                    //           'assets/images/search.png',
-                    //           color: Colors.black,
-                    //         ),
-                    //         SizedBox(
-                    //           width: 20,
-                    //         ),
-                    //         Text(
-                    //           'Job Title',
-                    //           style: TextStyle(
-                    //               fontFamily: 'Questrial',
-                    //               color: Colors.black,
-                    //               fontSize: 16,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-
-                    SizedBox(height: 31.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(AppString.jobForYou, style: getSfTextBoldStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s18),
-                        ),
-                        seeAllButton(context: context,onTap: () {Navigator.pushNamed(context, Routes.allJobsPagePath,arguments: currentUserDetails);})
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p6),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(AppString.jobForYou, style: getSfTextBoldStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s18),
+                          ),
+                          seeAllButton(context: context,onTap: () {Navigator.pushNamed(context, Routes.allJobsPagePath,arguments: currentUserDetails);})
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 25.5),
                     currentUserDetails.jobDetails == null
                         ? Container(
                       child: Center(
                         child: Text(AppString.noJobAvailable, style:getSfTextBoldStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s18)),
                       ),
                     )
-                        : Container(
-                      width: SizeConfig.screenWidth,
-                      height: 260,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics:
-                          const PageScrollPhysics(), // this for snapping
-                          itemCount: currentUserDetails.jobDetails!.length ,
-                          itemBuilder: (context, index) =>  GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => JobDetail(
-                                      uName: currentUserDetails.uName,
-                                      password: currentUserDetails.password,
-                                      firstName: currentUserDetails.firstName,
-                                      jobDetails: currentUserDetails.jobDetails![index],
-                                      userDetails: currentUserDetails.userDetails,
-                                      user_Id: currentUserDetails.user_Id,
-                                      appliedStatus:
-                                      jobAppliedDetailModel.applied,
-                                      jobid: currentUserDetails.jobDetails![index].id,//c
-                                      cv: currentUserDetails.cv,
-                                      resumee: currentUserDetails.resumee,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: CompanyCard(
-                                jobDetails: currentUserDetails.jobDetails![index],
-                                userId: currentUserDetails.user_Id,
-                              ))
-                              // : GestureDetector(
-                              // onTap: () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => JobDetail(
-                              //         uName: uName,
-                              //         password: password,
-                              //         firstName: firstName,
-                              //         jobDetails: jobDetails![index],
-                              //         userDetails: userDetails,
-                              //         user_Id: user_Id,
-                              //         appliedStatus:
-                              //         jobAppliedDetailModel.applied,
-                              //         jobid: jobDetails![index].id,//jobDetails[index].id
-                              //         cv: cv,
-                              //         resumee: resume,
-                              //       ),
-                              //     ),
-                              //   );
-                              // },
-                              // child: CompanyCard2(
-                              //   jobDetails: jobDetails![index],
-                              //   userId: user_Id,
-                              // ))
-                      ),
-                    ),
-                    SizedBox(height: 31.0),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          "${AppString.saved} ${AppString.jobs}",
-                          style: getSfTextBoldStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s18)
-                        ),
-                      ),
-                seeAllButton(context: context,onTap: () {Navigator.pushNamed(context, Routes.allSavedJobsPagePath,arguments: currentUserDetails);})
+                        : SizedBox(
+                          height: 260,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics:
+                              const PageScrollPhysics(), // this for snapping
+                              itemCount: currentUserDetails.jobDetails!.length ,
+                              itemBuilder: (context, index) =>  GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => JobDetail(
+                                          currentUserDetails: currentUserDetails,
+                                          appliedStatus: jobAppliedDetailModel.applied,
+                                          index: index,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: CompanyCard(
+                                    jobDetails: currentUserDetails.jobDetails![index],
+                                    userId: currentUserDetails.user_Id,
+                                  ))
 
-                    ]),
-                    SizedBox(height: 12.5),
+                          ),
+                        ),
+                    SizedBox(height: 31.0),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p6),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                        Text("${AppString.saved} ${AppString.jobs}",
+                          style: getSfTextBoldStyle(color: ColorManager.bluePrimary,fontSize: FontSize.s18)),
+                        seeAllButton(context: context,onTap: () {Navigator.pushNamed(context, Routes.allSavedJobsPagePath,arguments: currentUserDetails);})
+                      ]),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: SingleChildScrollView(
+                      child: currentUserDetails.favoriteJobs == null//Requests.updatefavoriteJobs , favoriteJobs
+                    ? Center(child: LottieBuilder.asset(LottieManager.noSavedJobAnimation)):
+                      SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: currentUserDetails.favoriteJobs == null//Requests.updatefavoriteJobs , favoriteJobs
-                            ? Container(
-                          child: Center(
-                            child: Text(
-                              'No Saved Jobs!',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Questrial',
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal),
-                            ),
-                          ),
-                        )
-                            : Row(
+                        child:Row(
                           mainAxisSize: MainAxisSize.min,
                           children: currentUserDetails.favoriteJobs!//Requests.updatefavoriteJobs,favoriteJobs
                               .asMap()
@@ -257,26 +159,15 @@ class _HomeViewState extends State<HomeView> {
                               padding: EdgeInsets.only(right: 16),
                               child: JobCard1(
                                 favoriteJobs: item.value,
-                                user_Id: currentUserDetails.user_Id,
-                                uName: currentUserDetails.uName,
-                                password: currentUserDetails.password,
-                                firstName: currentUserDetails.firstName,
-                                jobDetails: currentUserDetails.jobDetails,
-                                userDetails: currentUserDetails.userDetails,
-                                jobId: currentUserDetails.jobId,
-                                cv: currentUserDetails.cv,
-                                resume: currentUserDetails.resumee,
-                              ),
+                                currentUserDetails: currentUserDetails,),
                             ),
-                          )
-                              .toList(),
+                          ).toList(),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            );
+              );
           }
           else {
             return
@@ -315,7 +206,7 @@ class _HomeViewState extends State<HomeView> {
           .toList();
 
       return jobDetailsList;
-      
+
     }
     else {
       print(response.reasonPhrase);

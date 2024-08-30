@@ -4,7 +4,7 @@ class ProfileUpdate {
 
   ProfileUpdate({this.message, this.status});
 
-  ProfileUpdate.fromJson(Map<String, dynamic> json) {
+  ProfileUpdate.fromJson(Map<dynamic, dynamic> json) {
     message = json['message'];
     status = json['status'];
   }

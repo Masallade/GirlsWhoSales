@@ -2,11 +2,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:girlzwhosell/dawood/presentation/about_us/provider_model/about_us_state_management.dart';
+import 'package:girlzwhosell/dawood/presentation/job_details/controller/job_details_state_Management.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/color_manager.dart';
 import 'package:girlzwhosell/dawood/presentation/resources/routes_manager.dart';
 import 'package:girlzwhosell/screens/intro_pages/sign_in_page.dart';
 import 'package:girlzwhosell/screens/intro_pages/splash_screen.dart';
 import 'package:new_version/new_version.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dawood/presentation/resources/theme_manager.dart';
 import 'helpers/scroll_behaviour.dart';
@@ -23,7 +26,14 @@ void main() async{
   //     .then((_) {
   //   runApp(new MyApp());
   // });
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_)=>AboutUsStateManagement()),
+          ChangeNotifierProvider(create:(_)=>JobDetailsStateManagement())
+        ],
+    child: MyApp(),
+    ));
 }
 
 class MyApp extends StatefulWidget {
